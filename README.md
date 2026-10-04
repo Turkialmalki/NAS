@@ -1,7 +1,13 @@
-# عرض تنفيذ منصة NAS
+# NAS — V2
 
-موقع عرض عربي ثابت. افتح `index.html` محليًا لمراجعة المحتوى. الصورة `nas_logo.png` مستخدمة داخل الصفحة.
+AI-native film-festival platform from Saudi Arabia. Static site for the V2 design.
 
-## النشر على Vercel
+| Page | Arabic | English |
+|---|---|---|
+| Landing | `/` | `/en` |
+| Sign in | `/signin` | `/en/signin` |
+| Sign up | `/signup` | `/en/signup` |
 
-اربط هذا المستودع بمشروع Vercel؛ نوع المشروع **Other**، ومجلد الجذر `.`، ولا حاجة لأمر بناء أو متغيرات بيئة. كل تحديث على فرع `main` ينشئ نشرًا جديدًا تلقائيًا بعد تفعيل تكامل GitHub في Vercel.
+Add `?theme=dark` to any page for the dark theme.
+
+Deploys on Vercel as a static site: no build step, output directory `public`.
