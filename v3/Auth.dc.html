@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Sign in or create an account</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#070707}
+.th-dark{--bg:#070707;--card:#111110;--card2:#1A1916;--ink:#F7F3EA;--ink2:#DCD6CA;--muted:#A39E93;--faint:#8A857B;--gold:#C9A84C;--goldHi:#E6CB80;--goldBtnHover:linear-gradient(135deg,#F3DFA6 0%,#D6B55A 48%,#AE8836 100%);--onGold:#0E0B04;--line:rgba(201,168,76,.11);--line2:rgba(201,168,76,.18);--line3:rgba(201,168,76,.3);--goldLine:rgba(201,168,76,.45);--goldFill:linear-gradient(135deg,#EBD291 0%,#C9A84C 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.16),rgba(201,168,76,0) 70%);--c1:#B88A24;--c2:#5B8FE0;color-scheme:dark}
+.th-light{--bg:#FFFFFF;--card:#F6F4EF;--card2:#ECE8DF;--ink:#121212;--ink2:#34322E;--muted:#66625B;--faint:#66625B;--gold:#A9822E;--goldHi:#7A5912;--goldBtnHover:linear-gradient(135deg,#EED58D 0%,#D2AC52 48%,#AD8836 100%);--onGold:#0E0B04;--line:rgba(122,89,18,.12);--line2:rgba(122,89,18,.18);--line3:rgba(122,89,18,.28);--goldLine:rgba(169,130,46,.4);--goldFill:linear-gradient(135deg,#E6C978 0%,#C79F45 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.12),rgba(201,168,76,0) 70%);--c1:#B07F12;--c2:#3A6FC4;color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2{letter-spacing:-0.03em}
+[dir=rtl] em{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;font-style:normal}
+*{box-sizing:border-box}
+a{color:var(--goldHi);text-decoration:none}
+.ibtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-weight:700;font-size:14px}
+.ibtn:hover{border-color:var(--gold);color:var(--goldHi)}
+.sso{width:100%;height:52px;border-radius:14px;border:1px solid var(--line2);background:var(--card);color:var(--ink);display:flex;align-items:center;justify-content:center;gap:10px;font:inherit;font-size:16px;font-weight:600;cursor:pointer}
+.sso:hover{border-color:var(--line3)}
+.fld{width:100%;height:56px;border-radius:14px;background:var(--card);border:1px solid var(--line2);color:var(--ink);font:inherit;font-size:17px;padding:0 18px;outline:none}
+.fld:focus{border-color:var(--gold);box-shadow:0 0 0 4px var(--goldLine)}
+.go{width:100%;height:56px;border-radius:14px;border:0;background:var(--goldFill);color:var(--onGold);font:inherit;font-size:17px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.go:hover{background:var(--goldBtnHover);color:var(--onGold)}
+.box{width:52px;height:64px;border-radius:14px;background:var(--card);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700}
+.txt{background:none;border:0;color:var(--goldHi);font:inherit;font-size:15px;font-weight:600;cursor:pointer;padding:8px;min-height:44px}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.rise{animation:rise .5s ease both}
+@keyframes kb{from{transform:scale(1.08)}to{transform:scale(1)}}
+@media (max-width:900px){.photo{display:none !important}}
+
+/*polish*/
+::selection{background:rgba(201,168,76,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.card{background:linear-gradient(180deg,rgba(201,168,76,.06),rgba(201,168,76,0) 40%),var(--card);box-shadow:inset 0 1px 0 rgba(255,236,190,.05),0 24px 60px -36px rgba(0,0,0,.9);transition:border-color .35s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.th-light .card{background:var(--card);box-shadow:0 1px 2px rgba(18,18,18,.04),0 18px 40px -28px rgba(40,30,10,.25)}
+.btn-p,.go,.pillbtn{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 30px -12px rgba(201,168,76,.6);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s,background .25s}
+.btn-p:hover,.go:hover,.pillbtn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 16px 40px -12px rgba(201,168,76,.8)}
+.btn-p:active,.go:active,.pillbtn:active{transform:scale(.98)}
+.btn-s,.ibtn,.nav-i,.sso,.chip,.sug,.filter,.big{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.nav-i.on{box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+@keyframes nasIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes nasFade{from{opacity:0}to{opacity:1}}
+main>*,.content>*{animation:nasIn .9s cubic-bezier(.16,1,.3,1) both}
+main>*:nth-child(2),.content>*:nth-child(2){animation-delay:.07s}
+main>*:nth-child(3),.content>*:nth-child(3){animation-delay:.14s}
+main>*:nth-child(4),.content>*:nth-child(4){animation-delay:.21s}
+main>*:nth-child(5),.content>*:nth-child(5){animation-delay:.28s}
+main>*:nth-child(n+6),.content>*:nth-child(n+6){animation-delay:.35s}
+.side{animation:nasFade .8s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+/*endpolish*/
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 960px; display: flex; -webkit-font-smoothing: antialiased;">
+
+<section class="photo" style="flex: 1 1 50%; position: relative; overflow: hidden; min-height: 960px; background: #000;">
+<img src="{{photo}}" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; animation: kb 14s ease-out both;">
+<span style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 50%, rgba(0,0,0,.85) 100%);"></span>
+<a href="Main.dc.html" aria-label="NAS" style="position: absolute; top: 32px; inset-inline-start: 40px;"><img src="/_blob/8db983f4aec7ec876db44d32e45a85d1" alt="NAS" style="height: 46px; width: auto;"></a>
+<div style="position: absolute; bottom: 48px; inset-inline-start: 40px; inset-inline-end: 40px; color: #F7F3EA; display: flex; flex-direction: column; gap: 12px;">
+<h2 style="margin: 0; font-size: clamp(34px, 3.4vw, 52px); font-weight: 700; line-height: 1.15;">{{t.tag1}} <em style="color: #E6CB80;">{{t.tag2}}</em></h2>
+<p style="margin: 0; color: #DCD6CA; font-size: 17px; max-width: 460px; line-height: 1.6;">{{t.tagP}}</p>
+</div>
+</section>
+
+<section style="flex: 1 1 50%; display: flex; flex-direction: column; padding: 28px 40px;">
+<div style="display: flex; justify-content: flex-end; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+</div>
+
+<main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px 0;">
+<div style="width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 22px;">
+
+<sc-if value="{{s1}}" hint-placeholder-val="{{true}}">
+<div class="rise" style="display: flex; flex-direction: column; gap: 22px;">
+<div><h1 style="margin: 0; font-size: 40px; font-weight: 700; line-height: 1.15;">{{t.h1}}</h1><p style="margin: 10px 0 0; color: var(--muted); font-size: 17px; line-height: 1.55;">{{t.p1}}</p></div>
+<button type="button" class="sso"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.6c0-2.4 2-3.5 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.4-.9-2.4-4zM14 5.4c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"></path></svg>{{t.apple}}</button>
+<button type="button" class="sso"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M20.5 12.2H12M20.5 12.2a8.5 8.5 0 1 1-2.6-6.1"></path></svg>{{t.google}}</button>
+<div style="display: flex; align-items: center; gap: 14px; color: var(--faint); font-size: 14px;"><span style="flex: 1; height: 1px; background: var(--line2);"></span>{{t.or}}<span style="flex: 1; height: 1px; background: var(--line2);"></span></div>
+<label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 600; color: var(--ink2);">{{t.email}}</span><input class="fld" type="email" value="{{email}}" onChange="{{onEmail}}" placeholder="name@example.com" dir="ltr"></label>
+<button type="button" class="go" onClick="{{toCode}}">{{t.cont}}</button>
+<p style="margin: 0; color: var(--faint); font-size: 13px; line-height: 1.6; text-align: center;">{{t.terms}}</p>
+<div style="padding: 14px 16px; border-radius: 14px; background: var(--card); color: var(--muted); font-size: 14px; line-height: 1.55; display: flex; gap: 10px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" style="flex: none; margin-top: 2px; color: var(--gold);"><path d="M4 6h16v12H4z"></path><path d="m4 7 8 6 8-6"></path></svg>{{t.jury}}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{s2}}" hint-placeholder-val="{{false}}">
+<div class="rise" style="display: flex; flex-direction: column; gap: 24px;">
+<button type="button" class="txt" onClick="{{toEmail}}" style="align-self: flex-start; padding: 0; display: inline-flex; align-items: center; gap: 6px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform: {{flip}};"><path d="M15 6l-6 6 6 6"></path></svg>{{t.back}}</button>
+<div><h1 style="margin: 0; font-size: 38px; font-weight: 700;">{{t.h2}}</h1><p style="margin: 10px 0 0; color: var(--muted); font-size: 17px; line-height: 1.55;">{{t.p2}} <b dir="ltr" style="color: var(--ink);">{{email}}</b></p></div>
+<label style="position: relative; display: block;" dir="ltr">
+<span style="display: flex; justify-content: space-between; gap: 8px;"><sc-for list="{{boxes}}" as="b" hint-placeholder-count="6"><span class="box" style="{{b.style}}">{{b.d}}</span></sc-for></span>
+<input inputmode="numeric" maxlength="6" value="{{code}}" onChange="{{onCode}}" aria-label="{{t.codeLabel}}" style="position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; font-size: 16px;">
+</label>
+<button type="button" class="go" onClick="{{verify}}">{{t.verify}}</button>
+<div style="text-align: center; color: var(--muted); font-size: 14px;">{{t.noCode}} <button type="button" class="txt" onClick="{{resend}}">{{resendLabel}}</button></div>
+</div>
+</sc-if>
+
+<sc-if value="{{s3}}" hint-placeholder-val="{{false}}">
+<div class="rise" style="display: flex; flex-direction: column; gap: 22px; align-items: center; text-align: center;">
+<span style="width: 76px; height: 76px; border-radius: 50%; background: var(--goldFill); color: var(--onGold); display: inline-flex; align-items: center; justify-content: center;"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"></path></svg></span>
+<h1 style="margin: 0; font-size: 38px; font-weight: 700;">{{t.h3}}</h1>
+<p style="margin: 0; color: var(--muted); font-size: 17px; line-height: 1.6;">{{t.p3}}</p>
+<a href="Onboarding.dc.html" class="go">{{t.start}}</a>
+</div>
+</sc-if>
+
+<div style="display: flex; justify-content: center; gap: 8px;"><sc-for list="{{dots}}" as="d" hint-placeholder-count="3"><span style="{{d}}"></span></sc-for></div>
+</div>
+</main>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"step":{"editor":"enum","options":["1","2","3"],"default":"1"},"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, step: null, email: 'nizar@example.com', code: '4821', resent: false }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const step = this.state.step || Number(this.props.step || 1);
+    const t = {
+      theme: L('Theme', 'المظهر'), tag1: L('Every film', 'كل فيلم'), tag2: L('deserves its festival.', 'يستحق مهرجانه.'), tagP: L('One home for filmmakers and festivals in Saudi Arabia — in Arabic and English.', 'بيت واحد لصنّاع الأفلام والمهرجانات في السعودية — بالعربية والإنجليزية.'),
+      h1: L('Welcome to NAS', 'أهلًا بك في NAS'), p1: L('Sign in or create an account — one step for both.', 'سجّل الدخول أو أنشئ حسابًا — خطوة واحدة للاثنين.'),
+      apple: L('Continue with Apple', 'المتابعة عبر Apple'), google: L('Continue with Google', 'المتابعة عبر Google'), or: L('or', 'أو'), email: L('Email', 'البريد الإلكتروني'), cont: L('Continue', 'متابعة'),
+      terms: L('By continuing you agree to the Terms and Privacy Policy.', 'بالمتابعة توافق على الشروط وسياسة الخصوصية.'),
+      jury: L('Invited to a jury? Open the link in your invitation email — it signs you in directly.', 'هل دُعيت إلى لجنة تحكيم؟ افتح الرابط في بريد الدعوة — يُدخلك مباشرة.'),
+      back: L('Back', 'رجوع'), h2: L('Check your email', 'تحقّق من بريدك'), p2: L('We sent a 6-digit code to', 'أرسلنا رمزًا من ٦ أرقام إلى'), codeLabel: L('Verification code', 'رمز التحقق'), verify: L('Verify', 'تأكيد'),
+      noCode: L('No code?', 'لم يصلك الرمز؟'),
+      h3: L('You’re in', 'تم الدخول'), p3: L('Let’s set up your account. It takes about a minute.', 'لنُجهّز حسابك. يستغرق الأمر دقيقة تقريبًا.'), start: L('Set up my account', 'جهّز حسابي')
+    };
+    const code = String(this.state.code || '');
+    const boxes = [0, 1, 2, 3, 4, 5].map((i) => ({ d: code[i] || '', style: i === Math.min(code.length, 5) ? 'border-color: var(--gold); box-shadow: 0 0 0 4px var(--goldLine);' : '' }));
+    const photos = ['/_blob/c26011d198d75ef9c45d07d0c95c668b', '/_blob/84a08c197b56e2cd88cfcefaf617cb0d', '/_blob/90a209f525aa3e23bd2efe4bf17a7b23'];
+    const dots = [1, 2, 3].map((i) => 'height: 6px; border-radius: 99px; transition: all .3s; width: ' + (i === step ? '24px' : '6px') + '; background: ' + (i <= step ? 'var(--gold)' : 'var(--line3)') + ';');
+    const val = (k) => (e) => this.setState({ [k]: e && e.target ? e.target.value : '' });
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light', toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }),
+      toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع', flip: ar ? 'scaleX(-1)' : 'none',
+      t, dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      s1: step === 1, s2: step === 2, s3: step === 3, photo: photos[step - 1], dots, boxes,
+      email: this.state.email, code, onEmail: val('email'), onCode: (e) => this.setState({ code: (e && e.target ? e.target.value : '').replace(/\D/g, '').slice(0, 6) }),
+      toCode: () => this.setState({ step: 2 }), toEmail: () => this.setState({ step: 1 }), verify: () => this.setState({ step: 3 }),
+      resend: () => this.setState({ resent: true }), resendLabel: this.state.resent ? L('Sent again', 'أُعيد الإرسال') : L('Send again', 'أعد الإرسال')
+    };
+  }
+}
+</script>
+</body>
+</html>

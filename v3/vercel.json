@@ -1,0 +1,10 @@
+{
+  "cleanUrls": false,
+  "rewrites": [
+    { "source": "/_blob/8db983f4aec7ec876db44d32e45a85d1", "destination": "/_blob/8db983f4aec7ec876db44d32e45a85d1.svg" },
+    { "source": "/_blob/:id", "destination": "/_blob/:id.webp" }
+  ],
+  "headers": [
+    { "source": "/(.*)\\.dc\\.html", "headers": [{ "key": "Content-Type", "value": "text/html; charset=utf-8" }] }
+  ]
+}

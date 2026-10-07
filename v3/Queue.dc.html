@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Submissions</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#070707}
+.th-dark{--bg:#070707;--sunk:#050505;--card:#111110;--card2:#1A1916;--goldTint:rgba(201,168,76,.10);--ink:#F7F3EA;--ink2:#DCD6CA;--muted:#A39E93;--faint:#8A857B;--gold:#C9A84C;--goldHi:#E6CB80;--goldBtnHover:linear-gradient(135deg,#F3DFA6 0%,#D6B55A 48%,#AE8836 100%);--onGold:#0E0B04;--line:rgba(201,168,76,.11);--line2:rgba(201,168,76,.18);--line3:rgba(201,168,76,.3);--goldLine:rgba(201,168,76,.45);--goldFill:linear-gradient(135deg,#EBD291 0%,#C9A84C 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.16),rgba(201,168,76,0) 70%);--c1:#B88A24;--c2:#5B8FE0;color-scheme:dark}
+.th-light{--bg:#FAF9F6;--sunk:#F3F1EC;--card:#FFFFFF;--card2:#F2F0EA;--goldTint:#F7EFDA;--ink:#121212;--ink2:#34322E;--muted:#66625B;--faint:#66625B;--gold:#A9822E;--goldHi:#7A5912;--goldBtnHover:linear-gradient(135deg,#EED58D 0%,#D2AC52 48%,#AD8836 100%);--onGold:#0E0B04;--line:rgba(122,89,18,.12);--line2:rgba(122,89,18,.18);--line3:rgba(122,89,18,.28);--goldLine:rgba(169,130,46,.4);--goldFill:linear-gradient(135deg,#E6C978 0%,#C79F45 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.12),rgba(201,168,76,0) 70%);--c1:#B07F12;--c2:#3A6FC4;color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2,[dir=ltr] h3{letter-spacing:-0.022em}
+*{box-sizing:border-box}
+a{color:var(--goldHi);text-decoration:none}
+.app{position:relative;display:flex;min-height:1000px;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+.side{flex:0 0 256px;border-inline-end:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:2px}
+.nav-h{font-size:12px;color:var(--faint);padding:18px 12px 6px;font-weight:600}
+.nav-i{display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:12px;color:var(--ink2);font-size:15px;font-weight:500;min-height:44px}
+.nav-i:hover{background:var(--card2);color:var(--ink)}
+.nav-i.on{background:var(--card2);color:var(--ink);font-weight:600}
+.nav-i.on svg{color:var(--gold)}
+.cnt{margin-inline-start:auto;font-size:12px;color:var(--muted);font-weight:600}
+.ibtn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-weight:700;font-size:14px}
+.ibtn:hover{border-color:var(--gold);color:var(--goldHi)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px}
+.btn{height:44px;padding:0 18px;border-radius:12px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;white-space:nowrap}
+.btn-p{background:var(--goldFill);color:var(--onGold)}.btn-p:hover{background:var(--goldBtnHover);color:var(--onGold)}
+.btn-s{background:transparent;color:var(--ink);border-color:var(--line2)}.btn-s:hover{border-color:var(--gold);color:var(--goldHi)}
+.pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid var(--line2);color:var(--ink2);white-space:nowrap}
+.pill.g{border-color:var(--goldLine);color:var(--goldHi);background:var(--goldTint)}
+.pill.f{background:var(--goldFill);border-color:var(--gold);color:var(--onGold)}
+.sug{border:1px solid var(--line2);background:transparent;color:var(--ink2);border-radius:99px;padding:0 14px;height:36px;font:inherit;font-size:13px;cursor:pointer}
+.sug:hover{border-color:var(--gold);color:var(--goldHi)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:820px}
+.tbl th{color:var(--faint);font-weight:600;text-align:start;padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px}
+.tbl td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tbody tr{cursor:pointer}
+.tbl tbody tr:hover td{background:var(--card2)}
+.bar{height:6px;border-radius:99px;background:var(--line2);overflow:hidden;width:72px}.bar span{display:block;height:100%;background:var(--goldFill);border-radius:99px}
+.mic{width:46px;height:46px;border-radius:50%;border:0;background:var(--goldFill);color:var(--onGold);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--goldLine)}100%{box-shadow:0 0 0 14px rgba(0,0,0,0)}}
+.mic.live{animation:pulse 1.2s infinite}
+@media (max-width:900px){.side{display:none}}
+
+/*polish*/
+::selection{background:rgba(201,168,76,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.card{background:linear-gradient(180deg,rgba(201,168,76,.06),rgba(201,168,76,0) 40%),var(--card);box-shadow:inset 0 1px 0 rgba(255,236,190,.05),0 24px 60px -36px rgba(0,0,0,.9);transition:border-color .35s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.th-light .card{background:var(--card);box-shadow:0 1px 2px rgba(18,18,18,.04),0 18px 40px -28px rgba(40,30,10,.25)}
+.btn-p,.go,.pillbtn{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 30px -12px rgba(201,168,76,.6);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s,background .25s}
+.btn-p:hover,.go:hover,.pillbtn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 16px 40px -12px rgba(201,168,76,.8)}
+.btn-p:active,.go:active,.pillbtn:active{transform:scale(.98)}
+.btn-s,.ibtn,.nav-i,.sso,.chip,.sug,.filter,.big{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.nav-i.on{box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+@keyframes nasIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes nasFade{from{opacity:0}to{opacity:1}}
+main>*,.content>*{animation:nasIn .9s cubic-bezier(.16,1,.3,1) both}
+main>*:nth-child(2),.content>*:nth-child(2){animation-delay:.07s}
+main>*:nth-child(3),.content>*:nth-child(3){animation-delay:.14s}
+main>*:nth-child(4),.content>*:nth-child(4){animation-delay:.21s}
+main>*:nth-child(5),.content>*:nth-child(5){animation-delay:.28s}
+main>*:nth-child(n+6),.content>*:nth-child(n+6){animation-delay:.35s}
+.side{animation:nasFade .8s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+/*endpolish*/
+</style>
+</helmet>
+<div class="{{themeClass}} app" dir="{{dir}}" style="font-family: {{font}};">
+<aside class="side" aria-label="{{t.nav}}">
+<a href="Main.dc.html" aria-label="NAS" style="display: flex; padding: 0 10px 12px;"><img src="/_blob/8db983f4aec7ec876db44d32e45a85d1" alt="NAS" style="height: 34px; width: auto;"></a>
+<div style="display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px;"><img src="/_blob/84a08c197b56e2cd88cfcefaf617cb0d" alt="" style="width: 36px; height: 36px; border-radius: 10px; object-fit: cover;"><span style="flex: 1; display: flex; flex-direction: column;"><b style="font-size: 14px;">{{t.fest}}</b><span style="font-size: 12px; color: var(--muted);">{{t.edition}}</span></span></div>
+<span class="nav-h">{{t.work}}</span>
+<a href="FestivalDashboard.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="14" y="12" width="7" height="9" rx="1.5"></rect><rect x="3" y="16" width="7" height="5" rx="1.5"></rect></svg>{{t.nDash}}</a>
+<a href="Queue.dc.html" class="nav-i on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 13h5l1.5 3h5L16 13h5"></path><path d="M5 5h14l2 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6z"></path></svg>{{t.nSubs}}<span class="cnt">{{n214}}</span></a>
+<a href="Selection.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="m8 12 3 3 5-6"></path></svg>{{t.nSel}}</a>
+<a href="Programme.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>{{t.nProg}}</a>
+<a href="AIProfile.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>{{t.nAI}}</a>
+<a href="FestivalDashboard.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18.5 20a6.5 6.5 0 0 0-3-5.5"></path></svg>{{t.nTeam}}</a>
+<a href="Festival.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>{{t.nPublic}}</a>
+</aside>
+
+<div style="flex: 1 1 640px; min-width: 0; display: flex; flex-direction: column;">
+<header style="display: flex; align-items: center; gap: 10px; padding: 14px 32px; border-bottom: 1px solid var(--line);">
+<h1 style="margin: 0; font-size: 22px; font-weight: 700;">{{t.title}}</h1>
+<div style="margin-inline-start: auto; display: flex; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+</div>
+</header>
+
+<div style="display: flex; flex-wrap: wrap; flex: 1; align-items: stretch;">
+<main style="flex: 999 1 640px; min-width: 0; padding: 26px 32px 48px; display: flex; flex-direction: column; gap: 18px;">
+<section class="card" style="display: flex; flex-direction: column; gap: 14px; border-color: var(--goldLine);">
+<div style="display: flex; align-items: center; gap: 12px;">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" style="color: var(--gold); flex: none;"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>
+<input type="text" value="{{qText}}" onChange="{{onQ}}" placeholder="{{qPh}}" aria-label="{{t.ask}}" style="flex: 1; min-width: 0; height: 46px; background: none; border: 0; outline: none; color: var(--ink); font: inherit; font-size: 17px;">
+<button type="button" class="{{micClass}}" onClick="{{toggleMic}}" aria-label="{{t.voice}}" aria-pressed="{{listening}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></button>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;"><sc-for list="{{sugs}}" as="s" hint-placeholder-count="3"><button type="button" class="sug" onClick="{{s.pick}}">{{s.text}}</button></sc-for></div>
+<sc-if value="{{hasQ}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-top: 12px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted);">{{t.understood}}<sc-for list="{{chips}}" as="c" hint-placeholder-count="3"><span class="pill g">{{c}}</span></sc-for><button type="button" class="sug" onClick="{{clearQ}}" style="height: 30px;">{{t.clear}}</button></div>
+</sc-if>
+</section>
+
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;"><span style="color: var(--muted); font-size: 14px;">{{countText}}</span><span style="font-size: 12px; color: var(--faint);">{{t.aiNote}}</span></div>
+
+<div style="border: 1px solid var(--line); border-radius: 18px; overflow-x: auto; background: var(--card);">
+<table class="tbl">
+<thead><tr><th scope="col">{{t.cFilm}}</th><th scope="col">{{t.cCat}}</th><th scope="col">{{t.cLen}}</th><th scope="col">{{t.cFit}}</th><th scope="col">{{t.cStatus}}</th><th scope="col">{{t.cRev}}</th></tr></thead>
+<tbody>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="8">
+<tr onClick="{{r.pick}}" style="{{r.style}}">
+<td><span style="display: flex; align-items: center; gap: 12px;"><img src="{{r.img}}" alt="" style="width: 36px; height: 48px; object-fit: cover; border-radius: 8px;"><span style="display: flex; flex-direction: column;"><b>{{r.title}}</b><span style="font-size: 12px; color: var(--muted);">{{r.country}}</span></span></span></td>
+<td style="color: var(--ink2);">{{r.cat}}</td>
+<td style="color: var(--ink2);">{{r.len}}</td>
+<td><span style="display: flex; align-items: center; gap: 8px;"><span class="bar"><span style="{{r.bar}}"></span></span><b style="font-size: 13px;">{{r.fit}}</b></span></td>
+<td><span class="{{r.pill}}">{{r.status}}</span></td>
+<td style="color: var(--ink2);">{{r.rev}}</td>
+</tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+</main>
+
+<aside aria-label="{{cur.title}}" style="flex: 1 1 360px; min-width: 320px; max-width: 420px; border-inline-start: 1px solid var(--line); padding: 26px 24px; display: flex; flex-direction: column; gap: 16px; background: var(--sunk);">
+<img src="{{cur.img}}" alt="" style="width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: 16px;">
+<div><h2 style="margin: 0; font-size: 26px; font-weight: 700;">{{cur.title}}</h2><p style="margin: 6px 0 0; color: var(--muted); font-size: 14px;">{{cur.meta}}</p></div>
+<div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 8px;"><span style="display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: var(--goldHi);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>{{t.aiSum}}</span><span style="font-size: 15px; line-height: 1.6; color: var(--ink2);">{{cur.sum}}</span></div>
+<div style="display: flex; flex-direction: column; gap: 8px;">
+<span style="font-size: 13px; font-weight: 700; color: var(--muted);">{{t.why}}</span>
+<sc-for list="{{cur.why}}" as="w" hint-placeholder-count="3"><span style="display: flex; gap: 8px; font-size: 14px; color: var(--ink2);"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="color: var(--gold); flex: none; margin-top: 3px;"><path d="m5 12 5 5 9-10"></path></svg>{{w}}</span></sc-for>
+</div>
+<div style="display: flex; justify-content: space-between; font-size: 14px; padding: 12px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);"><span style="color: var(--muted);">{{t.rules}}</span><b style="color: var(--goldHi);">{{t.rulesOk}}</b></div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;"><button type="button" class="btn btn-p" style="flex: 1;">{{t.assign}}</button><a href="Screener.dc.html" class="btn btn-s" style="flex: 1;">{{t.watch}}</a></div>
+<p style="margin: 0; font-size: 12px; color: var(--faint); line-height: 1.5;">{{t.human}}</p>
+</aside>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1050}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, q: 0, typed: null, listening: false, sel: 0 }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const D = (s) => ar ? String(s).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]).replace('.', '٫') : String(s);
+    const B = '/_blob/';
+    const t = {
+      nav: L('Festival navigation', 'تنقل المهرجان'), fest: L('Riyadh Nights', 'ليالي الرياض'), edition: L('5th edition · 2027', 'الدورة الخامسة · ٢٠٢٧'),
+      work: L('Workspace', 'مساحة العمل'), nDash: L('Overview', 'نظرة عامة'), nSubs: L('Submissions', 'المشاركات'), nSel: L('Selection', 'الاختيار'), nProg: L('Programme & guests', 'البرنامج والضيوف'), nAI: L('AI profile', 'ملف الذكاء الاصطناعي'), nTeam: L('Team & jury', 'الفريق والتحكيم'), nPublic: L('Public profile', 'الملف العام'),
+      title: L('Submissions', 'المشاركات'), theme: L('Theme', 'المظهر'), ask: L('Ask about your submissions', 'اسأل عن مشاركاتك'), voice: L('Ask by voice', 'اسأل بالصوت'),
+      understood: L('NAS understood:', 'فهم NAS:'), clear: L('Clear', 'مسح'), aiNote: L('Fit is NAS AI’s reading of your AI profile — not a decision.', 'التوافق قراءة ذكاء NAS لملف مهرجانك — وليس قرارًا.'),
+      cFilm: L('Film', 'الفيلم'), cCat: L('Category', 'القسم'), cLen: L('Length', 'المدة'), cFit: L('AI fit', 'التوافق'), cStatus: L('Status', 'الحالة'), cRev: L('Reviewer', 'المحكّم'),
+      aiSum: L('AI summary', 'ملخص الذكاء الاصطناعي'), why: L('Why it fits this edition', 'لماذا يناسب هذه الدورة'), rules: L('Category rules', 'شروط القسم'), rulesOk: L('All met', 'مستوفاة'),
+      assign: L('Assign reviewer', 'أسند لمحكّم'), watch: L('Watch screener', 'شاهد النسخة'), human: L('NAS AI can sort and summarise. Only your team decides who is selected.', 'يستطيع ذكاء NAS الفرز والتلخيص. وحده فريقك يقرر من يُختار.')
+    };
+    const films = [
+      { img: '37b71e0c803a46dd004d42c8ccd9e528', t: [L('Night Market', 'سوق الليل'), L('Egypt', 'مصر')], cat: 0, len: 96, fit: 9.1, st: 2, rev: L('Khalid', 'خالد'), tags: ['night', 'doc'], sum: L('Vendors at a Cairo night market over one Ramadan; patient, observational, beautifully lit.', 'باعة في سوق ليلي بالقاهرة خلال رمضان واحد؛ فيلم تأمّلي صبور بإضاءة جميلة.') },
+      { img: '1f11c0782c4e9e3e9321664ac0d2a69c', t: [L('Blue Ridge', 'التلال الزرقاء'), L('Saudi Arabia', 'السعودية')], cat: 0, len: 88, fit: 8.4, st: 1, rev: '—', tags: ['doc', 'family', 'saudi'], sum: L('Three sisters decide the future of their late father’s farm in Asir.', 'ثلاث شقيقات يقرّرن مصير مزرعة أبيهن الراحل في عسير.') },
+      { img: 'e2f3fc4b839fd0b539dd570ef66a2eb0', t: [L('The Door', 'الباب'), L('Saudi Arabia', 'السعودية')], cat: 2, len: 14, fit: 8.8, st: 3, rev: L('Lina', 'لينا'), tags: ['short', 'saudi', 'women'], sum: L('A night guard and the woman who never leaves the building he watches.', 'حارس ليلي والمرأة التي لا تغادر المبنى الذي يحرسه أبدًا.') },
+      { img: 'b1513db9a28d8c5d9c9bec13bfbe5ba8', t: [L('Highway 15', 'الطريق ١٥'), L('Saudi Arabia', 'السعودية')], cat: 1, len: 112, fit: 7.9, st: 2, rev: L('Omar', 'عمر'), tags: ['night', 'saudi'], sum: L('A truck driver’s last run between Riyadh and Dammam.', 'الرحلة الأخيرة لسائق شاحنة بين الرياض والدمام.') },
+      { img: '7274e26929b66f4d33046ed86b22aba3', t: [L('The Moon Shepherd', 'راعي القمر'), L('Jordan', 'الأردن')], cat: 1, len: 94, fit: 7.4, st: 1, rev: '—', tags: ['family'], sum: L('A boy and his grandfather move the herd by night to avoid the heat.', 'صبي وجده ينقلان القطيع ليلًا هربًا من الحر.') },
+      { img: '9886de0800cfc46bb10fe1bd649868e8', t: [L('Rawasheen', 'رواشين'), L('Saudi Arabia', 'السعودية')], cat: 2, len: 18, fit: 8.1, st: 0, rev: '—', tags: ['short', 'doc', 'saudi', 'women'], sum: L('The women who restore Jeddah’s wooden windows, one house at a time.', 'النساء اللواتي يرمّمن رواشين جدة الخشبية، بيتًا بعد بيت.') },
+      { img: '62fc6c5dd07ebab0db8fe9c90e94a90a', t: [L('Pyramid of Light', 'هرم النور'), L('Morocco', 'المغرب')], cat: 3, len: 22, fit: 6.2, st: 0, rev: '—', tags: ['short'], sum: L('Hand-drawn animation about a lighthouse keeper in the desert.', 'رسوم متحركة يدوية عن حارس منارة في الصحراء.') },
+      { img: 'a6b91bbda3e28a2d76c57187e5b9234d', t: [L('Salt of the Dunes', 'ملح الكثبان'), L('Saudi Arabia', 'السعودية')], cat: 1, len: 104, fit: 7.0, st: 3, rev: L('Huda', 'هدى'), tags: ['family', 'saudi'], sum: L('A salt trader and his daughter cross the Empty Quarter.', 'تاجر ملح وابنته يعبران الربع الخالي.') }
+    ];
+    const cats = [L('Documentary', 'وثائقي'), L('Competition', 'المسابقة'), L('Arab Horizons', 'آفاق عربية'), L('Experimental', 'تجريبي')];
+    const sts = [[L('New', 'جديدة'), 'pill'], [L('Needs reviewer', 'بلا محكّم'), 'pill'], [L('In review', 'قيد التقييم'), 'pill g'], [L('Shortlisted', 'في القائمة القصيرة'), 'pill f']];
+    const queries = [
+      { text: L('Saudi short films directed by women', 'أفلام سعودية قصيرة من إخراج نساء'), chips: [L('Short (< 40 min)', 'قصير (< ٤٠ دقيقة)'), L('Saudi Arabia', 'السعودية'), L('Woman director', 'مخرجة')], f: (x) => x.tags.includes('short') && x.tags.includes('saudi') && x.tags.includes('women') },
+      { text: L('Films about the city at night, best fit first', 'أفلام عن المدينة ليلًا، الأعلى توافقًا أولًا'), chips: [L('Theme: night city', 'موضوع: المدينة ليلًا'), L('Sort: AI fit', 'ترتيب: التوافق')], f: (x) => x.tags.includes('night') },
+      { text: L('Documentaries without a reviewer', 'أفلام وثائقية بلا محكّم'), chips: [L('Documentary', 'وثائقي'), L('No reviewer', 'بلا محكّم')], f: (x) => x.tags.includes('doc') && x.rev === '—' }
+    ];
+    const qi = this.state.q;
+    const q = qi > 0 ? queries[qi - 1] : null;
+    let list = films.map((f, i) => ({ f, i })).filter((x) => !q || q.f(x.f));
+    if (q) list = list.sort((a, b) => b.f.fit - a.f.fit);
+    let si = this.state.sel;
+    if (!list.some((x) => x.i === si) && list.length) si = list[0].i;
+    const rows = list.map(({ f, i }) => ({ img: B + f.img, title: f.t[0], country: f.t[1], cat: cats[f.cat], len: ar ? D(f.len) + ' د' : f.len + ' min', fit: D(f.fit.toFixed(1)), bar: 'width: ' + f.fit * 10 + '%;', status: sts[f.st][0], pill: sts[f.st][1], rev: f.rev, pick: () => this.setState({ sel: i }), style: i === si ? 'background: var(--goldTint);' : '' }));
+    const c = films[si];
+    const whyByTag = { night: L('Matches “the city at night”', 'يطابق موضوع «المدينة ليلًا»'), doc: L('Observational form your profile asks for', 'أسلوب تأمّلي يطلبه ملفك'), saudi: L('Saudi voice', 'صوت سعودي'), women: L('Woman director', 'من إخراج امرأة'), family: L('Family theme — common this year', 'موضوع العائلة — شائع هذا العام'), short: L('Strong short-form craft', 'حرفة قوية في الفيلم القصير') };
+    const cur = { img: B + c.img, title: c.t[0], meta: c.t[1] + ' · ' + cats[c.cat] + ' · ' + (ar ? D(c.len) + ' دقيقة' : c.len + ' min'), sum: c.sum, why: c.tags.slice(0, 3).map((k) => whyByTag[k]) };
+    const li = this.state.listening;
+    const typed = this.state.typed;
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light', toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }),
+      toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      t, dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      n214: D(214), rows, cur,
+      sugs: queries.map((x, i) => ({ text: x.text, pick: () => this.setState({ q: i + 1, typed: null }) })),
+      hasQ: !!q, chips: q ? q.chips : [], clearQ: () => this.setState({ q: 0, typed: null }),
+      qText: typed !== null ? typed : (q ? q.text : ''), onQ: (e) => this.setState({ typed: e && e.target ? e.target.value : '' }),
+      qPh: li ? L('Listening… try “shorts from the Gulf under 15 minutes”', 'أستمع… جرّب «أفلام خليجية قصيرة أقل من ١٥ دقيقة»') : L('Ask in Arabic or English, or tap the mic', 'اسأل بالعربية أو الإنجليزية، أو اضغط الميكروفون'),
+      countText: q ? L(list.length + ' of 214 match', 'يطابق ' + D(list.length) + ' من ٢١٤') : L('Showing 8 of 214', 'عرض ٨ من ٢١٤'),
+      listening: li, toggleMic: () => this.setState({ listening: !li }), micClass: li ? 'mic live' : 'mic'
+    };
+  }
+}
+</script>
+</body>
+</html>

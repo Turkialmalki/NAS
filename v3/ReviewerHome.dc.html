@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Jury home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#070707}
+.th-dark{--bg:#070707;--sunk:#050505;--card:#111110;--card2:#1A1916;--goldTint:rgba(201,168,76,.10);--ink:#F7F3EA;--ink2:#DCD6CA;--muted:#A39E93;--faint:#8A857B;--gold:#C9A84C;--goldHi:#E6CB80;--goldBtnHover:linear-gradient(135deg,#F3DFA6 0%,#D6B55A 48%,#AE8836 100%);--onGold:#0E0B04;--line:rgba(201,168,76,.11);--line2:rgba(201,168,76,.18);--line3:rgba(201,168,76,.3);--goldLine:rgba(201,168,76,.45);--goldFill:linear-gradient(135deg,#EBD291 0%,#C9A84C 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.16),rgba(201,168,76,0) 70%);--c1:#B88A24;--c2:#5B8FE0;color-scheme:dark}
+.th-light{--bg:#FAF9F6;--sunk:#F3F1EC;--card:#FFFFFF;--card2:#F2F0EA;--goldTint:#F7EFDA;--ink:#121212;--ink2:#34322E;--muted:#66625B;--faint:#66625B;--gold:#A9822E;--goldHi:#7A5912;--goldBtnHover:linear-gradient(135deg,#EED58D 0%,#D2AC52 48%,#AD8836 100%);--onGold:#0E0B04;--line:rgba(122,89,18,.12);--line2:rgba(122,89,18,.18);--line3:rgba(122,89,18,.28);--goldLine:rgba(169,130,46,.4);--goldFill:linear-gradient(135deg,#E6C978 0%,#C79F45 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.12),rgba(201,168,76,0) 70%);--c1:#B07F12;--c2:#3A6FC4;color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2,[dir=ltr] h3{letter-spacing:-0.022em}
+*{box-sizing:border-box}
+a{color:var(--goldHi);text-decoration:none}
+.ibtn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-weight:700;font-size:14px}
+.ibtn:hover{border-color:var(--gold);color:var(--goldHi)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px}
+.btn{height:48px;padding:0 22px;border-radius:14px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;white-space:nowrap}
+.btn-p{background:var(--goldFill);color:var(--onGold)}.btn-p:hover{background:var(--goldBtnHover);color:var(--onGold)}
+.btn-s{background:transparent;color:var(--ink);border-color:var(--line2)}.btn-s:hover{border-color:var(--gold);color:var(--goldHi)}
+.pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid var(--line2);color:var(--ink2);white-space:nowrap}
+.pill.g{border-color:var(--goldLine);color:var(--goldHi);background:var(--goldTint)}
+.pill.f{background:var(--goldFill);border-color:var(--gold);color:var(--onGold)}
+.film{display:flex;gap:16px;align-items:center;padding:16px;border-radius:18px;background:var(--card);border:1px solid var(--line);color:var(--ink);flex-wrap:wrap}
+.film:hover{border-color:var(--gold);color:var(--ink)}
+textarea{width:100%;min-height:120px;border-radius:14px;background:var(--bg);border:1px solid var(--line2);color:var(--ink);font:inherit;font-size:15px;line-height:1.7;padding:14px;outline:none;resize:vertical}
+
+/*polish*/
+::selection{background:rgba(201,168,76,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.card{background:linear-gradient(180deg,rgba(201,168,76,.06),rgba(201,168,76,0) 40%),var(--card);box-shadow:inset 0 1px 0 rgba(255,236,190,.05),0 24px 60px -36px rgba(0,0,0,.9);transition:border-color .35s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.th-light .card{background:var(--card);box-shadow:0 1px 2px rgba(18,18,18,.04),0 18px 40px -28px rgba(40,30,10,.25)}
+.btn-p,.go,.pillbtn{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 30px -12px rgba(201,168,76,.6);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s,background .25s}
+.btn-p:hover,.go:hover,.pillbtn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 16px 40px -12px rgba(201,168,76,.8)}
+.btn-p:active,.go:active,.pillbtn:active{transform:scale(.98)}
+.btn-s,.ibtn,.nav-i,.sso,.chip,.sug,.filter,.big{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.nav-i.on{box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+@keyframes nasIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes nasFade{from{opacity:0}to{opacity:1}}
+main>*,.content>*{animation:nasIn .9s cubic-bezier(.16,1,.3,1) both}
+main>*:nth-child(2),.content>*:nth-child(2){animation-delay:.07s}
+main>*:nth-child(3),.content>*:nth-child(3){animation-delay:.14s}
+main>*:nth-child(4),.content>*:nth-child(4){animation-delay:.21s}
+main>*:nth-child(5),.content>*:nth-child(5){animation-delay:.28s}
+main>*:nth-child(n+6),.content>*:nth-child(n+6){animation-delay:.35s}
+.side{animation:nasFade .8s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+/*endpolish*/
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 1000px; -webkit-font-smoothing: antialiased;">
+<header style="display: flex; align-items: center; gap: 14px; padding: 14px 32px; border-bottom: 1px solid var(--line); flex-wrap: wrap;">
+<a href="Main.dc.html" aria-label="NAS"><img src="/_blob/8db983f4aec7ec876db44d32e45a85d1" alt="NAS" style="height: 32px; width: auto;"></a>
+<span class="pill g">{{t.jury}}</span>
+<nav style="display: flex; gap: 4px; margin-inline-start: 12px;"><a href="ReviewerHome.dc.html" style="padding: 10px 14px; border-radius: 10px; background: var(--card2); color: var(--ink); font-weight: 600; font-size: 15px;">{{t.nFilms}}</a><a href="Screener.dc.html" style="padding: 10px 14px; border-radius: 10px; color: var(--ink2); font-size: 15px;">{{t.nRoom}}</a></nav>
+<div style="margin-inline-start: auto; display: flex; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+<span style="width: 42px; height: 42px; border-radius: 50%; background: var(--card2); border: 1px solid var(--line2); display: inline-flex; align-items: center; justify-content: center; font-weight: 700;">{{t.ini}}</span>
+</div>
+</header>
+
+<sc-if value="{{invite}}" hint-placeholder-val="{{true}}">
+<main style="max-width: 560px; margin: 0 auto; padding: 96px 24px; display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center;">
+<img src="/_blob/84a08c197b56e2cd88cfcefaf617cb0d" alt="" style="width: 88px; height: 88px; border-radius: 24px; object-fit: cover;">
+<span style="color: var(--muted); font-size: 15px;">{{t.invFrom}}</span>
+<h1 style="margin: 0; font-size: 38px; font-weight: 700; line-height: 1.2;">{{t.invT}}</h1>
+<p style="margin: 0; color: var(--ink2); font-size: 17px; line-height: 1.6;">{{t.invP}}</p>
+<div class="card" style="width: 100%; display: flex; flex-direction: column; gap: 10px; text-align: start; padding: 20px;">
+<div style="display: flex; justify-content: space-between; font-size: 15px;"><span style="color: var(--muted);">{{t.role}}</span><b>{{t.roleV}}</b></div>
+<div style="display: flex; justify-content: space-between; font-size: 15px;"><span style="color: var(--muted);">{{t.films}}</span><b>{{t.filmsV}}</b></div>
+<div style="display: flex; justify-content: space-between; font-size: 15px;"><span style="color: var(--muted);">{{t.due}}</span><b>{{t.dueV}}</b></div>
+<div style="display: flex; justify-content: space-between; font-size: 15px;"><span style="color: var(--muted);">{{t.expires}}</span><b style="color: var(--goldHi);">{{t.expiresV}}</b></div>
+</div>
+<p style="margin: 0; color: var(--faint); font-size: 13px; line-height: 1.6;">{{t.invNote}}</p>
+<div style="display: flex; gap: 10px; width: 100%;"><button type="button" class="btn btn-s" style="flex: 1;">{{t.decline}}</button><button type="button" class="btn btn-p" onClick="{{accept}}" style="flex: 2;">{{t.accept}}</button></div>
+</main>
+</sc-if>
+
+<sc-if value="{{home}}" hint-placeholder-val="{{false}}">
+<div style="max-width: 1180px; margin: 0 auto; padding: 36px 32px 64px; display: flex; gap: 28px; flex-wrap: wrap; align-items: flex-start;">
+<main style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 20px;">
+<section style="display: flex; align-items: center; gap: 24px; flex-wrap: wrap;">
+<div style="width: 112px; height: 112px; border-radius: 50%; background: conic-gradient(var(--gold) 0 42%, var(--line2) 42% 100%); display: flex; align-items: center; justify-content: center; flex: none;"><div style="width: 92px; height: 92px; border-radius: 50%; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center;"><b style="font-size: 26px;">{{progN}}</b><span style="font-size: 12px; color: var(--muted);">{{t.done}}</span></div></div>
+<div style="flex: 1; min-width: 240px;"><h1 style="margin: 0; font-size: 36px; font-weight: 700;">{{t.hello}}</h1><p style="margin: 8px 0 0; color: var(--muted); font-size: 16px;">{{t.helloSub}}</p></div>
+<a href="Screener.dc.html" class="btn btn-p">{{t.next}}</a>
+</section>
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<sc-for list="{{films}}" as="f" hint-placeholder-count="6">
+<a href="Screener.dc.html" class="film">
+<img src="{{f.img}}" alt="" style="width: 54px; height: 72px; object-fit: cover; border-radius: 12px; flex: none;">
+<span style="flex: 1 1 220px; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><b style="font-size: 17px;">{{f.title}}</b><span style="color: var(--muted); font-size: 13px;">{{f.meta}}</span></span>
+<span style="display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); max-width: 260px;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" style="color: var(--gold); flex: none;"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>{{f.hint}}</span>
+<span class="{{f.pill}}">{{f.status}}</span>
+</a>
+</sc-for>
+</div>
+</main>
+<aside style="flex: 1 1 320px; min-width: 290px; display: flex; flex-direction: column; gap: 20px;">
+<section class="card" style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: center; gap: 8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" style="color: var(--gold);"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg><h2 style="margin: 0; font-size: 18px; font-weight: 700;">{{t.profT}}</h2></div>
+<p style="margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55;">{{t.profP}}</p>
+<textarea aria-label="{{t.profT}}">{{t.profText}}</textarea>
+<span style="font-size: 12px; color: var(--faint);">{{t.profNote}}</span>
+</section>
+<section class="card" style="display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-size: 18px; font-weight: 700;">{{t.critT}}</h2>
+<sc-for list="{{crit}}" as="c" hint-placeholder-count="4"><div style="display: flex; justify-content: space-between; font-size: 14px; padding: 6px 0; border-top: 1px solid var(--line);"><span style="color: var(--ink2);">{{c.n}}</span><b>{{c.w}}</b></div></sc-for>
+<span style="font-size: 12px; color: var(--faint);">{{t.critNote}}</span>
+</section>
+</aside>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"accepted":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, accepted: null }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const D = (s) => ar ? String(s).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]) : String(s);
+    const B = '/_blob/';
+    const acc = this.state.accepted !== null ? this.state.accepted : (this.props.accepted === true);
+    const t = {
+      jury: L('Jury · Riyadh Nights', 'لجنة التحكيم · ليالي الرياض'), nFilms: L('My films', 'أفلامي'), nRoom: L('Screening room', 'غرفة المشاهدة'), vFest: L('Festival view', 'عرض المهرجان'), theme: L('Theme', 'المظهر'), ini: L('KH', 'خ'),
+      invFrom: L('Riyadh Nights Film Week invited you', 'دعاك أسبوع ليالي الرياض السينمائي'), invT: L('Join the documentary jury', 'انضم إلى لجنة تحكيم الأفلام الوثائقية'),
+      invP: L('You’ll watch your assigned films privately on NAS and share your evaluation with the festival.', 'ستشاهد الأفلام المسندة إليك بشكل خاص على NAS، وتشارك تقييمك مع المهرجان.'),
+      role: L('Role', 'الدور'), roleV: L('Reviewer', 'محكّم'), films: L('Films', 'الأفلام'), filmsV: L('About 12', 'نحو ١٢ فيلمًا'), due: L('Round 1 due', 'موعد الجولة الأولى'), dueV: L('10 Nov 2026', '١٠ نوفمبر ٢٠٢٦'), expires: L('Invite expires', 'تنتهي الدعوة'), expiresV: L('in 6 days', 'بعد ٦ أيام'),
+      invNote: L('Screeners are watermarked with your name and can’t be downloaded. Every view is logged.', 'تحمل نسخ المشاهدة علامة مائية باسمك ولا يمكن تنزيلها. وتُسجَّل كل مشاهدة.'),
+      decline: L('Decline', 'اعتذار'), accept: L('Accept invitation', 'اقبل الدعوة'),
+      done: L('reviewed', 'مكتملة'), hello: L('Welcome back, Khalid', 'أهلًا بعودتك، خالد'), helloSub: L('7 films left · round 1 closes in 4 days', 'بقي ٧ أفلام · تُغلق الجولة الأولى بعد ٤ أيام'), next: L('Watch next film', 'شاهد الفيلم التالي'),
+      profT: L('My AI profile', 'ملفي للذكاء الاصطناعي'), profP: L('Private to you. Helps NAS summarise and compare your films — it never sees other jurors’ films.', 'خاص بك. يساعد NAS على تلخيص أفلامك ومقارنتها — ولا يطّلع على أفلام المحكّمين الآخرين.'),
+      profText: L('I care most about sound design and long takes. Flag films with heavy narration — I prefer observational work. Summaries in Arabic, please.', 'أهتم أكثر بتصميم الصوت واللقطات الطويلة. نبّهني إلى الأفلام ذات التعليق الصوتي الكثيف — أفضّل الأعمال التأمّلية. الملخصات بالعربية من فضلك.'),
+      profNote: L('Saved · version 2', 'محفوظ · الإصدار ٢'), critT: L('Festival criteria', 'معايير المهرجان'), critNote: L('Set by the festival. Your profile can’t change them.', 'يحددها المهرجان. ولا يغيّرها ملفك.')
+    };
+    const st = { n: [L('Not started', 'لم يبدأ'), 'pill'], d: [L('Draft saved', 'مسودة محفوظة'), 'pill g'], s: [L('Submitted', 'أُرسل'), 'pill f'] };
+    const films = [
+      ['37b71e0c803a46dd004d42c8ccd9e528', L('Night Market', 'سوق الليل'), L('Egypt · 96 min · due 10 Nov', 'مصر · ٩٦ د · قبل ١٠ نوفمبر'), L('Long takes, rich ambient sound', 'لقطات طويلة وصوت محيطي غني'), 'd'],
+      ['1f11c0782c4e9e3e9321664ac0d2a69c', L('Blue Ridge', 'التلال الزرقاء'), L('Saudi Arabia · 88 min', 'السعودية · ٨٨ د'), L('Light narration in act 3', 'تعليق صوتي خفيف في الفصل الثالث'), 'n'],
+      ['9886de0800cfc46bb10fe1bd649868e8', L('Rawasheen', 'رواشين'), L('Saudi Arabia · 18 min', 'السعودية · ١٨ د'), L('Observational, no narration', 'تأمّلي، دون تعليق صوتي'), 'n'],
+      ['b1513db9a28d8c5d9c9bec13bfbe5ba8', L('Highway 15', 'الطريق ١٥'), L('Saudi Arabia · 112 min', 'السعودية · ١١٢ د'), L('Mostly night exteriors', 'معظمه مشاهد ليلية خارجية'), 's'],
+      ['7274e26929b66f4d33046ed86b22aba3', L('The Moon Shepherd', 'راعي القمر'), L('Jordan · 94 min', 'الأردن · ٩٤ د'), L('Heavy voice-over', 'تعليق صوتي كثيف'), 's']
+    ].map((f) => ({ img: B + f[0], title: f[1], meta: f[2], hint: f[3], status: st[f[4]][0], pill: st[f[4]][1] }));
+    const crit = [[L('Artistic vision', 'الرؤية الفنية'), '40%'], [L('Fit with this edition', 'التوافق مع الدورة'), '30%'], [L('Craft', 'الحرفة'), '20%'], [L('Originality', 'الأصالة'), '10%']].map((c) => ({ n: c[0], w: ar ? D(c[1].replace('%', '')) + '٪' : c[1] }));
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light', toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }),
+      toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      t, dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      invite: !acc, home: acc, accept: () => this.setState({ accepted: true }), films, crit, progN: ar ? '٥/١٢' : '5/12'
+    };
+  }
+}
+</script>
+</body>
+</html>

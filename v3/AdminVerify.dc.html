@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS admin — Festival verification</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#070707}
+.th-dark{--bg:#070707;--sunk:#050505;--card:#111110;--card2:#1A1916;--goldTint:rgba(201,168,76,.10);--ink:#F7F3EA;--ink2:#DCD6CA;--muted:#A39E93;--faint:#8A857B;--gold:#C9A84C;--goldHi:#E6CB80;--goldBtnHover:linear-gradient(135deg,#F3DFA6 0%,#D6B55A 48%,#AE8836 100%);--onGold:#0E0B04;--line:rgba(201,168,76,.11);--line2:rgba(201,168,76,.18);--line3:rgba(201,168,76,.3);--goldLine:rgba(201,168,76,.45);--goldFill:linear-gradient(135deg,#EBD291 0%,#C9A84C 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.16),rgba(201,168,76,0) 70%);--c1:#B88A24;--c2:#5B8FE0;color-scheme:dark}
+.th-light{--bg:#FAF9F6;--sunk:#F3F1EC;--card:#FFFFFF;--card2:#F2F0EA;--goldTint:#F7EFDA;--ink:#121212;--ink2:#34322E;--muted:#66625B;--faint:#66625B;--gold:#A9822E;--goldHi:#7A5912;--goldBtnHover:linear-gradient(135deg,#EED58D 0%,#D2AC52 48%,#AD8836 100%);--onGold:#0E0B04;--line:rgba(122,89,18,.12);--line2:rgba(122,89,18,.18);--line3:rgba(122,89,18,.28);--goldLine:rgba(169,130,46,.4);--goldFill:linear-gradient(135deg,#E6C978 0%,#C79F45 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.12),rgba(201,168,76,0) 70%);--c1:#B07F12;--c2:#3A6FC4;color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2,[dir=ltr] h3{letter-spacing:-0.022em}
+*{box-sizing:border-box}
+a{color:var(--goldHi);text-decoration:none}
+.ibtn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-weight:700;font-size:14px}
+.ibtn:hover{border-color:var(--gold);color:var(--goldHi)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px}
+.btn{height:46px;padding:0 20px;border-radius:12px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;white-space:nowrap}
+.btn-p{background:var(--goldFill);color:var(--onGold)}.btn-p:hover{background:var(--goldBtnHover);color:var(--onGold)}
+.btn-s{background:transparent;color:var(--ink);border-color:var(--line2)}.btn-s:hover{border-color:var(--gold);color:var(--goldHi)}
+.pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid var(--line2);color:var(--ink2);white-space:nowrap}
+.pill.g{border-color:var(--goldLine);color:var(--goldHi);background:var(--goldTint)}
+.pill.f{background:var(--goldFill);border-color:var(--gold);color:var(--onGold)}
+.case{display:flex;gap:12px;align-items:center;width:100%;text-align:start;padding:14px;border-radius:14px;cursor:pointer;font:inherit;color:var(--ink);background:transparent;border:1px solid transparent}
+.case:hover{background:var(--card2)}
+.doc{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:var(--sunk);font-size:14px}
+textarea{width:100%;min-height:90px;border-radius:12px;background:var(--bg);border:1px solid var(--line2);color:var(--ink);font:inherit;font-size:15px;line-height:1.6;padding:12px;outline:none;resize:vertical}
+
+/*polish*/
+::selection{background:rgba(201,168,76,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.card{background:linear-gradient(180deg,rgba(201,168,76,.06),rgba(201,168,76,0) 40%),var(--card);box-shadow:inset 0 1px 0 rgba(255,236,190,.05),0 24px 60px -36px rgba(0,0,0,.9);transition:border-color .35s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.th-light .card{background:var(--card);box-shadow:0 1px 2px rgba(18,18,18,.04),0 18px 40px -28px rgba(40,30,10,.25)}
+.btn-p,.go,.pillbtn{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 30px -12px rgba(201,168,76,.6);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s,background .25s}
+.btn-p:hover,.go:hover,.pillbtn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 16px 40px -12px rgba(201,168,76,.8)}
+.btn-p:active,.go:active,.pillbtn:active{transform:scale(.98)}
+.btn-s,.ibtn,.nav-i,.sso,.chip,.sug,.filter,.big{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.nav-i.on{box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+@keyframes nasIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes nasFade{from{opacity:0}to{opacity:1}}
+main>*,.content>*{animation:nasIn .9s cubic-bezier(.16,1,.3,1) both}
+main>*:nth-child(2),.content>*:nth-child(2){animation-delay:.07s}
+main>*:nth-child(3),.content>*:nth-child(3){animation-delay:.14s}
+main>*:nth-child(4),.content>*:nth-child(4){animation-delay:.21s}
+main>*:nth-child(5),.content>*:nth-child(5){animation-delay:.28s}
+main>*:nth-child(n+6),.content>*:nth-child(n+6){animation-delay:.35s}
+.side{animation:nasFade .8s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+/*endpolish*/
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 1000px; -webkit-font-smoothing: antialiased;">
+<header style="display: flex; align-items: center; gap: 14px; padding: 14px 28px; border-bottom: 1px solid var(--line); flex-wrap: wrap;">
+<a href="Main.dc.html" aria-label="NAS"><img src="/_blob/8db983f4aec7ec876db44d32e45a85d1" alt="NAS" style="height: 30px; width: auto;"></a>
+<span class="pill">{{t.admin}}</span>
+<a href="AdminDashboard.dc.html" style="display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 14px; border-radius: 99px; border: 1px solid var(--line2); color: var(--ink); font-size: 14px; font-weight: 600;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"></path></svg>{{dashLabel}}</a>
+<nav style="display: flex; gap: 4px; margin-inline-start: 10px;"><sc-for list="{{tabs}}" as="tb" hint-placeholder-count="2"><button type="button" onClick="{{tb.pick}}" style="{{tb.style}}">{{tb.name}}</button></sc-for></nav>
+<div style="margin-inline-start: auto; display: flex; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+</div>
+</header>
+
+<sc-if value="{{tab0}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-wrap: wrap;">
+<nav aria-label="{{t.queue}}" style="flex: 1 1 300px; max-width: 360px; border-inline-end: 1px solid var(--line); padding: 24px 14px; display: flex; flex-direction: column; gap: 4px; min-height: 900px;">
+<h1 style="margin: 0 10px 12px; font-size: 24px; font-weight: 700;">{{t.queue}}</h1>
+<sc-for list="{{cases}}" as="c" hint-placeholder-count="4">
+<button type="button" class="case" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="{{c.style}}"><span style="width: 40px; height: 40px; border-radius: 12px; background: var(--card2); display: inline-flex; align-items: center; justify-content: center; font-weight: 800; color: var(--goldHi); flex: none;">{{c.ini}}</span><span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;"><b style="font-size: 15px;">{{c.name}}</b><span style="font-size: 12px; color: var(--muted);">{{c.when}}</span></span><span class="{{c.pill}}">{{c.state}}</span></button>
+</sc-for>
+</nav>
+
+<main style="flex: 999 1 560px; min-width: 0; padding: 28px 32px 56px; display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start;">
+<div style="flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 18px;">
+<section style="display: flex; gap: 16px; align-items: center;"><img src="/_blob/84a08c197b56e2cd88cfcefaf617cb0d" alt="" style="width: 64px; height: 64px; border-radius: 16px; object-fit: cover;"><div><h2 style="margin: 0; font-size: 30px; font-weight: 700;">{{cur.name}}</h2><p style="margin: 4px 0 0; color: var(--muted); font-size: 14px;">{{cur.meta}}</p></div></section>
+<section class="card" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 24px;">
+<sc-for list="{{facts}}" as="f" hint-placeholder-count="6"><div style="display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 12px; color: var(--muted); font-weight: 600;">{{f.k}}</span><span style="font-size: 15px;">{{f.v}}</span></div></sc-for>
+</section>
+<section class="card" style="display: flex; flex-direction: column; gap: 10px;">
+<b style="font-size: 15px;">{{t.docs}}</b>
+<sc-for list="{{docs}}" as="d" hint-placeholder-count="3"><div class="doc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" style="color: var(--muted);"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5"></path></svg><span style="flex: 1;">{{d.n}}</span><span class="{{d.pill}}">{{d.s}}</span></div></sc-for>
+</section>
+<section class="card" style="display: flex; flex-direction: column; gap: 12px; border-color: var(--goldLine);">
+<b style="font-size: 15px;">{{t.decide}}</b>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px;"><sc-for list="{{choices}}" as="c" hint-placeholder-count="3"><button type="button" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="{{c.style}}">{{c.n}}</button></sc-for></div>
+<label style="display: flex; flex-direction: column; gap: 6px;"><span style="font-size: 13px; color: var(--muted); font-weight: 600;">{{reasonLabel}}</span><textarea value="{{reason}}" onChange="{{onReason}}"></textarea></label>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;"><span style="font-size: 12px; color: var(--faint);">{{t.logged}}</span><button type="button" class="btn btn-p" onClick="{{record}}" disabled="{{blocked}}">{{t.record}}</button></div>
+</section>
+</div>
+<aside class="card" style="flex: 1 1 260px; min-width: 240px; display: flex; flex-direction: column; gap: 4px;">
+<b style="font-size: 15px; margin-bottom: 8px;">{{t.history}}</b>
+<sc-for list="{{hist}}" as="h" hint-placeholder-count="3"><div style="display: flex; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line);"><span style="width: 8px; height: 8px; border-radius: 50%; background: var(--goldFill); margin-top: 7px; flex: none;"></span><span style="display: flex; flex-direction: column; gap: 2px;"><b style="font-size: 14px;">{{h.a}}</b><span style="font-size: 12px; color: var(--muted);">{{h.w}}</span><sc-if value="{{h.hasR}}" hint-placeholder-val="{{false}}"><span style="font-size: 13px; color: var(--ink2); line-height: 1.5;">{{h.r}}</span></sc-if></span></div></sc-for>
+</aside>
+</main>
+</div>
+</sc-if>
+
+<sc-if value="{{tab1}}" hint-placeholder-val="{{false}}">
+<main style="max-width: 1180px; margin: 0 auto; padding: 32px; display: flex; flex-direction: column; gap: 16px;">
+<h1 style="margin: 0; font-size: 30px; font-weight: 700;">{{t.audit}}</h1>
+<div style="border: 1px solid var(--line); border-radius: 18px; overflow-x: auto; background: var(--card);">
+<table style="width: 100%; border-collapse: collapse; font-size: 14px; min-width: 760px;">
+<thead><tr><th scope="col" style="text-align: start; padding: 12px 16px; color: var(--faint); border-bottom: 1px solid var(--line);">{{t.aWhen}}</th><th scope="col" style="text-align: start; padding: 12px 16px; color: var(--faint); border-bottom: 1px solid var(--line);">{{t.aWho}}</th><th scope="col" style="text-align: start; padding: 12px 16px; color: var(--faint); border-bottom: 1px solid var(--line);">{{t.aWhat}}</th><th scope="col" style="text-align: start; padding: 12px 16px; color: var(--faint); border-bottom: 1px solid var(--line);">{{t.aWhere}}</th></tr></thead>
+<tbody><sc-for list="{{audit}}" as="a" hint-placeholder-count="6"><tr><td style="padding: 12px 16px; border-bottom: 1px solid var(--line); color: var(--muted);">{{a.w}}</td><td style="padding: 12px 16px; border-bottom: 1px solid var(--line);">{{a.who}}</td><td style="padding: 12px 16px; border-bottom: 1px solid var(--line);">{{a.what}}</td><td style="padding: 12px 16px; border-bottom: 1px solid var(--line); color: var(--ink2);">{{a.where}}</td></tr></sc-for></tbody>
+</table>
+</div>
+</main>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, tab: 0, sel: 0, choice: 1, reason: null, decided: {} }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const t = {
+      admin: L('NAS admin', 'إدارة NAS'), theme: L('Theme', 'المظهر'), queue: L('Verification', 'التحقق من المهرجانات'), docs: L('Documents', 'المستندات'), decide: L('Decision', 'القرار'),
+      logged: L('Saved with your name, time and reason.', 'يُحفظ باسمك والوقت والسبب.'), record: L('Record decision', 'سجّل القرار'), history: L('History', 'السجل'),
+      audit: L('Audit log', 'سجل التدقيق'), aWhen: L('When', 'الوقت'), aWho: L('Who', 'من'), aWhat: L('Action', 'الإجراء'), aWhere: L('Entity', 'الكيان')
+    };
+    const ti = this.state.tab;
+    const tabs = [L('Verification', 'التحقق'), L('Audit log', 'سجل التدقيق')].map((n, i) => ({ name: n, pick: () => this.setState({ tab: i }), style: 'height: 40px; padding: 0 14px; border-radius: 10px; border: 0; font: inherit; font-size: 15px; cursor: pointer; ' + (i === ti ? 'background: var(--card2); color: var(--ink); font-weight: 600;' : 'background: transparent; color: var(--muted);') }));
+    const ST = { new: [L('New', 'جديد'), 'pill g'], ok: [L('Approved', 'موافق عليه'), 'pill f'], chg: [L('Needs changes', 'مطلوب تعديل'), 'pill'], rej: [L('Rejected', 'مرفوض'), 'pill'] };
+    const caseData = [
+      ['RN', L('Riyadh Nights Film Week', 'أسبوع ليالي الرياض السينمائي'), L('Submitted 2 h ago', 'قُدّم قبل ساعتين'), 'new'],
+      ['AD', L('AlUla Desert Shorts', 'أفلام العُلا القصيرة'), L('Submitted yesterday', 'قُدّم أمس'), 'new'],
+      ['AB', L('Abha Highland Screen', 'شاشة أبها'), L('Resubmitted 3 Oct', 'أُعيد تقديمه ٣ أكتوبر'), 'chg'],
+      ['JO', L('Jeddah Old Town Cinema Days', 'أيام سينما جدة التاريخية'), L('Approved 28 Sep', 'تمت الموافقة ٢٨ سبتمبر'), 'ok']
+    ];
+    const dec = this.state.decided;
+    const si = this.state.sel;
+    const cases = caseData.map((c, i) => { const s = dec[i] || c[3]; return { ini: c[0], name: c[1], when: c[2], state: ST[s][0], pill: ST[s][1], on: i === si, pick: () => this.setState({ sel: i, reason: null }), style: i === si ? 'background: var(--card); border-color: var(--line2);' : '' }; });
+    const cur = { name: caseData[si][1], meta: L('Festival account · created by Reem A. · 7 Oct 2026', 'حساب مهرجان · أنشأته ريم أ. · ٧ أكتوبر ٢٠٢٦') };
+    const facts = [[L('City', 'المدينة'), L('Riyadh', 'الرياض')], [L('Edition', 'الدورة'), L('5th · Nov 2027', 'الخامسة · نوفمبر ٢٠٢٧')], [L('Website', 'الموقع'), 'riyadhnights.example'], [L('Organiser', 'الجهة المنظمة'), '[ORGANISING ENTITY]'], [L('Previous editions', 'دورات سابقة'), L('4, verified by press', '٤، موثّقة إعلاميًا')], [L('Contact', 'جهة الاتصال'), L('Reem A. · programme director', 'ريم أ. · مديرة البرمجة')]].map((f) => ({ k: f[0], v: f[1] }));
+    const docs = [[L('Commercial registration — CR_2026.pdf', 'السجل التجاري — CR_2026.pdf'), L('Name differs', 'الاسم مختلف'), 'pill g'], [L('2025 catalogue — catalogue.pdf', 'كتيّب ٢٠٢٥ — catalogue.pdf'), L('Checked', 'تم التحقق'), 'pill'], [L('Authorisation letter', 'خطاب التفويض'), L('Missing', 'غير موجود'), 'pill']].map((d) => ({ n: d[0], s: d[1], pill: d[2] }));
+    const ch = this.state.choice;
+    const choices = [[L('Approve', 'موافقة'), 'ok'], [L('Needs changes', 'طلب تعديل'), 'chg'], [L('Reject', 'رفض'), 'rej']].map((c, i) => ({ n: c[0], on: i === ch, pick: () => this.setState({ choice: i }), style: 'height: 44px; border-radius: 12px; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; ' + (i === ch ? 'background: var(--goldFill); color: var(--onGold); border: 1px solid var(--gold);' : 'background: transparent; color: var(--ink); border: 1px solid var(--line2);') }));
+    const defReason = L('The CR is registered to a different entity. Please upload an authorisation letter or the festival’s own licence.', 'السجل التجاري مسجّل باسم جهة مختلفة. يُرجى رفع خطاب تفويض أو ترخيص المهرجان نفسه.');
+    const reason = this.state.reason !== null ? this.state.reason : (ch === 0 ? '' : defReason);
+    const histBase = [[L('Submitted for verification', 'قُدّم للتحقق'), L('Reem A. · 7 Oct, 10:12', 'ريم أ. · ٧ أكتوبر، ١٠:١٢'), ''], [L('Account created', 'أُنشئ الحساب'), L('Reem A. · 7 Oct, 09:40', 'ريم أ. · ٧ أكتوبر، ٠٩:٤٠'), '']];
+    const d = dec[si];
+    const hist = (d ? [[ST[d][0], L('You · just now', 'أنت · الآن'), d === 'ok' ? '' : reason]] : []).concat(si === 0 ? histBase : [[L('Submitted', 'قُدّم'), L('Festival team', 'فريق المهرجان'), '']]).map((h) => ({ a: h[0], w: h[1], r: h[2], hasR: !!h[2] }));
+    const audit = [[L('Today 10:41', 'اليوم ١٠:٤١'), L('Admin · Faisal', 'المشرف · فيصل'), L('Viewed verification documents', 'اطّلع على مستندات التحقق'), L('Riyadh Nights', 'ليالي الرياض')], [L('Today 10:12', 'اليوم ١٠:١٢'), L('Reem A.', 'ريم أ.'), L('Submitted verification', 'قدّمت طلب التحقق'), L('Riyadh Nights', 'ليالي الرياض')], [L('Today 09:58', 'اليوم ٠٩:٥٨'), L('Khalid (reviewer)', 'خالد (محكّم)'), L('Opened screener — Night Market', 'فتح نسخة المشاهدة — سوق الليل'), L('Riyadh Nights · Documentary', 'ليالي الرياض · وثائقي')], [L('Yesterday 18:20', 'أمس ١٨:٢٠'), L('Huda (programmer)', 'هدى (مبرمجة)'), L('Changed role: Lina → Reviewer', 'غيّرت الدور: لينا ← محكّمة'), L('Riyadh Nights', 'ليالي الرياض')], [L('Yesterday 14:05', 'أمس ١٤:٠٥'), L('System', 'النظام'), L('Screener access expired', 'انتهت صلاحية الوصول للنسخة'), L('Jeddah Old Town', 'سينما جدة التاريخية')], [L('3 Oct 11:30', '٣ أكتوبر ١١:٣٠'), L('Admin · Faisal', 'المشرف · فيصل'), L('Needs changes — reason recorded', 'طلب تعديل — سُجّل السبب'), L('Abha Highland Screen', 'شاشة أبها')]]
+      .map((a) => ({ w: a[0], who: a[1], what: a[2], where: a[3] }));
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light', toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }),
+      dashLabel: ar ? 'نظرة عامة' : 'Overview', toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      t, dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      tabs, tab0: ti === 0, tab1: ti === 1, cases, cur, facts, docs, choices, hist, audit,
+      reason, onReason: (e) => this.setState({ reason: e && e.target ? e.target.value : '' }),
+      reasonLabel: ch === 0 ? L('Note (optional)', 'ملاحظة (اختيارية)') : L('Reason — the festival will see this', 'السبب — سيراه المهرجان'),
+      blocked: ch !== 0 && !reason.trim(),
+      record: () => { if (ch !== 0 && !reason.trim()) return; this.setState({ decided: Object.assign({}, dec, { [si]: ['ok', 'chg', 'rej'][ch] }) }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

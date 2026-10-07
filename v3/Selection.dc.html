@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Selection</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#070707}
+.th-dark{--bg:#070707;--sunk:#050505;--card:#111110;--card2:#1A1916;--goldTint:rgba(201,168,76,.10);--ink:#F7F3EA;--ink2:#DCD6CA;--muted:#A39E93;--faint:#8A857B;--gold:#C9A84C;--goldHi:#E6CB80;--goldBtnHover:linear-gradient(135deg,#F3DFA6 0%,#D6B55A 48%,#AE8836 100%);--onGold:#0E0B04;--line:rgba(201,168,76,.11);--line2:rgba(201,168,76,.18);--line3:rgba(201,168,76,.3);--goldLine:rgba(201,168,76,.45);--shadow:0 40px 100px -20px rgba(0,0,0,.85);--goldFill:linear-gradient(135deg,#EBD291 0%,#C9A84C 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.16),rgba(201,168,76,0) 70%);--c1:#B88A24;--c2:#5B8FE0;color-scheme:dark}
+.th-light{--bg:#FAF9F6;--sunk:#F3F1EC;--card:#FFFFFF;--card2:#F2F0EA;--goldTint:#F7EFDA;--ink:#121212;--ink2:#34322E;--muted:#66625B;--faint:#66625B;--gold:#A9822E;--goldHi:#7A5912;--goldBtnHover:linear-gradient(135deg,#EED58D 0%,#D2AC52 48%,#AD8836 100%);--onGold:#0E0B04;--line:rgba(122,89,18,.12);--line2:rgba(122,89,18,.18);--line3:rgba(122,89,18,.28);--goldLine:rgba(169,130,46,.4);--shadow:0 30px 80px -24px rgba(60,45,10,.22);--goldFill:linear-gradient(135deg,#E6C978 0%,#C79F45 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.12),rgba(201,168,76,0) 70%);--c1:#B07F12;--c2:#3A6FC4;color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2,[dir=ltr] h3{letter-spacing:-0.022em}
+*{box-sizing:border-box}
+a{color:var(--goldHi);text-decoration:none}
+.app{position:relative;display:flex;min-height:1000px;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+.side{flex:0 0 256px;border-inline-end:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:2px}
+.nav-h{font-size:12px;color:var(--faint);padding:18px 12px 6px;font-weight:600}
+.nav-i{display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:12px;color:var(--ink2);font-size:15px;font-weight:500;min-height:44px}
+.nav-i:hover{background:var(--card2);color:var(--ink)}
+.nav-i.on{background:var(--card2);color:var(--ink);font-weight:600}
+.nav-i.on svg{color:var(--gold)}
+.ibtn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-weight:700;font-size:14px}
+.ibtn:hover{border-color:var(--gold);color:var(--goldHi)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:20px}
+.btn{height:46px;padding:0 20px;border-radius:12px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;white-space:nowrap}
+.btn-p{background:var(--goldFill);color:var(--onGold)}.btn-p:hover{background:var(--goldBtnHover);color:var(--onGold)}
+.btn-s{background:transparent;color:var(--ink);border-color:var(--line2)}.btn-s:hover{border-color:var(--gold);color:var(--goldHi)}
+.seg{display:flex;background:var(--sunk);border-radius:12px;padding:4px;gap:4px}
+.seg button{flex:1;height:36px;border-radius:9px;border:0;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid var(--line2);color:var(--ink2);white-space:nowrap}
+.pill.g{border-color:var(--goldLine);color:var(--goldHi);background:var(--goldTint)}
+@media (max-width:900px){.side{display:none}}
+
+/*polish*/
+::selection{background:rgba(201,168,76,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.card{background:linear-gradient(180deg,rgba(201,168,76,.06),rgba(201,168,76,0) 40%),var(--card);box-shadow:inset 0 1px 0 rgba(255,236,190,.05),0 24px 60px -36px rgba(0,0,0,.9);transition:border-color .35s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.th-light .card{background:var(--card);box-shadow:0 1px 2px rgba(18,18,18,.04),0 18px 40px -28px rgba(40,30,10,.25)}
+.btn-p,.go,.pillbtn{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 30px -12px rgba(201,168,76,.6);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s,background .25s}
+.btn-p:hover,.go:hover,.pillbtn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 16px 40px -12px rgba(201,168,76,.8)}
+.btn-p:active,.go:active,.pillbtn:active{transform:scale(.98)}
+.btn-s,.ibtn,.nav-i,.sso,.chip,.sug,.filter,.big{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.nav-i.on{box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+@keyframes nasIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes nasFade{from{opacity:0}to{opacity:1}}
+main>*,.content>*{animation:nasIn .9s cubic-bezier(.16,1,.3,1) both}
+main>*:nth-child(2),.content>*:nth-child(2){animation-delay:.07s}
+main>*:nth-child(3),.content>*:nth-child(3){animation-delay:.14s}
+main>*:nth-child(4),.content>*:nth-child(4){animation-delay:.21s}
+main>*:nth-child(5),.content>*:nth-child(5){animation-delay:.28s}
+main>*:nth-child(n+6),.content>*:nth-child(n+6){animation-delay:.35s}
+.side{animation:nasFade .8s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+/*endpolish*/
+</style>
+</helmet>
+<div class="{{themeClass}} app" dir="{{dir}}" style="font-family: {{font}};">
+<aside class="side" aria-label="{{t.nav}}">
+<a href="Main.dc.html" aria-label="NAS" style="display: flex; padding: 0 10px 12px;"><img src="/_blob/8db983f4aec7ec876db44d32e45a85d1" alt="NAS" style="height: 34px; width: auto;"></a>
+<div style="display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px;"><img src="/_blob/84a08c197b56e2cd88cfcefaf617cb0d" alt="" style="width: 36px; height: 36px; border-radius: 10px; object-fit: cover;"><span style="flex: 1; display: flex; flex-direction: column;"><b style="font-size: 14px;">{{t.fest}}</b><span style="font-size: 12px; color: var(--muted);">{{t.edition}}</span></span></div>
+<span class="nav-h">{{t.work}}</span>
+<a href="FestivalDashboard.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="14" y="12" width="7" height="9" rx="1.5"></rect><rect x="3" y="16" width="7" height="5" rx="1.5"></rect></svg>{{t.nDash}}</a>
+<a href="Queue.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 13h5l1.5 3h5L16 13h5"></path><path d="M5 5h14l2 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6z"></path></svg>{{t.nSubs}}</a>
+<a href="Selection.dc.html" class="nav-i on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="m8 12 3 3 5-6"></path></svg>{{t.nSel}}</a>
+<a href="Programme.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>{{t.nProg}}</a>
+<a href="AIProfile.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>{{t.nAI}}</a>
+<a href="FestivalDashboard.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18.5 20a6.5 6.5 0 0 0-3-5.5"></path></svg>{{t.nTeam}}</a>
+<a href="Festival.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>{{t.nPublic}}</a>
+</aside>
+
+<div style="flex: 1 1 640px; min-width: 0; display: flex; flex-direction: column;">
+<header style="display: flex; align-items: center; gap: 10px; padding: 14px 32px; border-bottom: 1px solid var(--line);">
+<span style="color: var(--muted); font-size: 14px;">{{t.crumb}}</span>
+<div style="margin-inline-start: auto; display: flex; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+</div>
+</header>
+
+<main style="max-width: 1240px; width: 100%; margin: 0 auto; padding: 32px 32px 64px; display: flex; flex-direction: column; gap: 22px;">
+<section style="display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap;">
+<div><h1 style="margin: 0; font-size: 38px; font-weight: 700;">{{t.title}}</h1><p style="margin: 8px 0 0; color: var(--muted); font-size: 16px;">{{t.sub}}</p></div>
+<div style="display: flex; align-items: center; gap: 16px;"><span style="font-size: 15px; color: var(--ink2);">{{tally}}</span><button type="button" class="btn btn-p" onClick="{{openConfirm}}" disabled="{{published}}">{{pubLabel}}</button></div>
+</section>
+
+<sc-if value="{{published}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; align-items: center; gap: 14px; background: var(--goldTint); border: 1px solid var(--goldLine); border-radius: 16px; padding: 16px 20px; flex-wrap: wrap;"><span style="width: 34px; height: 34px; border-radius: 50%; background: var(--goldFill); color: var(--onGold); display: inline-flex; align-items: center; justify-content: center; flex: none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"></path></svg></span><span style="flex: 1; font-size: 15px; color: var(--ink2);">{{t.doneMsg}}</span><a href="Programme.dc.html" class="btn btn-s" style="height: 40px;">{{t.toProg}}</a></div>
+</sc-if>
+
+<section style="display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 16px;">
+<sc-for list="{{films}}" as="f" hint-placeholder-count="6">
+<article class="card" style="{{f.box}}">
+<div style="display: flex; gap: 14px;">
+<img src="{{f.img}}" alt="" style="width: 64px; height: 86px; object-fit: cover; border-radius: 12px; flex: none;">
+<div style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px;"><b style="font-size: 17px;">{{f.title}}</b><span style="color: var(--muted); font-size: 13px;">{{f.meta}}</span><span style="display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px;"><span class="pill">{{f.evals}}</span><span class="pill g">{{f.fit}}</span></span></div>
+<div style="text-align: center; flex: none;"><div style="font-size: 30px; font-weight: 700; line-height: 1;">{{f.score}}</div><div style="font-size: 11px; color: var(--muted); margin-top: 4px;">{{t.jury}}</div></div>
+</div>
+<p style="margin: 14px 0; color: var(--ink2); font-size: 14px; line-height: 1.55;">“{{f.note}}”</p>
+<div class="seg" role="group" aria-label="{{t.decision}}">
+<sc-for list="{{f.opts}}" as="o" hint-placeholder-count="3"><button type="button" onClick="{{o.pick}}" aria-pressed="{{o.on}}" disabled="{{o.dis}}" style="{{o.style}}">{{o.name}}</button></sc-for>
+</div>
+</article>
+</sc-for>
+</section>
+<p style="margin: 0; color: var(--faint); font-size: 13px;">{{t.foot}}</p>
+</main>
+</div>
+
+<sc-if value="{{confirm}}" hint-placeholder-val="{{false}}">
+<div style="position: absolute; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; padding: 24px; z-index: 40;">
+<div role="dialog" aria-modal="true" aria-label="{{t.cTitle}}" style="width: 100%; max-width: 520px; background: var(--card); border: 1px solid var(--line2); border-radius: 26px; padding: 32px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 16px;">
+<h2 style="margin: 0; font-size: 26px; font-weight: 700;">{{t.cTitle}}</h2>
+<p style="margin: 0; color: var(--ink2); font-size: 16px; line-height: 1.6;">{{confirmText}}</p>
+<ul style="margin: 0; padding-inline-start: 20px; color: var(--muted); font-size: 14px; line-height: 1.8;"><li>{{t.c1}}</li><li>{{t.c2}}</li><li>{{t.c3}}</li></ul>
+<div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 8px;"><button type="button" class="btn btn-s" onClick="{{closeConfirm}}">{{t.cancel}}</button><button type="button" class="btn btn-p" onClick="{{publish}}">{{t.confirm}}</button></div>
+</div>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1150}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, dec: { 0: 'sel', 1: 'sel', 2: 'sel', 4: 'not' }, confirm: false, published: false }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const D = (s) => ar ? String(s).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]).replace('.', '٫') : String(s);
+    const B = '/_blob/';
+    const t = {
+      nav: L('Festival navigation', 'تنقل المهرجان'), fest: L('Riyadh Nights', 'ليالي الرياض'), edition: L('5th edition · 2027', 'الدورة الخامسة · ٢٠٢٧'),
+      work: L('Workspace', 'مساحة العمل'), nDash: L('Overview', 'نظرة عامة'), nSubs: L('Submissions', 'المشاركات'), nSel: L('Selection', 'الاختيار'), nProg: L('Programme & guests', 'البرنامج والضيوف'), nAI: L('AI profile', 'ملف الذكاء الاصطناعي'), nTeam: L('Team & jury', 'الفريق والتحكيم'), nPublic: L('Public profile', 'الملف العام'),
+      crumb: L('Workspace / Selection · Documentary', 'مساحة العمل / الاختيار · وثائقي'), theme: L('Theme', 'المظهر'),
+      title: L('Final selection', 'الاختيار النهائي'), sub: L('Shortlist after jury round 2. Your decision — AI scores are shown only for reference.', 'القائمة القصيرة بعد الجولة الثانية للتحكيم. القرار لك — درجات الذكاء الاصطناعي للاستئناس فقط.'),
+      jury: L('jury avg', 'متوسط اللجنة'), decision: L('Decision', 'القرار'),
+      doneMsg: L('Results published. Filmmakers were notified in Arabic and English, and selected films moved to Programme.', 'نُشرت النتائج. أُبلغ صنّاع الأفلام بالعربية والإنجليزية، وانتقلت الأفلام المختارة إلى البرنامج.'), toProg: L('Go to programme', 'انتقل إلى البرنامج'),
+      foot: L('Every decision records who made it and when. Only people with selection rights can publish.', 'يُسجَّل كل قرار باسم من اتخذه ووقته. ولا ينشر النتائج إلا من يملك صلاحية الاختيار.'),
+      cTitle: L('Publish these results?', 'هل تنشر هذه النتائج؟'), c1: L('Filmmakers see only Selected or Not selected — never scores or notes.', 'يرى صنّاع الأفلام «تم الاختيار» أو «لم يُختر» فقط — دون الدرجات أو الملاحظات.'), c2: L('Undecided films stay in review.', 'الأفلام غير المحسومة تبقى قيد المراجعة.'), c3: L('You can correct a result later; the change is logged.', 'يمكنك تصحيح نتيجة لاحقًا؛ ويُسجَّل التغيير.'),
+      cancel: L('Not yet', 'ليس الآن'), confirm: L('Publish results', 'انشر النتائج')
+    };
+    const films = [
+      ['37b71e0c803a46dd004d42c8ccd9e528', L('Night Market', 'سوق الليل'), L('Egypt · 96 min', 'مصر · ٩٦ دقيقة'), 8.7, '9.1', L('The most complete film in the section — patient and humane.', 'أكمل أفلام القسم — صبور وإنساني.')],
+      ['9886de0800cfc46bb10fe1bd649868e8', L('Rawasheen', 'رواشين'), L('Saudi Arabia · 18 min', 'السعودية · ١٨ دقيقة'), 8.5, '8.1', L('Small and precise. A discovery.', 'صغير ودقيق. اكتشاف حقيقي.')],
+      ['1f11c0782c4e9e3e9321664ac0d2a69c', L('Blue Ridge', 'التلال الزرقاء'), L('Saudi Arabia · 88 min', 'السعودية · ٨٨ دقيقة'), 8.2, '8.4', L('Strong characters; the ending could be tighter.', 'شخصيات قوية؛ والنهاية تحتاج إحكامًا.')],
+      ['b1513db9a28d8c5d9c9bec13bfbe5ba8', L('Highway 15', 'الطريق ١٥'), L('Saudi Arabia · 112 min', 'السعودية · ١١٢ دقيقة'), 7.6, '7.9', L('Split jury — two strong yes, one no.', 'لجنة منقسمة — موافقتان قويتان ورفض واحد.')],
+      ['7274e26929b66f4d33046ed86b22aba3', L('The Moon Shepherd', 'راعي القمر'), L('Jordan · 94 min', 'الأردن · ٩٤ دقيقة'), 7.1, '7.4', L('Lovely images, but outside this edition’s focus.', 'صور جميلة، لكنه خارج توجّه هذه الدورة.')],
+      ['a6b91bbda3e28a2d76c57187e5b9234d', L('Salt of the Dunes', 'ملح الكثبان'), L('Saudi Arabia · 104 min', 'السعودية · ١٠٤ دقائق'), 7.4, '7.0', L('Better suited to the competition.', 'أنسب للمسابقة الرسمية.')]
+    ];
+    const dec = this.state.dec;
+    const pub = this.state.published;
+    const optNames = [['sel', L('Selected', 'تم الاختيار')], ['not', L('Not selected', 'لم يُختر')], ['und', L('Undecided', 'لم يُحسم')]];
+    const list = films.map((f, i) => { const d = dec[i] || 'und'; return { img: B + f[0], title: f[1], meta: f[2], score: D(f[3].toFixed(1)), fit: L('AI fit ', 'توافق ') + D(f[4]), evals: L('3 of 3 reviews', '٣ من ٣ تقييمات'), note: f[5],
+      box: 'display: flex; flex-direction: column; ' + (d === 'sel' ? 'border-color: var(--gold);' : ''),
+      opts: optNames.map((o) => ({ name: o[1], on: d === o[0], dis: pub, pick: () => this.setState({ dec: Object.assign({}, dec, { [i]: o[0] }) }), style: d === o[0] ? (o[0] === 'sel' ? 'background: var(--goldFill); color: var(--onGold);' : 'background: var(--card2); color: var(--ink);') : 'background: transparent; color: var(--muted);' })) }; });
+    const nSel = films.filter((_, i) => dec[i] === 'sel').length, nNot = films.filter((_, i) => dec[i] === 'not').length;
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light', toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }),
+      toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      t, dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      films: list, published: pub, confirm: this.state.confirm,
+      tally: L(nSel + ' selected · ' + nNot + ' not selected', D(nSel) + ' مختارة · ' + D(nNot) + ' لم تُختر'),
+      pubLabel: pub ? L('Published ✓', 'نُشرت ✓') : L('Publish results', 'انشر النتائج'),
+      confirmText: L('You are recording a human decision for ' + (nSel + nNot) + ' films in the Documentary section.', 'أنت تسجّل قرارًا بشريًا لـ' + D(nSel + nNot) + ' أفلام في قسم الوثائقي.'),
+      openConfirm: () => this.setState({ confirm: true }), closeConfirm: () => this.setState({ confirm: false }), publish: () => this.setState({ confirm: false, published: true })
+    };
+  }
+}
+</script>
+</body>
+</html>

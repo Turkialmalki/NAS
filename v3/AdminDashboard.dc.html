@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Admin overview</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#070707}
+.th-dark{--bg:#070707;--sunk:#050505;--card:#111110;--card2:#1A1916;--goldTint:rgba(201,168,76,.10);--ink:#F7F3EA;--ink2:#DCD6CA;--muted:#A39E93;--faint:#8A857B;--gold:#C9A84C;--goldHi:#E6CB80;--goldBtnHover:linear-gradient(135deg,#F3DFA6 0%,#D6B55A 48%,#AE8836 100%);--goldFill:linear-gradient(135deg,#EBD291 0%,#C9A84C 48%,#A07B2C 100%);--onGold:#0E0B04;--line:rgba(201,168,76,.11);--line2:rgba(201,168,76,.18);--line3:rgba(201,168,76,.3);--goldLine:rgba(201,168,76,.45);--shadow:0 40px 100px -20px rgba(0,0,0,.85);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.16),rgba(201,168,76,0) 70%);--c1:#B88A24;--c2:#5B8FE0;--ok:#5FBF7A;--warn:#E8A23A;--bad:#E5675F;color-scheme:dark}
+.th-light{--bg:#FAF9F6;--sunk:#F3F1EC;--card:#FFFFFF;--card2:#F2F0EA;--goldTint:#F7EFDA;--ink:#121212;--ink2:#34322E;--muted:#66625B;--faint:#66625B;--gold:#A9822E;--goldHi:#7A5912;--goldBtnHover:linear-gradient(135deg,#EED58D 0%,#D2AC52 48%,#AD8836 100%);--goldFill:linear-gradient(135deg,#E6C978 0%,#C79F45 48%,#A07B2C 100%);--onGold:#0E0B04;--line:rgba(122,89,18,.12);--line2:rgba(122,89,18,.18);--line3:rgba(122,89,18,.28);--goldLine:rgba(169,130,46,.4);--shadow:0 30px 80px -24px rgba(60,45,10,.22);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.12),rgba(201,168,76,0) 70%);--c1:#B07F12;--c2:#3A6FC4;--ok:#2F8A4C;--warn:#A86A0C;--bad:#B9382F;color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2,[dir=ltr] h3{letter-spacing:-0.025em}
+*{box-sizing:border-box}
+a{color:var(--goldHi);text-decoration:none}
+.app{position:relative;display:flex;min-height:1700px;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+.side{flex:0 0 248px;border-inline-end:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:2px;background:var(--sunk)}
+.nav-h{font-size:12px;color:var(--faint);padding:18px 12px 6px;font-weight:600}
+.nav-i{display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:12px;color:var(--ink2);font-size:15px;font-weight:500;min-height:44px;transition:all .25s}
+.nav-i:hover{background:var(--card2);color:var(--ink)}
+.nav-i.on{background:var(--card2);color:var(--ink);font-weight:600}
+.nav-i.on svg{color:var(--gold)}
+.cnt{margin-inline-start:auto;font-size:11px;font-weight:700;border-radius:99px;padding:2px 8px;background:var(--goldFill);color:var(--onGold)}
+.main{flex:1 1 640px;min-width:0;display:flex;flex-direction:column;background:var(--glow) no-repeat}
+.ibtn{width:42px;height:42px;border-radius:99px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-weight:700;font-size:13px;transition:all .25s}
+.ibtn:hover{border-color:var(--gold);color:var(--goldHi)}
+.content{padding:8px 32px 72px;max-width:1280px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,0) 42%),var(--card);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 24px 60px -36px rgba(0,0,0,.9)}
+.th-light .card{--goldFill:linear-gradient(135deg,#E6C978 0%,#C79F45 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.12),rgba(201,168,76,0) 70%);--c1:#B07F12;--c2:#3A6FC4;}
+.ct{font-size:17px;font-weight:600;margin:0}
+.sub{color:var(--muted);font-size:13px}
+.seg{display:flex;gap:4px;padding:4px;border-radius:99px;background:var(--card);border:1px solid var(--line)}
+.seg button{height:34px;padding:0 16px;border-radius:99px;border:0;font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .3s}
+.pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid var(--line2);color:var(--ink2);white-space:nowrap}
+.live{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(95,191,122,.6);animation:ping 1.8s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(95,191,122,.55)}100%{box-shadow:0 0 0 10px rgba(95,191,122,0)}}
+.kpi{display:flex;flex-direction:column;gap:10px;min-height:168px;position:relative;overflow:hidden}
+.kpi .n{font-size:38px;font-weight:600;line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.reveal{animation:rev 1.4s cubic-bezier(.16,1,.3,1) both}
+@keyframes rev{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+.spk{animation:rev 1.6s .3s cubic-bezier(.16,1,.3,1) both}
+.grow{transform-origin:left;animation:grow 1.2s cubic-bezier(.16,1,.3,1) both}
+[dir=rtl] .grow{transform-origin:right}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.col{flex:1;height:100%;background:transparent;border:0;padding:0;cursor:crosshair}
+.feedIn{animation:feed .7s cubic-bezier(.16,1,.3,1) both}
+@keyframes feed{from{opacity:0;transform:translateY(-14px);background:var(--goldTint)}to{opacity:1;transform:none}}
+.row{display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.btn{height:36px;padding:0 14px;border-radius:99px;font:inherit;font-size:13px;font-weight:700;display:inline-flex;align-items:center;border:1px solid var(--line2);color:var(--ink);transition:all .25s}
+.btn:hover{border-color:var(--gold);color:var(--goldHi)}
+@keyframes nasIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+.content>*{animation:nasIn .9s cubic-bezier(.16,1,.3,1) both}
+.content>*:nth-child(2){animation-delay:.08s}.content>*:nth-child(3){animation-delay:.16s}.content>*:nth-child(4){animation-delay:.24s}.content>*:nth-child(n+5){animation-delay:.32s}
+@media (max-width:900px){.side{display:none}.content{padding:8px 16px 48px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+
+/*polish*/
+::selection{background:rgba(201,168,76,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.card{background:linear-gradient(180deg,rgba(201,168,76,.06),rgba(201,168,76,0) 40%),var(--card);box-shadow:inset 0 1px 0 rgba(255,236,190,.05),0 24px 60px -36px rgba(0,0,0,.9);transition:border-color .35s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.th-light .card{background:var(--card);box-shadow:0 1px 2px rgba(18,18,18,.04),0 18px 40px -28px rgba(40,30,10,.25)}
+.btn-p,.go,.pillbtn{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 30px -12px rgba(201,168,76,.6);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s,background .25s}
+.btn-p:hover,.go:hover,.pillbtn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 16px 40px -12px rgba(201,168,76,.8)}
+.btn-p:active,.go:active,.pillbtn:active{transform:scale(.98)}
+.btn-s,.ibtn,.nav-i,.sso,.chip,.sug,.filter,.big{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.nav-i.on{box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+@keyframes nasIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes nasFade{from{opacity:0}to{opacity:1}}
+main>*,.content>*{animation:nasIn .9s cubic-bezier(.16,1,.3,1) both}
+main>*:nth-child(2),.content>*:nth-child(2){animation-delay:.07s}
+main>*:nth-child(3),.content>*:nth-child(3){animation-delay:.14s}
+main>*:nth-child(4),.content>*:nth-child(4){animation-delay:.21s}
+main>*:nth-child(5),.content>*:nth-child(5){animation-delay:.28s}
+main>*:nth-child(n+6),.content>*:nth-child(n+6){animation-delay:.35s}
+.side{animation:nasFade .8s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+/*endpolish*/
+</style>
+</helmet>
+<div class="{{themeClass}} app" dir="{{dir}}" style="font-family: {{font}};">
+<aside class="side" aria-label="{{t.nav}}">
+<a href="Main.dc.html" aria-label="NAS" style="display: flex; padding: 0 10px 10px;"><img src="/_blob/8db983f4aec7ec876db44d32e45a85d1" alt="NAS" style="height: 32px; width: auto;"></a>
+<span style="align-self: flex-start; margin: 0 10px; display: inline-flex; align-items: center; gap: 6px; height: 26px; padding: 0 10px; border-radius: 99px; background: var(--goldTint); border: 1px solid var(--goldLine); color: var(--goldHi); font-size: 12px; font-weight: 700;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>{{t.adminOnly}}</span>
+<span class="nav-h">{{t.platform}}</span>
+<a href="AdminDashboard.dc.html" class="nav-i on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M4 19V9M10 19V5M16 19v-7M22 19H2"></path></svg>{{t.nOverview}}</a>
+<a href="AdminVerify.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"></path><path d="m9 12 2 2 4-4"></path></svg>{{t.nVerify}}<span class="cnt">{{n6}}</span></a>
+<a href="AdminVerify.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M6 3h9l4 4v14H6z"></path><path d="M14 3v5h5M9 13h6M9 17h6"></path></svg>{{t.nAudit}}</a>
+<div style="margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 14px 10px 0; border-top: 1px solid var(--line);"><span style="width: 38px; height: 38px; border-radius: 50%; background: var(--goldFill); color: var(--onGold); display: inline-flex; align-items: center; justify-content: center; font-weight: 700;">{{t.ini}}</span><span style="display: flex; flex-direction: column;"><b style="font-size: 14px;">{{t.user}}</b><span style="font-size: 12px; color: var(--muted);">{{t.userRole}}</span></span></div>
+</aside>
+
+<div class="main">
+<header style="display: flex; align-items: center; gap: 8px; padding: 14px 32px;">
+<div style="margin-inline-start: auto; display: flex; align-items: center; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+</div>
+</header>
+
+<main class="content">
+<section style="display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap;">
+<div><h1 style="margin: 0; font-size: 40px; font-weight: 600; line-height: 1.2;">{{t.title}}</h1><p style="margin: 8px 0 0; color: var(--muted); font-size: 16px; display: flex; align-items: center; gap: 10px;"><span class="live"></span>{{t.liveSub}}</p></div>
+<div class="seg" role="group" aria-label="{{t.period}}"><sc-for list="{{periods}}" as="p" hint-placeholder-count="2"><button type="button" onClick="{{p.pick}}" aria-pressed="{{p.on}}" style="{{p.style}}">{{p.name}}</button></sc-for></div>
+</section>
+
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px;">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+<div class="card kpi">
+<span style="display: flex; align-items: center; justify-content: space-between; gap: 8px;"><span style="color: var(--muted); font-size: 14px;">{{k.l}}</span><span style="{{k.dStyle}}">{{k.d}}</span></span>
+<span class="n">{{k.n}}</span>
+<span class="sub">{{k.s}}</span>
+<svg class="spk" viewBox="0 0 120 36" preserveAspectRatio="none" style="position: absolute; inset-inline-end: 18px; bottom: 18px; width: 120px; height: 36px; overflow: visible;" aria-hidden="true"><polyline points="{{k.spark}}" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></polyline></svg>
+</div>
+</sc-for>
+</section>
+
+<div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: stretch;">
+<section class="card" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap;"><div><h2 class="ct">{{t.subsT}}</h2><span class="sub">{{t.subsSub}}</span></div><span style="font-size: 28px; font-weight: 600; font-variant-numeric: tabular-nums;">{{total}}</span></div>
+<div dir="ltr" style="position: relative; height: 280px; margin-top: 8px;">
+<sc-for list="{{grid}}" as="g" hint-placeholder-count="4"><span style="{{g.line}}"></span><span style="{{g.lbl}}">{{g.v}}</span></sc-for>
+<div class="reveal" style="position: absolute; inset: 0 0 0 44px;">
+<svg viewBox="0 0 1000 280" preserveAspectRatio="none" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible;" aria-hidden="true">
+<defs><linearGradient id="nasArea" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C9A84C" stop-opacity=".34"></stop><stop offset="100%" stop-color="#C9A84C" stop-opacity="0"></stop></linearGradient></defs>
+<path d="{{area}}" fill="url(#nasArea)"></path>
+<path d="{{line}}" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"></path>
+</svg>
+<sc-if value="{{hasHov}}" hint-placeholder-val="{{false}}">
+<span style="{{hovLine}}"></span><span style="{{hovDot}}"></span>
+<div style="{{tipStyle}}"><b style="font-size: 15px; font-variant-numeric: tabular-nums;">{{tipV}}</b><span style="font-size: 12px; color: var(--muted);">{{tipL}}</span></div>
+</sc-if>
+<div style="position: absolute; inset: 0; display: flex;" onMouseLeave="{{unhov}}"><sc-for list="{{cols}}" as="c" hint-placeholder-count="12"><button type="button" class="col" onMouseEnter="{{c.hov}}" onFocus="{{c.hov}}" aria-label="{{c.aria}}"></button></sc-for></div>
+</div>
+</div>
+<div dir="ltr" style="display: flex; justify-content: space-between; padding-inline-start: 44px; color: var(--faint); font-size: 12px;"><sc-for list="{{xl}}" as="x" hint-placeholder-count="6"><span>{{x}}</span></sc-for></div>
+</section>
+
+<section class="card" style="flex: 1 1 340px; min-width: 300px; display: flex; flex-direction: column; gap: 18px;">
+<div><h2 class="ct">{{t.funT}}</h2><span class="sub">{{t.funSub}}</span></div>
+<div style="display: flex; flex-direction: column; gap: 14px;">
+<sc-for list="{{funnel}}" as="f" hint-placeholder-count="5">
+<div style="display: flex; flex-direction: column; gap: 6px;">
+<span style="display: flex; justify-content: space-between; font-size: 14px;"><span style="display: inline-flex; align-items: center; gap: 8px; color: var(--ink2);"><span style="{{f.ico}}">{{f.sym}}</span>{{f.name}}</span><b style="font-variant-numeric: tabular-nums;">{{f.n}}</b></span>
+<span style="height: 10px; border-radius: 99px; background: var(--line); overflow: hidden;"><span class="grow" style="{{f.bar}}"></span></span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; align-items: center; gap: 16px; padding-top: 16px; border-top: 1px solid var(--line); margin-top: auto;">
+<span style="{{gauge}}"><span style="width: 62px; height: 62px; border-radius: 50%; background: var(--card); display: inline-flex; align-items: center; justify-content: center; font-weight: 600; font-size: 17px; font-variant-numeric: tabular-nums;">{{avgDays}}</span></span>
+<span style="display: flex; flex-direction: column; gap: 2px;"><b style="font-size: 15px;">{{t.avgT}}</b><span class="sub">{{t.avgSub}}</span></span>
+</div>
+</section>
+</div>
+
+<div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: stretch;">
+<section class="card" style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div><h2 class="ct">{{t.cityT}}</h2><span class="sub">{{t.citySub}}</span></div>
+<sc-for list="{{cities}}" as="c" hint-placeholder-count="5">
+<div style="display: grid; grid-template-columns: 96px 1fr 28px; align-items: center; gap: 12px; font-size: 14px;"><span style="color: var(--ink2);">{{c.name}}</span><span style="height: 22px; border-radius: 6px; background: var(--line); overflow: hidden;"><span class="grow" style="{{c.bar}}"></span></span><b style="text-align: end; font-variant-numeric: tabular-nums;">{{c.n}}</b></div>
+</sc-for>
+</section>
+
+<section class="card" style="flex: 1 1 320px; min-width: 0; display: flex; flex-direction: column; gap: 16px;">
+<div><h2 class="ct">{{t.copT}}</h2><span class="sub">{{t.copSub}}</span></div>
+<span style="font-size: 38px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums;">{{copN}}</span>
+<div style="display: flex; flex-direction: column; gap: 10px;">
+<span style="display: flex; height: 14px; border-radius: 99px; overflow: hidden; gap: 2px;"><span class="grow" style="{{arBar}}"></span><span class="grow" style="{{enBar}}"></span></span>
+<span style="display: flex; justify-content: space-between; font-size: 14px;"><span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 10px; height: 10px; border-radius: 3px; background: var(--c1);"></span>{{t.arabic}} <b>{{arPct}}</b></span><span style="display: inline-flex; align-items: center; gap: 8px;"><span style="width: 10px; height: 10px; border-radius: 3px; background: var(--c2);"></span>{{t.english}} <b>{{enPct}}</b></span></span>
+</div>
+<div style="display: flex; align-items: center; gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); margin-top: auto;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" style="color: var(--gold); flex: none;"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg><span style="flex: 1; font-size: 14px; color: var(--ink2);">{{t.voice}}</span><b style="font-variant-numeric: tabular-nums;">{{voicePct}}</b></div>
+</section>
+
+<section class="card" style="flex: 1.3 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 6px;">
+<div style="display: flex; align-items: center; justify-content: space-between;"><div><h2 class="ct">{{t.feedT}}</h2><span class="sub">{{t.feedSub}}</span></div><span class="pill"><span class="live"></span>{{t.live}}</span></div>
+<sc-if value="{{tickA}}" hint-placeholder-val="{{true}}"><div class="feedIn row" style="border-top: 0;"><span style="{{top.ico}}">{{top.sym}}</span><span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px;">{{top.text}}</span><span class="sub">{{top.who}}</span></span><span class="sub">{{t.now}}</span></div></sc-if>
+<sc-if value="{{tickB}}" hint-placeholder-val="{{false}}"><div class="feedIn row" style="border-top: 0;"><span style="{{top.ico}}">{{top.sym}}</span><span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px;">{{top.text}}</span><span class="sub">{{top.who}}</span></span><span class="sub">{{t.now}}</span></div></sc-if>
+<sc-for list="{{feed}}" as="e" hint-placeholder-count="4"><div class="row"><span style="{{e.ico}}">{{e.sym}}</span><span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;"><span style="font-size: 14px;">{{e.text}}</span><span class="sub">{{e.who}}</span></span><span class="sub">{{e.ago}}</span></div></sc-for>
+</section>
+</div>
+
+<section class="card" style="padding: 8px 24px 12px;">
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 0 8px;"><div><h2 class="ct">{{t.qT}}</h2><span class="sub">{{t.qSub}}</span></div><a href="AdminVerify.dc.html" class="btn">{{t.openQ}}</a></div>
+<div style="overflow-x: auto;">
+<sc-for list="{{queue}}" as="q" hint-placeholder-count="4">
+<div class="row" style="min-width: 640px;">
+<img src="{{q.img}}" alt="" style="width: 44px; height: 44px; border-radius: 12px; object-fit: cover; flex: none;">
+<span style="flex: 2; display: flex; flex-direction: column; gap: 2px;"><b style="font-size: 15px; font-weight: 600;">{{q.name}}</b><span class="sub">{{q.city}}</span></span>
+<span class="sub" style="flex: 1;">{{q.when}}</span>
+<span class="sub" style="flex: 1;">{{q.docs}}</span>
+<span style="flex: 1;"><span style="{{q.st}}"><span style="{{q.dot}}"></span>{{q.state}}</span></span>
+<a href="AdminVerify.dc.html" class="btn">{{t.review}}</a>
+</div>
+</sc-for>
+</div>
+</section>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1700}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, period: 0, p: 0, hov: null, tick: 0 }; }
+  componentDidMount() {
+    this.start = Date.now();
+    this.anim = setInterval(() => { const k = Math.min(1, (Date.now() - this.start) / 1400); this.setState({ p: k }); if (k >= 1) { clearInterval(this.anim); this.anim = null; } }, 32);
+    this.feedTimer = setInterval(() => this.setState({ tick: this.state.tick + 1 }), 4200);
+  }
+  componentWillUnmount() { if (this.anim) clearInterval(this.anim); if (this.feedTimer) clearInterval(this.feedTimer); }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const D = (s) => ar ? String(s).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]).replace(/,/g, '٬').replace(/\./g, '٫') : String(s);
+    const fmt = (n) => D(Math.round(n).toLocaleString('en-US'));
+    const B = '/_blob/';
+    const e = 1 - Math.pow(1 - this.state.p, 3);
+    const per = this.state.period;
+    const t = {
+      nav: L('Admin navigation', 'تنقل الإدارة'), adminOnly: L('Admin only', 'للإدارة فقط'), platform: L('Platform', 'المنصة'), nOverview: L('Overview', 'نظرة عامة'), nVerify: L('Verification queue', 'طلبات التوثيق'), nAudit: L('Audit log', 'سجل التدقيق'),
+      ini: L('F', 'ف'), user: L('Faisal K.', 'فيصل ك.'), userRole: L('NAS admin', 'مسؤول NAS'), theme: L('Theme', 'المظهر'),
+      title: L('Platform overview', 'نظرة على المنصة'), liveSub: L('Live · updated every few seconds', 'مباشر · يتحدّث كل بضع ثوانٍ'), period: L('Period', 'الفترة'),
+      subsT: L('Submissions', 'المشاركات'), subsSub: L('Films submitted to festivals through NAS', 'الأفلام المقدَّمة للمهرجانات عبر NAS'),
+      funT: L('Festival verification', 'توثيق المهرجانات'), funSub: L('Every request this year', 'كل الطلبات هذا العام'), avgT: L('Average time to verify', 'متوسط مدة التوثيق'), avgSub: L('Target: under 3 working days', 'الهدف: أقل من ٣ أيام عمل'),
+      cityT: L('Verified festivals by city', 'المهرجانات الموثّقة حسب المدينة'), citySub: L('24 festivals', '٢٤ مهرجانًا'),
+      copT: L('Copilot conversations', 'محادثات المساعد'), copSub: L('Text and voice, this period', 'كتابةً وصوتًا، في هذه الفترة'), arabic: L('Arabic', 'العربية'), english: L('English', 'الإنجليزية'), voice: L('Asked by voice', 'بالصوت'),
+      feedT: L('Activity', 'النشاط'), feedSub: L('From the audit log', 'من سجل التدقيق'), live: L('Live', 'مباشر'), now: L('now', 'الآن'),
+      qT: L('Waiting for verification', 'بانتظار التوثيق'), qSub: L('Oldest first', 'الأقدم أولًا'), openQ: L('Open queue', 'افتح الطلبات'), review: L('Review', 'مراجعة')
+    };
+    const periods = [L('12 months', '١٢ شهرًا'), L('30 days', '٣٠ يومًا')].map((n, i) => ({ name: n, on: per === i, pick: () => this.setState({ period: i, hov: null }), style: per === i ? 'background: var(--ink); color: var(--bg);' : 'background: transparent; color: var(--ink2);' }));
+    const monthsEn = ['Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'];
+    const monthsAr = ['نوفمبر', 'ديسمبر', 'يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر'];
+    const monthly = [420, 510, 640, 590, 720, 860, 940, 1010, 1180, 1320, 1250, 1460];
+    const daily = Array.from({ length: 30 }, (_, i) => Math.round(34 + i * 0.9 + 9 * Math.sin(i / 2.1) + (i % 7 === 5 ? 14 : 0)));
+    const data = per === 0 ? monthly : daily;
+    const labels = per === 0 ? (ar ? monthsAr : monthsEn) : data.map((_, i) => L('Day ', 'اليوم ') + D(i + 1));
+    const max = Math.max.apply(null, data) * 1.15;
+    const W = 1000, H = 280, n = data.length;
+    const px = (i) => (i / (n - 1)) * W, py = (v) => H - (v / max) * H;
+    const line = data.map((v, i) => (i ? 'L' : 'M') + px(i).toFixed(1) + ',' + py(v).toFixed(1)).join(' ');
+    const area = line + ' L' + W + ',' + H + ' L0,' + H + ' Z';
+    const grid = [0, 1, 2, 3].map((k) => { const v = (max / 1.15) * (k / 3); const top = (1 - v / max) * 100; return { v: fmt(v), line: 'position: absolute; left: 44px; right: 0; top: ' + top.toFixed(2) + '%; height: 1px; background: var(--line);', lbl: 'position: absolute; left: 0; width: 38px; text-align: right; top: calc(' + top.toFixed(2) + '% - 8px); font-size: 11px; color: var(--faint); font-variant-numeric: tabular-nums;' }; });
+    const hov = this.state.hov;
+    const cols = data.map((v, i) => ({ hov: () => this.setState({ hov: i }), aria: labels[i] + ': ' + fmt(v) }));
+    const hasHov = hov !== null && hov !== undefined && hov < n;
+    const hx = hasHov ? (hov / (n - 1)) * 100 : 0, hy = hasHov ? (py(data[hov]) / H) * 100 : 0;
+    const xl = per === 0 ? (ar ? monthsAr : monthsEn).filter((_, i) => i % 2 === 0) : [1, 6, 11, 16, 21, 26, 30].map((d) => L('Day ', 'يوم ') + D(d));
+    const spark = (arr) => { const m = Math.max.apply(null, arr), mn = Math.min.apply(null, arr); return arr.map((v, i) => (i / (arr.length - 1) * 120).toFixed(1) + ',' + (34 - (v - mn) / ((m - mn) || 1) * 30).toFixed(1)).join(' '); };
+    const kv = per === 0
+      ? [[24, '+3', L('Verified festivals', 'مهرجانات موثّقة'), L('6 waiting for review', '٦ بانتظار المراجعة'), [12, 13, 15, 15, 17, 18, 19, 21, 21, 22, 24]], [3482, '+12%', L('Filmmakers', 'صنّاع الأفلام'), L('2,140 with a complete project', '٢٬١٤٠ لديهم مشروع مكتمل'), [1800, 1950, 2100, 2240, 2400, 2600, 2750, 2900, 3100, 3300, 3482]], [10900, '+38%', L('Submissions', 'المشاركات'), L('Across all festivals', 'في كل المهرجانات'), monthly], [1.8, '−0.4', L('Days to verify', 'أيام التوثيق'), L('Average, all requests', 'المتوسط لكل الطلبات'), [3.1, 2.9, 2.8, 2.6, 2.5, 2.3, 2.2, 2.1, 2, 1.9, 1.8]]]
+      : [[24, '+1', L('Verified festivals', 'مهرجانات موثّقة'), L('6 waiting for review', '٦ بانتظار المراجعة'), [22, 22, 23, 23, 23, 24, 24]], [3482, '+212', L('Filmmakers', 'صنّاع الأفلام'), L('New this month: 212', 'جدد هذا الشهر: ٢١٢'), [3270, 3300, 3330, 3370, 3410, 3450, 3482]], [daily.reduce((a, b) => a + b, 0), '+9%', L('Submissions', 'المشاركات'), L('Last 30 days', 'آخر ٣٠ يومًا'), daily], [1.6, '−0.2', L('Days to verify', 'أيام التوثيق'), L('Average, last 30 days', 'المتوسط لآخر ٣٠ يومًا'), [2, 1.9, 1.9, 1.8, 1.7, 1.6, 1.6]]];
+    const kpis = kv.map((k, i) => ({ l: k[2], s: k[3], spark: spark(k[4]), n: i === 3 ? D((k[0] * e).toFixed(1)) : fmt(k[0] * e), d: D(k[1]),
+      dStyle: 'font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 99px; color: var(--ok); background: rgba(95,191,122,.12);' }));
+    const sym = { ok: '✓', warn: '!', bad: '×', info: '•', gold: '★' };
+    const icoS = (k) => 'width: 22px; height: 22px; border-radius: 50%; flex: none; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; ' + ({ ok: 'background: rgba(95,191,122,.16); color: var(--ok);', warn: 'background: rgba(232,162,58,.16); color: var(--warn);', bad: 'background: rgba(229,103,95,.16); color: var(--bad);', info: 'background: var(--line2); color: var(--ink2);', gold: 'background: var(--goldTint); color: var(--goldHi);' })[k];
+    const fun = [[L('Requests created', 'طلبات أُنشئت'), 41, 'info', 'var(--line3)'], [L('Submitted for review', 'أُرسلت للمراجعة'), 35, 'gold', 'var(--goldFill)'], [L('Approved', 'تمت الموافقة'), 24, 'ok', 'var(--ok)'], [L('Needs changes', 'مطلوب تعديل'), 6, 'warn', 'var(--warn)'], [L('Rejected', 'مرفوضة'), 5, 'bad', 'var(--bad)']];
+    const funnel = fun.map((f, i) => ({ name: f[0], n: fmt(f[1] * e), sym: sym[f[2]], ico: icoS(f[2]), bar: 'display: block; height: 100%; border-radius: 99px; width: ' + (f[1] / 41 * 100).toFixed(1) + '%; background: ' + f[3] + '; animation-delay: ' + (0.15 + i * 0.1).toFixed(2) + 's;' }));
+    const g = 72 * e;
+    const gauge = 'width: 76px; height: 76px; flex: none; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: conic-gradient(var(--gold) 0 ' + g.toFixed(1) + '%, var(--line2) ' + g.toFixed(1) + '% 100%);';
+    const cityRaw = [[L('Riyadh', 'الرياض'), 9], [L('Jeddah', 'جدة'), 6], [L('Eastern Province', 'الشرقية'), 4], [L('AlUla', 'العُلا'), 3], [L('Abha', 'أبها'), 2]];
+    const cities = cityRaw.map((c, i) => ({ name: c[0], n: D(c[1]), bar: 'display: block; height: 100%; border-radius: 6px; width: ' + (c[1] / 9 * 100).toFixed(1) + '%; background: var(--goldFill); animation-delay: ' + (0.1 + i * 0.08).toFixed(2) + 's;' }));
+    const arShare = per === 0 ? 64 : 67;
+    const ev = [
+      ['ok', L('Approved “AlUla Desert Shorts”', 'تمت الموافقة على «أفلام العُلا القصيرة»'), L('Faisal K. · verification', 'فيصل ك. · التوثيق')],
+      ['gold', L('Riyadh Nights published its results', 'نشر «ليالي الرياض» نتائج الاختيار'), L('Reem A. · selection', 'ريم ع. · الاختيار')],
+      ['info', L('New verification request — Tabuk Shorts', 'طلب توثيق جديد — أفلام تبوك القصيرة'), L('Festival team · verification', 'فريق المهرجان · التوثيق')],
+      ['warn', L('Asked for changes — Abha Film Days', 'طُلب تعديل — أيام أبها السينمائية'), L('Sara M. · verification', 'سارة م. · التوثيق')],
+      ['info', L('Reviewer invited to Jeddah Old Town', 'دعوة محكّم إلى سينما جدة التاريخية'), L('Festival admin · team', 'مسؤول المهرجان · الفريق')],
+      ['bad', L('Rejected — duplicate festival profile', 'رُفض — ملف مهرجان مكرر'), L('Faisal K. · verification', 'فيصل ك. · التوثيق')]
+    ];
+    const tick = this.state.tick;
+    const at = (k) => ev[(tick + k) % ev.length];
+    const mkE = (x) => ({ sym: sym[x[0]], ico: icoS(x[0]), text: x[1], who: x[2] });
+    const ago = [L('2 min', 'قبل دقيقتين'), L('9 min', 'قبل ٩ دقائق'), L('24 min', 'قبل ٢٤ دقيقة'), L('1 h', 'قبل ساعة')];
+    const feed = [1, 2, 3, 4].map((k, i) => Object.assign(mkE(at(k)), { ago: ago[i] }));
+    const stS = (k) => 'display: inline-flex; align-items: center; gap: 6px; height: 28px; padding: 0 10px; border-radius: 99px; font-size: 12px; font-weight: 700; ' + (k === 'warn' ? 'color: var(--warn); background: rgba(232,162,58,.12);' : 'color: var(--ink2); background: var(--line);');
+    const queue = [
+      ['1b4541a7aee7fdffc991b65d062db91a', L('Tabuk Shorts', 'أفلام تبوك القصيرة'), L('Tabuk', 'تبوك'), L('2 days ago', 'قبل يومين'), L('2 of 2 documents', '٢ من ٢ مستند'), L('New', 'جديد'), 'info'],
+      ['5505116db8be695bbdb2d57cb5ac0fce', L('Abha Film Days', 'أيام أبها السينمائية'), L('Abha', 'أبها'), L('1 day ago', 'قبل يوم'), L('Letter re-uploaded', 'أُعيد رفع الخطاب'), L('Resubmitted', 'أُعيد إرسالها'), 'warn'],
+      ['90a209f525aa3e23bd2efe4bf17a7b23', L('Qassim Documentary Week', 'أسبوع القصيم الوثائقي'), L('Buraydah', 'بريدة'), L('20 hours ago', 'قبل ٢٠ ساعة'), L('1 of 2 documents', '١ من ٢ مستند'), L('New', 'جديد'), 'info'],
+      ['84a08c197b56e2cd88cfcefaf617cb0d', L('Red Sea Student Films', 'أفلام البحر الأحمر الطلابية'), L('Jeddah', 'جدة'), L('6 hours ago', 'قبل ٦ ساعات'), L('2 of 2 documents', '٢ من ٢ مستند'), L('New', 'جديد'), 'info']
+    ].map((q) => ({ img: B + q[0], name: q[1], city: q[2], when: q[3], docs: q[4], state: q[5], st: stS(q[6]), dot: 'width: 6px; height: 6px; border-radius: 50%; background: ' + (q[6] === 'warn' ? 'var(--warn)' : 'var(--c2)') + ';' }));
+    const tot = data.reduce((a, b) => a + b, 0);
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light', toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }),
+      toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      t, dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      n6: D(6), periods, kpis, line, area, grid, cols, xl, total: fmt(tot * e),
+      hasHov, unhov: () => this.setState({ hov: null }),
+      hovLine: 'position: absolute; top: 0; bottom: 0; left: ' + hx.toFixed(2) + '%; width: 1px; background: var(--line3); pointer-events: none;',
+      hovDot: 'position: absolute; left: calc(' + hx.toFixed(2) + '% - 6px); top: calc(' + hy.toFixed(2) + '% - 6px); width: 12px; height: 12px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 3px var(--card), 0 0 0 6px rgba(201,168,76,.3); pointer-events: none;',
+      tipStyle: 'position: absolute; top: calc(' + hy.toFixed(2) + '% - 70px); left: ' + Math.min(Math.max(hx, 8), 88).toFixed(2) + '%; transform: translateX(-50%); display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; border-radius: 12px; background: var(--card2); border: 1px solid var(--line2); box-shadow: var(--shadow); pointer-events: none; white-space: nowrap; z-index: 2;',
+      tipV: hasHov ? fmt(data[hov]) + L(' films', ' فيلمًا') : '', tipL: hasHov ? labels[hov] : '',
+      funnel, gauge, avgDays: D((1.8 * e).toFixed(1)), cities,
+      copN: fmt(18640 * e), arPct: D(arShare) + (ar ? '٪' : '%'), enPct: D(100 - arShare) + (ar ? '٪' : '%'), voicePct: D(31) + (ar ? '٪' : '%'),
+      arBar: 'display: block; height: 100%; width: ' + arShare + '%; background: var(--c1);',
+      enBar: 'display: block; height: 100%; width: ' + (100 - arShare) + '%; background: var(--c2); animation-delay: .2s;',
+      top: mkE(at(0)), tickA: tick % 2 === 0, tickB: tick % 2 === 1, feed, queue
+    };
+  }
+}
+</script>
+</body>
+</html>

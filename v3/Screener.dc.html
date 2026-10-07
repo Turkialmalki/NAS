@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Screening room</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#070707}
+.th-dark{--bg:#070707;--sunk:#050505;--card:#111110;--card2:#1A1916;--goldTint:rgba(201,168,76,.10);--ink:#F7F3EA;--ink2:#DCD6CA;--muted:#A39E93;--faint:#8A857B;--gold:#C9A84C;--goldHi:#E6CB80;--goldBtnHover:linear-gradient(135deg,#F3DFA6 0%,#D6B55A 48%,#AE8836 100%);--onGold:#0E0B04;--line:rgba(201,168,76,.11);--line2:rgba(201,168,76,.18);--line3:rgba(201,168,76,.3);--goldLine:rgba(201,168,76,.45);--goldFill:linear-gradient(135deg,#EBD291 0%,#C9A84C 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.16),rgba(201,168,76,0) 70%);--c1:#B88A24;--c2:#5B8FE0;color-scheme:dark}
+.th-light{--bg:#FAF9F6;--sunk:#F3F1EC;--card:#FFFFFF;--card2:#F2F0EA;--goldTint:#F7EFDA;--ink:#121212;--ink2:#34322E;--muted:#66625B;--faint:#66625B;--gold:#A9822E;--goldHi:#7A5912;--goldBtnHover:linear-gradient(135deg,#EED58D 0%,#D2AC52 48%,#AD8836 100%);--onGold:#0E0B04;--line:rgba(122,89,18,.12);--line2:rgba(122,89,18,.18);--line3:rgba(122,89,18,.28);--goldLine:rgba(169,130,46,.4);--goldFill:linear-gradient(135deg,#E6C978 0%,#C79F45 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.12),rgba(201,168,76,0) 70%);--c1:#B07F12;--c2:#3A6FC4;color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2,[dir=ltr] h3{letter-spacing:-0.022em}
+*{box-sizing:border-box}
+a{color:var(--goldHi);text-decoration:none}
+.ibtn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-weight:700;font-size:14px}
+.ibtn:hover{border-color:var(--gold);color:var(--goldHi)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px}
+.btn{height:48px;padding:0 20px;border-radius:14px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;white-space:nowrap}
+.btn-p{background:var(--goldFill);color:var(--onGold)}.btn-p:hover{background:var(--goldBtnHover);color:var(--onGold)}
+.btn-s{background:transparent;color:var(--ink);border-color:var(--line2)}.btn-s:hover{border-color:var(--gold);color:var(--goldHi)}
+.sug{border:1px solid var(--line2);background:transparent;color:var(--ink2);border-radius:99px;padding:0 14px;height:36px;font:inherit;font-size:13px;cursor:pointer}
+.sug:hover{border-color:var(--gold);color:var(--goldHi)}
+input[type=range]{accent-color:var(--gold);width:100%}
+textarea{width:100%;min-height:110px;border-radius:14px;background:var(--bg);border:1px solid var(--line2);color:var(--ink);font:inherit;font-size:15px;line-height:1.7;padding:12px 14px;outline:none;resize:vertical}
+.ctl{width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#F7F3EA;display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+.mic{width:44px;height:44px;border-radius:50%;border:0;background:var(--goldFill);color:var(--onGold);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--goldLine)}100%{box-shadow:0 0 0 14px rgba(0,0,0,0)}}
+.mic.live{animation:pulse 1.2s infinite}
+
+/*polish*/
+::selection{background:rgba(201,168,76,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.card{background:linear-gradient(180deg,rgba(201,168,76,.06),rgba(201,168,76,0) 40%),var(--card);box-shadow:inset 0 1px 0 rgba(255,236,190,.05),0 24px 60px -36px rgba(0,0,0,.9);transition:border-color .35s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.th-light .card{background:var(--card);box-shadow:0 1px 2px rgba(18,18,18,.04),0 18px 40px -28px rgba(40,30,10,.25)}
+.btn-p,.go,.pillbtn{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 30px -12px rgba(201,168,76,.6);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s,background .25s}
+.btn-p:hover,.go:hover,.pillbtn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 16px 40px -12px rgba(201,168,76,.8)}
+.btn-p:active,.go:active,.pillbtn:active{transform:scale(.98)}
+.btn-s,.ibtn,.nav-i,.sso,.chip,.sug,.filter,.big{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.nav-i.on{box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+@keyframes nasIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes nasFade{from{opacity:0}to{opacity:1}}
+main>*,.content>*{animation:nasIn .9s cubic-bezier(.16,1,.3,1) both}
+main>*:nth-child(2),.content>*:nth-child(2){animation-delay:.07s}
+main>*:nth-child(3),.content>*:nth-child(3){animation-delay:.14s}
+main>*:nth-child(4),.content>*:nth-child(4){animation-delay:.21s}
+main>*:nth-child(5),.content>*:nth-child(5){animation-delay:.28s}
+main>*:nth-child(n+6),.content>*:nth-child(n+6){animation-delay:.35s}
+.side{animation:nasFade .8s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+/*endpolish*/
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 1000px; -webkit-font-smoothing: antialiased;">
+<header style="display: flex; align-items: center; gap: 14px; padding: 14px 28px; border-bottom: 1px solid var(--line); flex-wrap: wrap;">
+<a href="ReviewerHome.dc.html" class="ibtn" aria-label="{{t.back}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform: {{flip}};"><path d="M15 6l-6 6 6 6"></path></svg></a>
+<span style="display: flex; flex-direction: column;"><b style="font-size: 16px;">{{t.film}}</b><span style="font-size: 13px; color: var(--muted);">{{t.filmMeta}}</span></span>
+<span style="margin-inline-start: 10px; font-size: 13px; color: var(--muted);">{{t.pos}}</span>
+<div style="margin-inline-start: auto; display: flex; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+</div>
+</header>
+
+<div style="display: flex; gap: 24px; padding: 24px 28px 56px; flex-wrap: wrap; align-items: flex-start; max-width: 1440px; margin: 0 auto;">
+<main style="flex: 999 1 640px; min-width: 0; display: flex; flex-direction: column; gap: 18px;">
+<section style="position: relative; border-radius: 22px; overflow: hidden; aspect-ratio: 16 / 9; background: #000;">
+<img src="/_blob/84a08c197b56e2cd88cfcefaf617cb0d" alt="{{t.still}}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .9;">
+<span aria-hidden="true" style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; transform: rotate(-18deg); color: rgba(255,255,255,.14); font-size: 28px; font-weight: 700; letter-spacing: .1em; pointer-events: none;">KHALID · RIYADH NIGHTS · 2026-10-07</span>
+<span style="position: absolute; top: 14px; inset-inline-start: 14px; display: inline-flex; align-items: center; gap: 6px; background: rgba(0,0,0,.6); color: #F7F3EA; font-size: 12px; font-weight: 600; padding: 6px 10px; border-radius: 99px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"></path></svg>{{t.secure}}</span>
+<div dir="ltr" style="position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 18px; background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,.8)); display: flex; flex-direction: column; gap: 10px; color: #F7F3EA;">
+<div style="position: relative; height: 4px; border-radius: 99px; background: rgba(255,255,255,.25);"><span style="position: absolute; left: 0; top: 0; bottom: 0; width: 34%; background: #D9B45A; border-radius: 99px;"></span><span style="position: absolute; left: 22%; top: -3px; width: 2px; height: 10px; background: #fff;"></span><span style="position: absolute; left: 61%; top: -3px; width: 2px; height: 10px; background: #fff;"></span></div>
+<div style="display: flex; align-items: center; gap: 10px;">
+<button type="button" class="ctl" aria-label="{{t.play}}" onClick="{{togglePlay}}"><sc-if value="{{playing}}" hint-placeholder-val="{{false}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg></sc-if><sc-if value="{{paused}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z"></path></svg></sc-if></button>
+<span style="font-size: 13px; font-variant-numeric: tabular-nums;">32:41 / 1:36:02</span>
+<span style="margin-left: auto; font-size: 12px; border: 1px solid rgba(255,255,255,.4); border-radius: 6px; padding: 2px 6px;">{{t.subs}}</span>
+<button type="button" class="ctl" aria-label="{{t.full}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path></svg></button>
+</div>
+</div>
+</section>
+
+<section class="card" style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: center; gap: 12px;">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" style="color: var(--gold); flex: none;"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>
+<input type="text" placeholder="{{askPh}}" aria-label="{{t.ask}}" style="flex: 1; min-width: 0; height: 44px; background: none; border: 0; outline: none; color: var(--ink); font: inherit; font-size: 16px;">
+<button type="button" class="{{micClass}}" onClick="{{toggleMic}}" aria-label="{{t.voice}}" aria-pressed="{{listening}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></button>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;"><sc-for list="{{sugs}}" as="s" hint-placeholder-count="3"><button type="button" class="sug" onClick="{{s.pick}}">{{s.q}}</button></sc-for></div>
+<div style="background: var(--sunk); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 8px;"><b style="font-size: 14px; color: var(--goldHi);">{{ans.q}}</b><span style="font-size: 15px; line-height: 1.7; color: var(--ink2);">{{ans.a}}</span><span style="font-size: 12px; color: var(--faint);">{{t.aiNote}}</span></div>
+</section>
+</main>
+
+<aside class="card" style="flex: 1 1 360px; min-width: 320px; max-width: 440px; display: flex; flex-direction: column; gap: 18px; position: sticky; top: 20px;">
+<div style="display: flex; justify-content: space-between; align-items: center;"><h2 style="margin: 0; font-size: 20px; font-weight: 700;">{{t.evalT}}</h2><span style="font-size: 13px; color: var(--muted);">{{saveState}}</span></div>
+<sc-for list="{{crit}}" as="c" hint-placeholder-count="4">
+<div style="display: flex; flex-direction: column; gap: 6px;"><div style="display: flex; justify-content: space-between; font-size: 14px;"><span>{{c.n}} <span style="color: var(--faint);">· {{c.w}}</span></span><b>{{c.v}}</b></div><input type="range" min="0" max="10" step="0.5" value="{{c.raw}}" onChange="{{c.set}}" disabled="{{c.lock}}" aria-label="{{c.n}}"></div>
+</sc-for>
+<div style="display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);"><span style="color: var(--muted);">{{t.weighted}}</span><b style="font-size: 30px;">{{total}}</b></div>
+<div style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 600;">{{t.rec}}</span><div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px;"><sc-for list="{{recs}}" as="r" hint-placeholder-count="4"><button type="button" onClick="{{r.pick}}" aria-pressed="{{r.on}}" disabled="{{r.lock}}" style="{{r.style}}">{{r.n}}</button></sc-for></div></div>
+<label style="display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 14px; font-weight: 600;">{{t.notes}}</span><textarea>{{t.notesV}}</textarea></label>
+<sc-if value="{{notSent}}" hint-placeholder-val="{{true}}"><div style="display: flex; gap: 10px;"><button type="button" class="btn btn-s" onClick="{{save}}" style="flex: 1;">{{t.saveDraft}}</button><button type="button" class="btn btn-p" onClick="{{submit}}" style="flex: 1.4;">{{t.submit}}</button></div></sc-if>
+<sc-if value="{{sent}}" hint-placeholder-val="{{false}}"><div style="display: flex; align-items: center; gap: 12px; background: var(--goldTint); border: 1px solid var(--goldLine); border-radius: 14px; padding: 14px;"><span style="width: 30px; height: 30px; border-radius: 50%; background: var(--goldFill); color: var(--onGold); display: inline-flex; align-items: center; justify-content: center; flex: none;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"></path></svg></span><span style="font-size: 14px; color: var(--ink2); flex: 1;">{{t.sentMsg}}</span><a href="ReviewerHome.dc.html" style="font-size: 14px; font-weight: 600;">{{t.nextFilm}}</a></div></sc-if>
+<p style="margin: 0; font-size: 12px; color: var(--faint); line-height: 1.55;">{{t.yours}}</p>
+</aside>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1050}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, playing: false, listening: false, ans: 0, sc: [8.5, 9, 8, 7.5], rec: 1, saved: false, sent: false }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const D = (s) => ar ? String(s).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]).replace('.', '٫') : String(s);
+    const t = {
+      back: L('Back to my films', 'العودة إلى أفلامي'), film: L('Night Market', 'سوق الليل'), filmMeta: L('Egypt · 2026 · 96 min · Arabic, English subtitles', 'مصر · ٢٠٢٦ · ٩٦ دقيقة · بالعربية مع ترجمة إنجليزية'), pos: L('Film 6 of 12', 'الفيلم ٦ من ١٢'), theme: L('Theme', 'المظهر'),
+      still: L('Screener', 'نسخة المشاهدة'), secure: L('Private screener · watermarked', 'نسخة خاصة · بعلامة مائية'), play: L('Play or pause', 'تشغيل أو إيقاف'), subs: L('EN subs', 'ترجمة EN'), full: L('Full screen', 'ملء الشاشة'),
+      ask: L('Ask about this film', 'اسأل عن هذا الفيلم'), voice: L('Ask by voice', 'اسأل بالصوت'), aiNote: L('From the film’s analysis and your AI profile. Your judgement decides.', 'من تحليل الفيلم وملفك للذكاء الاصطناعي. تقديرك هو الحاكم.'),
+      evalT: L('Your evaluation', 'تقييمك'), weighted: L('Weighted score', 'الدرجة الموزونة'), rec: L('Recommendation', 'التوصية'), notes: L('Notes for the festival', 'ملاحظات للمهرجان'),
+      notesV: L('Remarkable patience with its subjects. The sound design carries the night. Act 2 drags slightly around the 50-minute mark.', 'صبر لافت مع شخصياته. تصميم الصوت يحمل الليل كله. يتباطأ الفصل الثاني قليلًا قرب الدقيقة الخمسين.'),
+      saveDraft: L('Save draft', 'حفظ مسودة'), submit: L('Submit evaluation', 'أرسل التقييم'), sentMsg: L('Sent to the festival. It’s now locked.', 'أُرسل للمهرجان. وأصبح مقفلًا.'), nextFilm: L('Next film', 'الفيلم التالي'),
+      yours: L('NAS AI never scores films for you. Other jurors can’t see your evaluation.', 'لا يقيّم ذكاء NAS الأفلام نيابةً عنك. ولا يرى المحكّمون الآخرون تقييمك.')
+    };
+    const qa = [
+      [L('Summarise act 2', 'لخّص الفصل الثاني'), L('Act 2 (22:10–58:30) follows Hany’s stall through the last ten nights of Ramadan; the market’s eviction notice arrives at 41:05. Mostly observational, with two short interviews.', 'يتابع الفصل الثاني (٢٢:١٠–٥٨:٣٠) كشك هاني خلال العشر الأواخر من رمضان؛ يصل إشعار إخلاء السوق عند ٤١:٠٥. أسلوب تأمّلي في معظمه، مع مقابلتين قصيرتين.')],
+      [L('Compare with Blue Ridge', 'قارنه بـ«التلال الزرقاء»'), L('Both are observational and family-centred. Night Market is denser in sound and urban; Blue Ridge uses light narration in act 3 — you asked to be told about narration.', 'كلاهما تأمّلي ويتمحور حول العائلة. «سوق الليل» أكثف صوتيًا وحضري؛ و«التلال الزرقاء» يستخدم تعليقًا صوتيًا خفيفًا في الفصل الثالث — وقد طلبت تنبيهك إلى التعليق الصوتي.')],
+      [L('Any narration?', 'هل فيه تعليق صوتي؟'), L('No voice-over. Two on-camera interviews (14:20 and 1:02:15), about 4 minutes in total.', 'لا يوجد تعليق صوتي. مقابلتان أمام الكاميرا (١٤:٢٠ و١:٠٢:١٥)، نحو ٤ دقائق إجمالًا.')]
+    ];
+    const ai = this.state.ans;
+    const sc = this.state.sc;
+    const sent = this.state.sent;
+    const W = [40, 30, 20, 10];
+    const names = [L('Artistic vision', 'الرؤية الفنية'), L('Fit with this edition', 'التوافق مع الدورة'), L('Craft', 'الحرفة'), L('Originality', 'الأصالة')];
+    const crit = names.map((n, i) => ({ n, w: ar ? D(W[i]) + '٪' : W[i] + '%', v: D(sc[i].toFixed(1)), raw: sc[i], lock: sent, set: (e) => { const ns = sc.slice(); ns[i] = Number(e && e.target ? e.target.value : sc[i]); this.setState({ sc: ns, saved: false }); } }));
+    const total = sc.reduce((a, v, i) => a + v * W[i] / 100, 0);
+    const ri = this.state.rec;
+    const recs = [L('Strong yes', 'نعم بقوة'), L('Yes', 'نعم'), L('Maybe', 'ربما'), L('No', 'لا')].map((n, i) => ({ n, on: i === ri, lock: sent, pick: () => this.setState({ rec: i }), style: 'height: 40px; border-radius: 10px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; ' + (i === ri ? 'background: var(--goldFill); color: var(--onGold); border: 1px solid var(--gold);' : 'background: transparent; color: var(--ink2); border: 1px solid var(--line2);') }));
+    const li = this.state.listening;
+    const pl = this.state.playing;
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light', toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }),
+      toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع', flip: ar ? 'scaleX(-1)' : 'none',
+      t, dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      playing: pl, paused: !pl, togglePlay: () => this.setState({ playing: !pl }),
+      sugs: qa.map((x, i) => ({ q: x[0], pick: () => this.setState({ ans: i }) })), ans: { q: qa[ai][0], a: qa[ai][1] },
+      listening: li, toggleMic: () => this.setState({ listening: !li }), micClass: li ? 'mic live' : 'mic', askPh: li ? L('Listening…', 'أستمع إليك…') : L('Ask about this film, by text or voice', 'اسأل عن هذا الفيلم كتابةً أو صوتًا'),
+      crit, total: D(total.toFixed(1)), recs,
+      saveState: sent ? L('Submitted', 'أُرسل') : this.state.saved ? L('Draft saved', 'حُفظت المسودة') : L('Not saved', 'غير محفوظ'),
+      save: () => this.setState({ saved: true }), submit: () => this.setState({ sent: true }), sent, notSent: !sent
+    };
+  }
+}
+</script>
+</body>
+</html>

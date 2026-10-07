@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Programme and guests</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#070707}
+.th-dark{--bg:#070707;--sunk:#050505;--card:#111110;--card2:#1A1916;--goldTint:rgba(201,168,76,.10);--ink:#F7F3EA;--ink2:#DCD6CA;--muted:#A39E93;--faint:#8A857B;--gold:#C9A84C;--goldHi:#E6CB80;--goldBtnHover:linear-gradient(135deg,#F3DFA6 0%,#D6B55A 48%,#AE8836 100%);--onGold:#0E0B04;--line:rgba(201,168,76,.11);--line2:rgba(201,168,76,.18);--line3:rgba(201,168,76,.3);--goldLine:rgba(201,168,76,.45);--goldFill:linear-gradient(135deg,#EBD291 0%,#C9A84C 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.16),rgba(201,168,76,0) 70%);--c1:#B88A24;--c2:#5B8FE0;color-scheme:dark}
+.th-light{--bg:#FAF9F6;--sunk:#F3F1EC;--card:#FFFFFF;--card2:#F2F0EA;--goldTint:#F7EFDA;--ink:#121212;--ink2:#34322E;--muted:#66625B;--faint:#66625B;--gold:#A9822E;--goldHi:#7A5912;--goldBtnHover:linear-gradient(135deg,#EED58D 0%,#D2AC52 48%,#AD8836 100%);--onGold:#0E0B04;--line:rgba(122,89,18,.12);--line2:rgba(122,89,18,.18);--line3:rgba(122,89,18,.28);--goldLine:rgba(169,130,46,.4);--goldFill:linear-gradient(135deg,#E6C978 0%,#C79F45 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.12),rgba(201,168,76,0) 70%);--c1:#B07F12;--c2:#3A6FC4;color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2,[dir=ltr] h3{letter-spacing:-0.022em}
+*{box-sizing:border-box}
+a{color:var(--goldHi);text-decoration:none}
+.app{position:relative;display:flex;min-height:1000px;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+.side{flex:0 0 256px;border-inline-end:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:2px}
+.nav-h{font-size:12px;color:var(--faint);padding:18px 12px 6px;font-weight:600}
+.nav-i{display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:12px;color:var(--ink2);font-size:15px;font-weight:500;min-height:44px}
+.nav-i:hover{background:var(--card2);color:var(--ink)}
+.nav-i.on{background:var(--card2);color:var(--ink);font-weight:600}
+.nav-i.on svg{color:var(--gold)}
+.ibtn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-weight:700;font-size:14px}
+.ibtn:hover{border-color:var(--gold);color:var(--goldHi)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px}
+.btn{height:44px;padding:0 18px;border-radius:12px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;white-space:nowrap}
+.btn-p{background:var(--goldFill);color:var(--onGold)}.btn-p:hover{background:var(--goldBtnHover);color:var(--onGold)}
+.btn-s{background:transparent;color:var(--ink);border-color:var(--line2)}.btn-s:hover{border-color:var(--gold);color:var(--goldHi)}
+.btn-sm{height:36px;padding:0 14px;font-size:13px;border-radius:10px}
+.tab{background:none;border:0;font:inherit;font-size:15px;cursor:pointer;padding:12px 0;min-height:44px}
+.day{cursor:pointer;font:inherit;border-radius:14px;padding:8px 16px;display:flex;flex-direction:column;align-items:center;min-width:70px}
+.pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid var(--line2);color:var(--ink2);white-space:nowrap}
+.pill.g{border-color:var(--goldLine);color:var(--goldHi);background:var(--goldTint)}
+.pill.f{background:var(--goldFill);border-color:var(--gold);color:var(--onGold)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}
+.tbl th{color:var(--faint);font-weight:600;text-align:start;padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px}
+.tbl td{padding:14px;border-bottom:1px solid var(--line)}
+.mic{width:44px;height:44px;border-radius:50%;border:0;background:var(--goldFill);color:var(--onGold);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;flex:none}
+@media (max-width:900px){.side{display:none}}
+
+/*polish*/
+::selection{background:rgba(201,168,76,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.card{background:linear-gradient(180deg,rgba(201,168,76,.06),rgba(201,168,76,0) 40%),var(--card);box-shadow:inset 0 1px 0 rgba(255,236,190,.05),0 24px 60px -36px rgba(0,0,0,.9);transition:border-color .35s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.th-light .card{background:var(--card);box-shadow:0 1px 2px rgba(18,18,18,.04),0 18px 40px -28px rgba(40,30,10,.25)}
+.btn-p,.go,.pillbtn{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 30px -12px rgba(201,168,76,.6);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s,background .25s}
+.btn-p:hover,.go:hover,.pillbtn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 16px 40px -12px rgba(201,168,76,.8)}
+.btn-p:active,.go:active,.pillbtn:active{transform:scale(.98)}
+.btn-s,.ibtn,.nav-i,.sso,.chip,.sug,.filter,.big{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.nav-i.on{box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+@keyframes nasIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes nasFade{from{opacity:0}to{opacity:1}}
+main>*,.content>*{animation:nasIn .9s cubic-bezier(.16,1,.3,1) both}
+main>*:nth-child(2),.content>*:nth-child(2){animation-delay:.07s}
+main>*:nth-child(3),.content>*:nth-child(3){animation-delay:.14s}
+main>*:nth-child(4),.content>*:nth-child(4){animation-delay:.21s}
+main>*:nth-child(5),.content>*:nth-child(5){animation-delay:.28s}
+main>*:nth-child(n+6),.content>*:nth-child(n+6){animation-delay:.35s}
+.side{animation:nasFade .8s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+/*endpolish*/
+</style>
+</helmet>
+<div class="{{themeClass}} app" dir="{{dir}}" style="font-family: {{font}};">
+<aside class="side" aria-label="{{t.nav}}">
+<a href="Main.dc.html" aria-label="NAS" style="display: flex; padding: 0 10px 12px;"><img src="/_blob/8db983f4aec7ec876db44d32e45a85d1" alt="NAS" style="height: 34px; width: auto;"></a>
+<div style="display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px;"><img src="/_blob/84a08c197b56e2cd88cfcefaf617cb0d" alt="" style="width: 36px; height: 36px; border-radius: 10px; object-fit: cover;"><span style="flex: 1; display: flex; flex-direction: column;"><b style="font-size: 14px;">{{t.fest}}</b><span style="font-size: 12px; color: var(--muted);">{{t.edition}}</span></span></div>
+<span class="nav-h">{{t.work}}</span>
+<a href="FestivalDashboard.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="14" y="12" width="7" height="9" rx="1.5"></rect><rect x="3" y="16" width="7" height="5" rx="1.5"></rect></svg>{{t.nDash}}</a>
+<a href="Queue.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 13h5l1.5 3h5L16 13h5"></path><path d="M5 5h14l2 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6z"></path></svg>{{t.nSubs}}</a>
+<a href="Selection.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="m8 12 3 3 5-6"></path></svg>{{t.nSel}}</a>
+<a href="Programme.dc.html" class="nav-i on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>{{t.nProg}}</a>
+<a href="AIProfile.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>{{t.nAI}}</a>
+<a href="FestivalDashboard.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18.5 20a6.5 6.5 0 0 0-3-5.5"></path></svg>{{t.nTeam}}</a>
+<a href="Festival.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>{{t.nPublic}}</a>
+</aside>
+
+<div style="flex: 1 1 640px; min-width: 0; display: flex; flex-direction: column;">
+<header style="display: flex; align-items: center; gap: 10px; padding: 14px 32px; border-bottom: 1px solid var(--line);">
+<span style="color: var(--muted); font-size: 14px;">{{t.crumb}}</span>
+<div style="margin-inline-start: auto; display: flex; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+</div>
+</header>
+
+<main style="max-width: 1260px; width: 100%; margin: 0 auto; padding: 30px 32px 64px; display: flex; flex-direction: column; gap: 20px;">
+<section style="display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap;">
+<div><h1 style="margin: 0; font-size: 38px; font-weight: 700;">{{t.title}}</h1><p style="margin: 8px 0 0; color: var(--muted); font-size: 16px;">{{progSub}}</p></div>
+<button type="button" class="btn btn-p" onClick="{{publishProg}}">{{pubLabel}}</button>
+</section>
+
+<div style="display: flex; gap: 28px; border-bottom: 1px solid var(--line);" role="tablist">
+<sc-for list="{{tabs}}" as="tb" hint-placeholder-count="2"><button type="button" role="tab" class="tab" onClick="{{tb.pick}}" aria-selected="{{tb.on}}" style="{{tb.style}}">{{tb.name}}</button></sc-for>
+</div>
+
+<sc-if value="{{tab0}}" hint-placeholder-val="{{true}}">
+<section class="card" style="border-color: var(--goldLine); display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; align-items: center; gap: 12px;">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" style="color: var(--gold); flex: none;"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>
+<span style="flex: 1; font-size: 16px; color: var(--ink2);">{{t.ask}}</span>
+<button type="button" class="mic" aria-label="{{t.voice}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></button>
+<button type="button" class="btn btn-s" onClick="{{draft}}">{{t.draft}}</button>
+</div>
+<sc-if value="{{hasProposal}}" hint-placeholder-val="{{false}}">
+<div style="background: var(--sunk); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 10px;">
+<b style="font-size: 15px;">{{t.propT}}</b>
+<sc-for list="{{changes}}" as="c" hint-placeholder-count="3"><span style="display: flex; gap: 10px; font-size: 14px; color: var(--ink2);"><span style="color: var(--goldHi); font-weight: 700; flex: none;">{{c.k}}</span>{{c.v}}</span></sc-for>
+<div style="display: flex; gap: 8px; margin-top: 4px; flex-wrap: wrap;"><button type="button" class="btn btn-p btn-sm" onClick="{{apply}}">{{t.apply}}</button><button type="button" class="btn btn-s btn-sm">{{t.edit}}</button><button type="button" class="btn btn-s btn-sm" onClick="{{discard}}">{{t.discard}}</button></div>
+</div>
+</sc-if>
+</section>
+
+<div style="display: flex; gap: 10px; overflow-x: auto;"><sc-for list="{{days}}" as="d" hint-placeholder-count="4"><button type="button" class="day" onClick="{{d.pick}}" style="{{d.style}}"><span style="font-size: 12px; opacity: .8;">{{d.wd}}</span><b style="font-size: 22px;">{{d.n}}</b></button></sc-for></div>
+
+<div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start;">
+<section style="flex: 999 1 640px; min-width: 0; overflow-x: auto;">
+<div style="min-width: 640px; display: grid; grid-template-columns: 90px repeat(3, minmax(0, 1fr)); gap: 10px;">
+<span></span><sc-for list="{{halls}}" as="h" hint-placeholder-count="3"><b style="font-size: 14px; color: var(--muted); padding: 0 4px;">{{h}}</b></sc-for>
+<sc-for list="{{grid}}" as="r" hint-placeholder-count="3">
+<span style="font-size: 15px; font-weight: 700; color: var(--goldHi); padding-top: 14px;">{{r.time}}</span>
+<sc-for list="{{r.cells}}" as="c" hint-placeholder-count="3">
+<div style="{{c.box}}">
+<sc-if value="{{c.has}}" hint-placeholder-val="{{true}}"><span style="display: flex; gap: 10px; align-items: center;"><img src="{{c.img}}" alt="" style="width: 36px; height: 48px; border-radius: 8px; object-fit: cover; flex: none;"><span style="display: flex; flex-direction: column; gap: 2px; min-width: 0;"><b style="font-size: 14px;">{{c.title}}</b><span style="font-size: 12px; color: var(--muted);">{{c.meta}}</span></span></span></sc-if>
+<sc-if value="{{c.empty}}" hint-placeholder-val="{{false}}"><span style="font-size: 13px; color: var(--faint);">{{c.free}}</span></sc-if>
+</div>
+</sc-for>
+</sc-for>
+</div>
+</section>
+<aside class="card" style="flex: 1 1 260px; min-width: 240px; display: flex; flex-direction: column; gap: 10px;">
+<b style="font-size: 15px;">{{t.unplaced}}</b>
+<sc-for list="{{unplaced}}" as="u" hint-placeholder-count="3"><div style="display: flex; gap: 10px; align-items: center; padding: 8px; border: 1px dashed var(--line3); border-radius: 12px;"><img src="{{u.img}}" alt="" style="width: 32px; height: 42px; border-radius: 6px; object-fit: cover;"><span style="font-size: 14px; font-weight: 600;">{{u.title}}</span></div></sc-for>
+<sc-if value="{{allPlaced}}" hint-placeholder-val="{{false}}"><span style="font-size: 14px; color: var(--goldHi);">{{t.allPlaced}}</span></sc-if>
+</aside>
+</div>
+</sc-if>
+
+<sc-if value="{{tab1}}" hint-placeholder-val="{{false}}">
+<section style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;">
+<sc-for list="{{gstats}}" as="g" hint-placeholder-count="4"><div class="card" style="padding: 18px;"><span style="font-size: 13px; color: var(--muted);">{{g.l}}</span><div style="font-size: 32px; font-weight: 700; margin-top: 6px;">{{g.n}}</div></div></sc-for>
+</section>
+<div style="border: 1px solid var(--line); border-radius: 18px; overflow-x: auto; background: var(--card);">
+<table class="tbl">
+<thead><tr><th scope="col">{{t.gName}}</th><th scope="col">{{t.gFilm}}</th><th scope="col">{{t.gRole}}</th><th scope="col">{{t.gScreen}}</th><th scope="col">{{t.gStatus}}</th><th scope="col">{{t.gQA}}</th><th scope="col"></th></tr></thead>
+<tbody>
+<sc-for list="{{guests}}" as="g" hint-placeholder-count="5">
+<tr><td><b>{{g.name}}</b></td><td style="color: var(--ink2);">{{g.film}}</td><td style="color: var(--ink2);">{{g.role}}</td><td style="color: var(--ink2);">{{g.when}}</td><td><span class="{{g.pill}}">{{g.status}}</span></td><td style="color: var(--ink2);">{{g.qa}}</td><td><button type="button" class="btn btn-s btn-sm">{{g.act}}</button></td></tr>
+</sc-for>
+</tbody>
+</table>
+</div>
+<p style="margin: 0; font-size: 13px; color: var(--faint);">{{t.gNote}}</p>
+</sc-if>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1150}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, tab: 0, day: 0, proposal: true, applied: false, published: false }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const D = (s) => ar ? String(s).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]) : String(s);
+    const B = '/_blob/';
+    const t = {
+      nav: L('Festival navigation', 'تنقل المهرجان'), fest: L('Riyadh Nights', 'ليالي الرياض'), edition: L('5th edition · 2027', 'الدورة الخامسة · ٢٠٢٧'),
+      work: L('Workspace', 'مساحة العمل'), nDash: L('Overview', 'نظرة عامة'), nSubs: L('Submissions', 'المشاركات'), nSel: L('Selection', 'الاختيار'), nProg: L('Programme & guests', 'البرنامج والضيوف'), nAI: L('AI profile', 'ملف الذكاء الاصطناعي'), nTeam: L('Team & jury', 'الفريق والتحكيم'), nPublic: L('Public profile', 'الملف العام'),
+      crumb: L('Workspace / Programme', 'مساحة العمل / البرنامج'), theme: L('Theme', 'المظهر'), title: L('Programme', 'البرنامج'),
+      ask: L('“Put documentaries before 9 pm, keep Q&A films in Hall 1, no film twice on the same day.”', '«ضع الأفلام الوثائقية قبل التاسعة مساءً، وأبقِ أفلام اللقاءات في القاعة ١، ولا يتكرر فيلم في اليوم نفسه.»'),
+      voice: L('Speak your request', 'قل طلبك'), draft: L('Draft schedule', 'اقترح جدولًا'),
+      propT: L('NAS proposal for 12 Nov — nothing changes until you apply it', 'مقترح NAS ليوم ١٢ نوفمبر — لا يتغير شيء حتى تعتمده'),
+      apply: L('Apply proposal', 'اعتمد المقترح'), edit: L('Adjust', 'عدّل'), discard: L('Discard', 'تجاهل'),
+      unplaced: L('Selected, not scheduled', 'مختارة ولم تُجدول'), allPlaced: L('Every selected film has a slot.', 'كل الأفلام المختارة لها موعد.'),
+      gName: L('Guest', 'الضيف'), gFilm: L('Film', 'الفيلم'), gRole: L('Role', 'الدور'), gScreen: L('Screening', 'العرض'), gStatus: L('Attending', 'الحضور'), gQA: L('Q&A', 'اللقاء'),
+      gNote: L('Basic attendance only — travel and hotels are handled outside NAS for now.', 'إدارة حضور أساسية فقط — السفر والفنادق خارج NAS حاليًا.')
+    };
+    const tabsN = [L('Schedule', 'الجدول'), L('Guests & attendance', 'الضيوف والحضور')];
+    const ti = this.state.tab;
+    const tabs = tabsN.map((n, i) => ({ name: n, on: i === ti, pick: () => this.setState({ tab: i }), style: i === ti ? 'color: var(--ink); font-weight: 700; box-shadow: inset 0 -2px 0 var(--gold);' : 'color: var(--muted);' }));
+    const di = this.state.day;
+    const days = [[L('Thu', 'الخميس'), 12], [L('Fri', 'الجمعة'), 13], [L('Sat', 'السبت'), 14], [L('Sun', 'الأحد'), 15]].map((d, i) => ({ wd: d[0], n: D(d[1]), pick: () => this.setState({ day: i }), style: i === di ? 'background: var(--goldFill); color: var(--onGold); border: 1px solid var(--gold);' : 'background: var(--card); color: var(--ink); border: 1px solid var(--line);' }));
+    const halls = [L('Hall 1 · 420 seats', 'القاعة ١ · ٤٢٠ مقعدًا'), L('Hall 2 · 180 seats', 'القاعة ٢ · ١٨٠ مقعدًا'), L('Open air · 600', 'الساحة المفتوحة · ٦٠٠')];
+    const F = {
+      nm: ['37b71e0c803a46dd004d42c8ccd9e528', L('Night Market', 'سوق الليل'), L('96 min · Q&A', '٩٦ د · لقاء')],
+      rw: ['9886de0800cfc46bb10fe1bd649868e8', L('Rawasheen', 'رواشين'), L('Shorts block 1', 'برنامج القصيرة ١')],
+      br: ['1f11c0782c4e9e3e9321664ac0d2a69c', L('Blue Ridge', 'التلال الزرقاء'), L('88 min · Q&A', '٨٨ د · لقاء')],
+      hw: ['b1513db9a28d8c5d9c9bec13bfbe5ba8', L('Highway 15', 'الطريق ١٥'), L('112 min', '١١٢ د')],
+      dr: ['e2f3fc4b839fd0b539dd570ef66a2eb0', L('The Door', 'الباب'), L('Shorts block 1', 'برنامج القصيرة ١')]
+    };
+    const applied = this.state.applied;
+    const base = [['nm', null, 'rw'], [null, 'hw', null], [null, null, null]];
+    const prop = [['nm', 'br', 'rw'], ['dr', 'hw', null], [null, null, null]];
+    const g = applied ? prop : base;
+    const timesL = [L('6:00 PM', '٦:٠٠ م'), L('8:30 PM', '٨:٣٠ م'), L('10:45 PM', '١٠:٤٥ م')];
+    const grid = g.map((row, r) => ({ time: timesL[r], cells: row.map((k) => k ? { has: true, empty: false, img: B + F[k][0], title: F[k][1], meta: F[k][2], box: 'min-height: 78px; border-radius: 14px; padding: 12px; background: var(--card); border: 1px solid ' + (applied && prop[r].indexOf(k) > -1 && base[r].indexOf(k) < 0 ? 'var(--gold)' : 'var(--line)') + ';' } : { has: false, empty: true, free: L('Free slot', 'موعد متاح'), box: 'min-height: 78px; border-radius: 14px; padding: 12px; border: 1.5px dashed var(--line2); display: flex; align-items: center; justify-content: center;' }) }));
+    const placed = new Set(g.flat().filter(Boolean));
+    const unplaced = ['br', 'dr'].filter((k) => !placed.has(k)).map((k) => ({ img: B + F[k][0], title: F[k][1] }));
+    const changes = [[L('+ Hall 2, 6:00', '+ القاعة ٢، ٦:٠٠'), L('Blue Ridge — documentary before 9 pm, Q&A after', 'التلال الزرقاء — وثائقي قبل التاسعة، يليه لقاء')], [L('+ Hall 1, 8:30', '+ القاعة ١، ٨:٣٠'), L('The Door in shorts block 1 — director confirmed', 'الباب ضمن برنامج القصيرة ١ — المخرج أكّد حضوره')], [L('Note', 'ملاحظة'), L('Highway 15 stays in Hall 2: its director arrives at 8 pm.', 'الطريق ١٥ يبقى في القاعة ٢: مخرجه يصل الساعة الثامنة.')]].map((c) => ({ k: c[0], v: c[1] }));
+    const st = { y: [L('Confirmed', 'مؤكد'), 'pill f'], p: [L('Pending', 'بانتظار الرد'), 'pill g'], n: [L('Not attending', 'لن يحضر'), 'pill'] };
+    const guests = [[L('[DIRECTOR] — Night Market', '[المخرج] — سوق الليل'), F.nm[1], L('Director', 'مخرج'), L('Thu 6:00 · Hall 1', 'الخميس ٦:٠٠ · القاعة ١'), 'y', L('Yes · 20 min', 'نعم · ٢٠ د'), L('Details', 'التفاصيل')], [L('Nizar S.', 'نزار ش.'), F.dr[1], L('Director', 'مخرج'), L('Sat 6:00 · Hall 1', 'السبت ٦:٠٠ · القاعة ١'), 'y', L('Yes', 'نعم'), L('Details', 'التفاصيل')], [L('[PRODUCER] — Blue Ridge', '[المنتج] — التلال الزرقاء'), F.br[1], L('Producer', 'منتج'), L('Thu 6:00 · Hall 2', 'الخميس ٦:٠٠ · القاعة ٢'), 'p', L('Requested', 'مطلوب'), L('Remind', 'تذكير')], [L('[DIRECTOR] — Rawasheen', '[المخرجة] — رواشين'), F.rw[1], L('Director', 'مخرجة'), L('Thu 6:00 · Open air', 'الخميس ٦:٠٠ · الساحة'), 'p', '—', L('Remind', 'تذكير')], [L('[DIRECTOR] — Highway 15', '[المخرج] — الطريق ١٥'), F.hw[1], L('Director', 'مخرج'), L('Thu 8:30 · Hall 2', 'الخميس ٨:٣٠ · القاعة ٢'), 'n', L('Recorded intro', 'مقدمة مسجّلة'), L('Details', 'التفاصيل')]]
+      .map((x) => ({ name: x[0], film: x[1], role: x[2], when: x[3], status: st[x[4]][0], pill: st[x[4]][1], qa: x[5], act: x[6] }));
+    const gstats = [[L('Guests invited', 'الضيوف المدعوون'), 14], [L('Confirmed', 'مؤكدون'), 9], [L('Waiting for reply', 'بانتظار الرد'), 4], [L('Q&A sessions', 'جلسات اللقاء'), 7]].map((x) => ({ l: x[0], n: D(x[1]) }));
+    const pub = this.state.published;
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light', toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }),
+      toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      t, dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      tabs, tab0: ti === 0, tab1: ti === 1, days, halls, grid, unplaced, allPlaced: unplaced.length === 0, changes, guests, gstats,
+      hasProposal: this.state.proposal && !applied, draft: () => this.setState({ proposal: true }), apply: () => this.setState({ applied: true }), discard: () => this.setState({ proposal: false }),
+      progSub: L('12 selected films · 4 days · 3 venues', '١٢ فيلمًا مختارًا · ٤ أيام · ٣ أماكن'),
+      publishProg: () => this.setState({ published: true }), pubLabel: pub ? L('Programme published ✓', 'نُشر البرنامج ✓') : L('Publish programme', 'انشر البرنامج')
+    };
+  }
+}
+</script>
+</body>
+</html>

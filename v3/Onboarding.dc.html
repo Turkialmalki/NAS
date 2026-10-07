@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Welcome</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#070707}
+.th-dark{--bg:#070707;--card:#111110;--card2:#1A1916;--ink:#F7F3EA;--ink2:#DCD6CA;--muted:#A39E93;--faint:#8A857B;--gold:#C9A84C;--goldHi:#E6CB80;--goldBtnHover:linear-gradient(135deg,#F3DFA6 0%,#D6B55A 48%,#AE8836 100%);--goldFill:linear-gradient(135deg,#EBD291 0%,#C9A84C 48%,#A07B2C 100%);--goldTint:rgba(201,168,76,.10);--onGold:#0E0B04;--line:rgba(201,168,76,.11);--line2:rgba(201,168,76,.18);--line3:rgba(201,168,76,.3);--goldLine:rgba(201,168,76,.45);--tile:rgba(255,255,255,.045);--tileHi:rgba(255,255,255,.08);--veil:linear-gradient(180deg,rgba(7,7,7,.78),rgba(7,7,7,.9) 60%,#070707);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.16),rgba(201,168,76,0) 70%);--c1:#B88A24;--c2:#5B8FE0;color-scheme:dark}
+.th-light{--bg:#FFFFFF;--card:#F6F4EF;--card2:#ECE8DF;--ink:#121212;--ink2:#34322E;--muted:#66625B;--faint:#66625B;--gold:#A9822E;--goldHi:#7A5912;--goldBtnHover:linear-gradient(135deg,#EED58D 0%,#D2AC52 48%,#AD8836 100%);--goldFill:linear-gradient(135deg,#E6C978 0%,#C79F45 48%,#A07B2C 100%);--goldTint:#F7EFDA;--onGold:#0E0B04;--line:rgba(122,89,18,.12);--line2:rgba(122,89,18,.18);--line3:rgba(122,89,18,.28);--goldLine:rgba(169,130,46,.4);--tile:rgba(255,255,255,.72);--tileHi:#FFFFFF;--veil:linear-gradient(180deg,rgba(255,255,255,.84),rgba(255,255,255,.93) 60%,#FFFFFF);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.12),rgba(201,168,76,0) 70%);--c1:#B07F12;--c2:#3A6FC4;color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2{letter-spacing:-0.035em}
+[dir=rtl] em{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;font-style:normal;font-weight:700}
+[dir=ltr] em{font-family:'Instrument Serif',Georgia,serif;font-weight:400}
+*{box-sizing:border-box}
+a{color:var(--goldHi);text-decoration:none}
+.bgph{position:absolute;inset:-4%;width:108%;height:108%;object-fit:cover;filter:blur(2px) saturate(110%);animation:kb 26s ease-out both}
+.veil{position:absolute;inset:0;background:var(--veil)}
+.beam{position:absolute;top:-30%;left:50%;width:1200px;height:1000px;transform:translateX(-50%);background:conic-gradient(from 180deg at 50% 0%,rgba(201,168,76,0) 162deg,rgba(201,168,76,.14) 180deg,rgba(201,168,76,0) 198deg);filter:blur(34px);animation:beam 7s ease-in-out infinite;pointer-events:none}
+@keyframes beam{0%,100%{opacity:.7}50%{opacity:1}}
+@keyframes kb{from{transform:scale(1.1)}to{transform:scale(1)}}
+.ibtn{width:40px;height:40px;border-radius:99px;border:1px solid var(--line2);background:var(--tile);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-weight:700;font-size:13px;transition:all .25s}
+.ibtn:hover{border-color:var(--gold);color:var(--goldHi)}
+.go{min-width:180px;height:56px;padding:0 30px;border-radius:99px;border:0;background:var(--goldFill);color:var(--onGold);font:inherit;font-size:17px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:10px;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 14px 40px -14px rgba(201,168,76,.75);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s}
+.go:hover{background:var(--goldBtnHover);color:var(--onGold);transform:translateY(-1px)}
+.go:active{transform:scale(.97)}
+.ghost{height:56px;padding:0 20px;border-radius:99px;border:0;background:transparent;color:var(--muted);font:inherit;font-size:16px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:color .2s}
+.ghost:hover{color:var(--ink)}
+.tile{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:6px;text-align:start;padding:18px;border-radius:24px;cursor:pointer;font:inherit;color:var(--ink);background:var(--tile);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line2);transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .3s,box-shadow .3s,background .3s}
+.tile:hover{transform:translateY(-3px);border-color:var(--line3);background:var(--tileHi)}
+.tile.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold),0 24px 50px -24px rgba(201,168,76,.55)}
+.tick{position:absolute;top:14px;inset-inline-end:14px;width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;transition:all .3s cubic-bezier(.16,1,.3,1)}
+.chip{height:46px;padding:0 20px;border-radius:99px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all .25s cubic-bezier(.16,1,.3,1);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.chip:hover{transform:translateY(-1px)}
+.big{width:100%;background:transparent;border:0;border-bottom:2px solid var(--line2);color:var(--ink);font:inherit;font-size:32px;font-weight:600;padding:10px 2px 14px;outline:none;transition:border-color .3s}
+.big:focus{border-bottom-color:var(--gold)}
+.big::placeholder{color:var(--faint)}
+.lbl{font-size:14px;font-weight:600;color:var(--muted)}
+.enter{animation:enterF .75s cubic-bezier(.16,1,.3,1) both}
+.enterB{animation:enterB .75s cubic-bezier(.16,1,.3,1) both}
+[dir=rtl] .enter{animation-name:enterB}
+[dir=rtl] .enterB{animation-name:enterF}
+@keyframes enterF{from{opacity:0;transform:translateX(48px);filter:blur(10px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes enterB{from{opacity:0;transform:translateX(-48px);filter:blur(10px)}to{opacity:1;transform:none;filter:blur(0)}}
+.up{animation:up .8s cubic-bezier(.16,1,.3,1) both}
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.s1{animation-delay:.08s}.s2{animation-delay:.16s}.s3{animation-delay:.24s}.s4{animation-delay:.32s}
+.emblem{position:relative;width:132px;height:132px;display:inline-flex;align-items:center;justify-content:center}
+.emblem .ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(201,168,76,.45);animation:ring 3.2s ease-out infinite}
+.emblem .ring.r2{animation-delay:1.6s}
+@keyframes ring{0%{transform:scale(.7);opacity:.9}100%{transform:scale(1.6);opacity:0}}
+.emblem .core{width:96px;height:96px;border-radius:28px;background:var(--goldFill);display:inline-flex;align-items:center;justify-content:center;color:#0E0B04;font-family:Georgia,serif;font-size:58px;font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 30px 70px -20px rgba(201,168,76,.8);animation:pop 1s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes pop{from{transform:scale(.4) rotate(-12deg);opacity:0}to{transform:none;opacity:1}}
+.check path{stroke-dasharray:40;stroke-dashoffset:40;animation:draw .7s .35s cubic-bezier(.65,0,.35,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.conf{position:absolute;top:-20px;width:8px;height:14px;border-radius:2px;opacity:0;animation:fall 3.6s cubic-bezier(.3,.6,.5,1) forwards;pointer-events:none}
+@keyframes fall{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(960px) rotate(540deg)}}
+.lane{display:flex;gap:6px;flex:1;max-width:360px}
+.lane span{flex:1;height:4px;border-radius:99px;background:var(--line2);overflow:hidden;position:relative}
+.lane span i{position:absolute;inset:0;background:var(--goldFill);transform-origin:left;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+[dir=rtl] .lane span i{transform-origin:right}
+@media (max-width:760px){.grid2{grid-template-columns:minmax(0,1fr) !important}.top{padding:16px !important}.stage{padding:24px 16px 120px !important}.foot{padding:16px !important}.big{font-size:26px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+
+/*polish*/
+::selection{background:rgba(201,168,76,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.card{background:linear-gradient(180deg,rgba(201,168,76,.06),rgba(201,168,76,0) 40%),var(--card);box-shadow:inset 0 1px 0 rgba(255,236,190,.05),0 24px 60px -36px rgba(0,0,0,.9);transition:border-color .35s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.th-light .card{background:var(--card);box-shadow:0 1px 2px rgba(18,18,18,.04),0 18px 40px -28px rgba(40,30,10,.25)}
+.btn-p,.go,.pillbtn{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 30px -12px rgba(201,168,76,.6);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s,background .25s}
+.btn-p:hover,.go:hover,.pillbtn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 16px 40px -12px rgba(201,168,76,.8)}
+.btn-p:active,.go:active,.pillbtn:active{transform:scale(.98)}
+.btn-s,.ibtn,.nav-i,.sso,.chip,.sug,.filter,.big{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.nav-i.on{box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+@keyframes nasIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes nasFade{from{opacity:0}to{opacity:1}}
+main>*,.content>*{animation:nasIn .9s cubic-bezier(.16,1,.3,1) both}
+main>*:nth-child(2),.content>*:nth-child(2){animation-delay:.07s}
+main>*:nth-child(3),.content>*:nth-child(3){animation-delay:.14s}
+main>*:nth-child(4),.content>*:nth-child(4){animation-delay:.21s}
+main>*:nth-child(5),.content>*:nth-child(5){animation-delay:.28s}
+main>*:nth-child(n+6),.content>*:nth-child(n+6){animation-delay:.35s}
+.side{animation:nasFade .8s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+/*endpolish*/
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; position: relative; min-height: 960px; overflow: hidden; background: var(--bg); color: var(--ink); display: flex; flex-direction: column; -webkit-font-smoothing: antialiased;">
+<img class="bgph" src="{{photo}}" alt="">
+<span class="veil"></span>
+<span class="beam"></span>
+
+<header class="top" style="position: relative; z-index: 2; display: flex; align-items: center; gap: 24px; padding: 24px 40px;">
+<a href="Main.dc.html" aria-label="NAS"><img src="/_blob/8db983f4aec7ec876db44d32e45a85d1" alt="NAS" style="height: 32px; width: auto; display: block;"></a>
+<div style="flex: 1; display: flex; justify-content: center;"><sc-if value="{{showLane}}" hint-placeholder-val="{{false}}"><div class="lane" role="progressbar" aria-label="{{stepLabel}}" aria-valuenow="{{stepNow}}" aria-valuemin="1" aria-valuemax="{{stepMax}}"><sc-for list="{{lane}}" as="l" hint-placeholder-count="5"><span><i style="{{l}}"></i></span></sc-for></div></sc-if></div>
+<div style="display: flex; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+</div>
+</header>
+
+<main class="stage" style="position: relative; z-index: 2; flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px 40px 140px;">
+<div style="width: 100%; max-width: 640px;">
+
+<sc-if value="{{sWelcome}}" hint-placeholder-val="{{true}}">
+<div class="{{anim}}" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 28px;">
+<span class="emblem"><span class="ring"></span><span class="ring r2"></span><span class="core">N</span></span>
+<h1 class="up s1" style="margin: 0; font-size: 64px; font-weight: 700; line-height: 1.15;">{{t.wH1}}<br><em style="color: var(--goldHi); font-size: 1.05em;">{{t.wH2}}</em></h1>
+<p class="up s2" style="margin: 0; color: var(--muted); font-size: 19px; line-height: 1.7; max-width: 500px;">{{t.wP}}</p>
+<div class="up s3" role="group" aria-label="{{t.langL}}" style="display: flex; gap: 6px; padding: 5px; border-radius: 99px; background: var(--tile); border: 1px solid var(--line2); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);">
+<button type="button" onClick="{{pickAr}}" aria-pressed="{{ar}}" style="{{arPill}}">العربية</button>
+<button type="button" onClick="{{pickEn}}" aria-pressed="{{en}}" style="{{enPill}}">English</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{sRole}}" hint-placeholder-val="{{false}}">
+<div class="{{anim}}" style="display: flex; flex-direction: column; gap: 32px;">
+<div style="text-align: center;"><h1 style="margin: 0; font-size: 48px; font-weight: 700; line-height: 1.2;">{{t.roleT}}</h1><p class="up s1" style="margin: 12px 0 0; color: var(--muted); font-size: 18px;">{{t.roleP}}</p></div>
+<div class="grid2" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+<sc-for list="{{roles}}" as="r" hint-placeholder-count="2">
+<button type="button" class="{{r.cls}}" onClick="{{r.pick}}" aria-pressed="{{r.on}}" style="padding: 10px 10px 22px;">
+<span style="display: block; width: 100%; height: 200px; border-radius: 18px; overflow: hidden;"><img src="{{r.img}}" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block;"></span>
+<span style="padding: 10px 10px 0; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 21px; font-weight: 600;">{{r.name}}</b><span style="color: var(--muted); font-size: 15px; line-height: 1.6;">{{r.desc}}</span></span>
+<span class="tick" style="{{r.tick}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"></path></svg></span>
+</button>
+</sc-for>
+</div>
+<p class="up s3" style="margin: 0; text-align: center; color: var(--faint); font-size: 14px;">{{t.juryNote}}</p>
+</div>
+</sc-if>
+
+<sc-if value="{{sAbout}}" hint-placeholder-val="{{false}}">
+<div class="{{anim}}" style="display: flex; flex-direction: column; gap: 34px;">
+<h1 style="margin: 0; font-size: 48px; font-weight: 700; line-height: 1.2;">{{t.aboutT}}</h1>
+<label class="up s1" style="display: flex; flex-direction: column; gap: 6px;"><span class="lbl">{{t.fullName}}</span><input class="big" value="{{name}}" onChange="{{onName}}" placeholder="{{t.namePh}}"></label>
+<div class="up s2" style="display: flex; flex-direction: column; gap: 14px;"><span class="lbl">{{t.whatDo}}</span><div style="display: flex; gap: 10px; flex-wrap: wrap;"><sc-for list="{{crafts}}" as="c" hint-placeholder-count="5"><button type="button" class="chip" onClick="{{c.toggle}}" aria-pressed="{{c.on}}" style="{{c.style}}">{{c.name}}</button></sc-for></div></div>
+<div class="up s3" style="display: flex; flex-direction: column; gap: 14px;"><span class="lbl">{{t.city}}</span><div style="display: flex; gap: 10px; flex-wrap: wrap;"><sc-for list="{{cities}}" as="c" hint-placeholder-count="5"><button type="button" class="chip" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="{{c.style}}">{{c.name}}</button></sc-for></div></div>
+</div>
+</sc-if>
+
+<sc-if value="{{sFilm}}" hint-placeholder-val="{{false}}">
+<div class="{{anim}}" style="display: flex; flex-direction: column; gap: 34px;">
+<div><h1 style="margin: 0; font-size: 48px; font-weight: 700; line-height: 1.2;">{{t.filmT}}</h1><p class="up s1" style="margin: 12px 0 0; color: var(--muted); font-size: 18px; line-height: 1.65;">{{t.filmP}}</p></div>
+<label class="up s1" style="display: flex; flex-direction: column; gap: 6px;"><span class="lbl">{{t.filmTitle}}</span><input class="big" value="{{film}}" onChange="{{onFilm}}" placeholder="{{t.filmPh}}"></label>
+<div class="up s2 grid2" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{types}}" as="c" hint-placeholder-count="4"><button type="button" class="{{c.cls}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="align-items: center; text-align: center; padding: 20px 10px; gap: 10px;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="{{c.ic}}"><path d="{{c.icon}}"></path></svg><b style="font-size: 15px; font-weight: 600;">{{c.name}}</b></button></sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{sFollow}}" hint-placeholder-val="{{false}}">
+<div class="{{anim}}" style="display: flex; flex-direction: column; gap: 28px;">
+<div style="text-align: center;"><h1 style="margin: 0; font-size: 48px; font-weight: 700; line-height: 1.2;">{{t.folT}}</h1><p class="up s1" style="margin: 12px 0 0; color: var(--muted); font-size: 18px; line-height: 1.65;">{{t.folP}}</p></div>
+<div class="grid2" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px;">
+<sc-for list="{{fests}}" as="f" hint-placeholder-count="4">
+<button type="button" class="{{f.cls}}" onClick="{{f.toggle}}" aria-pressed="{{f.on}}" style="{{f.delay}} flex-direction: row; align-items: center; gap: 14px; padding: 10px; padding-inline-end: 16px;">
+<img src="{{f.img}}" alt="" style="width: 76px; height: 76px; border-radius: 16px; object-fit: cover; flex: none;">
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;"><b style="font-size: 16px; font-weight: 600;">{{f.name}}</b><span style="font-size: 13px; color: var(--muted);">{{f.meta}}</span></span>
+<span style="{{f.btn}}">{{f.label}}</span>
+</button>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{sDone}}" hint-placeholder-val="{{false}}">
+<div class="{{anim}}" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 26px;">
+<span class="emblem"><span class="ring"></span><span class="ring r2"></span><span class="core" style="font-size: 0;"><svg class="check" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#0E0B04" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"></path></svg></span></span>
+<h1 class="up s1" style="margin: 0; font-size: 60px; font-weight: 700; line-height: 1.15;">{{doneT}}</h1>
+<p class="up s2" style="margin: 0; color: var(--muted); font-size: 19px; line-height: 1.7; max-width: 520px;">{{t.doneP}}</p>
+<div class="up s3" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;"><sc-for list="{{summary}}" as="s" hint-placeholder-count="3"><span style="display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 99px; background: var(--tile); border: 1px solid var(--line2); font-size: 14px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color: var(--gold);"><path d="m5 12 5 5 9-10"></path></svg>{{s}}</span></sc-for></div>
+<div class="up s4" style="display: flex; gap: 12px; align-items: center; padding: 14px 18px; border-radius: 18px; background: var(--goldTint); border: 1px solid var(--goldLine); color: var(--ink2); font-size: 15px; text-align: start;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" style="color: var(--gold); flex: none;"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>{{t.copTip}}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{sFest}}" hint-placeholder-val="{{false}}">
+<div class="{{anim}}" style="display: flex; flex-direction: column; gap: 34px;">
+<h1 style="margin: 0; font-size: 48px; font-weight: 700; line-height: 1.2;">{{t.festT}}</h1>
+<label class="up s1" style="display: flex; flex-direction: column; gap: 6px;"><span class="lbl">{{t.festName}}</span><input class="big" value="{{festName}}" onChange="{{onFestName}}" placeholder="{{t.festPh}}"></label>
+<div class="up s2" style="display: flex; flex-direction: column; gap: 14px;"><span class="lbl">{{t.festCity}}</span><div style="display: flex; gap: 10px; flex-wrap: wrap;"><sc-for list="{{cities}}" as="c" hint-placeholder-count="5"><button type="button" class="chip" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="{{c.style}}">{{c.name}}</button></sc-for></div></div>
+<div class="up s3" style="display: flex; flex-direction: column; gap: 14px;"><span class="lbl">{{t.yourRole}}</span><div style="display: flex; gap: 10px; flex-wrap: wrap;"><sc-for list="{{fRoles}}" as="c" hint-placeholder-count="3"><button type="button" class="chip" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="{{c.style}}">{{c.name}}</button></sc-for></div></div>
+</div>
+</sc-if>
+
+<sc-if value="{{sVerify}}" hint-placeholder-val="{{false}}">
+<div class="{{anim}}" style="display: flex; flex-direction: column; gap: 30px;">
+<div><h1 style="margin: 0; font-size: 48px; font-weight: 700; line-height: 1.2;">{{t.verT}}</h1><p class="up s1" style="margin: 12px 0 0; color: var(--muted); font-size: 18px; line-height: 1.65;">{{t.verP}}</p></div>
+<div style="display: flex; flex-direction: column;">
+<sc-for list="{{vsteps}}" as="v" hint-placeholder-count="4">
+<div class="up" style="{{v.delay}} display: flex; gap: 18px;"><div style="display: flex; flex-direction: column; align-items: center;"><span style="{{v.dot}}">{{v.n}}</span><sc-if value="{{v.more}}" hint-placeholder-val="{{true}}"><span style="width: 2px; flex: 1; min-height: 22px; background: linear-gradient(180deg, var(--gold), var(--line2));"></span></sc-if></div><div style="padding-bottom: 22px; display: flex; flex-direction: column; gap: 3px;"><b style="font-size: 18px; font-weight: 600;">{{v.name}}</b><span style="font-size: 15px; color: var(--muted);">{{v.sub}}</span></div></div>
+</sc-for>
+</div>
+<div class="up s4" style="display: flex; gap: 12px; align-items: center; padding: 14px 18px; border-radius: 18px; background: var(--tile); border: 1px solid var(--line2); color: var(--ink2); font-size: 15px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" style="color: var(--gold); flex: none;"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>{{t.private}}</div>
+</div>
+</sc-if>
+</div>
+</main>
+
+<sc-if value="{{sDone}}" hint-placeholder-val="{{false}}"><div aria-hidden="true" style="position: absolute; inset: 0; pointer-events: none; z-index: 1;"><sc-for list="{{confetti}}" as="c" hint-placeholder-count="24"><span class="conf" style="{{c}}"></span></sc-for></div></sc-if>
+
+<footer class="foot" style="position: absolute; inset-inline: 0; bottom: 0; z-index: 3; display: flex; justify-content: center; padding: 28px 40px 36px;">
+<div style="width: 100%; max-width: 640px; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+<sc-if value="{{canBack}}" hint-placeholder-val="{{false}}"><button type="button" class="ghost" onClick="{{back}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform: {{flip}};"><path d="M15 6l-6 6 6 6"></path></svg>{{t.back}}</button></sc-if>
+<sc-if value="{{noBack}}" hint-placeholder-val="{{true}}"><a href="Auth.dc.html" class="ghost">{{t.haveAcc}}</a></sc-if><sc-if value="{{isDoneS}}" hint-placeholder-val="{{false}}"><span></span></sc-if>
+<div style="display: flex; gap: 4px; align-items: center;">
+<sc-if value="{{canSkip}}" hint-placeholder-val="{{false}}"><button type="button" class="ghost" onClick="{{next}}">{{t.skip}}</button></sc-if>
+<sc-if value="{{ctaNext}}" hint-placeholder-val="{{true}}"><button type="button" class="go" onClick="{{next}}">{{ctaLabel}}<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="transform: {{flip}};"><path d="M9 6l6 6-6 6"></path></svg></button></sc-if>
+<sc-if value="{{ctaVerify}}" hint-placeholder-val="{{false}}"><a href="FestivalVerify.dc.html" class="go">{{t.toVerify}}</a></sc-if>
+<sc-if value="{{ctaHome}}" hint-placeholder-val="{{false}}"><a href="CreatorHome.dc.html" class="go">{{t.goHome}}</a></sc-if>
+</div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"role":{"editor":"enum","options":["maker","fest"],"default":"maker"},"step":{"editor":"enum","options":["welcome","role","about","film","follow","done","fest","verify"],"default":"welcome"},"$preview":{"width":1440,"height":960}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, step: null, dir: 1, role: null, name: 'نزار الشهراني', crafts: { 0: 1 }, city: 0, film: '', ftype: 2, follow: { 0: 1 }, festName: '', fRole: 0 }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const D = (s) => ar ? String(s).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]) : String(s);
+    const B = '/_blob/';
+    const role = this.state.role || this.props.role || 'maker';
+    const maker = role === 'maker';
+    const flow = maker ? ['welcome', 'role', 'about', 'film', 'follow', 'done'] : ['welcome', 'role', 'fest', 'verify'];
+    let st = this.state.step;
+    if (st === null || st === undefined) { const i = flow.indexOf(this.props.step || 'welcome'); st = i < 0 ? 0 : i; }
+    st = Math.min(st, flow.length - 1);
+    const cur = flow[st];
+    const go = (i, d) => this.setState({ step: i, dir: d });
+    const t = {
+      theme: L('Theme', 'المظهر'), back: L('Back', 'رجوع'), skip: L('Skip', 'تخطَّ'), cont: L('Continue', 'متابعة'), start: L('Get started', 'لنبدأ'), haveAcc: L('I already have an account', 'لدي حساب بالفعل'), langL: L('Language', 'اللغة'),
+      wH1: L('Welcome to NAS.', 'أهلًا بك في NAS.'), wH2: L('Every film deserves its festival.', 'كل فيلم يستحق مهرجانه.'),
+      wP: L('Let’s set up your account. It takes less than a minute.', 'لنجهّز حسابك. يستغرق الأمر أقل من دقيقة.'),
+      roleT: L('How will you use NAS?', 'كيف ستستخدم NAS؟'), roleP: L('You can add the other later.', 'ويمكنك إضافة الآخر لاحقًا.'),
+      juryNote: L('Jury members join through a festival’s email invitation.', 'ينضم أعضاء لجان التحكيم عبر دعوة بالبريد من المهرجان.'),
+      aboutT: L('Nice to meet you.', 'تشرّفنا بك.'), fullName: L('Your name', 'اسمك'), namePh: L('Full name', 'الاسم الكامل'), whatDo: L('What do you do?', 'ما الذي تعمل عليه؟'), city: L('Where are you based?', 'أين تقيم؟'),
+      filmT: L('Your first film', 'فيلمك الأول'), filmP: L('This becomes your NAS Project — one profile you can submit to many festivals.', 'سيصبح مشروعك على NAS — ملف واحد تقدّمه لمهرجانات كثيرة.'), filmTitle: L('Film title', 'عنوان الفيلم'), filmPh: L('e.g. Blue Ridge', 'مثال: التلال الزرقاء'),
+      folT: L('Follow a few festivals', 'تابع بعض المهرجانات'), folP: L('We’ll tell you when their calls open. All verified by NAS.', 'سنخبرك عند فتح باب المشاركة. جميعها موثّقة من NAS.'),
+      doneP: L('Your home is ready. Finish your project whenever you like, then submit in a few taps.', 'صفحتك جاهزة. أكمل مشروعك متى شئت، ثم قدّمه بخطوات قليلة.'), goHome: L('Go to my home', 'انتقل إلى صفحتي'),
+      copTip: L('Need help? Ask NAS Copilot anytime — by text or voice, in Arabic or English.', 'تحتاج مساعدة؟ اسأل مساعد NAS في أي وقت — كتابةً أو صوتًا، بالعربية أو الإنجليزية.'),
+      festT: L('Tell us about your festival', 'عرّفنا بمهرجانك'), festName: L('Festival name', 'اسم المهرجان'), festPh: L('e.g. Riyadh Nights Film Week', 'مثال: أسبوع ليالي الرياض السينمائي'), festCity: L('City', 'المدينة'), yourRole: L('Your role', 'دورك'),
+      verT: L('One last step: verification', 'خطوة أخيرة: التوثيق'), verP: L('NAS checks every festival by hand, so filmmakers know exactly who they’re sending their films to.', 'تتحقق NAS يدويًا من كل مهرجان، ليعرف صنّاع الأفلام لمن يرسلون أفلامهم.'),
+      private: L('Nothing is public until you’re verified. Meanwhile you can set up your workspace.', 'لا شيء يظهر للعامة قبل التوثيق. وفي الأثناء يمكنك تجهيز مساحة العمل.'), toVerify: L('Start verification', 'ابدأ التوثيق')
+    };
+    const anim = this.state.dir < 0 ? 'enterB' : 'enter';
+    const tileCls = (on) => on ? 'tile on' : 'tile';
+    const roles = [['maker', L('I make films', 'أصنع الأفلام'), L('Build your film’s profile once and submit to verified festivals.', 'أنشئ ملف فيلمك مرة واحدة وقدّمه للمهرجانات الموثّقة.'), '82a7fd35e417a6f6fe5eae81a26a291b'], ['fest', L('I run a festival', 'أدير مهرجانًا'), L('Receive films, review them with AI help, and publish your programme.', 'استقبل الأفلام وقيّمها بمساعدة الذكاء الاصطناعي وانشر برنامجك.'), '84a08c197b56e2cd88cfcefaf617cb0d']]
+      .map((r) => { const on = role === r[0]; return { name: r[1], desc: r[2], img: B + r[3], on, cls: tileCls(on), pick: () => this.setState({ role: r[0], step: 1 }),
+        tick: on ? 'background: var(--goldFill); color: var(--onGold); transform: scale(1);' : 'background: rgba(7,7,7,.55); color: transparent; border: 1.5px solid rgba(255,255,255,.4); transform: scale(.9);' }; });
+    const chipS = (on) => on ? 'background: var(--goldFill); color: var(--onGold); border: 1px solid transparent; box-shadow: 0 10px 24px -12px rgba(201,168,76,.7);' : 'background: var(--tile); color: var(--ink); border: 1px solid var(--line2);';
+    const cr = this.state.crafts;
+    const crafts = [L('Director', 'مخرج'), L('Producer', 'منتج'), L('Writer', 'كاتب'), L('Cinematographer', 'مدير تصوير'), L('Editor', 'مونتير')].map((n, i) => ({ name: n, on: !!cr[i], toggle: () => this.setState({ crafts: Object.assign({}, cr, { [i]: !cr[i] }) }), style: chipS(!!cr[i]) }));
+    const cityNames = [L('Riyadh', 'الرياض'), L('Jeddah', 'جدة'), L('Dammam', 'الدمام'), L('AlUla', 'العُلا'), L('Elsewhere', 'مدينة أخرى')];
+    const cities = cityNames.map((n, i) => ({ name: n, on: i === this.state.city, pick: () => this.setState({ city: i }), style: chipS(i === this.state.city) }));
+    const fRoles = [L('Director', 'المدير'), L('Programmer', 'مبرمج'), L('Team member', 'عضو فريق')].map((n, i) => ({ name: n, on: i === this.state.fRole, pick: () => this.setState({ fRole: i }), style: chipS(i === this.state.fRole) }));
+    const ft = this.state.ftype;
+    const typeIcons = ['M3 5h18v14H3zM7 5v14M17 5v14', 'M4 12h16M12 4v16', 'M4 7h12v10H4zM16 10l4-2v8l-4-2', 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM9 10h.01M15 10h.01M8.5 15a4 4 0 0 0 7 0'];
+    const typeNames = [L('Feature', 'روائي طويل'), L('Short', 'قصير'), L('Documentary', 'وثائقي'), L('Animation', 'رسوم متحركة')];
+    const types = typeNames.map((n, i) => ({ name: n, icon: typeIcons[i], on: i === ft, cls: tileCls(i === ft), pick: () => this.setState({ ftype: i }), ic: 'color: ' + (i === ft ? 'var(--gold)' : 'var(--muted)') + ';' }));
+    const fo = this.state.follow;
+    const festList = [['84a08c197b56e2cd88cfcefaf617cb0d', L('Riyadh Nights Film Week', 'أسبوع ليالي الرياض السينمائي'), L('Riyadh · calls open', 'الرياض · المشاركة مفتوحة')], ['1b4541a7aee7fdffc991b65d062db91a', L('AlUla Desert Shorts', 'أفلام العُلا القصيرة'), L('AlUla · 5 days left', 'العُلا · بقي ٥ أيام')], ['5505116db8be695bbdb2d57cb5ac0fce', L('Jeddah Old Town Cinema Days', 'أيام سينما جدة التاريخية'), L('Jeddah · January', 'جدة · يناير')], ['90a209f525aa3e23bd2efe4bf17a7b23', L('Dhahran Film Nights', 'ليالي الظهران السينمائية'), L('Dhahran · opens soon', 'الظهران · تفتح قريبًا')]];
+    const fests = festList.map((f, i) => { const on = !!fo[i]; return { img: B + f[0], name: f[1], meta: f[2], on, cls: tileCls(on), delay: 'animation-delay: ' + (0.06 * i).toFixed(2) + 's;', toggle: () => this.setState({ follow: Object.assign({}, fo, { [i]: !on }) }), label: on ? L('Following', 'تتابعه') : L('Follow', 'تابِع'),
+      btn: 'flex: none; height: 34px; padding: 0 14px; border-radius: 99px; display: inline-flex; align-items: center; font-size: 13px; font-weight: 700; transition: all .3s; ' + (on ? 'background: var(--goldFill); color: var(--onGold);' : 'border: 1px solid var(--line3); color: var(--ink);') }; });
+    const nFol = Object.keys(fo).filter((k) => fo[k]).length;
+    const first = String(this.state.name || '').trim().split(' ')[0] || (ar ? 'نزار' : 'Nizar');
+    const filmShown = this.state.film || L('Blue Ridge', 'التلال الزرقاء');
+    const summary = [L('Profile ready', 'ملفك جاهز'), L('Project: ', 'مشروعك: ') + filmShown, L('Following ', 'تتابع ') + D(nFol) + L(' festivals', ' مهرجانات')];
+    const photos = { welcome: 'c26011d198d75ef9c45d07d0c95c668b', role: '90a209f525aa3e23bd2efe4bf17a7b23', about: '73e0bf720640aeb5ca61f07fbf37bfd8', film: '82a7fd35e417a6f6fe5eae81a26a291b', follow: '84a08c197b56e2cd88cfcefaf617cb0d', done: 'c26011d198d75ef9c45d07d0c95c668b', fest: '5505116db8be695bbdb2d57cb5ac0fce', verify: '1b4541a7aee7fdffc991b65d062db91a' };
+    const steps = flow.length - (maker ? 2 : 1);
+    const pos = st - 1;
+    const lane = Array.from({ length: Math.max(steps, 1) }, (_, i) => 'transform: scaleX(' + (i < pos ? 1 : i === pos ? 0.5 : 0) + ');');
+    const vsteps = [[L('Your festival profile', 'ملف مهرجانك'), L('Name, dates and documents', 'الاسم والمواعيد والمستندات')], [L('NAS review', 'مراجعة NAS'), L('Usually 2–3 working days', 'عادةً خلال يومين إلى ثلاثة أيام عمل')], [L('Verified badge', 'شارة التوثيق'), L('Shown on your public profile', 'تظهر على ملفك العام')], [L('Go live', 'الإطلاق'), L('Start receiving films', 'ابدأ استقبال الأفلام')]]
+      .map((v, i) => ({ n: D(i + 1), name: v[0], sub: v[1], more: i < 3, delay: 'animation-delay: ' + (0.1 + i * 0.1).toFixed(2) + 's;', dot: 'width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 700; flex: none; ' + (i === 0 ? 'background: var(--goldFill); color: var(--onGold); box-shadow: 0 0 0 6px var(--goldTint);' : 'border: 1.5px solid var(--line3); color: var(--muted); background: var(--tile);') }));
+    const golds = ['#F2DCA6', '#D9B36A', '#B98C3E', '#E6CB80', '#F7F3EA'];
+    const confetti = Array.from({ length: 24 }, (_, i) => 'left: ' + ((i * 41 + 7) % 100) + '%; background: ' + golds[i % 5] + '; animation-delay: ' + (0.1 + (i % 8) * 0.12).toFixed(2) + 's; width: ' + (6 + (i % 3) * 2) + 'px; height: ' + (10 + (i % 4) * 3) + 'px;');
+    const isLast = st === flow.length - 1;
+    const pill = (on) => 'height: 42px; padding: 0 22px; border-radius: 99px; border: 0; cursor: pointer; font-size: 15px; font-weight: 600; transition: all .3s; ' + (on ? 'background: var(--goldFill); color: var(--onGold); box-shadow: 0 8px 20px -10px rgba(201,168,76,.7);' : 'background: transparent; color: var(--ink2);');
+    const val = (k) => (e) => this.setState({ [k]: e && e.target ? e.target.value : '' });
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light', toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }),
+      toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع', ar, en: !ar, flip: ar ? 'scaleX(-1)' : 'none',
+      pickAr: () => this.setState({ lang: 'ar' }), pickEn: () => this.setState({ lang: 'en' }), arPill: pill(ar) + " font-family: 'IBM Plex Sans Arabic', sans-serif;", enPill: pill(!ar) + " font-family: 'Geist', sans-serif;",
+      t, dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      photo: B + photos[cur], anim, lane, showLane: cur !== 'welcome' && cur !== 'done', stepLabel: L('Step ', 'الخطوة ') + D(Math.max(pos + 1, 1)) + L(' of ', ' من ') + D(steps), stepNow: Math.max(pos + 1, 1), stepMax: steps,
+      sWelcome: cur === 'welcome', sRole: cur === 'role', sAbout: cur === 'about', sFilm: cur === 'film', sFollow: cur === 'follow', sDone: cur === 'done', sFest: cur === 'fest', sVerify: cur === 'verify',
+      roles, crafts, cities, fRoles, types, fests, summary, vsteps, confetti,
+      name: this.state.name, onName: val('name'), film: this.state.film, onFilm: val('film'), festName: this.state.festName, onFestName: val('festName'),
+      doneT: L('You’re all set, ', 'كل شيء جاهز يا ') + first,
+      canBack: st > 0 && cur !== 'done', noBack: st === 0, isDoneS: cur === 'done', canSkip: cur === 'film' || cur === 'follow',
+      ctaNext: !isLast, ctaLabel: cur === 'welcome' ? t.start : t.cont, ctaVerify: isLast && !maker, ctaHome: isLast && maker,
+      back: () => go(Math.max(0, st - 1), -1), next: () => go(Math.min(flow.length - 1, st + 1), 1)
+    };
+  }
+}
+</script>
+</body>
+</html>

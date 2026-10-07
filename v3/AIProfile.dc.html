@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Festival AI profile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=Instrument+Serif:ital@0;1&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#070707}
+.th-dark{--bg:#070707;--sunk:#050505;--card:#111110;--card2:#1A1916;--goldTint:rgba(201,168,76,.10);--ink:#F7F3EA;--ink2:#DCD6CA;--muted:#A39E93;--faint:#8A857B;--gold:#C9A84C;--goldHi:#E6CB80;--goldBtnHover:linear-gradient(135deg,#F3DFA6 0%,#D6B55A 48%,#AE8836 100%);--onGold:#0E0B04;--line:rgba(201,168,76,.11);--line2:rgba(201,168,76,.18);--line3:rgba(201,168,76,.3);--goldLine:rgba(201,168,76,.45);--goldFill:linear-gradient(135deg,#EBD291 0%,#C9A84C 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.16),rgba(201,168,76,0) 70%);--c1:#B88A24;--c2:#5B8FE0;color-scheme:dark}
+.th-light{--bg:#FAF9F6;--sunk:#F3F1EC;--card:#FFFFFF;--card2:#F2F0EA;--goldTint:#F7EFDA;--ink:#121212;--ink2:#34322E;--muted:#66625B;--faint:#66625B;--gold:#A9822E;--goldHi:#7A5912;--goldBtnHover:linear-gradient(135deg,#EED58D 0%,#D2AC52 48%,#AD8836 100%);--onGold:#0E0B04;--line:rgba(122,89,18,.12);--line2:rgba(122,89,18,.18);--line3:rgba(122,89,18,.28);--goldLine:rgba(169,130,46,.4);--goldFill:linear-gradient(135deg,#E6C978 0%,#C79F45 48%,#A07B2C 100%);--glow:radial-gradient(900px 520px at 50% -8%,rgba(201,168,76,.12),rgba(201,168,76,0) 70%);--c1:#B07F12;--c2:#3A6FC4;color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2,[dir=ltr] h3{letter-spacing:-0.022em}
+*{box-sizing:border-box}
+a{color:var(--goldHi);text-decoration:none}
+.app{position:relative;display:flex;min-height:1000px;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+.side{flex:0 0 256px;border-inline-end:1px solid var(--line);padding:22px 14px;display:flex;flex-direction:column;gap:2px}
+.nav-h{font-size:12px;color:var(--faint);padding:18px 12px 6px;font-weight:600}
+.nav-i{display:flex;align-items:center;gap:12px;padding:0 12px;border-radius:12px;color:var(--ink2);font-size:15px;font-weight:500;min-height:44px}
+.nav-i:hover{background:var(--card2);color:var(--ink)}
+.nav-i.on{background:var(--card2);color:var(--ink);font-weight:600}
+.nav-i.on svg{color:var(--gold)}
+.ibtn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-weight:700;font-size:14px}
+.ibtn:hover{border-color:var(--gold);color:var(--goldHi)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px}
+.ct{font-size:18px;font-weight:700;margin:0}
+.btn{height:44px;padding:0 18px;border-radius:12px;font:inherit;font-size:15px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;white-space:nowrap}
+.btn-p{background:var(--goldFill);color:var(--onGold)}.btn-p:hover{background:var(--goldBtnHover);color:var(--onGold)}
+.btn-s{background:transparent;color:var(--ink);border-color:var(--line2)}.btn-s:hover{border-color:var(--gold);color:var(--goldHi)}
+.chip{height:38px;padding:0 14px;border-radius:99px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:99px;font-size:12px;font-weight:600;border:1px solid var(--line2);color:var(--ink2);white-space:nowrap}
+.pill.g{border-color:var(--goldLine);color:var(--goldHi);background:var(--goldTint)}
+textarea{width:100%;min-height:200px;border-radius:16px;background:var(--bg);border:1px solid var(--line2);color:var(--ink);font:inherit;font-size:17px;line-height:1.8;padding:18px 20px;outline:none;resize:vertical}
+textarea:focus{border-color:var(--gold)}
+input[type=range]{accent-color:var(--gold);width:100%}
+@media (max-width:900px){.side{display:none}}
+
+/*polish*/
+::selection{background:rgba(201,168,76,.35)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.card{background:linear-gradient(180deg,rgba(201,168,76,.06),rgba(201,168,76,0) 40%),var(--card);box-shadow:inset 0 1px 0 rgba(255,236,190,.05),0 24px 60px -36px rgba(0,0,0,.9);transition:border-color .35s,transform .45s cubic-bezier(.16,1,.3,1),box-shadow .35s}
+.th-light .card{background:var(--card);box-shadow:0 1px 2px rgba(18,18,18,.04),0 18px 40px -28px rgba(40,30,10,.25)}
+.btn-p,.go,.pillbtn{box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 30px -12px rgba(201,168,76,.6);transition:transform .25s cubic-bezier(.16,1,.3,1),box-shadow .25s,background .25s}
+.btn-p:hover,.go:hover,.pillbtn:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 16px 40px -12px rgba(201,168,76,.8)}
+.btn-p:active,.go:active,.pillbtn:active{transform:scale(.98)}
+.btn-s,.ibtn,.nav-i,.sso,.chip,.sug,.filter,.big{transition:all .25s cubic-bezier(.16,1,.3,1)}
+.nav-i.on{box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+@keyframes nasIn{from{opacity:0;transform:translateY(18px);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes nasFade{from{opacity:0}to{opacity:1}}
+main>*,.content>*{animation:nasIn .9s cubic-bezier(.16,1,.3,1) both}
+main>*:nth-child(2),.content>*:nth-child(2){animation-delay:.07s}
+main>*:nth-child(3),.content>*:nth-child(3){animation-delay:.14s}
+main>*:nth-child(4),.content>*:nth-child(4){animation-delay:.21s}
+main>*:nth-child(5),.content>*:nth-child(5){animation-delay:.28s}
+main>*:nth-child(n+6),.content>*:nth-child(n+6){animation-delay:.35s}
+.side{animation:nasFade .8s ease both}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}}
+/*endpolish*/
+</style>
+</helmet>
+<div class="{{themeClass}} app" dir="{{dir}}" style="font-family: {{font}};">
+<aside class="side" aria-label="{{t.nav}}">
+<a href="Main.dc.html" aria-label="NAS" style="display: flex; padding: 0 10px 12px;"><img src="/_blob/8db983f4aec7ec876db44d32e45a85d1" alt="NAS" style="height: 34px; width: auto;"></a>
+<div style="display: flex; align-items: center; gap: 10px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px;"><img src="/_blob/84a08c197b56e2cd88cfcefaf617cb0d" alt="" style="width: 36px; height: 36px; border-radius: 10px; object-fit: cover;"><span style="flex: 1; display: flex; flex-direction: column;"><b style="font-size: 14px;">{{t.fest}}</b><span style="font-size: 12px; color: var(--muted);">{{t.edition}}</span></span></div>
+<span class="nav-h">{{t.work}}</span>
+<a href="FestivalDashboard.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="14" y="12" width="7" height="9" rx="1.5"></rect><rect x="3" y="16" width="7" height="5" rx="1.5"></rect></svg>{{t.nDash}}</a>
+<a href="Queue.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M3 13h5l1.5 3h5L16 13h5"></path><path d="M5 5h14l2 8v6a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6z"></path></svg>{{t.nSubs}}</a>
+<a href="Selection.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="m8 12 3 3 5-6"></path></svg>{{t.nSel}}</a>
+<a href="Programme.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>{{t.nProg}}</a>
+<a href="AIProfile.dc.html" class="nav-i on"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>{{t.nAI}}</a>
+<a href="FestivalDashboard.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M18.5 20a6.5 6.5 0 0 0-3-5.5"></path></svg>{{t.nTeam}}</a>
+<a href="Festival.dc.html" class="nav-i"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path></svg>{{t.nPublic}}</a>
+</aside>
+
+<div style="flex: 1 1 640px; min-width: 0; display: flex; flex-direction: column;">
+<header style="display: flex; align-items: center; gap: 10px; padding: 14px 32px; border-bottom: 1px solid var(--line);">
+<span style="color: var(--muted); font-size: 14px;">{{t.crumb}}</span>
+<div style="margin-inline-start: auto; display: flex; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+</div>
+</header>
+
+<div style="max-width: 1240px; width: 100%; margin: 0 auto; padding: 32px 32px 64px; display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start;">
+<main style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 22px;">
+<section>
+<h1 style="margin: 0; font-size: 38px; font-weight: 700;">{{t.title}}</h1>
+<p style="margin: 8px 0 0; color: var(--muted); font-size: 16px; line-height: 1.6; max-width: 720px;">{{t.sub}}</p>
+</section>
+
+<section class="card" style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;"><h2 class="ct">{{t.inWords}}</h2><button type="button" class="btn btn-s" style="height: 38px; font-size: 14px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg>{{t.dictate}}</button></div>
+<textarea aria-label="{{t.inWords}}">{{t.text}}</textarea>
+</section>
+
+<section class="card" style="display: flex; flex-direction: column; gap: 22px;">
+<sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<span style="font-size: 15px; font-weight: 700;">{{g.name}}</span>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;"><sc-for list="{{g.chips}}" as="c" hint-placeholder-count="6"><button type="button" class="chip" onClick="{{c.toggle}}" aria-pressed="{{c.on}}" style="{{c.style}}">{{c.name}}</button></sc-for></div>
+</div>
+</sc-for>
+</section>
+
+<section class="card" style="display: flex; flex-direction: column; gap: 18px;">
+<h2 class="ct">{{t.criteriaT}}</h2>
+<sc-for list="{{criteria}}" as="c" hint-placeholder-count="4">
+<div style="display: grid; grid-template-columns: minmax(140px, 220px) 1fr 52px; gap: 16px; align-items: center;"><span style="font-size: 15px;">{{c.name}}</span><input type="range" min="0" max="100" value="{{c.v}}" onChange="{{c.set}}" aria-label="{{c.name}}"><b style="text-align: end;">{{c.pct}}</b></div>
+</sc-for>
+</section>
+</main>
+
+<aside style="flex: 1 1 340px; min-width: 300px; display: flex; flex-direction: column; gap: 22px; position: sticky; top: 20px;">
+<section class="card" style="display: flex; flex-direction: column; gap: 14px;">
+<div style="display: flex; justify-content: space-between; align-items: center;"><h2 class="ct">{{t.verT}}</h2><span class="{{verPill}}">{{verState}}</span></div>
+<sc-for list="{{versions}}" as="v" hint-placeholder-count="3">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 14px;"><span style="display: flex; flex-direction: column;"><b>{{v.name}}</b><span style="color: var(--muted); font-size: 13px;">{{v.when}}</span></span><span class="{{v.pill}}">{{v.state}}</span></div>
+</sc-for>
+<button type="button" class="btn btn-p" onClick="{{activate}}">{{activateLabel}}</button>
+<p style="margin: 0; font-size: 12px; color: var(--faint); line-height: 1.5;">{{t.verNote}}</p>
+</section>
+
+<section class="card" style="border-color: var(--goldLine); display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: center; gap: 8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" style="color: var(--gold);"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg><h2 class="ct">{{t.testT}}</h2></div>
+<p style="margin: 0; color: var(--muted); font-size: 13px;">{{t.testP}}</p>
+<sc-for list="{{test}}" as="x" hint-placeholder-count="3">
+<div style="display: flex; gap: 12px; align-items: flex-start; padding: 10px 0; border-top: 1px solid var(--line);"><img src="{{x.img}}" alt="" style="width: 40px; height: 52px; border-radius: 8px; object-fit: cover;"><span style="flex: 1; display: flex; flex-direction: column; gap: 3px;"><span style="display: flex; justify-content: space-between; gap: 8px;"><b style="font-size: 14px;">{{x.title}}</b><span style="color: var(--goldHi); font-weight: 700; font-size: 14px;">{{x.score}}</span></span><span style="font-size: 13px; color: var(--muted); line-height: 1.5;">{{x.why}}</span></span></div>
+</sc-for>
+</section>
+</aside>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, picks: { 't0': 1, 't2': 1, 's1': 1, 's3': 1, 'c0': 1, 'c2': 1 }, w: [40, 30, 20, 10], active: false }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const D = (s) => ar ? String(s).replace(/[0-9]/g, (d) => '٠١٢٣٤٥٦٧٨٩'[d]) : String(s);
+    const B = '/_blob/';
+    const t = {
+      nav: L('Festival navigation', 'تنقل المهرجان'), fest: L('Riyadh Nights', 'ليالي الرياض'), edition: L('5th edition · 2027', 'الدورة الخامسة · ٢٠٢٧'),
+      work: L('Workspace', 'مساحة العمل'), nDash: L('Overview', 'نظرة عامة'), nSubs: L('Submissions', 'المشاركات'), nSel: L('Selection', 'الاختيار'), nProg: L('Programme & guests', 'البرنامج والضيوف'), nAI: L('AI profile', 'ملف الذكاء الاصطناعي'), nTeam: L('Team & jury', 'الفريق والتحكيم'), nPublic: L('Public profile', 'الملف العام'),
+      crumb: L('Workspace / AI profile', 'مساحة العمل / ملف الذكاء الاصطناعي'), theme: L('Theme', 'المظهر'),
+      title: L('What is this edition looking for?', 'ما الذي تبحث عنه هذه الدورة؟'), sub: L('NAS AI uses this to organise, search and summarise submissions for your team. It never decides what gets selected.', 'يستخدم ذكاء NAS هذا الوصف لتنظيم المشاركات والبحث فيها وتلخيصها لفريقك. ولا يقرر أبدًا ما يتم اختياره.'),
+      inWords: L('In your own words', 'بكلماتك'), dictate: L('Dictate', 'أملِ صوتيًا'),
+      text: L('This year we want films that look at the city at night — people who work while others sleep, and the quiet lives behind lit windows. We are open to experimental form and to first films. We give special attention to Saudi and Gulf voices, and to stories told by women behind the camera.', 'نريد هذا العام أفلامًا تنظر إلى المدينة في الليل — إلى من يعملون بينما ينام الآخرون، وإلى الحياة الهادئة خلف النوافذ المضاءة. نرحّب بالأشكال التجريبية وبالأفلام الأولى، ونولي عناية خاصة لأصوات السعودية والخليج، وللقصص التي تصنعها نساء خلف الكاميرا.'),
+      criteriaT: L('How your jury weighs a film', 'كيف تزن لجنتك الفيلم'),
+      verT: L('Versions', 'الإصدارات'), verNote: L('Every version is saved. AI results always show which version they used.', 'تُحفظ كل الإصدارات. وتُظهر نتائج الذكاء الاصطناعي دائمًا الإصدار المستخدم.'),
+      testT: L('How NAS reads it', 'كيف يقرؤه NAS'), testP: L('A preview on three of your submissions — nothing is changed.', 'معاينة على ثلاث من مشاركاتك — دون أي تغيير.')
+    };
+    const P = this.state.picks;
+    const tog = (id) => () => this.setState({ picks: Object.assign({}, P, { [id]: !P[id] }) });
+    const chipStyle = (on) => on ? 'background: var(--goldFill); color: var(--onGold); border: 1px solid var(--gold);' : 'background: transparent; color: var(--ink2); border: 1px solid var(--line2);';
+    const groupsRaw = [
+      ['t', L('Themes', 'الموضوعات'), [L('The city at night', 'المدينة في الليل'), L('Work and labour', 'العمل والكدح'), L('Women behind the camera', 'نساء خلف الكاميرا'), L('Memory and place', 'الذاكرة والمكان'), L('Migration', 'الهجرة')]],
+      ['s', L('Form & style', 'الشكل والأسلوب'), [L('Observational', 'تأمّلي'), L('Experimental', 'تجريبي'), L('Hybrid fiction', 'روائي هجين'), L('First films', 'أفلام أولى'), L('Animation', 'رسوم متحركة')]],
+      ['c', L('Cultural focus', 'التركيز الثقافي'), [L('Saudi Arabia', 'السعودية'), L('Gulf', 'الخليج'), L('Arab world', 'العالم العربي'), L('Global South', 'الجنوب العالمي')]]
+    ];
+    const groups = groupsRaw.map((g) => ({ name: g[1], chips: g[2].map((n, i) => { const id = g[0] + i; return { name: n, on: !!P[id], toggle: tog(id), style: chipStyle(!!P[id]) }; }) }));
+    const w = this.state.w;
+    const criteria = [L('Artistic vision', 'الرؤية الفنية'), L('Fit with this edition', 'التوافق مع الدورة'), L('Craft', 'الحرفة'), L('Originality', 'الأصالة')].map((n, i) => ({ name: n, v: w[i], pct: D(w[i]) + '%', set: (e) => { const nw = w.slice(); nw[i] = Number(e && e.target ? e.target.value : w[i]); this.setState({ w: nw }); } }));
+    const act = this.state.active;
+    const versions = [[L('Version 4 · draft', 'الإصدار ٤ · مسودة'), L('Edited just now', 'عُدّل الآن'), act ? L('Active', 'مُفعّل') : L('Draft', 'مسودة'), act ? 'pill g' : 'pill'], [L('Version 3', 'الإصدار ٣'), L('1 Oct 2026 · Reem', '١ أكتوبر ٢٠٢٦ · ريم'), act ? L('Archived', 'مؤرشف') : L('Active', 'مُفعّل'), act ? 'pill' : 'pill g'], [L('Version 2', 'الإصدار ٢'), L('12 Sep 2026', '١٢ سبتمبر ٢٠٢٦'), L('Archived', 'مؤرشف'), 'pill']]
+      .map((v) => ({ name: v[0], when: v[1], state: v[2], pill: v[3] }));
+    const test = [['37b71e0c803a46dd004d42c8ccd9e528', L('Night Market', 'سوق الليل'), '9.1', L('Night-time city, labour, observational — matches 3 themes.', 'المدينة ليلًا والعمل وأسلوب تأمّلي — يطابق ٣ موضوعات.')], ['7274e26929b66f4d33046ed86b22aba3', L('The Moon Shepherd', 'راعي القمر'), '7.4', L('Strong first film; rural setting is less central to this edition.', 'فيلم أول قوي؛ لكن البيئة الريفية أقل مركزية في هذه الدورة.')], ['62fc6c5dd07ebab0db8fe9c90e94a90a', L('Pyramid of Light', 'هرم النور'), '6.2', L('Animation fits form; themes overlap little.', 'الرسوم المتحركة تناسب الشكل؛ والتقاطع في الموضوعات قليل.')]]
+      .map((x) => ({ img: B + x[0], title: x[1], score: D(x[2]).replace('.', ar ? '٫' : '.'), why: x[3] }));
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light', toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }),
+      toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      t, dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      groups, criteria, versions, test,
+      verState: act ? L('Version 4 active', 'الإصدار ٤ مُفعّل') : L('Unsaved changes', 'تغييرات غير مُفعّلة'), verPill: act ? 'pill g' : 'pill',
+      activate: () => this.setState({ active: true }), activateLabel: act ? L('Active ✓', 'مُفعّل ✓') : L('Activate version 4', 'فعّل الإصدار ٤')
+    };
+  }
+}
+</script>
+</body>
+</html>
