@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Track a submission</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0A0B}
+*{box-sizing:border-box}
+.th-dark{--bg:#0A0A0B;--s1:#111113;--s2:#18181B;--s3:#222226;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--ink:#F4F2EC;--ink2:#D6D3CB;--muted:#A3A19A;--faint:#8C8A83;--gold:#C9A84C;--goldHi:#E2C36E;--goldT:rgba(201,168,76,.12);--goldL:rgba(201,168,76,.4);--onGold:#151004;--ok:#5BC08A;--okT:rgba(91,192,138,.13);--no:#EE7A6E;--info:#86AEF2;--infoT:rgba(134,174,242,.13);--navBg:rgba(10,10,11,.78);--shadow:inset 0 1px 0 rgba(255,255,255,.04),0 24px 48px -28px rgba(0,0,0,.9);--glow:radial-gradient(800px 380px at 50% -12%,rgba(201,168,76,.13),rgba(201,168,76,0) 70%);color-scheme:dark}
+.th-light{--bg:#F8F7F4;--s1:#FFFFFF;--s2:#F2F1ED;--s3:#E8E6E0;--line:rgba(20,18,12,.08);--line2:rgba(20,18,12,.14);--ink:#141413;--ink2:#2F2D29;--muted:#5F5C56;--faint:#6B6862;--gold:#B08A33;--goldHi:#7E5E12;--goldT:rgba(201,168,76,.16);--goldL:rgba(169,130,46,.45);--onGold:#151004;--ok:#23794A;--okT:rgba(35,121,74,.1);--no:#B8402F;--info:#2F5FB3;--infoT:rgba(47,95,179,.1);--navBg:rgba(248,247,244,.82);--shadow:0 1px 2px rgba(20,18,12,.05),0 16px 36px -24px rgba(20,18,12,.22);--glow:radial-gradient(800px 380px at 50% -12%,rgba(201,168,76,.14),rgba(201,168,76,0) 70%);color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2{letter-spacing:-.025em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+.btn{height:46px;padding:0 20px;border-radius:12px;font:inherit;font-size:15px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:filter .2s,background .2s,border-color .2s}
+.btn-p{background:var(--gold);color:var(--onGold)}
+.btn-p:hover{filter:brightness(1.08)}
+.btn-s{background:var(--s2);color:var(--ink);border-color:var(--line2)}
+.btn-s:hover{border-color:var(--goldL)}
+.btn-g{background:transparent;color:var(--ink2)}
+.btn-g:hover{background:var(--s2)}
+.ibtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-size:13px;font-weight:700}
+.ibtn:hover{border-color:var(--goldL);color:var(--ink)}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:99px;font-size:13px;font-weight:600;white-space:nowrap}
+.c-info{background:var(--infoT);color:var(--info)}
+.lbl{display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600;color:var(--ink2);flex:1 1 220px}
+.fld{width:100%;height:52px;border-radius:14px;background:var(--s2);border:1px solid var(--line2);color:var(--ink);font:inherit;font-size:16px;padding:0 16px;outline:none}
+.fld:focus{border-color:var(--gold);box-shadow:0 0 0 4px var(--goldT)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.fu{animation:fadeUp .45s cubic-bezier(.16,1,.3,1) both}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.5)}50%{box-shadow:0 0 0 10px rgba(201,168,76,0)}}
+.pulse{animation:pulse 2s infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .9s linear infinite}
+@media (max-width:900px){.wrap{padding:0 16px}.hide-s{display:none !important}.g2{grid-template-columns:minmax(0,1fr) !important}}
+.nav2{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:60px;gap:20px;max-width:1180px;margin:0 auto;padding:0 32px}
+.nl2{display:flex;gap:30px}
+.nl2 a{font-size:14px;color:var(--muted);transition:color .2s}
+.nl2 a:hover,.nl2 a.on{color:var(--ink)}
+.tbtn2{width:34px;height:34px;border-radius:99px;border:0;background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-size:12.5px;font-weight:700}
+.tbtn2:hover{color:var(--ink);background:var(--s2)}
+.pill2{height:34px;padding:0 16px;border-radius:99px;background:var(--gold);color:var(--onGold);font-size:14px;font-weight:600;display:inline-flex;align-items:center}
+.pill2:hover{filter:brightness(1.08)}
+@media (max-width:900px){.nl2,.hs2{display:none !important}.nav2{grid-template-columns:1fr auto;padding:0 16px}}
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 1100px; -webkit-font-smoothing: antialiased;">
+
+<header style="position: sticky; top: 0; z-index: 30; background: var(--navBg); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line);">
+<div class="nav2">
+<a href="Main.dc.html" aria-label="NAS" style="justify-self: start;"><img src="/_blob/975845359f68a7d023125a410efe44f4" alt="NAS" style="height: 22px; width: auto; display: block;"></a>
+<nav class="nl2" aria-label="{{nv.menu}}"><a href="Festivals.dc.html">{{nv.fest}}</a><a href="Films.dc.html">{{nv.films}}</a><a href="Main.dc.html#how">{{nv.how}}</a><a href="Plans.dc.html">{{nv.plans}}</a></nav>
+<div style="justify-self: end; display: flex; align-items: center; gap: 4px;">
+<button type="button" class="tbtn2" onClick="{{toggleTheme}}" aria-label="{{nv.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="tbtn2" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+<a href="SignIn.dc.html" class="hs2" style="font-size: 14px; color: var(--muted); padding: 0 12px;">{{nv.signin}}</a>
+<a href="Start.dc.html" class="pill2">{{nv.start}}</a>
+</div>
+</div>
+</header>
+
+<main class="wrap" style="padding-top: 64px; padding-bottom: 96px; background: var(--glow) top / 100% 400px no-repeat; max-width: 880px;">
+<div style="text-align: center; display: flex; flex-direction: column; gap: 12px; align-items: center;"><h1 style="margin: 0; font-size: 52px; font-weight: 700;">{{t.h1}}</h1><p style="margin: 0; color: var(--muted); font-size: 18px;">{{t.p1}}</p></div>
+<div class="card" style="margin-top: 32px; padding: 20px; display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end;">
+<label class="lbl">{{t.ref}}<input class="fld" dir="ltr" value="{{ref}}" onChange="{{onRef}}" style="font-weight: 600; letter-spacing: .03em;"></label>
+<label class="lbl">{{t.email}}<input class="fld" dir="ltr" type="email" value="{{email}}" onChange="{{onEmail}}"></label>
+<button type="button" class="btn btn-p" onClick="{{find}}" style="height: 52px; min-width: 140px;"><sc-if value="{{busy}}" hint-placeholder-val="{{false}}"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.2-8.6"></path></svg></sc-if>{{t.find}}</button>
+</div>
+
+<sc-if value="{{found}}" hint-placeholder-val="{{true}}">
+<section class="fu" style="margin-top: 24px; display: flex; flex-direction: column; gap: 16px;">
+<div class="card" style="padding: 26px; display: flex; flex-direction: column; gap: 26px;">
+<div style="display: flex; gap: 18px; align-items: center;"><img src="/_blob/07a6092db243a79066a95642b1423f60" alt="" style="width: 72px; height: 96px; border-radius: 12px; object-fit: cover; flex: none;"><div style="flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0;"><b style="font-size: 24px;">{{t.film}}</b><span style="color: var(--muted); font-size: 15px;">{{t.meta}}</span></div><span class="chip c-info">{{t.now}}</span></div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; position: relative;">
+<sc-for list="{{tl}}" as="s" hint-placeholder-count="3"><div style="display: flex; flex-direction: column; gap: 10px; position: relative;"><span style="display: flex; align-items: center;"><span class="{{s.cls}}" style="width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex: none; {{s.dot}}">{{s.mark}}</span><span style="flex: 1; height: 2px; margin-inline: 8px; {{s.bar}}"></span></span><b style="font-size: 16px; {{s.tc}}">{{s.t}}</b><span style="font-size: 13.5px; color: var(--muted); line-height: 1.5; padding-inline-end: 16px;">{{s.d}}</span></div></sc-for>
+</div>
+<div style="padding: 16px 18px; border-radius: 14px; background: var(--s2); display: flex; gap: 14px; align-items: flex-start;"><img src="/_blob/25a9972bc44a28dd6db9377cb6546e2e" alt="" style="width: 36px; height: 36px; border-radius: 10px; object-fit: cover; flex: none;"><span style="display: flex; flex-direction: column; gap: 4px;"><b style="font-size: 14.5px;">{{t.msgFrom}} <span style="color: var(--faint); font-weight: 400;">· {{t.msgWhen}}</span></b><span style="font-size: 15px; color: var(--ink2); line-height: 1.6;">{{t.msg}}</span></span></div>
+</div>
+<div class="g2" style="display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 16px;">
+<div class="card" style="padding: 8px 24px;"><sc-for list="{{details}}" as="d" hint-placeholder-count="5"><div class="row" style="{{d.last}}"><span style="color: var(--faint);">{{d.k}}</span><b style="font-weight: 600; text-align: end;">{{d.v}}</b></div></sc-for></div>
+<div class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 10px;"><b style="font-size: 16px;">{{t.need}}</b><span style="font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 6px;">{{t.needP}}</span><button type="button" class="btn btn-s">{{t.upLink}}</button><button type="button" class="btn btn-s">{{t.receipt}}</button><button type="button" class="btn btn-g" style="color: var(--no);">{{t.withdraw}}</button></div>
+</div>
+</section>
+</sc-if>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"stage":{"editor":"enum","options":["received","review","selected"],"default":"review"},"$preview":{"width":1440,"height":1150}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, found: true, busy: false, ref: 'NAS-2026-00175', email: 'nizar@example.com' }; }
+  componentWillUnmount() { clearTimeout(this.tm); }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const stage = { received: 0, review: 1, selected: 2 }[this.props.stage || 'review'];
+    const nowL = [L('Received', 'مُستلَم'), L('In review', 'قيد المراجعة'), L('Official selection', 'اختيار رسمي')][stage];
+    const t = {
+      theme: L('Theme', 'المظهر'), nFest: L('Festivals', 'المهرجانات'), submit: L('Submit a film', 'قدّم فيلمك'),
+      h1: L('Track your submission', 'تتبّع مشاركتك'), p1: L('Your reference and email — no account needed.', 'يكفيك رقمك المرجعي وبريدك، بلا حساب.'), ref: L('Reference', 'الرقم المرجعي'), email: L('Email', 'البريد الإلكتروني'), find: L('Show status', 'اعرض الحالة'),
+      film: L('The Blue Hills', 'التلال الزرقاء'), meta: L('Riyadh Film Nights · Documentary', 'أسبوع ليالي الرياض السينمائي · وثائقي'), now: nowL,
+      msgFrom: L('Riyadh Film Nights', 'أسبوع ليالي الرياض السينمائي'), msgWhen: L('3 days ago', 'قبل ٣ أيام'),
+      msg: [L('Thank you — your film has arrived and the screener plays. Review starts after the deadline.', 'شكرًا لك! وصلنا فيلمك ورابطه يعمل. نبدأ المراجعة بعد آخر موعد للتقديم.'), L('Your film is with our reviewers now. We’ll write to you by 1 March with our decision.', 'فيلمك الآن بين أيدي المحكّمين، وسيصلك قرارنا قبل ١ مارس.'), L('Congratulations — The Blue Hills is in the official selection. Our team will contact you about screening dates.', 'ألف مبروك! «التلال الزرقاء» ضمن الاختيار الرسمي، وسيتواصل معك فريقنا لترتيب مواعيد العرض.')][stage],
+      need: L('Need to change something?', 'تبي تعدّل شيء؟'), needP: L('You can update your screener link until the deadline.', 'تقدر تحدّث رابط العرض حتى آخر موعد.'), upLink: L('Update screener link', 'حدّث رابط العرض'), receipt: L('Download receipt', 'نزّل الإيصال'), withdraw: L('Withdraw submission', 'اسحب المشاركة')
+    };
+    const steps = [[L('Received', 'مُستلَم'), L('8 Oct · film and screener checked', '٨ أكتوبر · راجعنا الفيلم والرابط')], [L('In review', 'قيد المراجعة'), L('Reviewers watch and score', 'المحكّمون يشاهدون ويقيّمون')], [L('Decision', 'القرار'), L('By 1 March 2027', 'قبل ١ مارس ٢٠٢٧')]];
+    if (stage === 2) steps[2] = [L('Official selection', 'اختيار رسمي'), L('28 Feb 2027', '٢٨ فبراير ٢٠٢٧')];
+    const dg = ar ? ['١', '٢', '٣'] : ['1', '2', '3'];
+    const tl = steps.map((s, i) => { const done = i < stage || (stage === 2 && i === 2); const cur = i === stage && stage !== 2;
+      return { t: s[0], d: s[1], mark: done ? '✓' : dg[i], cls: cur ? 'pulse' : '',
+        dot: done ? 'background: var(--gold); color: var(--onGold);' : (cur ? 'border: 2px solid var(--gold); color: var(--goldHi); background: var(--goldT);' : 'border: 1.5px solid var(--line2); color: var(--faint);'),
+        bar: i === 2 ? 'visibility: hidden;' : (i < stage ? 'background: var(--gold);' : 'background: var(--line2);'), tc: done || cur ? '' : 'color: var(--muted);' }; });
+    const dl = [[L('Reference', 'الرقم المرجعي'), 'NAS-2026-00175'], [L('Submitted', 'تاريخ التقديم'), L('8 Oct 2026', '٨ أكتوبر ٢٠٢٦')], [L('Category', 'القسم'), L('Documentary', 'وثائقي')], [L('Fee', 'الرسوم'), L('SAR 100 · paid', '١٠٠ ر.س · مدفوعة')], [L('Screener', 'رابط العرض'), L('Plays · checked today', 'يعمل · تأكدنا اليوم')]];
+    const details = dl.map((d, i) => ({ k: d[0], v: d[1], last: i === dl.length - 1 ? 'border-bottom: 0;' : '' }));
+    return {
+      nv: { menu: L('Main', 'القائمة'), fest: L('Festivals', 'المهرجانات'), how: L('How it works', 'كيف يعمل'), forF: L('For festivals', 'للمهرجانات'), films: L('Films', 'الأفلام'), plans: L('Plans', 'الباقات'), track: L('Track', 'تتبّع'), theme: L('Theme', 'المظهر'), signin: L('Sign in', 'دخول'), start: L('Start', 'ابدأ') },
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light',
+      toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }), toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      t, tl, details, found: this.state.found && !this.state.busy, busy: this.state.busy, ref: this.state.ref, email: this.state.email,
+      onRef: (e) => this.setState({ ref: e && e.target ? e.target.value : '' }), onEmail: (e) => this.setState({ email: e && e.target ? e.target.value : '' }),
+      find: () => { this.setState({ busy: true }); clearTimeout(this.tm); this.tm = setTimeout(() => this.setState({ busy: false, found: true }), 900); }
+    };
+  }
+}
+</script>
+</body>
+</html>

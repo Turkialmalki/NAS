@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Plans</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@200..800&amp;family=IBM+Plex+Sans+Arabic:wght@200;300;400;500;600;700&amp;family=Readex+Pro:wght@200..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#000}
+*{box-sizing:border-box}
+.th-dark{--bg:#000000;--s1:#0F0F10;--s2:#161618;--s3:#232326;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--ink:#F5F5F2;--ink2:#D9D7D0;--muted:#A1A09A;--faint:#86857F;--gold:#C9A84C;--goldHi:#E2C36E;--goldT:rgba(201,168,76,.12);--goldL:rgba(201,168,76,.4);--onGold:#151004;--ok:#5BC08A;--navBg:rgba(0,0,0,.72);color-scheme:dark}
+.th-light{--bg:#FBFBF9;--s1:#FFFFFF;--s2:#F2F1ED;--s3:#E6E4DE;--line:rgba(20,18,12,.08);--line2:rgba(20,18,12,.14);--ink:#111110;--ink2:#2F2D29;--muted:#5F5C56;--faint:#6B6862;--gold:#B08A33;--goldHi:#7E5E12;--goldT:rgba(201,168,76,.16);--goldL:rgba(169,130,46,.45);--onGold:#151004;--ok:#23794A;--navBg:rgba(251,251,249,.8);color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2{letter-spacing:-.035em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:60px;gap:20px;max-width:1180px;margin:0 auto;padding:0 32px}
+.nl{display:flex;gap:30px}
+.nl a{font-size:14px;color:var(--muted);transition:color .2s}
+.nl a:hover,.nl a.on{color:var(--ink)}
+.tbtn{width:34px;height:34px;border-radius:99px;border:0;background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-size:12.5px;font-weight:700}
+.tbtn:hover{color:var(--ink);background:var(--s2)}
+.pill{height:34px;padding:0 16px;border-radius:99px;background:var(--gold);color:var(--onGold);font-size:14px;font-weight:600;display:inline-flex;align-items:center}
+.seg{display:inline-flex;padding:4px;border-radius:99px;background:var(--s2)}
+.seg button{height:40px;padding:0 22px;border-radius:99px;border:0;background:transparent;color:var(--muted);font:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:all .25s}
+.plan{border-radius:30px;background:var(--s1);padding:36px;display:flex;flex-direction:column;gap:18px;position:relative}
+.cta{height:50px;padding:0 24px;border-radius:99px;background:var(--gold);color:var(--onGold);font-size:16px;font-weight:600;display:inline-flex;align-items:center;justify-content:center}
+.cta:hover{filter:brightness(1.08)}
+.ghost{height:50px;padding:0 24px;border-radius:99px;background:var(--s2);color:var(--ink);font-size:16px;font-weight:600;display:inline-flex;align-items:center;justify-content:center}
+.ghost:hover{background:var(--s3)}
+table{width:100%;border-collapse:collapse}
+th,td{padding:16px 12px;border-bottom:1px solid var(--line);text-align:center;font-size:15px}
+th:first-child,td:first-child{text-align:start;color:var(--ink2)}
+th{font-size:14px;color:var(--muted);font-weight:600}
+.qa{border-bottom:1px solid var(--line)}
+.qb{width:100%;min-height:64px;background:none;border:0;color:var(--ink);font:inherit;font-size:18px;font-weight:600;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer;text-align:start;padding:18px 0}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.fi{animation:fi .6s cubic-bezier(.16,1,.3,1) both}
+@media (max-width:900px){.nl,.hs{display:none !important}.nav{grid-template-columns:1fr auto;padding:0 16px}.wrap{padding:0 16px}.g3,.g2{grid-template-columns:minmax(0,1fr) !important}.tb{overflow-x:auto}}
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 900px; -webkit-font-smoothing: antialiased;">
+
+<header style="position: sticky; top: 0; z-index: 30; background: var(--navBg); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line);">
+<div class="nav">
+<a href="Main.dc.html" aria-label="NAS" style="justify-self: start;"><img src="/_blob/975845359f68a7d023125a410efe44f4" alt="NAS" style="height: 22px; width: auto; display: block;"></a>
+<nav class="nl" aria-label="{{t.menu}}"><a href="Festivals.dc.html">{{t.nFest}}</a><a href="Films.dc.html">{{t.nFilms}}</a><a href="Main.dc.html#how">{{t.nHow}}</a><a href="Plans.dc.html" class="on" aria-current="page">{{t.nPlans}}</a></nav>
+<div style="justify-self: end; display: flex; align-items: center; gap: 4px;">
+<button type="button" class="tbtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="tbtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+<a href="SignIn.dc.html" class="hs" style="font-size: 14px; color: var(--muted); padding: 0 12px;">{{t.signin}}</a>
+<a href="Start.dc.html" class="pill">{{t.start}}</a>
+</div>
+</div>
+</header>
+
+<section class="wrap" style="padding-top: 110px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px;">
+<h1 class="fi" style="margin: 0; font-size: 80px; font-weight: 600;">{{t.h1}}</h1>
+<p class="fi" style="margin: 0; font-size: 21px; color: var(--muted); max-width: 560px; line-height: 1.55;">{{t.p1}}</p>
+<div class="seg fi" role="tablist" style="margin-top: 18px;"><sc-for list="{{segs}}" as="s" hint-placeholder-count="2"><button type="button" role="tab" aria-selected="{{s.on}}" onClick="{{s.pick}}" style="{{s.style}}">{{s.l}}</button></sc-for></div>
+</section>
+
+<section class="wrap" style="padding-top: 56px;">
+<sc-if value="{{film}}" hint-placeholder-val="{{true}}"><div class="g2 fi" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto;"><sc-for list="{{fPlans}}" as="p" hint-placeholder-count="2"><div class="plan" style="{{p.box}}"><sc-if value="{{p.tag}}" hint-placeholder-val="{{false}}"><span style="position: absolute; top: 28px; inset-inline-end: 28px; font-size: 12.5px; font-weight: 700; color: var(--goldHi);">{{t.pop}}</span></sc-if><b style="font-size: 22px; font-weight: 600;">{{p.n}}</b><span style="display: flex; align-items: baseline; gap: 8px;"><b style="font-size: 52px; font-weight: 600; line-height: 1;">{{p.price}}</b><span style="font-size: 15px; color: var(--muted);">{{p.per}}</span></span><span style="font-size: 15.5px; color: var(--muted); line-height: 1.6; min-height: 50px;">{{p.d}}</span><a href="{{p.href}}" class="{{p.btn}}">{{p.cta}}</a><span style="height: 1px; background: var(--line); margin: 6px 0;"></span><sc-for list="{{p.items}}" as="i" hint-placeholder-count="5"><span style="display: flex; gap: 12px; align-items: flex-start; font-size: 15.5px; color: var(--ink2); line-height: 1.5;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 3px;"><path d="m5 12 5 5 9-10"></path></svg>{{i}}</span></sc-for></div></sc-for></div></sc-if>
+<sc-if value="{{fest}}" hint-placeholder-val="{{false}}"><div class="g3 fi" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;"><sc-for list="{{sPlans}}" as="p" hint-placeholder-count="3"><div class="plan" style="{{p.box}}"><sc-if value="{{p.tag}}" hint-placeholder-val="{{false}}"><span style="position: absolute; top: 28px; inset-inline-end: 28px; font-size: 12.5px; font-weight: 700; color: var(--goldHi);">{{t.pop}}</span></sc-if><b style="font-size: 22px; font-weight: 600;">{{p.n}}</b><b style="font-size: 34px; font-weight: 600; line-height: 1.1;">{{p.price}}</b><span style="font-size: 15px; color: var(--muted); line-height: 1.6; min-height: 50px;">{{p.d}}</span><a href="{{p.href}}" class="{{p.btn}}">{{p.cta}}</a><span style="height: 1px; background: var(--line); margin: 6px 0;"></span><sc-for list="{{p.items}}" as="i" hint-placeholder-count="5"><span style="display: flex; gap: 12px; align-items: flex-start; font-size: 15px; color: var(--ink2); line-height: 1.5;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 3px;"><path d="m5 12 5 5 9-10"></path></svg>{{i}}</span></sc-for></div></sc-for></div></sc-if>
+<p style="text-align: center; margin: 22px 0 0; font-size: 14px; color: var(--faint);">{{note}}</p>
+</section>
+
+<section class="wrap" style="padding-top: 130px;">
+<h2 style="margin: 0 0 28px; font-size: 40px; font-weight: 600; text-align: center;">{{t.cmpT}}</h2>
+<div class="tb" style="max-width: 900px; margin: 0 auto;"><table><thead><tr><th></th><sc-for list="{{cmpHead}}" as="h" hint-placeholder-count="2"><th>{{h}}</th></sc-for></tr></thead><tbody><sc-for list="{{cmp}}" as="r" hint-placeholder-count="6"><tr><td>{{r.l}}</td><sc-for list="{{r.v}}" as="v" hint-placeholder-count="2"><td style="{{v.c}}">{{v.t}}</td></sc-for></tr></sc-for></tbody></table></div>
+</section>
+
+<section class="wrap" style="padding-top: 130px; padding-bottom: 120px;">
+<div class="g2" style="display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 56px; align-items: start;">
+<h2 style="margin: 0; font-size: 40px; font-weight: 600;">{{t.faqT}}</h2>
+<div style="border-top: 1px solid var(--line);"><sc-for list="{{faqs}}" as="q" hint-placeholder-count="4"><div class="qa"><button type="button" class="qb" onClick="{{q.toggle}}" aria-expanded="{{q.open}}">{{q.q}}<span style="width: 32px; height: 32px; border-radius: 50%; background: var(--s2); display: inline-flex; align-items: center; justify-content: center; flex: none; transition: transform .3s; transform: {{q.rot}};"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg></span></button><sc-if value="{{q.open}}" hint-placeholder-val="{{false}}"><p class="fi" style="margin: 0 0 22px; color: var(--muted); font-size: 16px; line-height: 1.75;">{{q.a}}</p></sc-if></div></sc-for></div>
+</div>
+</section>
+
+<footer style="border-top: 1px solid var(--line);"><div class="wrap" style="padding-top: 26px; padding-bottom: 30px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--faint);"><span>{{t.copy}}</span><span style="display: flex; gap: 22px;"><a href="Festivals.dc.html">{{t.nFest}}</a><a href="ForFestivals.dc.html">{{t.forF}}</a><a href="#">{{t.privacy}}</a></span></div></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"audience":{"editor":"enum","options":["filmmakers","festivals"],"default":"filmmakers"},"$preview":{"width":1440,"height":2200}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, aud: null, faq: 0 }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const aud = this.state.aud != null ? this.state.aud : ((this.props.audience || 'filmmakers') === 'festivals' ? 1 : 0);
+    const t = {
+      theme: L('Theme', 'المظهر'), menu: L('Main', 'القائمة'), nFest: L('Festivals', 'المهرجانات'), nFilms: L('Films', 'الأفلام'), nHow: L('How it works', 'كيف يعمل'), nPlans: L('Plans', 'الباقات'), signin: L('Sign in', 'دخول'), start: L('Start', 'ابدأ'),
+      h1: L('Plans.', 'الباقات.'), p1: L('Start free. Upgrade only when you need more.', 'ابدأ مجانًا، وترقَّ متى احتجت.'), pop: L('Most chosen', 'الأكثر اختيارًا'),
+      cmpT: L('Compare', 'قارن'), faqT: L('Questions', 'أسئلة'), forF: L('For festivals', 'للمهرجانات'), privacy: L('Privacy', 'الخصوصية'), copy: L('© 2026 NAS · Made in Riyadh', '© ٢٠٢٦ NAS · صُنع في الرياض')
+    };
+    const segs = [L('Filmmakers', 'صنّاع الأفلام'), L('Festivals', 'المهرجانات')].map((l, i) => ({ l, on: aud === i, pick: () => this.setState({ aud: i }), style: aud === i ? 'background: var(--s1); color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.3);' : '' }));
+    const popBox = 'background: linear-gradient(180deg, var(--goldT), rgba(0,0,0,0) 45%), var(--s1); box-shadow: inset 0 0 0 1px var(--goldL);';
+    const fPlans = [
+      { n: L('Free', 'مجاني'), price: L('SAR 0', '٠ ر.س'), per: '', d: L('Everything you need to send a film today.', 'كل ما تحتاجه لتقدّم فيلمك اليوم.'), cta: L('Upload a film', 'ارفع فيلمك'), href: 'Start.dc.html', btn: 'ghost', tag: false, box: '',
+        items: [L('AI analysis for 2 films a month', 'تحليل فيلمين كل شهر'), L('Score, logline and festival matches', 'التقييم وفكرة الفيلم والمهرجانات الأنسب'), L('Send to any verified festival', 'التقديم لأي مهرجان موثّق'), L('Track every submission', 'متابعة كل مشاركاتك')] },
+      { n: 'NAS Pro', price: L('[PRICE]', '[السعر]'), per: L('/ month', '/ شهريًا'), d: L('For filmmakers with a slate — and a festival season to plan.', 'لمن عنده أكثر من فيلم، وموسم مهرجانات يخطط له.'), cta: L('Try Pro free for 14 days', 'جرّب Pro مجانًا ١٤ يومًا'), href: 'SignIn.dc.html', btn: 'cta', tag: true, box: popBox,
+        items: [L('Unlimited AI analysis', 'تحليل غير محدود'), L('Full report with timestamped notes', 'تقرير كامل بملاحظات مربوطة بالدقيقة والثانية'), L('Logline and synopsis in Arabic & English', 'فكرة الفيلم وملخصه بالعربي والإنجليزي'), L('New-festival alerts and deadline reminders', 'تنبيه بكل مهرجان جديد يناسبك، وتذكير بالمواعيد'), L('Compare cuts before you submit', 'قارن بين نسخ المونتاج قبل أن تقدّم')] }
+    ];
+    const sPlans = [
+      { n: L('Starter', 'الأساسية'), price: L('Talk to us', 'تواصل معنا'), d: L('One festival, one edition a year.', 'لمهرجان واحد بدورة سنوية.'), cta: L('Contact us', 'تواصل معنا'), href: 'ForFestivals.dc.html', btn: 'ghost', tag: false, box: '', items: [L('Public festival page', 'صفحة مهرجان عامة'), L('Up to 500 submissions', 'حتى ٥٠٠ مشاركة'), L('Up to 10 reviewers', 'حتى ١٠ محكّمين'), L('AI report on every film', 'تقرير ذكي لكل فيلم')] },
+      { n: L('Professional', 'الاحترافية'), price: L('Talk to us', 'تواصل معنا'), d: L('Established festivals with bigger teams.', 'للمهرجانات الراسخة وفرقها الكبيرة.'), cta: L('Request a demo', 'اطلب عرضًا تجريبيًا'), href: 'ForFestivals.dc.html', btn: 'cta', tag: true, box: popBox, items: [L('Up to 5 festivals', 'حتى ٥ مهرجانات'), L('Unlimited submissions & reviewers', 'مشاركات ومحكّمون بلا حد'), L('AI search across all films', 'بحث ذكي في كل الأفلام'), L('Reviewer workload balancing', 'توزيع عادل للأفلام على المحكّمين'), L('Priority support', 'دعم بأولوية')] },
+      { n: L('Enterprise', 'المؤسسات'), price: L('Custom', 'مخصّصة'), d: L('Organisations running many festivals.', 'للجهات التي تدير أكثر من مهرجان.'), cta: L('Talk to sales', 'تحدّث مع المبيعات'), href: 'ForFestivals.dc.html', btn: 'ghost', tag: false, box: '', items: [L('Unlimited festivals', 'مهرجانات بلا حد'), L('Platform admin console', 'لوحة إدارة المنصة'), L('Custom branding & scoring', 'هوية ومعايير تقييم مخصّصة'), L('Dedicated onboarding', 'إعداد مخصّص')] }
+    ];
+    const Y = { t: '✓', c: 'color: var(--gold); font-weight: 700;' }, NO = { t: '—', c: 'color: var(--faint);' };
+    const tx = (s) => ({ t: s, c: '' });
+    const cmpHead = aud === 0 ? [L('Free', 'مجاني'), 'Pro'] : [L('Starter', 'الأساسية'), L('Professional', 'الاحترافية'), L('Enterprise', 'المؤسسات')];
+    const cmp = (aud === 0 ? [
+      [L('AI analyses per month', 'عدد التحليلات شهريًا'), [tx(L('2', '٢')), tx(L('Unlimited', 'بلا حد'))]], [L('Score & festival matches', 'التقييم والمهرجانات الأنسب'), [Y, Y]], [L('Full timestamped report', 'التقرير الكامل'), [NO, Y]], [L('Bilingual logline & synopsis', 'فكرة الفيلم وملخصه بلغتين'), [NO, Y]], [L('Festival alerts & reminders', 'تنبيهات المهرجانات والمواعيد'), [NO, Y]], [L('Submission tracking', 'تتبّع المشاركات'), [Y, Y]]
+    ] : [
+      [L('Festivals', 'المهرجانات'), [tx(L('1', '١')), tx(L('5', '٥')), tx(L('Unlimited', 'بلا حد'))]], [L('Submissions', 'المشاركات'), [tx(L('500', '٥٠٠')), tx(L('Unlimited', 'بلا حد')), tx(L('Unlimited', 'بلا حد'))]], [L('AI report per film', 'تقرير ذكي لكل فيلم'), [Y, Y, Y]], [L('AI search', 'البحث الذكي'), [NO, Y, Y]], [L('Admin console', 'لوحة الإدارة'), [NO, NO, Y]], [L('Custom branding', 'هوية مخصّصة'), [NO, NO, Y]]
+    ]).map((r) => ({ l: r[0], v: r[1] }));
+    const qs = aud === 0 ? [
+      [L('Do festivals see my AI score?', 'هل ترى المهرجانات تقييمي؟'), L('Only if you choose to share the report. By default festivals see your film and its details — the score is yours.', 'لا، إلا إذا قررت مشاركته. المهرجان يرى فيلمك وبياناته فقط، والتقييم يبقى لك.')],
+      [L('Are festival fees included?', 'هل رسوم المهرجانات مشمولة؟'), L('No. Each festival sets its own fee, shown before you send. NAS adds nothing on top.', 'لا. لكل مهرجان رسومه وتظهر لك قبل الإرسال، ولا نضيف عليها ريالًا واحدًا.')],
+      [L('Can I cancel Pro anytime?', 'هل يمكنني إلغاء Pro في أي وقت؟'), L('Yes, from your studio settings. You keep your reports.', 'نعم، من إعدادات حسابك متى شئت، وتبقى تقاريرك محفوظة.')]
+    ] : [
+      [L('How long does setup take?', 'كم يستغرق الإعداد؟'), L('Most festivals are live within a week, after verification.', 'أغلب المهرجانات تنطلق خلال أسبوع من التحقق.')],
+      [L('Who verifies festivals?', 'من يتحقق من المهرجانات؟'), L('A person on the NAS team checks the organiser, licence and dates.', 'فريق NAS نفسه، يراجع الجهة المنظِّمة والترخيص والمواعيد.')],
+      [L('Does AI make decisions?', 'هل يتخذ الذكاء الاصطناعي القرار عنّا؟'), L('Never. It searches, sorts and summarises. Your team decides.', 'أبدًا. يساعدك في البحث والفرز والتلخيص، والقرار لفريقك دائمًا.')]
+    ];
+    const faqs = qs.map((q, i) => ({ q: q[0], a: q[1], open: this.state.faq === i, rot: this.state.faq === i ? 'rotate(45deg)' : 'none', toggle: () => this.setState({ faq: this.state.faq === i ? -1 : i }) }));
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light',
+      toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }), toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      t, segs, film: aud === 0, fest: aud === 1, fPlans, sPlans, cmpHead, cmp, faqs,
+      note: aud === 0 ? L('Festival fees are paid to each festival. Prices include VAT.', 'رسوم كل مهرجان تُدفع له مباشرة. الأسعار شاملة الضريبة.') : L('Pricing is agreed directly with each festival.', 'تُحدَّد الأسعار مباشرة مع كل مهرجان.')
+    };
+  }
+}
+</script>
+</body>
+</html>

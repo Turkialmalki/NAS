@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Submissions</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0A0B}
+*{box-sizing:border-box}
+.th-dark{--bg:#0A0A0B;--side:#0E0E10;--s1:#111113;--s2:#18181B;--s3:#222226;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--ink:#F4F2EC;--ink2:#D6D3CB;--muted:#A3A19A;--faint:#8C8A83;--gold:#C9A84C;--goldHi:#E2C36E;--goldT:rgba(201,168,76,.12);--goldL:rgba(201,168,76,.4);--onGold:#151004;--ok:#5BC08A;--okT:rgba(91,192,138,.13);--no:#EE7A6E;--noT:rgba(238,122,110,.13);--info:#86AEF2;--infoT:rgba(134,174,242,.13);--shadow:inset 0 1px 0 rgba(255,255,255,.04),0 24px 48px -28px rgba(0,0,0,.9);color-scheme:dark}
+.th-light{--bg:#F8F7F4;--side:#F2F1ED;--s1:#FFFFFF;--s2:#F2F1ED;--s3:#E8E6E0;--line:rgba(20,18,12,.08);--line2:rgba(20,18,12,.14);--ink:#141413;--ink2:#2F2D29;--muted:#5F5C56;--faint:#6B6862;--gold:#B08A33;--goldHi:#7E5E12;--goldT:rgba(201,168,76,.16);--goldL:rgba(169,130,46,.45);--onGold:#151004;--ok:#23794A;--okT:rgba(35,121,74,.1);--no:#B8402F;--noT:rgba(184,64,47,.1);--info:#2F5FB3;--infoT:rgba(47,95,179,.1);--shadow:0 1px 2px rgba(20,18,12,.05),0 16px 36px -24px rgba(20,18,12,.18);color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2{letter-spacing:-.025em}
+a{color:inherit;text-decoration:none}
+.btn{height:42px;padding:0 18px;border-radius:12px;font:inherit;font-size:14.5px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:filter .2s,background .2s,border-color .2s}
+.btn-p{background:var(--gold);color:var(--onGold)}
+.btn-p:hover{filter:brightness(1.08)}
+.btn-s{background:var(--s2);color:var(--ink);border-color:var(--line2)}
+.btn-s:hover{border-color:var(--goldL)}
+.btn-g{background:transparent;color:var(--ink2)}
+.btn-g:hover{background:var(--s2)}
+.ibtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-size:13px;font-weight:700}
+.ibtn:hover{border-color:var(--goldL);color:var(--ink)}
+.ni{height:42px;padding:0 12px;border-radius:11px;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:15px;font-weight:500}
+.ni:hover{background:var(--s2);color:var(--ink)}
+.ni.on{background:var(--s2);color:var(--ink);font-weight:600}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
+.c-ok{background:var(--okT);color:var(--ok)}
+.c-no{background:var(--noT);color:var(--no)}
+.c-info{background:var(--infoT);color:var(--info)}
+.c-gold{background:var(--goldT);color:var(--goldHi)}
+.c-mute{background:var(--s2);color:var(--muted)}
+.sug{height:34px;padding:0 14px;border-radius:99px;border:1px solid var(--line2);background:transparent;color:var(--ink2);font:inherit;font-size:13.5px;font-weight:500;cursor:pointer;white-space:nowrap}
+.sug:hover{border-color:var(--goldL);color:var(--ink)}
+.fld{height:44px;border-radius:12px;background:var(--s2);border:1px solid var(--line2);color:var(--ink);font:inherit;font-size:14.5px;padding:0 14px;outline:none}
+.fld:focus{border-color:var(--gold);box-shadow:0 0 0 4px var(--goldT)}
+table{width:100%;border-collapse:collapse;min-width:900px}
+th{font-size:12.5px;font-weight:600;color:var(--faint);text-align:start;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--line);font-size:14.5px;vertical-align:middle}
+tbody tr{transition:background .15s}
+tbody tr:hover{background:var(--s2)}
+.cb{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line2);background:transparent;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;color:var(--onGold)}
+.av{width:28px;height:28px;border-radius:50%;background:var(--s3);border:2px solid var(--s1);display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ink2);margin-inline-start:-8px}
+.av:first-child{margin-inline-start:0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.fu{animation:fadeUp .35s cubic-bezier(.16,1,.3,1) both}
+@media (max-width:900px){.side{flex:1 1 100% !important;border:0 !important}}
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 1300px; display: flex; flex-wrap: wrap; -webkit-font-smoothing: antialiased;">
+
+<aside class="side" style="flex: 0 0 256px; background: var(--side); border-inline-end: 1px solid var(--line); padding: 18px 14px; display: flex; flex-direction: column; gap: 4px;">
+<a href="Main.dc.html" aria-label="NAS" style="padding: 6px 10px 18px;"><img src="/_blob/975845359f68a7d023125a410efe44f4" alt="NAS" style="height: 24px; width: auto; display: block;"></a>
+<button type="button" style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 14px; background: var(--s1); border: 1px solid var(--line); margin-bottom: 14px; font: inherit; color: inherit; cursor: pointer; text-align: start;"><img src="/_blob/25a9972bc44a28dd6db9377cb6546e2e" alt="" style="width: 36px; height: 36px; border-radius: 9px; object-fit: cover;"><span style="flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0;"><b style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{t.fest}}</b><span style="font-size: 12px; color: var(--ok);">● {{t.open}}</span></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg></button>
+<sc-for list="{{nav}}" as="n" hint-placeholder-count="5"><a href="{{n.href}}" class="{{n.cls}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{n.ic}}"></path></svg><span style="flex: 1;">{{n.l}}</span><span style="font-size: 12px; color: var(--faint);">{{n.c}}</span></a></sc-for>
+<div style="margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 10px; padding-inline: 6px;"><span style="width: 36px; height: 36px; border-radius: 50%; background: var(--goldT); color: var(--goldHi); display: inline-flex; align-items: center; justify-content: center; font-weight: 700;">{{t.ini}}</span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><b style="font-size: 14px;">{{t.user}}</b><span style="font-size: 12px; color: var(--faint);">{{t.role}}</span></span></div>
+</aside>
+
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column;">
+<div style="height: 68px; display: flex; align-items: center; gap: 10px; padding: 0 32px; border-bottom: 1px solid var(--line);">
+<span style="font-size: 14.5px; color: var(--muted);"><a href="Dashboard.dc.html">{{t.home}}</a> <span style="color: var(--faint); margin: 0 6px;">/</span> <b style="color: var(--ink);">{{t.h1}}</b></span>
+<div style="margin-inline-start: auto; display: flex; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+</div>
+</div>
+
+<main style="padding: 28px 32px; display: flex; flex-direction: column; gap: 18px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap;"><div><h1 style="margin: 0; font-size: 34px; font-weight: 700;">{{t.h1}}</h1><p style="margin: 6px 0 0; color: var(--muted); font-size: 15.5px;">{{t.sub}}</p></div><button type="button" class="btn btn-s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"></path></svg>{{t.export}}</button></div>
+
+<div class="card" style="padding: 18px; display: flex; flex-direction: column; gap: 14px; background: linear-gradient(180deg, var(--goldT), rgba(0,0,0,0) 60%), var(--s1); border-color: var(--goldL);">
+<div style="display: flex; gap: 10px; align-items: center;">
+<label style="flex: 1; position: relative; display: block;"><span style="position: absolute; inset-inline-start: 16px; top: 15px; color: var(--gold);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"></path><path d="M19 15l.8 1.9L22 18l-2.2.9L19 21l-.8-2.1L16 18l2.2-1.1z"></path></svg></span><input class="fld" value="{{q}}" onChange="{{onQ}}" placeholder="{{t.aiPh}}" aria-label="{{t.aiPh}}" style="width: 100%; height: 50px; padding-inline-start: 46px; font-size: 15.5px; background: var(--s1);"></label>
+<sc-if value="{{aiOn}}" hint-placeholder-val="{{false}}"><button type="button" class="btn btn-g" onClick="{{clearQ}}">{{t.clear}}</button></sc-if>
+<button type="button" class="btn btn-p" onClick="{{runQ}}" style="height: 50px;">{{t.ask}}</button>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;"><sc-for list="{{sugs}}" as="s" hint-placeholder-count="8"><button type="button" class="sug" onClick="{{s.pick}}" aria-pressed="{{s.on}}" style="{{s.style}}">{{s.l}}</button></sc-for></div>
+<sc-if value="{{aiOn}}" hint-placeholder-val="{{false}}"><div class="fu" style="display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink2);"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"></path></svg>{{aiSummary}}</div></sc-if>
+</div>
+
+<div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+<select class="fld" aria-label="{{t.status}}" value="{{fs}}" onChange="{{onFs}}"><sc-for list="{{statusOpts}}" as="o" hint-placeholder-count="6"><option value="{{o.v}}">{{o.l}}</option></sc-for></select>
+<select class="fld" aria-label="{{t.genre}}" value="{{fg}}" onChange="{{onFg}}"><sc-for list="{{genreOpts}}" as="o" hint-placeholder-count="5"><option value="{{o.v}}">{{o.l}}</option></sc-for></select>
+<select class="fld" aria-label="{{t.assign}}"><option>{{t.allAssign}}</option><option>{{t.unassigned}}</option><option>{{t.mine}}</option></select>
+<span style="margin-inline-start: auto; font-size: 14px; color: var(--faint);">{{countLabel}}</span>
+</div>
+
+<sc-if value="{{anySel}}" hint-placeholder-val="{{false}}"><div class="fu" style="display: flex; align-items: center; gap: 10px; padding: 10px 12px 10px 16px; border-radius: 14px; background: var(--s3); flex-wrap: wrap;"><b style="font-size: 14.5px; margin-inline-end: 8px;">{{selLabel}}</b><button type="button" class="btn btn-s" style="height: 36px; font-size: 13.5px;">{{t.bAssign}}</button><button type="button" class="btn btn-s" style="height: 36px; font-size: 13.5px;">{{t.bShort}}</button><button type="button" class="btn btn-s" style="height: 36px; font-size: 13.5px;">{{t.bAi}}</button><button type="button" class="btn btn-g" onClick="{{clearSel}}" style="height: 36px; font-size: 13.5px; margin-inline-start: auto;">{{t.cancel}}</button></div></sc-if>
+
+<div class="card" style="overflow-x: auto; padding: 4px 6px;">
+<table>
+<thead><tr><th style="width: 44px;"><button type="button" class="cb" onClick="{{selAll}}" aria-label="{{t.selAll}}" style="{{allBox}}"><sc-if value="{{allOn}}" hint-placeholder-val="{{false}}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg></sc-if></button></th><th>{{t.cFilm}}</th><th>{{t.cDir}}</th><th>{{t.cStatus}}</th><th>{{t.cAi}}</th><th>{{t.cRev}}</th><th>{{t.cDate}}</th></tr></thead>
+<tbody><sc-for list="{{rows}}" as="r" hint-placeholder-count="8"><tr style="{{r.bg}}">
+<td><button type="button" class="cb" onClick="{{r.toggle}}" aria-label="{{r.selL}}" style="{{r.box}}"><sc-if value="{{r.sel}}" hint-placeholder-val="{{false}}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg></sc-if></button></td>
+<td><a href="SubmissionDetail.dc.html" style="display: flex; align-items: center; gap: 12px;"><img src="{{r.img}}" alt="" style="width: 36px; height: 48px; border-radius: 7px; object-fit: cover; flex: none;"><span style="display: flex; flex-direction: column; gap: 3px; min-width: 0;"><b style="font-size: 15px;">{{r.t}}</b><span style="font-size: 12.5px; color: var(--faint);">{{r.m}}</span><sc-if value="{{r.hasWhy}}" hint-placeholder-val="{{false}}"><span style="font-size: 12.5px; color: var(--goldHi); max-width: 420px;">✦ {{r.why}}</span></sc-if></span></a></td>
+<td style="color: var(--ink2);">{{r.d}}</td>
+<td><span class="chip {{r.cls}}">{{r.st}}</span></td>
+<td><span style="display: inline-flex; align-items: center; gap: 8px;"><b style="font-size: 15px; min-width: 28px;">{{r.s}}</b><span style="width: 56px; height: 6px; border-radius: 99px; background: var(--s3); overflow: hidden;"><span style="display: block; height: 100%; border-radius: 99px; background: var(--gold); {{r.sw}}"></span></span></span></td>
+<td><span style="display: inline-flex;"><sc-for list="{{r.revs}}" as="a" hint-placeholder-count="2"><span class="av">{{a}}</span></sc-for><sc-if value="{{r.noRev}}" hint-placeholder-val="{{false}}"><span style="font-size: 13px; color: var(--faint);">{{t.none}}</span></sc-if></span></td>
+<td style="color: var(--faint); font-size: 13.5px; white-space: nowrap;">{{r.date}}</td>
+</tr></sc-for></tbody>
+</table>
+<sc-if value="{{empty}}" hint-placeholder-val="{{false}}"><div style="padding: 56px 20px; text-align: center; color: var(--muted);">{{t.empty}}</div></sc-if>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, q: '', chip: -1, ran: false, fs: 'all', fg: 'all', sel: [] }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const N = (n) => ar ? String(n).replace(/\d/g, (x) => '٠١٢٣٤٥٦٧٨٩'[x]).replace('.', '٫') : String(n);
+    const t = {
+      theme: L('Theme', 'المظهر'), fest: L('Riyadh Film Nights', 'أسبوع ليالي الرياض السينمائي'), open: L('Open · 5th edition', 'مفتوح · الدورة الخامسة'), ini: L('R', 'ر'), user: L('Reem Al-Otaibi', 'ريم العتيبي'), role: L('Festival director', 'مديرة المهرجان'),
+      home: L('Dashboard', 'لوحة التحكم'), h1: L('Submissions', 'المشاركات'), sub: L('Every film in one list. Ask in plain words to find the right ones.', 'كل الأفلام في قائمة واحدة. اسأل بكلمات بسيطة لتجد ما تبحث عنه.'), export: L('Export', 'تصدير'),
+      aiPh: L('Ask AI: “documentaries about family with strong sound design”', 'اكتب ما تبحث عنه، مثلًا: «وثائقيات عن العائلة بصوت قوي»'), ask: L('Ask AI', 'اسأل'), clear: L('Clear', 'مسح'),
+      status: L('Status', 'الحالة'), genre: L('Type', 'النوع'), assign: L('Assignment', 'الإسناد'), allAssign: L('All assignments', 'كل الإسنادات'), unassigned: L('No reviewer', 'بلا محكّم'), mine: L('Assigned to me', 'مسندة إليّ'),
+      bAssign: L('Assign reviewer', 'أسند لمحكّم'), bShort: L('Add to shortlist', 'أضف للقائمة القصيرة'), bAi: L('Run AI analysis', 'شغّل التحليل'), cancel: L('Cancel', 'إلغاء'), selAll: L('Select all', 'تحديد الكل'),
+      cFilm: L('Film', 'الفيلم'), cDir: L('Director', 'المخرج'), cStatus: L('Status', 'الحالة'), cAi: L('AI score', 'تقييم الذكاء'), cRev: L('Reviewers', 'المحكّمون'), cDate: L('Received', 'الاستلام'),
+      none: L('None yet', 'لا أحد'), empty: L('No films match. Try another question or clear the filters.', 'ما وجدنا أفلامًا بهذا الوصف. جرّب صياغة أخرى أو امسح الفلاتر.')
+    };
+    const nav = [
+      ['Dashboard.dc.html', 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z', L('Dashboard', 'لوحة التحكم'), '', 0],
+      ['Submissions.dc.html', 'M4 4h16v16H4zM4 9h16M9 4v16', L('Submissions', 'المشاركات'), N(214), 1],
+      ['Submissions.dc.html', 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8', L('Reviewers', 'المحكّمون'), N(14), 0],
+      ['Festival.dc.html', 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18', L('Public page', 'الصفحة العامة'), '', 0],
+      ['Dashboard.dc.html', 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2.4l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2z', L('Settings', 'الإعدادات'), '', 0]
+    ].map((n) => ({ href: n[0], ic: n[1], l: n[2], c: n[3], cls: n[4] ? 'ni on' : 'ni' }));
+    const sugL = [L('Strong directing', 'إخراج قوي'), L('Strong lighting', 'إضاءة قوية'), L('Films about animals', 'أفلام عن الحيوانات'), L('Emotional drama', 'دراما عاطفية'), L('High festival fit', 'ملاءمة عالية للمهرجان'), L('Under 90 minutes', 'أقل من ٩٠ دقيقة'), L('High priority', 'أولوية عالية'), L('Strong originality', 'أصالة قوية')];
+    const ST = { new: [L('Received', 'مُستلَم'), 'c-mute'], ai: [L('AI analysing', 'قيد التحليل'), 'c-info'], rev: [L('In review', 'قيد المراجعة'), 'c-info'], short: [L('Shortlist', 'قائمة قصيرة'), 'c-gold'], sel: [L('Selected', 'مختار'), 'c-ok'], pass: [L('Passed', 'اعتذار'), 'c-no'] };
+    const films = [
+      ['/_blob/07a6092db243a79066a95642b1423f60', L('The Blue Hills', 'التلال الزرقاء'), 'doc', 88, L('Nizar Al-Shahrani', 'نزار الشهراني'), 'short', 8.7, [L('R', 'ر'), L('L', 'ل')], L('8 Oct', '٨ أكتوبر'), [0, 2, 4, 5, 7], L('Shepherds and their flock carry the film; patient, confident direction (04:10, 37:52).', 'الرعاة وقطيعهم محور الفيلم؛ إخراج صبور وواثق (٠٤:١٠، ٣٧:٥٢).')],
+      ['/_blob/25a9972bc44a28dd6db9377cb6546e2e', L('Night Market', 'سوق الليل'), 'fic', 74, L('Sara Al-Dosari', 'سارة الدوسري'), 'rev', 8.4, [L('K', 'خ')], L('7 Oct', '٧ أكتوبر'), [1, 3, 4, 5], L('Grief and reconciliation; long night takes lit only by stalls (12:40, 51:05).', 'حزن ومصالحة؛ لقطات ليلية طويلة بإضاءة البسطات فقط (١٢:٤٠، ٥١:٠٥).')],
+      ['/_blob/4963e7a196f83370e811448ef31c5e4c', L('Salt of the Dunes', 'ملح الكثبان'), 'fic', 81, L('Faisal Al-Mutairi', 'فيصل المطيري'), 'ai', 7.9, [], L('7 Oct', '٧ أكتوبر'), [1, 3, 5], L('A family drama in natural desert light; quiet performances.', 'دراما عائلية بضوء الصحراء الطبيعي؛ أداء هادئ.')],
+      ['/_blob/7a67dd6a8ed910af190a6d73b88223a2', L('Rawasheen', 'رواشين'), 'fic', 62, L('Hind Al-Zahrani', 'هند الزهراني'), 'rev', 7.6, [L('K', 'خ'), L('S', 'س')], L('6 Oct', '٦ أكتوبر'), [0, 1, 5, 7], L('Coming of age in Old Jeddah; strong framing through window screens.', 'نضوج في جدة القديمة؛ تكوينات قوية عبر الرواشين.')],
+      ['/_blob/f0c0927ab01a00b979d0f795462df5cb', L('Moon Shepherd', 'راعي القمر'), 'anim', 14, L('Omar Al-Ghamdi', 'عمر الغامدي'), 'sel', 9.1, [L('R', 'ر'), L('L', 'ل'), L('S', 'س')], L('3 Oct', '٣ أكتوبر'), [2, 4, 5, 6, 7], L('An animated fable with a camel and a boy; highly original visual language.', 'حكاية تحريك عن جمل وصبي؛ لغة بصرية أصيلة جدًا.')],
+      ['/_blob/9d90dd82bf08bb1350e8c1fcd6774d7e', L('Last Row', 'الصف الأخير'), 'doc', 52, L('Majed Al-Shammari', 'ماجد الشمري'), 'new', null, [], L('Today', 'اليوم'), [5], L('The last projectionist of an old cinema; intimate interviews.', 'آخر عارض أفلام في سينما قديمة؛ مقابلات حميمة.')],
+      ['/_blob/d731d27cf8b1f8a4f4c7f2f1b26ba429', L('Red Carpet, Blue Hour', 'سجادة حمراء، ساعة زرقاء'), 'doc', 96, L('Lama Al-Harthi', 'لمى الحارثي'), 'rev', 7.2, [L('L', 'ل')], L('5 Oct', '٥ أكتوبر'), [1, 4], L('Behind the scenes of a festival night; striking blue-hour exteriors.', 'كواليس ليلة مهرجان؛ لقطات خارجية لافتة في الساعة الزرقاء.')],
+      ['/_blob/0f41bde1c312ac027559f44bb140affe', L('Rolling', 'تصوير'), 'exp', 11, L('Yousef Al-Amri', 'يوسف العمري'), 'pass', 5.8, [L('S', 'س')], L('2 Oct', '٢ أكتوبر'), [5, 7], L('An experimental piece seen only through a camera viewfinder.', 'عمل تجريبي يُرى بالكامل عبر عدسة الكاميرا.')],
+      ['/_blob/4963e7a196f83370e811448ef31c5e4c', L('The Mare', 'الفرس'), 'fic', 89, L('Abeer Al-Subaie', 'عبير السبيعي'), 'short', 8.2, [L('R', 'ر'), L('K', 'خ')], L('1 Oct', '١ أكتوبر'), [0, 2, 3, 4, 5, 6], L('A girl and her family’s last horse; emotional and tightly directed.', 'فتاة وآخر فرس لعائلتها؛ عاطفي وإخراج محكم.')]
+    ];
+    const gL = { fic: L('Fiction', 'روائي'), doc: L('Documentary', 'وثائقي'), anim: L('Animation', 'تحريك'), exp: L('Experimental', 'تجريبي') };
+    const chip = this.state.chip;
+    const aiOn = chip >= 0 || (this.state.ran && this.state.q.trim() !== '');
+    const sel = this.state.sel;
+    let list = films.map((f, i) => ({ f, i })).filter((x) => (this.state.fs === 'all' || x.f[5] === this.state.fs) && (this.state.fg === 'all' || x.f[2] === this.state.fg));
+    if (chip >= 0) list = list.filter((x) => x.f[9].indexOf(chip) >= 0);
+    else if (aiOn) list = list.filter((x) => (x.f[6] || 0) >= 7.5);
+    if (aiOn) list.sort((a, b) => (b.f[6] || 0) - (a.f[6] || 0));
+    const rows = list.map((x) => { const f = x.f, i = x.i, on = sel.indexOf(i) >= 0;
+      return { img: f[0], t: f[1], m: gL[f[2]] + ' · ' + N(f[3]) + L(' min', ' د'), d: f[4], st: ST[f[5]][0], cls: ST[f[5]][1], s: f[6] == null ? '—' : N(f[6].toFixed(1)), sw: 'width: ' + ((f[6] || 0) * 10) + '%;',
+        revs: f[7], noRev: f[7].length === 0, date: f[8], hasWhy: aiOn, why: f[10], sel: on, selL: L('Select ', 'تحديد ') + f[1],
+        box: on ? 'background: var(--gold); border-color: var(--gold);' : '', bg: on ? 'background: var(--goldT);' : '',
+        toggle: () => { const s = this.state.sel.slice(); const k = s.indexOf(i); if (k >= 0) s.splice(k, 1); else s.push(i); this.setState({ sel: s }); } }; });
+    const allOn = rows.length > 0 && list.every((x) => sel.indexOf(x.i) >= 0);
+    const sugs = sugL.map((l, i) => ({ l, on: chip === i, style: chip === i ? 'border-color: var(--gold); background: var(--goldT); color: var(--ink);' : '', pick: () => this.setState({ chip: chip === i ? -1 : i, q: chip === i ? '' : l, ran: true }) }));
+    const statusOpts = [['all', L('All statuses', 'كل الحالات')], ['new', ST.new[0]], ['ai', ST.ai[0]], ['rev', ST.rev[0]], ['short', ST.short[0]], ['sel', ST.sel[0]], ['pass', ST.pass[0]]].map((o) => ({ v: o[0], l: o[1] }));
+    const genreOpts = [['all', L('All types', 'كل الأنواع')], ['fic', gL.fic], ['doc', gL.doc], ['anim', gL.anim], ['exp', gL.exp]].map((o) => ({ v: o[0], l: o[1] }));
+    const n = rows.length;
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light',
+      toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }), toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      t, nav, sugs, rows, statusOpts, genreOpts, q: this.state.q, fs: this.state.fs, fg: this.state.fg, aiOn, empty: n === 0,
+      onQ: (e) => this.setState({ q: e && e.target ? e.target.value : '', chip: -1, ran: false }), runQ: () => this.setState({ ran: true }), clearQ: () => this.setState({ q: '', chip: -1, ran: false }),
+      onFs: (e) => this.setState({ fs: e && e.target ? e.target.value : 'all' }), onFg: (e) => this.setState({ fg: e && e.target ? e.target.value : 'all' }),
+      aiSummary: L(n + ' films match, best first. Each one says why.', N(n) + ' أفلام تطابق وصفك، مرتّبة من الأنسب، ومع كل نتيجة سببها.'),
+      countLabel: L(n + ' of 214 shown', 'يُعرض ' + N(n) + ' من ٢١٤'),
+      anySel: sel.length > 0, selLabel: L(sel.length + ' selected', N(sel.length) + ' محدّد'), clearSel: () => this.setState({ sel: [] }),
+      allOn, allBox: allOn ? 'background: var(--gold); border-color: var(--gold);' : '',
+      selAll: () => this.setState({ sel: allOn ? [] : list.map((x) => x.i) })
+    };
+  }
+}
+</script>
+</body>
+</html>

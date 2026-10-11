@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — AI film analysis</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0A0B}
+*{box-sizing:border-box}
+.th-dark{--bg:#0A0A0B;--s1:#111113;--s2:#18181B;--s3:#222226;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--ink:#F4F2EC;--ink2:#D6D3CB;--muted:#A3A19A;--faint:#8C8A83;--gold:#C9A84C;--goldHi:#E2C36E;--goldT:rgba(201,168,76,.12);--goldL:rgba(201,168,76,.4);--onGold:#151004;--ok:#5BC08A;--okT:rgba(91,192,138,.13);--no:#EE7A6E;--noT:rgba(238,122,110,.13);--navBg:rgba(10,10,11,.78);--shadow:inset 0 1px 0 rgba(255,255,255,.04),0 24px 48px -28px rgba(0,0,0,.9);--glow:radial-gradient(900px 420px at 50% -10%,rgba(201,168,76,.15),rgba(201,168,76,0) 70%);color-scheme:dark}
+.th-light{--bg:#F8F7F4;--s1:#FFFFFF;--s2:#F2F1ED;--s3:#E8E6E0;--line:rgba(20,18,12,.08);--line2:rgba(20,18,12,.14);--ink:#141413;--ink2:#2F2D29;--muted:#5F5C56;--faint:#6B6862;--gold:#B08A33;--goldHi:#7E5E12;--goldT:rgba(201,168,76,.16);--goldL:rgba(169,130,46,.45);--onGold:#151004;--ok:#23794A;--okT:rgba(35,121,74,.1);--no:#B8402F;--noT:rgba(184,64,47,.1);--navBg:rgba(248,247,244,.82);--shadow:0 1px 2px rgba(20,18,12,.05),0 16px 36px -24px rgba(20,18,12,.22);--glow:radial-gradient(900px 420px at 50% -10%,rgba(201,168,76,.15),rgba(201,168,76,0) 70%);color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2{letter-spacing:-.03em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.btn{height:44px;padding:0 20px;border-radius:12px;font:inherit;font-size:15px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:filter .2s,background .2s,border-color .2s}
+.btn-p{background:var(--gold);color:var(--onGold)}
+.btn-p:hover{filter:brightness(1.08)}
+.btn-s{background:var(--s2);color:var(--ink);border-color:var(--line2)}
+.btn-s:hover{border-color:var(--goldL)}
+.btn-g{background:transparent;color:var(--ink2)}
+.btn-g:hover{background:var(--s2)}
+.ibtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-size:13px;font-weight:700}
+.ibtn:hover{border-color:var(--goldL);color:var(--ink)}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:68px;gap:20px}
+.nl{display:flex;gap:2px;padding:4px;border-radius:14px;background:var(--s2);border:1px solid var(--line)}
+.nl a{height:36px;padding:0 14px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:14.5px;font-weight:500;white-space:nowrap}
+.nl a:hover{color:var(--ink)}
+.nl a.on{color:var(--ink);background:var(--s1);box-shadow:var(--shadow)}
+.new{font-size:10.5px;font-weight:700;color:var(--onGold);background:var(--gold);border-radius:99px;padding:1px 7px}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:99px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.c-ok{background:var(--okT);color:var(--ok)}
+.c-gold{background:var(--goldT);color:var(--goldHi)}
+.c-mute{background:var(--s2);color:var(--muted)}
+.drop{width:100%;min-height:280px;border-radius:22px;border:1.5px dashed var(--goldL);background:radial-gradient(420px 220px at 50% 0%,var(--goldT),rgba(0,0,0,0) 70%);color:var(--ink);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px}
+.drop:hover{border-color:var(--gold)}
+.obs{width:100%;text-align:start;display:flex;gap:14px;align-items:flex-start;padding:13px 14px;border-radius:14px;background:none;border:1px solid transparent;font:inherit;color:inherit;cursor:pointer;transition:background .2s,border-color .2s}
+.obs:hover{background:var(--s2)}
+.mk{position:absolute;top:-5px;width:14px;height:14px;border-radius:50%;border:3px solid var(--s1);transform:translateX(50%);cursor:pointer;padding:0}
+.tab{height:34px;padding:0 14px;border-radius:9px;border:0;background:transparent;color:var(--muted);font:inherit;font-size:13.5px;font-weight:600;cursor:pointer}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.fu{animation:fadeUp .45s cubic-bezier(.16,1,.3,1) both}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .9s linear infinite}
+@keyframes grow{from{width:0}}
+.grow{animation:grow .9s cubic-bezier(.16,1,.3,1) both}
+@media (max-width:900px){.nl,.hide-s{display:none !important}.nav{grid-template-columns:1fr auto}.wrap{padding:0 16px}.lay,.g2{grid-template-columns:minmax(0,1fr) !important}}
+.tabs{display:flex;gap:4px}
+.tabs a{height:34px;padding:0 14px;border-radius:99px;display:inline-flex;align-items:center;font-size:14px;color:var(--muted)}
+.tabs a:hover{color:var(--ink)}
+.tabs a.on{background:var(--s2);color:var(--ink);font-weight:600}
+.tbtn{width:34px;height:34px;border-radius:99px;border:0;background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-size:12.5px;font-weight:700;position:relative}
+.tbtn:hover{color:var(--ink);background:var(--s2)}
+@media (max-width:900px){.tabs{display:none !important}}
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 900px; -webkit-font-smoothing: antialiased;">
+
+<header style="position: sticky; top: 0; z-index: 30; background: var(--navBg); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line);">
+<div class="wrap" style="height: 60px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px;">
+<a href="Main.dc.html" aria-label="NAS" style="justify-self: start;"><img src="/_blob/975845359f68a7d023125a410efe44f4" alt="NAS" style="height: 22px; width: auto; display: block;"></a>
+<nav class="tabs" aria-label="{{sv.menu}}"><a href="Studio.dc.html">{{sv.tStudio}}</a><a href="Analyze.dc.html" class="on" aria-current="page">{{sv.tReports}}</a><a href="Festivals.dc.html">{{sv.tFest}}</a><a href="Status.dc.html">{{sv.tSubs}}</a></nav>
+<div style="justify-self: end; display: flex; align-items: center; gap: 4px;">
+<button type="button" class="tbtn" onClick="{{toggleTheme}}" aria-label="{{sv.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="tbtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+<button type="button" class="tbtn" aria-label="{{sv.notif}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"></path></svg><span style="position: absolute; top: 7px; inset-inline-end: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--gold);"></span></button>
+<span style="width: 32px; height: 32px; border-radius: 50%; background: var(--goldT); color: var(--goldHi); display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; margin-inline-start: 6px;">{{sv.ini}}</span>
+</div>
+</div>
+</header>
+
+<sc-if value="{{s0}}" hint-placeholder-val="{{false}}"><section class="fu" style="background: var(--glow) top / 100% 600px no-repeat; padding: 72px 0 110px;">
+<div class="wrap" style="max-width: 860px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px;">
+<span class="chip c-gold">{{t.kicker}}</span>
+<h1 style="margin: 0; font-size: 60px; font-weight: 700; line-height: 1.12;">{{t.h1}}</h1>
+<p style="margin: 0; color: var(--muted); font-size: 18.5px; line-height: 1.65; max-width: 600px;">{{t.lede}}</p>
+<button type="button" class="drop" onClick="{{start}}" style="margin-top: 14px;"><span style="width: 72px; height: 72px; border-radius: 22px; background: var(--gold); color: var(--onGold); display: inline-flex; align-items: center; justify-content: center;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5"></path><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"></path></svg></span><b style="font-size: 22px;">{{t.drop}}</b><span style="color: var(--muted); font-size: 15px;">{{t.dropP}}</span></button>
+<span style="font-size: 13.5px; color: var(--faint);">{{t.free}}</span>
+</div>
+</section></sc-if>
+
+<sc-if value="{{s1}}" hint-placeholder-val="{{false}}"><section class="fu wrap" style="max-width: 720px; padding-top: 110px; padding-bottom: 140px; display: flex; flex-direction: column; gap: 22px; align-items: center; text-align: center;">
+<svg class="spin" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.2-8.6"></path></svg>
+<h1 style="margin: 0; font-size: 40px; font-weight: 700;">{{t.running}}</h1>
+<div style="width: 100%; height: 8px; border-radius: 99px; background: var(--s3); overflow: hidden;"><div style="height: 100%; border-radius: 99px; background: var(--gold); transition: width .15s linear; {{pw}}"></div></div>
+<span style="color: var(--muted); font-size: 16px;">{{jobNow}}</span>
+</section></sc-if>
+
+<sc-if value="{{s2}}" hint-placeholder-val="{{true}}"><div class="fu">
+<section style="background: var(--glow) top / 100% 500px no-repeat; padding-top: 40px;">
+<div class="wrap" style="display: flex; gap: 22px; align-items: center; flex-wrap: wrap;">
+<img src="/_blob/07a6092db243a79066a95642b1423f60" alt="" style="width: 96px; height: 128px; border-radius: 14px; object-fit: cover;">
+<div style="flex: 1; min-width: 260px; display: flex; flex-direction: column; gap: 8px;"><span class="chip c-gold" style="align-self: flex-start;">{{t.reportK}}</span><h1 style="margin: 0; font-size: 44px; font-weight: 700;">{{t.film}}</h1><span style="color: var(--muted); font-size: 15.5px;">{{t.detected}}</span></div>
+<div style="width: 120px; height: 120px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; background: conic-gradient(var(--gold) 0 87%, var(--s3) 87% 100%);"><div style="width: 100px; height: 100px; border-radius: 50%; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center;"><b style="font-size: 34px; line-height: 1;">{{overall}}</b><span style="font-size: 11.5px; color: var(--faint); margin-top: 4px;">{{t.overallL}}</span></div></div>
+</div>
+<div class="wrap" style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px;"><a href="Start.dc.html" class="btn btn-p">{{t.sendCta}}</a><button type="button" class="btn btn-s"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M7 11l5 5 5-5M4 20h16"></path></svg>{{t.pdf}}</button><button type="button" class="btn btn-g" onClick="{{reset}}">{{t.another}}</button></div>
+</section>
+
+<section class="wrap" style="padding-top: 28px; padding-bottom: 96px;">
+<div class="lay" style="display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 20px; align-items: start;">
+<div style="display: flex; flex-direction: column; gap: 20px; min-width: 0;">
+<div class="card" style="padding: 12px; display: flex; flex-direction: column; gap: 12px;">
+<div style="position: relative; aspect-ratio: 16 / 8; border-radius: 12px; overflow: hidden; background: #000;"><img src="{{frame}}" alt="" style="width: 100%; height: 100%; object-fit: cover; opacity: .85;"><span style="position: absolute; bottom: 12px; inset-inline-start: 12px; background: rgba(10,10,11,.72); color: #F4F2EC; font-size: 13px; padding: 4px 10px; border-radius: 8px; direction: ltr;">{{curTime}} / 1:28:04</span><span style="position: absolute; top: 12px; inset-inline-start: 12px; max-width: 70%; background: rgba(10,10,11,.72); color: #F4F2EC; font-size: 13.5px; padding: 8px 12px; border-radius: 10px; line-height: 1.5; text-align: start;">{{curNote}}</span></div>
+<div style="padding: 6px 8px 4px; display: flex; flex-direction: column; gap: 10px;"><div style="position: relative; height: 4px; border-radius: 99px; background: var(--s3); direction: ltr;"><div style="height: 100%; border-radius: 99px; background: var(--gold); {{progW}}"></div><sc-for list="{{obs}}" as="o" hint-placeholder-count="6"><button type="button" class="mk" onClick="{{o.pick}}" aria-label="{{o.time}}" style="{{o.mk}}"></button></sc-for></div><span style="font-size: 12.5px; color: var(--faint);">{{t.markers}}</span></div>
+</div>
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 18px;">
+<h2 style="margin: 0; font-size: 20px;">{{t.scoresT}}</h2>
+<div class="g2" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px;"><sc-for list="{{scores}}" as="s" hint-placeholder-count="6"><div style="display: flex; flex-direction: column; gap: 7px;"><span style="display: flex; justify-content: space-between; font-size: 14.5px;"><span style="color: var(--ink2);">{{s.l}}</span><b>{{s.v}}</b></span><span style="height: 6px; border-radius: 99px; background: var(--s3); overflow: hidden;"><span class="grow" style="display: block; height: 100%; border-radius: 99px; background: var(--gold); {{s.w}}"></span></span><span style="font-size: 13px; color: var(--faint); line-height: 1.5;">{{s.e}}</span></div></sc-for></div>
+</div>
+<div class="card" style="padding: 20px 14px; display: flex; flex-direction: column; gap: 2px;">
+<h2 style="margin: 0 10px 10px; font-size: 20px;">{{t.obsT}}</h2>
+<sc-for list="{{obs}}" as="o" hint-placeholder-count="6"><button type="button" class="obs" onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="{{o.row}}"><span style="font-size: 13px; font-weight: 700; color: var(--goldHi); min-width: 56px; direction: ltr; padding-top: 2px;">{{o.time}}</span><span style="flex: 1; font-size: 15px; line-height: 1.6;">{{o.t}}</span><span class="chip {{o.cls}}">{{o.k}}</span></button></sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 16px;">
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; justify-content: space-between; align-items: center;"><h2 style="margin: 0; font-size: 17px;">{{t.writeT}}</h2><span style="display: inline-flex; padding: 3px; border-radius: 11px; background: var(--s2);"><button type="button" class="tab" onClick="{{toAr}}" style="{{arTab}}">عربي</button><button type="button" class="tab" onClick="{{toEn}}" style="{{enTab}}">English</button></span></div>
+<span style="font-size: 12.5px; color: var(--goldHi); font-weight: 700;">{{t.logline}}</span>
+<p style="margin: 0; font-size: 15.5px; line-height: 1.7; color: var(--ink2);" dir="{{wDir}}">{{wLog}}</p>
+<span style="font-size: 12.5px; color: var(--goldHi); font-weight: 700; margin-top: 4px;">{{t.synopsis}}</span>
+<p style="margin: 0; font-size: 14.5px; line-height: 1.75; color: var(--muted);" dir="{{wDir}}">{{wSyn}}</p>
+<button type="button" class="btn btn-s" onClick="{{copy}}" style="height: 38px; font-size: 13.5px; margin-top: 4px;">{{copyL}}</button>
+</div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0; font-size: 17px;">{{t.worksT}}</h2>
+<sc-for list="{{works}}" as="w" hint-placeholder-count="3"><span style="display: flex; gap: 10px; font-size: 14.5px; line-height: 1.6; color: var(--ink2);"><span style="color: var(--ok); font-weight: 700;">+</span>{{w}}</span></sc-for>
+<h2 style="margin: 8px 0 0; font-size: 17px;">{{t.improveT}}</h2>
+<sc-for list="{{improve}}" as="w" hint-placeholder-count="2"><span style="display: flex; gap: 10px; font-size: 14.5px; line-height: 1.6; color: var(--ink2);"><span style="color: var(--goldHi); font-weight: 700;">↻</span>{{w}}</span></sc-for>
+</div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0 0 4px; font-size: 17px;">{{t.matchT}}</h2>
+<sc-for list="{{matches}}" as="m" hint-placeholder-count="3"><div style="display: flex; align-items: center; gap: 12px; padding: 10px 0; {{m.line}}"><img src="{{m.img}}" alt="" style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover;"><span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px;"><b style="font-size: 14.5px;">{{m.n}}</b><span style="font-size: 12.5px; color: var(--faint);">{{m.c}}</span></span><span class="chip c-gold">{{m.fit}}</span></div></sc-for>
+<a href="Start.dc.html" class="btn btn-p" style="margin-top: 6px;">{{t.sendAll}}</a>
+</div>
+<div class="card" style="padding: 20px; display: flex; flex-direction: column;">
+<h2 style="margin: 0 0 6px; font-size: 17px;">{{t.techT}}</h2>
+<sc-for list="{{tech}}" as="c" hint-placeholder-count="4"><div class="row" style="{{c.last}}"><span style="color: var(--ink2);">{{c.l}}</span><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 600; {{c.cs}}">{{c.v}}</span></div></sc-for>
+</div>
+</div>
+</div>
+</section>
+</div></sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"stage":{"editor":"enum","options":["report","upload"],"default":"report"},"$preview":{"width":1440,"height":1650}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, st: null, p: 0, obs: 1, wl: null, copied: false }; }
+  componentWillUnmount() { clearInterval(this.iv); clearTimeout(this.tm); }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const N = (n) => ar ? String(n).replace(/\d/g, (x) => '٠١٢٣٤٥٦٧٨٩'[x]).replace('.', '٫') : String(n);
+    const st = this.state.st != null ? this.state.st : ((this.props.stage || 'report') === 'upload' ? 0 : 2);
+    const t = {
+      theme: L('Theme', 'المظهر'), menu: L('Main', 'القائمة'), nFest: L('Festivals', 'المهرجانات'), nAi: L('AI analysis', 'تحليل الأفلام'), newL: L('New', 'جديد'), nFor: L('For festivals', 'للمهرجانات'), nTrack: L('Track', 'تتبّع مشاركتك'),
+      signin: L('Sign in', 'دخول'), submit: L('Submit a film', 'قدّم فيلمك'),
+      kicker: L('AI film analysis · free', 'تحليل الأفلام · مجانًا'), h1: L('See your film the way a festival will.', 'شاهد فيلمك بعين لجنة التحكيم.'),
+      lede: L('Upload a cut. In about four minutes you get scores, timestamped notes, a logline in two languages and the festivals it fits.', 'ارفع نسخة من فيلمك، وخلال دقائق يصلك تقييم مفصّل، وملاحظات مربوطة بالدقيقة والثانية، وفكرة فيلمك في سطر بلغتين، والمهرجانات الأنسب له.'),
+      drop: L('Drop your film here', 'اسحب فيلمك إلى هنا'), dropP: L('MP4 or MOV up to 20 GB · or paste a private link', 'MP4 أو MOV حتى ٢٠ جيجا · أو ضع رابطًا خاصًا'), free: L('Private and free. Your film is never shared without you.', 'مجاني وخاص. فيلمك لا يُشارك إلا بإذنك.'),
+      running: L('Watching your film…', 'نشاهد فيلمك…'),
+      reportK: L('AI report · updated today', 'تقرير الفيلم · حُدّث اليوم'), film: L('The Blue Hills', 'التلال الزرقاء'), detected: L('Documentary · 88 min · Arabic · EN subtitles · 1080p', 'وثائقي · ٨٨ دقيقة · عربي · ترجمة إنجليزية · 1080p'), overallL: L('overall', 'الإجمالي'),
+      sendCta: L('Send to matching festivals', 'قدّمه للمهرجانات الأنسب'), pdf: L('Download report', 'نزّل التقرير'), another: L('Analyse another film', 'حلّل فيلمًا آخر'),
+      markers: L('Each gold mark is a note. Click one to jump to that moment.', 'كل علامة ذهبية ملاحظة، اضغطها لتذهب إلى تلك اللحظة.'),
+      scoresT: L('Scores', 'التقييمات'), obsT: L('Timestamped notes', 'ملاحظات بالدقيقة والثانية'),
+      writeT: L('Written for you', 'مكتوب لك'), logline: L('LOGLINE', 'فكرة الفيلم'), synopsis: L('SHORT SYNOPSIS', 'ملخص قصير'),
+      worksT: L('What works', 'ما ينجح'), improveT: L('What could be stronger', 'ما يحتاج إلى عناية'), matchT: L('Festivals it fits', 'المهرجانات المناسبة'), sendAll: L('Send to these festivals', 'قدّمه لهذه المهرجانات'),
+      techT: L('Technical checks', 'الفحوص التقنية')
+    };
+    const sc = [[L('Story', 'القصة'), 8.9, L('Clear arc; the grandmother anchors every act.', 'حكاية متماسكة، والجدّة محور كل فصل.')], [L('Direction', 'الإخراج'), 9.1, L('Long, patient takes that trust the audience.', 'لقطات طويلة هادئة تثق بالمشاهد.')], [L('Image', 'الصورة'), 8.6, L('Natural light on the slopes; strongest at dawn.', 'إضاءة طبيعية على السفوح، في أجمل حالاتها عند الفجر.')], [L('Sound', 'الصوت'), 8.2, L('Rich wind and bells; dialogue dips at 41:20.', 'صوت الريح والأجراس حاضر بجمال، لكن الحوار يضيع عند ٤١:٢٠.')], [L('Pacing', 'الإيقاع'), 7.4, L('Middle third slows between 38:00 and 52:00.', 'يهدأ الإيقاع أكثر من اللازم بين ٣٨:٠٠ و٥٢:٠٠.')], [L('Originality', 'الأصالة'), 9.0, L('A rarely filmed way of life, told from inside.', 'عالم نادر على الشاشة، يُروى من الداخل.')]];
+    const scores = sc.map((s) => ({ l: s[0], v: N(s[1].toFixed(1)), w: 'width: ' + (s[1] * 10) + '%;', e: s[2] }));
+    const od = [['04:10', 4.7, L('Opening dawn — four minutes without dialogue set the tone.', 'افتتاحية الفجر: أربع دقائق بلا كلمة واحدة، وتضعك في قلب الحكاية.'), 1, '/_blob/4963e7a196f83370e811448ef31c5e4c'],
+      ['21:35', 24.5, L('First interview, framed through a doorway. Very intimate.', 'أول مقابلة مع الجدّة، من خلف الباب. لحظة قريبة جدًا من القلب.'), 1, '/_blob/07a6092db243a79066a95642b1423f60'],
+      ['38:00', 43, L('Pacing starts to slow; consider trimming the herd sequence.', 'هنا يبدأ الإيقاع بالتراخي، واختصار مشهد القطيع قد يحلّها.'), 0, '/_blob/7a67dd6a8ed910af190a6d73b88223a2'],
+      ['41:20', 47, L('Dialogue sinks under wind. A small mix fix would help.', 'الحوار يضيع خلف الريح، وتعديل بسيط في المكساج يكفي.'), 0, '/_blob/25a9972bc44a28dd6db9377cb6546e2e'],
+      ['1:03:12', 71.8, L('The family dinner — strongest ensemble moment.', 'عشاء العائلة: أصدق لحظة تجمعهم.'), 1, '/_blob/9d90dd82bf08bb1350e8c1fcd6774d7e'],
+      ['1:21:40', 92.8, L('Final snowfall — the emotional peak of the film.', 'الثلج الأخير: ذروة الفيلم، ومشهد يبقى في الذاكرة.'), 1, '/_blob/f0c0927ab01a00b979d0f795462df5cb']];
+    const cur = this.state.obs;
+    const obs = od.map((o, i) => { const on = cur === i; return { time: o[0], t: o[2], k: o[3] ? L('Strength', 'قوة') : L('Note', 'ملاحظة'), cls: o[3] ? 'c-ok' : 'c-mute', on, pick: () => this.setState({ obs: i }),
+      row: on ? 'background: var(--goldT); border-color: var(--goldL);' : '', mk: 'right: ' + (100 - o[1]) + '%; background: ' + (on ? 'var(--goldHi)' : 'var(--gold)') + ';' + (on ? ' width: 18px; height: 18px; top: -7px;' : '') }; });
+    const wl = this.state.wl || lang;
+    const logAr = 'في شتائها الأخير على جبال السروات، جدّةٌ تأبى أن تترك الجبل الذي رعت فيه عائلتها ثلاثة أجيال.';
+    const logEn = 'On the last winter of the Sarawat slopes, a grandmother refuses to leave the mountain her family has herded for three generations.';
+    const synAr = 'حين يقرر الأبناء بيع القطيع والانتقال إلى المدينة، تبقى أم سعد وحدها مع الماعز والريح. يتابع الفيلم شتاءً كاملًا من الفجر إلى الثلج، ويسأل ما الذي يبقى حين يرحل الجميع.';
+    const synEn = 'When her sons decide to sell the herd and move to the city, Umm Saad stays behind with the goats and the wind. Across one winter, from dawn to snow, the film asks what remains when everyone leaves.';
+    const works = [L('Confident, unhurried direction with a clear point of view.', 'إخراج واثق لا يستعجل، ووجهة نظر واضحة.'), L('A subject festivals rarely see, told from inside the family.', 'موضوع نادر في المهرجانات، يُروى من داخل البيت.'), L('Strong final act; the ending lands.', 'فصل أخير قوي، ونهاية تلمس القلب.')];
+    const improve = [L('Tighten 38:00–52:00 by a few minutes.', 'اختصار بضع دقائق من ٣٨:٠٠ إلى ٥٢:٠٠.'), L('Lift dialogue under wind at 41:20 and 47:05.', 'رفع صوت الحوار فوق الريح عند ٤١:٢٠ و٤٧:٠٥.')];
+    const md = [['/_blob/25a9972bc44a28dd6db9377cb6546e2e', L('Riyadh Film Nights', 'أسبوع ليالي الرياض السينمائي'), L('Documentary · closes 15 Jan', 'وثائقي · آخر موعد ١٥ يناير'), 94], ['/_blob/9d90dd82bf08bb1350e8c1fcd6774d7e', L('Dhahran Cinema Nights', 'ليالي الظهران السينمائية'), L('Features · closes 20 Feb', 'روائي طويل · آخر موعد ٢٠ فبراير'), 88], ['/_blob/7a67dd6a8ed910af190a6d73b88223a2', L('Jeddah Historic Cinema Days', 'أيام سينما جدة التاريخية'), L('Heritage · closes 28 Dec', 'تراث · آخر موعد ٢٨ ديسمبر'), 76]];
+    const matches = md.map((m, i) => ({ img: m[0], n: m[1], c: m[2], fit: L(m[3] + '% fit', 'توافق ' + N(m[3]) + '٪'), line: i < 2 ? 'border-bottom: 1px solid var(--line);' : '' }));
+    const tc = [[L('Resolution', 'الدقة'), '1920×1080', 1], [L('Audio levels', 'مستوى الصوت'), L('−23 LUFS · good', '−٢٣ LUFS · جيد'), 1], [L('Subtitles in sync', 'تزامن الترجمة'), L('EN · in sync', 'EN · متزامنة'), 1], [L('Arabic subtitles', 'ترجمة عربية'), L('Not needed', 'غير مطلوبة'), 2]];
+    const tech = tc.map((c, i) => ({ l: c[0], v: c[1], cs: c[2] === 1 ? 'color: var(--ok);' : 'color: var(--faint);', last: i === tc.length - 1 ? 'border-bottom: 0;' : '' }));
+    const jl = [L('Uploading', 'رفع الملف'), L('Watching the film', 'نشاهد الفيلم'), L('Listening to sound and dialogue', 'ننصت للصوت والحوار'), L('Writing notes and logline', 'نكتب الملاحظات وفكرة الفيلم'), L('Matching festivals', 'نبحث عن مهرجاناته')];
+    const p = this.state.p;
+    return {
+      sv: { menu: L('Studio', 'الاستوديو'), tStudio: L('Studio', 'الاستوديو'), tReports: L('Reports', 'التقارير'), tFest: L('Festivals', 'المهرجانات'), tSubs: L('Submissions', 'المشاركات'), theme: L('Theme', 'المظهر'), notif: L('Notifications', 'الإشعارات'), ini: L('N', 'ن') },
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light',
+      toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }), toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar', wl: null }), langBtn: ar ? 'EN' : 'ع',
+      dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      t, s0: st === 0, s1: st === 1, s2: st === 2, scores, obs, works, improve, matches, tech, overall: N('8.7'),
+      pw: 'width: ' + p + '%;', jobNow: jl[Math.min(4, Math.floor(p / 20))] + ' · ' + N(p) + (ar ? '٪' : '%'),
+      start: () => { clearInterval(this.iv); this.setState({ st: 1, p: 0 }); this.iv = setInterval(() => { const n = this.state.p + 2; if (n >= 100) { clearInterval(this.iv); this.setState({ st: 2, p: 100 }); } else this.setState({ p: n }); }, 80); },
+      reset: () => { clearInterval(this.iv); this.setState({ st: 0, p: 0 }); },
+      frame: od[cur][4], curTime: od[cur][0], curNote: od[cur][2], progW: 'width: ' + od[cur][1] + '%;',
+      wDir: wl === 'ar' ? 'rtl' : 'ltr', wLog: wl === 'ar' ? logAr : logEn, wSyn: wl === 'ar' ? synAr : synEn,
+      toAr: () => this.setState({ wl: 'ar' }), toEn: () => this.setState({ wl: 'en' }),
+      arTab: wl === 'ar' ? 'background: var(--s1); color: var(--ink);' : '', enTab: wl === 'en' ? 'background: var(--s1); color: var(--ink);' : '',
+      copyL: this.state.copied ? L('Copied', 'نُسخ') : L('Copy text', 'انسخ النص'),
+      copy: () => { this.setState({ copied: true }); clearTimeout(this.tm); this.tm = setTimeout(() => this.setState({ copied: false }), 1600); }
+    };
+  }
+}
+</script>
+</body>
+</html>

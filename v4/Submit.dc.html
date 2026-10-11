@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Submit a film</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0A0B}
+*{box-sizing:border-box}
+.th-dark{--bg:#0A0A0B;--s1:#111113;--s2:#18181B;--s3:#222226;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--ink:#F4F2EC;--ink2:#D6D3CB;--muted:#A3A19A;--faint:#8C8A83;--gold:#C9A84C;--goldHi:#E2C36E;--goldT:rgba(201,168,76,.12);--goldL:rgba(201,168,76,.4);--onGold:#151004;--ok:#5BC08A;--okT:rgba(91,192,138,.13);--no:#EE7A6E;--noT:rgba(238,122,110,.13);--info:#86AEF2;--infoT:rgba(134,174,242,.13);--shadow:inset 0 1px 0 rgba(255,255,255,.04),0 24px 48px -28px rgba(0,0,0,.9);--glow:radial-gradient(800px 380px at 50% -12%,rgba(201,168,76,.12),rgba(201,168,76,0) 70%);color-scheme:dark}
+.th-light{--bg:#F8F7F4;--s1:#FFFFFF;--s2:#F2F1ED;--s3:#E8E6E0;--line:rgba(20,18,12,.08);--line2:rgba(20,18,12,.14);--ink:#141413;--ink2:#2F2D29;--muted:#5F5C56;--faint:#6B6862;--gold:#B08A33;--goldHi:#7E5E12;--goldT:rgba(201,168,76,.16);--goldL:rgba(169,130,46,.45);--onGold:#151004;--ok:#23794A;--okT:rgba(35,121,74,.1);--no:#B8402F;--noT:rgba(184,64,47,.1);--info:#2F5FB3;--infoT:rgba(47,95,179,.1);--shadow:0 1px 2px rgba(20,18,12,.05),0 16px 36px -24px rgba(20,18,12,.22);--glow:radial-gradient(800px 380px at 50% -12%,rgba(201,168,76,.14),rgba(201,168,76,0) 70%);color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2{letter-spacing:-.025em}
+a{color:inherit;text-decoration:none}
+.btn{height:46px;padding:0 22px;border-radius:12px;font:inherit;font-size:15px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:filter .2s,background .2s,border-color .2s}
+.btn-p{background:var(--gold);color:var(--onGold)}
+.btn-p:hover{filter:brightness(1.08)}
+.btn-s{background:var(--s2);color:var(--ink);border-color:var(--line2)}
+.btn-s:hover{border-color:var(--goldL)}
+.btn-g{background:transparent;color:var(--ink2)}
+.btn-g:hover{background:var(--s2)}
+.ibtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-size:13px;font-weight:700}
+.ibtn:hover{border-color:var(--goldL);color:var(--ink)}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:99px;font-size:12.5px;font-weight:600;white-space:nowrap}
+.c-ok{background:var(--okT);color:var(--ok)}
+.c-no{background:var(--noT);color:var(--no)}
+.c-gold{background:var(--goldT);color:var(--goldHi)}
+.c-mute{background:var(--s2);color:var(--muted)}
+.lbl{display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600;color:var(--ink2)}
+.hint{font-size:12.5px;font-weight:400;color:var(--faint)}
+.fld{width:100%;height:50px;border-radius:12px;background:var(--s2);border:1px solid var(--line2);color:var(--ink);font:inherit;font-size:16px;padding:0 14px;outline:none;transition:border-color .2s,box-shadow .2s}
+.fld:focus{border-color:var(--gold);box-shadow:0 0 0 4px var(--goldT)}
+textarea.fld{height:116px;padding:12px 14px;resize:none;line-height:1.65}
+.pill{height:42px;padding:0 18px;border-radius:99px;border:1px solid var(--line2);background:transparent;color:var(--ink2);font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.pill:hover{border-color:var(--goldL)}
+.opt{width:100%;text-align:start;background:var(--s1);border:1px solid var(--line2);border-radius:16px;padding:18px;display:flex;align-items:center;gap:16px;cursor:pointer;font:inherit;color:var(--ink);transition:border-color .2s,background .2s}
+.opt:hover{border-color:var(--goldL)}
+.drop{width:100%;border:1.5px dashed var(--line2);border-radius:16px;background:transparent;color:var(--muted);font:inherit;font-size:15px;display:flex;align-items:center;justify-content:center;gap:10px;min-height:76px;cursor:pointer;padding:12px}
+.drop:hover{border-color:var(--goldL);color:var(--ink)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:13px 0;border-bottom:1px solid var(--line);font-size:15px}
+.row > span:first-child{color:var(--faint)}
+.row b{color:var(--ink)}
+.chk{display:flex;align-items:flex-start;gap:12px;font-size:15px;color:var(--ink2);cursor:pointer;line-height:1.6;background:none;border:0;font-family:inherit;text-align:start;padding:6px 0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.fu{animation:fadeUp .4s cubic-bezier(.16,1,.3,1) both}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .9s linear infinite}
+@media (max-width:900px){.lay,.g2{grid-template-columns:minmax(0,1fr) !important}.hide-s{display:none !important}.pad{padding:0 16px !important}}
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg) ; color: var(--ink); min-height: 1100px; -webkit-font-smoothing: antialiased;">
+
+<header style="border-bottom: 1px solid var(--line);">
+<div class="pad" style="max-width: 1200px; margin: 0 auto; padding: 0 32px; height: 68px; display: flex; align-items: center; gap: 16px;">
+<a href="Main.dc.html" aria-label="NAS"><img src="/_blob/975845359f68a7d023125a410efe44f4" alt="NAS" style="height: 26px; width: auto; display: block;"></a>
+<span class="hide-s" style="width: 1px; height: 24px; background: var(--line2);"></span>
+<span class="hide-s" style="display: flex; align-items: center; gap: 10px; font-size: 14.5px; color: var(--muted);">{{t.to}} <a href="Festival.dc.html" style="display: inline-flex; align-items: center; gap: 8px; color: var(--ink); font-weight: 600;"><img src="/_blob/25a9972bc44a28dd6db9377cb6546e2e" alt="" style="width: 24px; height: 24px; border-radius: 6px; object-fit: cover;">{{t.fest}}</a></span>
+<div style="margin-inline-start: auto; display: flex; gap: 8px; align-items: center;">
+<span class="hide-s" style="font-size: 13px; color: var(--faint); display: inline-flex; align-items: center; gap: 6px; margin-inline-end: 8px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg>{{t.saved}}</span>
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+<a href="Festival.dc.html" class="ibtn" aria-label="{{t.close}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></a>
+</div>
+</div>
+</header>
+
+<sc-if value="{{inForm}}" hint-placeholder-val="{{true}}">
+<main class="pad" style="max-width: 1200px; margin: 0 auto; padding: 40px 32px 80px; background: var(--glow) top / 100% 400px no-repeat;">
+<div class="lay" style="display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 40px; align-items: start;">
+<div style="display: flex; flex-direction: column; gap: 28px; max-width: 720px;">
+
+<nav aria-label="{{t.progress}}" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="4"><button type="button" onClick="{{s.go}}" style="background: none; border: 0; padding: 0; font: inherit; color: inherit; text-align: start; cursor: pointer; display: flex; flex-direction: column; gap: 10px;"><span style="height: 4px; border-radius: 99px; transition: background .3s; {{s.bar}}"></span><span style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; {{s.txt}}"><span style="font-size: 12px; opacity: .8;">{{s.n}}</span>{{s.label}}</span></button></sc-for>
+</nav>
+
+<sc-if value="{{s1}}" hint-placeholder-val="{{true}}">
+<section class="fu" style="display: flex; flex-direction: column; gap: 22px;">
+<div><h1 style="margin: 0; font-size: 38px; font-weight: 700;">{{t.h1}}</h1><p style="margin: 8px 0 0; color: var(--muted); font-size: 17px;">{{t.p1}}</p></div>
+<div class="g2" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px;">
+<label class="lbl">{{t.fTitle}}<input class="fld" value="{{f.title}}" onChange="{{on.title}}"></label>
+<label class="lbl">{{t.fTitleEn}} <input class="fld" dir="ltr" value="{{f.titleEn}}" onChange="{{on.titleEn}}"></label>
+<label class="lbl">{{t.fDir}}<input class="fld" value="{{f.dir}}" onChange="{{on.dir}}"></label>
+<label class="lbl">{{t.fEmail}}<input class="fld" dir="ltr" type="email" value="{{f.email}}" onChange="{{on.email}}"></label>
+</div>
+<div class="lbl">{{t.fGenre}}<div style="display: flex; gap: 8px; flex-wrap: wrap;"><sc-for list="{{genres}}" as="g" hint-placeholder-count="4"><button type="button" class="pill" style="{{g.style}}" onClick="{{g.pick}}" aria-pressed="{{g.on}}">{{g.label}}</button></sc-for></div></div>
+<div class="g2" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;">
+<label class="lbl">{{t.fLen}}<input class="fld" inputmode="numeric" value="{{f.len}}" onChange="{{on.len}}"></label>
+<label class="lbl">{{t.fYear}}<input class="fld" inputmode="numeric" value="{{f.year}}" onChange="{{on.year}}"></label>
+<label class="lbl">{{t.fCountry}}<input class="fld" value="{{f.country}}" onChange="{{on.country}}"></label>
+</div>
+<label class="lbl"><span style="display: flex; justify-content: space-between;">{{t.fSyn}}<span class="hint">{{synCount}}</span></span><textarea class="fld" value="{{f.syn}}" onChange="{{on.syn}}"></textarea></label>
+</section>
+</sc-if>
+
+<sc-if value="{{s2}}" hint-placeholder-val="{{false}}">
+<section class="fu" style="display: flex; flex-direction: column; gap: 22px;">
+<div><h1 style="margin: 0; font-size: 38px; font-weight: 700;">{{t.h2}}</h1><p style="margin: 8px 0 0; color: var(--muted); font-size: 17px;">{{t.p2}}</p></div>
+<div class="lbl"><label for="lnk">{{t.fLink}}</label><span style="display: flex; gap: 10px;"><input id="lnk" class="fld" dir="ltr" value="{{f.link}}" onChange="{{on.link}}" style="flex: 1;"><button type="button" class="btn btn-s" onClick="{{checkLink}}" style="height: 50px;">{{t.check}}</button></span></div>
+<sc-if value="{{linkBusy}}" hint-placeholder-val="{{false}}"><div style="display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 14.5px; margin-top: -8px;"><svg class="spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.2-8.6"></path></svg>{{t.checking}}</div></sc-if>
+<sc-if value="{{linkOk}}" hint-placeholder-val="{{true}}"><div class="fu" style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 14px; background: var(--okT); margin-top: -8px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ok)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="m8 12 3 3 5-6"></path></svg><span style="display: flex; flex-direction: column; gap: 2px; font-size: 14.5px;"><b style="color: var(--ok);">{{t.linkOk}}</b><span style="color: var(--ink2);">{{t.linkMeta}}</span></span></div></sc-if>
+<label class="lbl">{{t.fPass}} <input class="fld" dir="ltr" type="password" value="{{f.pass}}" onChange="{{on.pass}}"></label>
+<div class="g2" style="display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 18px; align-items: stretch;">
+<div class="lbl">{{t.poster}}<sc-if value="{{hasPoster}}" hint-placeholder-val="{{true}}"><div style="position: relative;"><img src="/_blob/07a6092db243a79066a95642b1423f60" alt="" style="width: 150px; height: 200px; object-fit: cover; border-radius: 14px; display: block;"><button type="button" class="ibtn" onClick="{{dropPoster}}" aria-label="{{t.remove}}" style="position: absolute; top: 8px; inset-inline-end: 8px; width: 32px; height: 32px; background: rgba(0,0,0,.6); color: #fff; border-color: transparent;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg></button></div></sc-if><sc-if value="{{noPoster}}" hint-placeholder-val="{{false}}"><button type="button" class="drop" onClick="{{addPoster}}" style="height: 200px; flex-direction: column;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"></path></svg>{{t.addPoster}}</button></sc-if></div>
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<span class="lbl">{{t.subs}}</span>
+<sc-for list="{{subs}}" as="s" hint-placeholder-count="2"><div style="display: flex; align-items: center; gap: 12px; height: 54px; padding: 0 14px; border-radius: 14px; background: var(--s2); border: 1px solid var(--line);"><span style="width: 32px; height: 32px; border-radius: 9px; background: var(--s3); display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--goldHi);">{{s.code}}</span><span style="flex: 1; direction: ltr; text-align: start; font-size: 14.5px;">{{s.file}}</span><span class="chip c-ok">{{t.added}}</span></div></sc-for>
+<button type="button" class="drop" onClick="{{addSub}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>{{t.addSub}}</button>
+<button type="button" class="drop"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path d="M14 3v6h6"></path></svg>{{t.kit}}</button>
+</div>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{s3}}" hint-placeholder-val="{{false}}">
+<section class="fu" style="display: flex; flex-direction: column; gap: 22px;">
+<div><h1 style="margin: 0; font-size: 38px; font-weight: 700;">{{t.h3}}</h1><p style="margin: 8px 0 0; color: var(--muted); font-size: 17px;">{{t.p3}}</p></div>
+<div style="display: flex; flex-direction: column; gap: 12px;"><sc-for list="{{cats}}" as="c" hint-placeholder-count="3"><button type="button" class="opt" style="{{c.box}}" onClick="{{c.pick}}" aria-pressed="{{c.on}}"><span style="{{c.radio}}"></span><span style="flex: 1; display: flex; flex-direction: column; gap: 6px;"><b style="font-size: 17px;">{{c.name}}</b><span style="font-size: 14px; color: var(--muted);">{{c.note}}</span><span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; {{c.fitStyle}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"></path></svg>{{c.fit}}</span></span><b style="font-size: 16px;">{{c.fee}}</b></button></sc-for></div>
+<div class="lbl">{{t.premiere}}<div style="display: flex; gap: 8px; flex-wrap: wrap;"><sc-for list="{{prem}}" as="p" hint-placeholder-count="4"><button type="button" class="pill" style="{{p.style}}" onClick="{{p.pick}}" aria-pressed="{{p.on}}">{{p.label}}</button></sc-for></div></div>
+</section>
+</sc-if>
+
+<sc-if value="{{s4}}" hint-placeholder-val="{{false}}">
+<section class="fu" style="display: flex; flex-direction: column; gap: 22px;">
+<div><h1 style="margin: 0; font-size: 38px; font-weight: 700;">{{t.h4}}</h1><p style="margin: 8px 0 0; color: var(--muted); font-size: 17px;">{{t.p4}}</p></div>
+<sc-for list="{{review}}" as="g" hint-placeholder-count="3"><div class="card" style="padding: 6px 22px 10px;"><div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 0 6px;"><b style="font-size: 16px;">{{g.h}}</b><button type="button" class="btn btn-g" onClick="{{g.edit}}" style="height: 34px; padding: 0 12px; font-size: 14px; color: var(--goldHi);">{{t.edit}}</button></div><sc-for list="{{g.rows}}" as="r" hint-placeholder-count="3"><div class="row" style="{{r.last}}"><span>{{r.k}}</span><b style="font-weight: 600; text-align: end;">{{r.v}}</b></div></sc-for></div></sc-for>
+<div class="lbl">{{t.pay}}<div style="display: flex; gap: 8px; flex-wrap: wrap;"><sc-for list="{{pays}}" as="p" hint-placeholder-count="3"><button type="button" class="pill" style="{{p.style}}" onClick="{{p.pick}}" aria-pressed="{{p.on}}">{{p.label}}</button></sc-for></div></div>
+<div style="display: flex; flex-direction: column; gap: 4px;"><sc-for list="{{agrees}}" as="a" hint-placeholder-count="2"><button type="button" class="chk" onClick="{{a.flip}}" aria-pressed="{{a.on}}"><span style="width: 22px; height: 22px; border-radius: 7px; flex: none; margin-top: 2px; display: inline-flex; align-items: center; justify-content: center; {{a.box}}"><sc-if value="{{a.on}}" hint-placeholder-val="{{true}}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg></sc-if></span>{{a.label}}</button></sc-for></div>
+</section>
+</sc-if>
+
+<div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 22px; border-top: 1px solid var(--line);">
+<button type="button" class="btn btn-g" onClick="{{back}}" style="{{backStyle}}">{{t.back}}</button>
+<span style="font-size: 13.5px; color: var(--faint);">{{stepOf}}</span>
+<button type="button" class="btn btn-p" onClick="{{next}}" style="min-width: 160px; {{nextStyle}}">{{nextLabel}}</button>
+</div>
+</div>
+
+<aside class="card" style="padding: 22px; display: flex; flex-direction: column; gap: 16px; position: sticky; top: 24px;">
+<img src="/_blob/25a9972bc44a28dd6db9377cb6546e2e" alt="" style="width: 100%; height: 140px; object-fit: cover; border-radius: 14px;">
+<div style="display: flex; flex-direction: column; gap: 4px;"><span style="display: flex; align-items: center; gap: 8px;"><b style="font-size: 17px;">{{t.fest}}</b><svg width="16" height="16" viewBox="0 0 24 24" fill="var(--gold)" aria-label="{{t.verified}}" role="img"><path d="M12 2l2.4 2.1 3.2-.3.9 3.1 2.8 1.6-1.1 3 1.1 3-2.8 1.6-.9 3.1-3.2-.3L12 22l-2.4-2.1-3.2.3-.9-3.1-2.8-1.6 1.1-3-1.1-3 2.8-1.6.9-3.1 3.2.3z"></path><path d="m8.5 12 2.5 2.5 4.5-5" stroke="#151004" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></svg></span><span style="font-size: 14px; color: var(--muted);">{{t.festMeta}}</span></div>
+<div style="display: flex; flex-direction: column;">
+<div class="row"><span>{{t.sFilm}}</span><b style="font-weight: 600;">{{sumFilm}}</b></div>
+<div class="row"><span>{{t.sCat}}</span><b style="font-weight: 600;">{{sumCat}}</b></div>
+<div class="row"><span>{{t.sDeadline}}</span><b style="font-weight: 600; color: var(--goldHi);">{{t.deadline}}</b></div>
+<div class="row" style="border-bottom: 0;"><span>{{t.sFee}}</span><b style="font-size: 20px;">{{sumFee}}</b></div>
+</div>
+<p style="margin: 0; padding: 12px 14px; border-radius: 12px; background: var(--s2); font-size: 13.5px; color: var(--muted); line-height: 1.6;">{{t.privacy}}</p>
+</aside>
+</div>
+</main>
+</sc-if>
+
+<sc-if value="{{done}}" hint-placeholder-val="{{false}}">
+<main class="pad fu" style="max-width: 640px; margin: 0 auto; padding: 80px 32px 100px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 20px;">
+<span style="width: 84px; height: 84px; border-radius: 50%; background: var(--gold); color: var(--onGold); display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 0 0 12px var(--goldT);"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg></span>
+<h1 style="margin: 12px 0 0; font-size: 44px; font-weight: 700;">{{t.dT}}</h1>
+<p style="margin: 0; color: var(--muted); font-size: 18px; line-height: 1.65;">{{dP}}</p>
+<div class="card" style="width: 100%; padding: 22px; display: flex; flex-direction: column; gap: 6px; align-items: center;"><span style="font-size: 13.5px; color: var(--faint);">{{t.ref}}</span><b style="font-size: 30px; letter-spacing: .04em; direction: ltr; color: var(--goldHi);">NAS-2026-00175</b><span style="font-size: 13.5px; color: var(--faint);">{{t.refNote}}</span></div>
+<div class="card" style="width: 100%; padding: 8px 22px; text-align: start;"><sc-for list="{{next3}}" as="n" hint-placeholder-count="3"><div style="display: flex; gap: 14px; align-items: center; padding: 14px 0; {{n.line}}"><span style="width: 28px; height: 28px; border-radius: 50%; flex: none; display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; {{n.dot}}">{{n.mark}}</span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><b style="font-size: 15.5px;">{{n.t}}</b><span style="font-size: 13.5px; color: var(--muted);">{{n.p}}</span></span></div></sc-for></div>
+<div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 8px;"><a href="Status.dc.html" class="btn btn-p">{{t.trackIt}}</a><a href="Festivals.dc.html" class="btn btn-s">{{t.another}}</a></div>
+<button type="button" class="btn btn-g" onClick="{{restart}}" style="font-size: 14px; color: var(--goldHi);">{{t.saveAcc}}</button>
+</main>
+</sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"step":{"editor":"enum","options":["1","2","3","4","done"],"default":"1"},"$preview":{"width":1440,"height":1350}}'>
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = { lang: null, theme: null, step: null, genre: 1, cat: 1, prem: 2, pay: 0, poster: true, subs: 2, link: 'ok', agree: [true, false],
+      f: { title: '', titleEn: '', dir: '', email: '', len: '', year: '', country: '', syn: '', link: '', pass: '' } };
+  }
+  componentWillUnmount() { clearTimeout(this.tm); }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const raw = this.state.step || this.props.step || '1';
+    const step = raw === 'done' ? 5 : Number(raw);
+    const go = (n) => this.setState({ step: n === 5 ? 'done' : String(n) });
+    const d = { title: L('The Blue Hills', 'التلال الزرقاء'), titleEn: 'The Blue Hills', dir: L('Nizar Al-Shahrani', 'نزار الشهراني'), email: 'nizar@example.com', len: L('88', '٨٨'), year: L('2026', '٢٠٢٦'), country: L('Saudi Arabia', 'السعودية'),
+      syn: L('Three generations of shepherds and the last winter on the Sarawat slopes, told through the eyes of a grandmother who refuses to leave.', 'ثلاثة أجيال من الرعاة وآخر شتاء على سفوح السروات، بعيون جدّة ترفض الرحيل.'), link: 'https://vimeo.com/nas/blue-hills', pass: 'hills2026' };
+    const sf = this.state.f;
+    const f = {};
+    Object.keys(d).forEach((k) => { f[k] = sf[k] !== '' ? sf[k] : d[k]; });
+    const on = {};
+    Object.keys(d).forEach((k) => { on[k] = (e) => this.setState({ f: Object.assign({}, this.state.f, { [k]: e && e.target ? e.target.value : '' }) }); });
+    const t = {
+      theme: L('Theme', 'المظهر'), to: L('Submitting to', 'مشاركة في'), fest: L('Riyadh Film Nights', 'أسبوع ليالي الرياض السينمائي'), festMeta: L('5th edition · Riyadh · 12–20 Nov 2027', 'الدورة الخامسة · الرياض · ١٢–٢٠ نوفمبر ٢٠٢٧'), verified: L('Verified by NAS', 'موثّق من NAS'),
+      saved: L('Draft saved', 'حُفظت المسودة'), close: L('Close', 'إغلاق'), progress: L('Progress', 'التقدّم'),
+      h1: L('Your film', 'فيلمك'), p1: L('The basics. You’ll only type them once.', 'الأساسيات. تكتبها مرة واحدة فقط.'),
+      fTitle: L('Title', 'عنوان الفيلم'), fTitleEn: L('English title', 'العنوان بالإنجليزية'), fDir: L('Director', 'المخرج'), fEmail: L('Your email', 'بريدك الإلكتروني'), fGenre: L('Type', 'النوع'), fLen: L('Running time (min)', 'المدة (دقيقة)'), fYear: L('Year', 'سنة الإنتاج'), fCountry: L('Country', 'بلد الإنتاج'), fSyn: L('Synopsis', 'الملخص'),
+      h2: L('Files', 'الملفات'), p2: L('A private screener link, the poster and subtitles.', 'رابط مشاهدة خاص، والملصق، والترجمة.'), fLink: L('Screener link (Vimeo, YouTube unlisted, Drive)', 'رابط العرض (Vimeo أو YouTube غير مُدرج أو Drive)'), check: L('Check link', 'افحص الرابط'),
+      checking: L('Checking the link plays…', 'نتأكد أن الرابط يعمل…'), linkOk: L('The link plays', 'الرابط يعمل'), linkMeta: L('1:28:04 · 1080p · stereo audio', '١:٢٨:٠٤ · 1080p · صوت ستيريو'), fPass: L('Link password (if any)', 'كلمة مرور الرابط (إن وُجدت)'),
+      poster: L('Poster', 'الملصق'), addPoster: L('Add poster', 'أضف الملصق'), remove: L('Remove', 'إزالة'), subs: L('Subtitles', 'الترجمة'), added: L('Added', 'أُضيف'), addSub: L('Add subtitle file (.srt)', 'أضف ملف ترجمة (.srt)'), kit: L('Press kit — optional', 'الملف الصحفي — اختياري'),
+      h3: L('Category', 'القسم'), p3: L('NAS matches each category’s rules with your film’s details.', 'يطابق NAS شروط كل قسم مع بيانات فيلمك.'), premiere: L('Premiere status', 'حالة العرض الأول'),
+      h4: L('Review and submit', 'راجع وأرسل'), p4: L('Check everything once. You can still edit until the deadline.', 'راجع كل شيء مرة واحدة. يمكنك التعديل حتى الموعد النهائي.'), edit: L('Edit', 'تعديل'), pay: L('Pay the fee with', 'ادفع الرسوم عبر'),
+      back: L('Back', 'رجوع'),
+      sFilm: L('Film', 'الفيلم'), sCat: L('Category', 'القسم'), sDeadline: L('Deadline', 'آخر موعد'), deadline: L('15 Jan 2027', '١٥ يناير ٢٠٢٧'), sFee: L('Fee', 'الرسوم'),
+      privacy: L('Only the festival team and assigned reviewers can watch your film.', 'لا يشاهد فيلمك إلا فريق المهرجان والمحكّمون المسند إليهم.'),
+      dT: L('Your film is in.', 'وصل فيلمك.'), ref: L('Your reference', 'رقمك المرجعي'), refNote: L('We also sent it to your email.', 'أرسلناه أيضًا إلى بريدك.'),
+      trackIt: L('Track this submission', 'تتبّع المشاركة'), another: L('Submit to another festival', 'قدّم لمهرجان آخر'), saveAcc: L('Save my film details for next time', 'احفظ بيانات فيلمي للمرة القادمة')
+    };
+    const labels = [L('Film', 'الفيلم'), L('Files', 'الملفات'), L('Category', 'القسم'), L('Review', 'المراجعة')];
+    const digits = ar ? ['١', '٢', '٣', '٤'] : ['1', '2', '3', '4'];
+    const steps = labels.map((label, i) => ({ label, n: i + 1 < step ? '✓' : digits[i], go: () => go(i + 1),
+      bar: 'background: ' + (i + 1 <= step ? 'var(--gold)' : 'var(--s3)') + ';', txt: 'color: ' + (i + 1 === step ? 'var(--ink)' : (i + 1 < step ? 'var(--ink2)' : 'var(--faint)')) + ';' }));
+    const pillOn = 'border-color: var(--gold); background: var(--goldT); color: var(--ink);';
+    const genres = [L('Fiction', 'روائي'), L('Documentary', 'وثائقي'), L('Animation', 'تحريك'), L('Experimental', 'تجريبي')].map((label, i) => ({ label, on: this.state.genre === i, style: this.state.genre === i ? pillOn : '', pick: () => this.setState({ genre: i }) }));
+    const catData = [
+      [L('Official Competition', 'المسابقة الرسمية'), L('Feature fiction over 60 minutes', 'روائي طويل أكثر من ٦٠ دقيقة'), L('Not eligible — fiction only', 'غير مؤهل — للأفلام الروائية فقط'), 0, L('SAR 150', '١٥٠ ر.س')],
+      [L('Documentary', 'وثائقي'), L('Creative documentary of any length', 'وثائقي إبداعي بأي مدة'), L('Meets every rule', 'يستوفي كل الشروط'), 1, L('SAR 100', '١٠٠ ر.س')],
+      [L('Arab Horizons — shorts', 'آفاق عربية — قصيرة'), L('Under 40 minutes', 'أقل من ٤٠ دقيقة'), L('Not eligible — film is 88 min', 'غير مؤهل — مدة الفيلم ٨٨ دقيقة'), 0, L('SAR 50', '٥٠ ر.س')]
+    ];
+    const cats = catData.map((c, i) => { const sel = this.state.cat === i; return { name: c[0], note: c[1], fit: c[2], fee: c[4], on: sel, pick: () => this.setState({ cat: i }),
+      fitStyle: 'color: ' + (c[3] ? 'var(--ok)' : 'var(--no)') + ';', box: sel ? 'border-color: var(--gold); background: var(--goldT);' : '',
+      radio: 'width: 22px; height: 22px; border-radius: 50%; flex: none; ' + (sel ? 'border: 7px solid var(--gold);' : 'border: 1.5px solid var(--line2);') }; });
+    const prem = [L('World premiere', 'عرض أول عالمي'), L('Middle East premiere', 'عرض أول في الشرق الأوسط'), L('Saudi premiere', 'عرض أول في السعودية'), L('None', 'لا ينطبق')].map((label, i) => ({ label, on: this.state.prem === i, style: this.state.prem === i ? pillOn : '', pick: () => this.setState({ prem: i }) }));
+    const pays = ['Apple Pay', L('mada', 'مدى'), L('Card', 'بطاقة')].map((label, i) => ({ label, on: this.state.pay === i, style: this.state.pay === i ? pillOn : '', pick: () => this.setState({ pay: i }) }));
+    const agreeL = [L('I hold the rights to submit this film.', 'أملك حقوق تقديم هذا الفيلم.'), L('I have read the festival rules and accept them.', 'قرأت شروط المهرجان وأوافق عليها.')];
+    const agrees = agreeL.map((label, i) => { const v = this.state.agree[i]; return { label, on: v, box: v ? 'background: var(--gold); color: var(--onGold); border: 1.5px solid var(--gold);' : 'border: 1.5px solid var(--line2);',
+      flip: () => { const a = this.state.agree.slice(); a[i] = !a[i]; this.setState({ agree: a }); } }; });
+    const subs = [{ code: 'EN', file: 'blue-hills_en.srt' }, { code: 'AR', file: 'blue-hills_ar.srt' }, { code: 'FR', file: 'blue-hills_fr.srt' }].slice(0, this.state.subs);
+    const genreL = genres[this.state.genre].label;
+    const cat = catData[this.state.cat];
+    const lst = (rows) => rows.map((r, i) => ({ k: r[0], v: r[1], last: i === rows.length - 1 ? 'border-bottom: 0;' : '' }));
+    const review = [
+      { h: L('Film', 'الفيلم'), edit: () => go(1), rows: lst([[t.fTitle, f.title], [t.fDir, f.dir], [t.fGenre, genreL + ' · ' + f.len + L(' min', ' دقيقة')], [t.fEmail, f.email]]) },
+      { h: L('Files', 'الملفات'), edit: () => go(2), rows: lst([[L('Screener', 'العرض'), t.linkOk + ' · 1:28:04'], [t.poster, this.state.poster ? t.added : L('Missing', 'غير مضاف')], [t.subs, subs.map((s) => s.code).join(' · ')]]) },
+      { h: L('Category', 'القسم'), edit: () => go(3), rows: lst([[L('Category', 'القسم'), cat[0]], [t.premiere, prem[this.state.prem].label], [t.sFee, cat[4]]]) }
+    ];
+    const allAgreed = this.state.agree[0] && this.state.agree[1];
+    const nextLabel = step === 4 ? L('Submit · ', 'أرسل · ') + cat[4] : L('Continue', 'متابعة');
+    const linkBusy = this.state.link === 'busy';
+    const next3 = [
+      [L('Received', 'مُستلَم'), L('Today · the festival has your film', 'اليوم · وصل فيلمك إلى المهرجان'), 2],
+      [L('In review', 'قيد المراجعة'), L('Reviewers watch and score — from late January', 'يشاهد المحكّمون ويقيّمون — من أواخر يناير'), 1],
+      [L('Decision', 'القرار'), L('You’ll get an email by 1 March 2027', 'ستصلك رسالة قبل ١ مارس ٢٠٢٧'), 0]
+    ].map((n, i) => ({ t: n[0], p: n[1], mark: n[2] === 2 ? '✓' : digits[i], line: i < 2 ? 'border-bottom: 1px solid var(--line);' : '',
+      dot: n[2] === 2 ? 'background: var(--gold); color: var(--onGold);' : 'border: 1.5px solid var(--line2); color: var(--faint);' }));
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light',
+      toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }), toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      t, f, on, steps, genres, cats, prem, pays, agrees, subs, review, next3,
+      inForm: step < 5, done: step === 5, s1: step === 1, s2: step === 2, s3: step === 3, s4: step === 4,
+      synCount: (ar ? String(f.syn.length).replace(/\d/g, (x) => '٠١٢٣٤٥٦٧٨٩'[x]) : f.syn.length) + ' / 400',
+      linkBusy, linkOk: this.state.link === 'ok',
+      checkLink: () => { this.setState({ link: 'busy' }); clearTimeout(this.tm); this.tm = setTimeout(() => this.setState({ link: 'ok' }), 1200); },
+      hasPoster: this.state.poster, noPoster: !this.state.poster, addPoster: () => this.setState({ poster: true }), dropPoster: () => this.setState({ poster: false }),
+      addSub: () => this.setState({ subs: Math.min(3, this.state.subs + 1) }),
+      sumFilm: f.title, sumCat: cat[0], sumFee: cat[4],
+      stepOf: L('Step ' + step + ' of 4', 'الخطوة ' + digits[Math.min(step, 4) - 1] + ' من ٤'),
+      back: () => go(Math.max(1, step - 1)), backStyle: step === 1 ? 'visibility: hidden;' : '',
+      next: () => { if (step === 4 && !allAgreed) return; go(step + 1); }, nextLabel, nextStyle: step === 4 && !allAgreed ? 'opacity: .45; cursor: not-allowed;' : '',
+      dP: L('“' + f.title + '” was submitted to ' + t.fest + '. Nothing else to do for now — we’ll email you when its status changes.', 'أُرسل «' + f.title + '» إلى ' + t.fest + '. لا شيء آخر عليك الآن — سنراسلك عند تغيّر حالته.'),
+      restart: () => go(1)
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Sign in</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0A0B}
+*{box-sizing:border-box}
+.th-dark{--bg:#0A0A0B;--s1:#111113;--s2:#18181B;--s3:#222226;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--ink:#F4F2EC;--ink2:#D6D3CB;--muted:#A3A19A;--faint:#8C8A83;--gold:#C9A84C;--goldHi:#E2C36E;--goldT:rgba(201,168,76,.12);--goldL:rgba(201,168,76,.4);--onGold:#151004;--ok:#5BC08A;--okT:rgba(91,192,138,.13);color-scheme:dark}
+.th-light{--bg:#F8F7F4;--s1:#FFFFFF;--s2:#F2F1ED;--s3:#E8E6E0;--line:rgba(20,18,12,.08);--line2:rgba(20,18,12,.14);--ink:#141413;--ink2:#2F2D29;--muted:#5F5C56;--faint:#6B6862;--gold:#B08A33;--goldHi:#7E5E12;--goldT:rgba(201,168,76,.16);--goldL:rgba(169,130,46,.45);--onGold:#151004;--ok:#23794A;--okT:rgba(35,121,74,.1);color-scheme:light}
+[dir=rtl] h1{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1{letter-spacing:-.025em}
+a{color:inherit;text-decoration:none}
+.btn{height:52px;padding:0 22px;border-radius:14px;font:inherit;font-size:16px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;border:1px solid transparent;white-space:nowrap;width:100%;transition:filter .2s,border-color .2s}
+.btn-p{background:var(--gold);color:var(--onGold)}
+.btn-p:hover{filter:brightness(1.08)}
+.btn-s{background:var(--s1);color:var(--ink);border-color:var(--line2)}
+.btn-s:hover{border-color:var(--goldL)}
+.ibtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-size:13px;font-weight:700}
+.ibtn:hover{border-color:var(--goldL);color:var(--ink)}
+.lbl{display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:600;color:var(--ink2)}
+.fld{width:100%;height:52px;border-radius:14px;background:var(--s2);border:1px solid var(--line2);color:var(--ink);font:inherit;font-size:16px;padding:0 16px;outline:none}
+.fld:focus{border-color:var(--gold);box-shadow:0 0 0 4px var(--goldT)}
+.lnk{background:none;border:0;font:inherit;font-size:14px;font-weight:600;color:var(--goldHi);cursor:pointer;padding:6px 0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.fu{animation:fadeUp .4s cubic-bezier(.16,1,.3,1) both}
+@media (max-width:900px){.art{display:none !important}}
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 900px; display: flex; flex-wrap: wrap; -webkit-font-smoothing: antialiased;">
+
+<div class="art" style="flex: 1 1 560px; position: relative; min-height: 900px; overflow: hidden;">
+<img src="/_blob/9d90dd82bf08bb1350e8c1fcd6774d7e" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 80%;">
+<div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,10,11,.15), rgba(10,10,11,.88));"></div>
+<div style="position: absolute; inset-inline: 56px; bottom: 56px; color: #F4F2EC; display: flex; flex-direction: column; gap: 12px;"><b style="font-size: 40px; line-height: 1.25; font-family: 'Readex Pro','IBM Plex Sans Arabic','Geist',sans-serif;">{{t.tag}}</b><span style="font-size: 17px; color: rgba(244,242,236,.8); max-width: 440px; line-height: 1.6;">{{t.tagP}}</span></div>
+</div>
+
+<div style="flex: 1 1 520px; display: flex; flex-direction: column; padding: 24px 40px;">
+<div style="display: flex; align-items: center; gap: 8px;"><a href="Main.dc.html" aria-label="NAS" style="margin-inline-end: auto;"><img src="/_blob/975845359f68a7d023125a410efe44f4" alt="NAS" style="height: 26px; width: auto; display: block;"></a>
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button></div>
+<main style="flex: 1; display: flex; align-items: center; justify-content: center;">
+<div style="width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 20px;">
+<sc-if value="{{form}}" hint-placeholder-val="{{true}}"><div class="fu" style="display: flex; flex-direction: column; gap: 20px;">
+<div><h1 style="margin: 0; font-size: 38px; font-weight: 700;">{{t.h1}}</h1><p style="margin: 8px 0 0; color: var(--muted); font-size: 16.5px; line-height: 1.6;">{{t.p1}}</p></div>
+<label class="lbl">{{t.email}}<input class="fld" dir="ltr" type="email" value="{{email}}" onChange="{{onEmail}}"></label>
+<label class="lbl"><span style="display: flex; justify-content: space-between; align-items: center;">{{t.pass}}<button type="button" class="lnk" onClick="{{toLink}}">{{t.forgot}}</button></span><input class="fld" dir="ltr" type="password" value="••••••••••" readonly></label>
+<a href="Studio.dc.html" class="btn btn-p">{{t.go}}</a>
+<div style="display: flex; align-items: center; gap: 14px; color: var(--faint); font-size: 13.5px;"><span style="flex: 1; height: 1px; background: var(--line2);"></span>{{t.or}}<span style="flex: 1; height: 1px; background: var(--line2);"></span></div>
+<button type="button" class="btn btn-s" onClick="{{toLink}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>{{t.magic}}</button>
+</div></sc-if>
+<sc-if value="{{sent}}" hint-placeholder-val="{{false}}"><div class="fu" style="display: flex; flex-direction: column; gap: 18px; align-items: center; text-align: center;">
+<span style="width: 72px; height: 72px; border-radius: 50%; background: var(--goldT); color: var(--goldHi); display: inline-flex; align-items: center; justify-content: center;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg></span>
+<h1 style="margin: 0; font-size: 34px; font-weight: 700;">{{t.h2}}</h1>
+<p style="margin: 0; color: var(--muted); font-size: 16.5px; line-height: 1.6;">{{t.p2}} <b style="color: var(--ink); direction: ltr; display: inline-block;">{{email}}</b></p>
+<button type="button" class="lnk" onClick="{{back}}">{{t.back}}</button>
+</div></sc-if>
+<div style="margin-top: 12px; padding: 16px 18px; border-radius: 14px; background: var(--s2); font-size: 14.5px; color: var(--muted); line-height: 1.6; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;"><span>{{t.team}}</span><a href="Dashboard.dc.html" style="color: var(--goldHi); font-weight: 600;">{{t.teamLink}}</a></div>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, sent: false, email: 'reem@riyadhnights.sa' }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const t = {
+      theme: L('Theme', 'المظهر'), tag: L('Every film deserves its festival.', 'كل فيلم يستحق مهرجانه.'), tagP: L('Your films, their AI reports and every submission — in one studio.', 'أفلامك وتقاريرها ومشاركاتك، كلها في استوديو واحد.'),
+      h1: L('Sign in', 'تسجيل الدخول'), p1: L('Your films, reports and submissions.', 'أفلامك وتقاريرها ومشاركاتك.'), email: L('Work email', 'البريد الإلكتروني'), pass: L('Password', 'كلمة المرور'), forgot: L('Forgot?', 'نسيتها؟'),
+      go: L('Sign in', 'دخول'), or: L('or', 'أو'), magic: L('Email me a sign-in link', 'أرسلوا لي رابط الدخول'),
+      h2: L('Check your email', 'تحقّق من بريدك'), p2: L('We sent a sign-in link to', 'أرسلنا رابط الدخول إلى'), back: L('Use a password instead', 'استخدم كلمة المرور'),
+      film: L('Submitted a film? You don’t need an account.', 'قدّمت فيلمًا؟ ما تحتاج حسابًا.'), trackLink: L('Track it with your reference', 'تابعه برقمك المرجعي'), team: L('Part of a festival team?', 'من فريق مهرجان؟'), teamLink: L('Festival workspace', 'ادخل مساحة المهرجانات')
+    };
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light',
+      toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }), toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      t, form: !this.state.sent, sent: this.state.sent, email: this.state.email,
+      onEmail: (e) => this.setState({ email: e && e.target ? e.target.value : '' }), toLink: () => this.setState({ sent: true }), back: () => this.setState({ sent: false })
+    };
+  }
+}
+</script>
+</body>
+</html>

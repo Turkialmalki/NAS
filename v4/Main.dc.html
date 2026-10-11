@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Your film, at the right festival</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@200..800&amp;family=IBM+Plex+Sans+Arabic:wght@200;300;400;500;600;700&amp;family=Readex+Pro:wght@200..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#000}
+*{box-sizing:border-box}
+.th-dark{--bg:#000000;--s1:#0F0F10;--s2:#161618;--s3:#222225;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--ink:#F5F5F2;--ink2:#D9D7D0;--muted:#A1A09A;--faint:#86857F;--gold:#C9A84C;--goldHi:#E2C36E;--goldT:rgba(201,168,76,.12);--goldL:rgba(201,168,76,.4);--onGold:#151004;--ok:#5BC08A;--navBg:rgba(0,0,0,.72);--glass:rgba(22,22,24,.62);color-scheme:dark}
+.th-light{--bg:#FBFBF9;--s1:#FFFFFF;--s2:#F2F1ED;--s3:#E8E6E0;--line:rgba(20,18,12,.08);--line2:rgba(20,18,12,.14);--ink:#111110;--ink2:#2F2D29;--muted:#5F5C56;--faint:#6B6862;--gold:#B08A33;--goldHi:#7E5E12;--goldT:rgba(201,168,76,.16);--goldL:rgba(169,130,46,.45);--onGold:#151004;--ok:#23794A;--navBg:rgba(251,251,249,.78);--glass:rgba(255,255,255,.7);color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2,[dir=rtl] h3{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2{letter-spacing:-.035em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:60px;gap:20px}
+.nl{display:flex;gap:30px}
+.nl a{font-size:14px;color:var(--muted);transition:color .2s}
+.nl a:hover{color:var(--ink)}
+.tbtn{width:34px;height:34px;border-radius:99px;border:0;background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-size:12.5px;font-weight:700}
+.tbtn:hover{color:var(--ink);background:var(--s2)}
+.pill{height:34px;padding:0 16px;border-radius:99px;background:var(--gold);color:var(--onGold);font-size:14px;font-weight:600;display:inline-flex;align-items:center;transition:filter .2s}
+.pill:hover{filter:brightness(1.08)}
+.cta{height:54px;padding:0 30px;border-radius:99px;background:var(--gold);color:var(--onGold);font-size:17px;font-weight:600;display:inline-flex;align-items:center;gap:10px;transition:filter .2s,transform .2s}
+.cta:hover{filter:brightness(1.08);transform:scale(1.02)}
+.tl{font-size:17px;color:var(--goldHi);display:inline-flex;align-items:center;gap:6px}
+.tl:hover{text-decoration:underline;text-underline-offset:5px}
+.tile{border-radius:28px;background:var(--s1);overflow:hidden;position:relative;display:flex;flex-direction:column}
+.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.rise{animation:rise .9s cubic-bezier(.16,1,.3,1) both}
+@keyframes zoomIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+.zin{animation:zoomIn 1.2s cubic-bezier(.16,1,.3,1) both}
+@media (max-width:900px){.nl,.hide-s{display:none !important}.nav{grid-template-columns:1fr auto}.wrap{padding:0 16px}.g3,.g2{grid-template-columns:minmax(0,1fr) !important}.hh{font-size:48px !important}.hs{font-size:18px !important}}
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 900px; -webkit-font-smoothing: antialiased;">
+
+<header style="position: sticky; top: 0; z-index: 30; background: var(--navBg); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line);">
+<div class="wrap nav">
+<a href="Main.dc.html" aria-label="NAS" style="justify-self: start;"><img src="/_blob/975845359f68a7d023125a410efe44f4" alt="NAS" style="height: 22px; width: auto; display: block;"></a>
+<nav class="nl" aria-label="{{t.menu}}"><a href="Festivals.dc.html">{{t.nFest}}</a><a href="Films.dc.html">{{t.nFilms}}</a><a href="#how">{{t.nHow}}</a><a href="Plans.dc.html">{{t.nPlans}}</a></nav>
+<div style="justify-self: end; display: flex; align-items: center; gap: 4px;">
+<button type="button" class="tbtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="tbtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+<a href="SignIn.dc.html" class="hide-s" style="font-size: 14px; color: var(--muted); padding: 0 12px;">{{t.signin}}</a>
+<a href="Start.dc.html" class="pill">{{t.start}}</a>
+</div>
+</div>
+</header>
+
+<section style="padding-top: 120px; text-align: center;">
+<div class="wrap" style="display: flex; flex-direction: column; align-items: center; gap: 24px;">
+<h1 class="hh rise" style="margin: 0; font-size: 88px; line-height: 1.05; font-weight: 600; max-width: 1000px;">{{t.h1a}}<br><span style="color: var(--gold);">{{t.h1b}}</span></h1>
+<p class="hs rise" style="margin: 0; max-width: 600px; color: var(--muted); font-size: 22px; line-height: 1.55; font-weight: 400; animation-delay: .1s;">{{t.lede}}</p>
+<div class="rise" style="display: flex; gap: 28px; align-items: center; flex-wrap: wrap; justify-content: center; margin-top: 8px; animation-delay: .2s;"><a href="Start.dc.html" class="cta">{{t.cta}}</a><a href="#how" class="tl">{{t.how}} <span style="display: inline-block; transform: {{flip}};">›</span></a></div>
+</div>
+<div class="wrap zin" style="margin-top: 80px; animation-delay: .3s;">
+<div style="position: relative; border-radius: 32px; overflow: hidden; aspect-ratio: 21 / 9;">
+<img src="/_blob/25a9972bc44a28dd6db9377cb6546e2e" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 45%;">
+<div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,.65));"></div>
+<div style="position: absolute; bottom: 28px; inset-inline-start: 28px; display: flex; align-items: center; gap: 14px; padding: 14px 18px 14px 14px; border-radius: 22px; background: rgba(18,18,20,.62); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255,255,255,.12); color: #F5F5F2; text-align: start;"><img src="/_blob/07a6092db243a79066a95642b1423f60" alt="" style="width: 44px; height: 58px; border-radius: 9px; object-fit: cover;"><span style="display: flex; flex-direction: column; gap: 4px;"><b style="font-size: 15px;">{{t.film}}</b><span style="font-size: 12.5px; color: rgba(245,245,242,.7);">{{t.filmM}}</span></span><span style="width: 1px; height: 36px; background: rgba(255,255,255,.14); margin: 0 4px;"></span><span style="display: flex; flex-direction: column; align-items: center;"><b style="font-size: 22px; color: #E2C36E; line-height: 1;">{{t.score}}</b><span style="font-size: 11px; color: rgba(245,245,242,.65); margin-top: 3px;">{{t.scoreL}}</span></span></div>
+<div class="hide-s" style="position: absolute; bottom: 28px; inset-inline-end: 28px; display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border-radius: 20px; background: rgba(18,18,20,.62); backdrop-filter: blur(24px) saturate(180%); -webkit-backdrop-filter: blur(24px) saturate(180%); border: 1px solid rgba(255,255,255,.12); color: #F5F5F2; text-align: start; min-width: 250px;"><span style="font-size: 11.5px; color: rgba(245,245,242,.6); font-weight: 600;">{{t.matchL}}</span><sc-for list="{{matches}}" as="m" hint-placeholder-count="2"><span style="display: flex; justify-content: space-between; gap: 14px; font-size: 13.5px;"><span>{{m.n}}</span><b style="color: #E2C36E;">{{m.f}}</b></span></sc-for></div>
+</div>
+</div>
+</section>
+
+<section id="how" class="wrap" style="padding-top: 160px;">
+<div class="g2" style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 64px; align-items: center;">
+<div style="display: flex; flex-direction: column; gap: 22px; text-align: start;">
+<h2 style="margin: 0; font-size: 60px; font-weight: 600; line-height: 1.1;">{{t.howT}}</h2>
+<p style="margin: 0; color: var(--muted); font-size: 20px; line-height: 1.6;">{{t.howP}}</p>
+<div style="display: flex; flex-direction: column; gap: 0; margin-top: 8px; border-top: 1px solid var(--line);"><sc-for list="{{facts}}" as="f" hint-placeholder-count="3"><div style="display: flex; align-items: baseline; gap: 18px; padding: 18px 0; border-bottom: 1px solid var(--line);"><b style="font-size: 30px; font-weight: 300; color: var(--gold); min-width: 92px; font-family: 'Geist','Readex Pro',sans-serif;">{{f.v}}</b><span style="font-size: 16.5px; color: var(--ink2);">{{f.l}}</span></div></sc-for></div>
+<a href="Start.dc.html" class="cta" style="align-self: flex-start; margin-top: 10px;">{{t.cta}}</a>
+</div>
+<div style="position: relative; border-radius: 34px; background: var(--s1); padding: 26px; display: flex; flex-direction: column; gap: 18px; box-shadow: 0 40px 80px -40px rgba(0,0,0,.8);">
+<div style="display: flex; gap: 18px; align-items: center;"><div style="position: relative; width: 104px; height: 138px; border-radius: 18px; overflow: hidden; flex: none;"><img src="/_blob/07a6092db243a79066a95642b1423f60" alt="" style="width: 100%; height: 100%; object-fit: cover;"></div><div style="flex: 1; display: flex; flex-direction: column; gap: 8px; text-align: start;"><b style="font-size: 24px; font-weight: 600;">{{t.film}}</b><span style="font-size: 13.5px; color: var(--muted);">{{t.filmM}}</span><span style="display: flex; gap: 6px; flex-wrap: wrap;"><span class="chip" style="background: var(--s2); color: var(--ink2);">1080p</span><span class="chip" style="background: var(--s2); color: var(--ink2);">{{t.subs}}</span></span></div><div style="width: 84px; height: 84px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; background: conic-gradient(var(--gold) 0 87%, var(--s3) 87% 100%);"><div style="width: 70px; height: 70px; border-radius: 50%; background: var(--s1); display: flex; align-items: center; justify-content: center;"><b style="font-size: 24px; font-weight: 600;">{{t.score}}</b></div></div></div>
+<p style="margin: 0; font-size: 18px; line-height: 1.55; font-weight: 300; color: var(--ink2); text-align: start;">«{{t.logline}}»</p>
+<sc-for list="{{mock}}" as="m" hint-placeholder-count="2"><div style="display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; background: var(--s2);"><span style="width: 22px; height: 22px; border-radius: 50%; background: var(--gold); color: var(--onGold); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;">✓</span><img src="{{m.img}}" alt="" style="width: 38px; height: 38px; border-radius: 10px; object-fit: cover;"><b style="flex: 1; font-size: 14.5px; font-weight: 600; text-align: start;">{{m.n}}</b><b style="font-size: 14px; color: var(--goldHi); font-weight: 600;">{{m.f}}</b></div></sc-for>
+<div style="height: 52px; border-radius: 99px; background: var(--gold); color: var(--onGold); display: flex; align-items: center; justify-content: center; font-size: 15.5px; font-weight: 600;">{{t.mockSend}}</div>
+</div>
+</div>
+</section>
+
+<section class="wrap" style="padding-top: 170px;">
+<h2 style="margin: 0; font-size: 56px; font-weight: 600; text-align: center; line-height: 1.15;">{{t.accT}}</h2>
+<p style="margin: 14px auto 0; text-align: center; color: var(--muted); font-size: 20px; max-width: 600px;">{{t.accP}}</p>
+<div class="g2" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 64px;">
+<a href="Analyze.dc.html" class="tile" style="grid-row: span 2; min-height: 640px;"><img src="/_blob/4963e7a196f83370e811448ef31c5e4c" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;"><div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.75), rgba(0,0,0,0) 45%, rgba(0,0,0,.2));"></div><div style="position: relative; padding: 40px; display: flex; flex-direction: column; gap: 10px; color: #F5F5F2;"><span style="font-size: 14px; color: #E2C36E; font-weight: 600;">{{t.f1k}}</span><b style="font-size: 34px; font-weight: 600; line-height: 1.2; font-family: 'Readex Pro','Geist',sans-serif;">{{t.f1}}</b><span style="font-size: 16px; color: rgba(245,245,242,.75); line-height: 1.6; max-width: 400px;">{{t.f1p}}</span></div></a>
+<sc-for list="{{tiles}}" as="f" hint-placeholder-count="2"><a href="{{f.href}}" class="tile" style="padding: 40px; gap: 10px; min-height: 312px;"><span style="font-size: 14px; color: var(--goldHi); font-weight: 600;">{{f.k}}</span><b style="font-size: 28px; font-weight: 600; line-height: 1.25;">{{f.t}}</b><span style="font-size: 16px; color: var(--muted); line-height: 1.6;">{{f.p}}</span><span style="margin-top: auto; display: flex; gap: 8px; flex-wrap: wrap;"><sc-for list="{{f.chips}}" as="c" hint-placeholder-count="3"><span class="chip" style="background: var(--s2); color: var(--ink2);">{{c}}</span></sc-for></span></a></sc-for>
+</div>
+<div style="display: flex; justify-content: center; margin-top: 48px;"><a href="SignIn.dc.html" class="tl">{{t.accCta}} <span style="display: inline-block; transform: {{flip}};">›</span></a></div>
+</section>
+
+<section class="wrap" style="padding-top: 170px;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap;"><h2 style="margin: 0; font-size: 44px; font-weight: 600;">{{t.openT}}</h2><a href="Festivals.dc.html" class="tl">{{t.all}} <span style="display: inline-block; transform: {{flip}};">›</span></a></div>
+<div class="g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 32px;"><sc-for list="{{fests}}" as="f" hint-placeholder-count="3"><a href="Festival.dc.html" style="display: flex; flex-direction: column; gap: 14px;"><div style="aspect-ratio: 4 / 3; border-radius: 24px; overflow: hidden;"><img src="{{f.img}}" alt="" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s;"></div><span style="display: flex; flex-direction: column; gap: 4px; padding: 0 4px;"><b style="font-size: 18px; font-weight: 600;">{{f.n}}</b><span style="font-size: 14.5px; color: var(--muted);">{{f.c}}</span></span></a></sc-for></div>
+</section>
+
+<section class="wrap" style="padding-top: 170px; padding-bottom: 140px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 22px;">
+<h2 style="margin: 0; font-size: 64px; font-weight: 600;">{{t.endT}}</h2>
+<a href="Start.dc.html" class="cta">{{t.cta}}</a>
+<span style="font-size: 14px; color: var(--faint);">{{t.endP}}</span>
+</section>
+
+<footer style="border-top: 1px solid var(--line);"><div class="wrap" style="padding-top: 26px; padding-bottom: 30px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--faint);"><span>{{t.copy}}</span><span style="display: flex; gap: 22px;"><a href="Festivals.dc.html">{{t.nFest}}</a><a href="ForFestivals.dc.html">{{t.nFor}}</a><a href="Status.dc.html">{{t.nTrack}}</a><a href="#">{{t.privacy}}</a><a href="#">{{t.terms}}</a></span></div></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":4000}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const t = {
+      theme: L('Theme', 'المظهر'), menu: L('Main', 'القائمة'), nFest: L('Festivals', 'المهرجانات'), nHow: L('How it works', 'كيف يعمل'), nFor: L('For festivals', 'للمهرجانات'), nTrack: L('Track', 'تتبّع'), nFilms: L('Films', 'الأفلام'), nPlans: L('Plans', 'الباقات'),
+      signin: L('Sign in', 'دخول'), start: L('Start', 'ابدأ'),
+      h1a: L('Your film.', 'فيلمك،'), h1b: L('At the right festival.', 'على الشاشة التي يستحقها.'),
+      lede: L('Upload it once. AI watches it, then sends it to the verified festivals it fits.', 'ارفعه مرة واحدة، ونتكفّل بالباقي: نشاهده، ونفهمه، ونوصله إلى المهرجانات التي تليق به.'),
+      cta: L('Upload your film', 'ارفع فيلمك'), how: L('How it works', 'كيف يعمل'),
+      film: L('The Blue Hills', 'التلال الزرقاء'), filmM: L('Documentary · 88 min', 'وثائقي · ٨٨ دقيقة'), score: L('8.7', '٨٫٧'), scoreL: L('AI score', 'التقييم'),
+      matchL: L('BEST FESTIVALS', 'الأنسب لفيلمك'),
+      howT: L('You just drop it.', 'عليك الفيلم، وعلينا الباقي.'), howP: L('No forms, no steps. Drop your film and its result appears in front of you — its score, its one line, and the festivals it fits. One tap sends it.', 'بلا استمارات ولا خطوات. ترفع فيلمك، وخلال دقائق يظهر أمامك تقييمه وفكرته في سطر والمهرجانات الأقرب إليه. وبضغطة واحدة يصلها.'), subs: L('EN subtitles', 'ترجمة إنجليزية'), logline: L('On the last winter of the Sarawat slopes, a grandmother refuses to leave the mountain.', 'في شتائها الأخير على جبال السروات، جدّةٌ تأبى أن تترك الجبل.'), mockSend: L('Send to 2 festivals · SAR 220', 'أرسل إلى مهرجانين · ٢٢٠ ر.س'),
+      accT: L('Sign in, and there’s more.', 'ومع حسابك، أكثر بكثير.'), accP: L('Every film you upload gets its own space — reports, submissions and deadlines together.', 'كل فيلم ترفعه له مساحته: تقريره، ومشاركاته، ومواعيده — في مكان واحد.'),
+      f1k: L('Full AI report', 'التقرير الكامل'), f1: L('See your film the way a festival will.', 'شاهد فيلمك بعين لجنة التحكيم.'), f1p: L('Six scores, timestamped notes, and a logline in Arabic and English.', 'ستة محاور تقييم، وملاحظات مربوطة بالدقيقة والثانية، وفكرة فيلمك في سطر بالعربي والإنجليزي.'),
+      accCta: L('Create a free account', 'أنشئ حسابك مجانًا'),
+      openT: L('Open now.', 'باب المشاركة مفتوح.'), all: L('All festivals', 'كل المهرجانات'),
+      endT: L('Ready?', 'فيلمك جاهز؟'), endP: L('Free for filmmakers. You only pay each festival’s fee.', 'مجاني لصنّاع الأفلام، وكل ما تدفعه هو رسوم المهرجان.'),
+      copy: L('© 2026 NAS · Made in Riyadh', '© ٢٠٢٦ NAS · صُنع في الرياض'), privacy: L('Privacy', 'الخصوصية'), terms: L('Terms', 'الشروط')
+    };
+    const matches = [[L('Riyadh Film Nights', 'ليالي الرياض السينمائية'), L('94%', '٩٤٪')], [L('Dhahran Cinema Nights', 'ليالي الظهران'), L('88%', '٨٨٪')]].map((m) => ({ n: m[0], f: m[1] }));
+    const steps = [
+      [L('Upload', 'ارفع'), L('Drop the file or paste a private link.', 'ارفع الملف أو ضع رابطًا خاصًا.')],
+      [L('Review', 'راجع'), L('AI scores your film and picks the festivals it fits.', 'نقيّم فيلمك ونرشّح له المهرجانات الأنسب.')],
+      [L('Send', 'أرسل'), L('One email, one click. Track it all with your reference.', 'بضغطة واحدة، وتتابع كل شيء برقمك المرجعي.')]
+    ].map((s, i) => ({ n: ar ? '١٢٣'[i] : String(i + 1), t: s[0], p: s[1], sep: i > 0 ? 'border-inline-start: 1px solid var(--line);' : '' }));
+    const facts = [[L('~4 min', '٤ دقائق'), L('for AI to watch a feature film', 'تكفي لمشاهدة فيلم طويل وتحليله')], [L('6', '٦'), L('clear scores, with timestamped notes', 'محاور تقييم، بملاحظات دقيقة')], [L('1 tap', 'ضغطة'), L('to send to every festival that fits', 'تُوصل فيلمك لكل مهرجان يناسبه')]].map((f) => ({ v: f[0], l: f[1] }));
+    const mock = [['/_blob/25a9972bc44a28dd6db9377cb6546e2e', L('Riyadh Film Nights', 'ليالي الرياض السينمائية'), L('94%', '٩٤٪')], ['/_blob/9d90dd82bf08bb1350e8c1fcd6774d7e', L('Dhahran Cinema Nights', 'ليالي الظهران السينمائية'), L('88%', '٨٨٪')]].map((m) => ({ img: m[0], n: m[1], f: m[2] }));
+    const tiles = [
+      { href: 'Studio.dc.html', k: L('Your studio', 'استوديو أفلامك'), t: L('Every submission, one place.', 'كل مشاركاتك في مكان واحد.'), p: L('Live status from each festival — received, in review, decision.', 'اعرف أين وصل فيلمك في كل مهرجان: استُلم، قيد المراجعة، صدر القرار.'), chips: [L('Status', 'الحالات'), L('Messages', 'الرسائل'), L('Receipts', 'الإيصالات')] },
+      { href: 'Studio.dc.html', k: L('For you', 'اقتراحات لك'), t: L('New festivals that fit.', 'مهرجانات جديدة على مقاس فيلمك.'), p: L('When a festival opens that fits your film, NAS tells you — and reminds you before it closes.', 'إذا فتح مهرجان يناسب فيلمك نخبرك فورًا، ونذكّرك قبل أن يُغلق الباب.'), chips: [L('Matches', 'ترشيحات'), L('Deadlines', 'المواعيد'), L('One-click send', 'إرسال بضغطة')] }
+    ];
+    const fests = [['/_blob/f0c0927ab01a00b979d0f795462df5cb', L('Riyadh Film Nights', 'أسبوع ليالي الرياض السينمائي'), L('Closes 15 Jan', 'آخر موعد ١٥ يناير')], ['/_blob/7a67dd6a8ed910af190a6d73b88223a2', L('Jeddah Historic Cinema Days', 'أيام سينما جدة التاريخية'), L('Closes 28 Dec', 'آخر موعد ٢٨ ديسمبر')], ['/_blob/9d90dd82bf08bb1350e8c1fcd6774d7e', L('Dhahran Cinema Nights', 'ليالي الظهران السينمائية'), L('Closes 20 Feb', 'آخر موعد ٢٠ فبراير')]]
+      .map((f) => ({ img: f[0], n: f[1], c: f[2] }));
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light',
+      toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }), toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع', flip: ar ? 'scaleX(-1)' : 'none',
+      dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      t, matches, steps, tiles, fests, facts, mock
+    };
+  }
+}
+</script>
+</body>
+</html>

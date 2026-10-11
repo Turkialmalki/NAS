@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Film analysis and decision</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0A0B}
+*{box-sizing:border-box}
+.th-dark{--bg:#0A0A0B;--side:#0E0E10;--s1:#111113;--s2:#18181B;--s3:#222226;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--ink:#F4F2EC;--ink2:#D6D3CB;--muted:#A3A19A;--faint:#8C8A83;--gold:#C9A84C;--goldHi:#E2C36E;--goldT:rgba(201,168,76,.12);--goldL:rgba(201,168,76,.4);--onGold:#151004;--ok:#5BC08A;--okT:rgba(91,192,138,.13);--no:#EE7A6E;--noT:rgba(238,122,110,.13);--info:#86AEF2;--infoT:rgba(134,174,242,.13);--shadow:inset 0 1px 0 rgba(255,255,255,.04),0 24px 48px -28px rgba(0,0,0,.9);color-scheme:dark}
+.th-light{--bg:#F8F7F4;--side:#F2F1ED;--s1:#FFFFFF;--s2:#F2F1ED;--s3:#E8E6E0;--line:rgba(20,18,12,.08);--line2:rgba(20,18,12,.14);--ink:#141413;--ink2:#2F2D29;--muted:#5F5C56;--faint:#6B6862;--gold:#B08A33;--goldHi:#7E5E12;--goldT:rgba(201,168,76,.16);--goldL:rgba(169,130,46,.45);--onGold:#151004;--ok:#23794A;--okT:rgba(35,121,74,.1);--no:#B8402F;--noT:rgba(184,64,47,.1);--info:#2F5FB3;--infoT:rgba(47,95,179,.1);--shadow:0 1px 2px rgba(20,18,12,.05),0 16px 36px -24px rgba(20,18,12,.18);color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2{letter-spacing:-.025em}
+a{color:inherit;text-decoration:none}
+.btn{height:42px;padding:0 18px;border-radius:12px;font:inherit;font-size:14.5px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:filter .2s,background .2s,border-color .2s}
+.btn-p{background:var(--gold);color:var(--onGold)}
+.btn-p:hover{filter:brightness(1.08)}
+.btn-s{background:var(--s2);color:var(--ink);border-color:var(--line2)}
+.btn-s:hover{border-color:var(--goldL)}
+.btn-g{background:transparent;color:var(--ink2)}
+.btn-g:hover{background:var(--s2)}
+.ibtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-size:13px;font-weight:700}
+.ibtn:hover{border-color:var(--goldL);color:var(--ink)}
+.ni{height:42px;padding:0 12px;border-radius:11px;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:15px;font-weight:500}
+.ni:hover{background:var(--s2);color:var(--ink)}
+.ni.on{background:var(--s2);color:var(--ink);font-weight:600}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
+.c-ok{background:var(--okT);color:var(--ok)}
+.c-info{background:var(--infoT);color:var(--info)}
+.c-gold{background:var(--goldT);color:var(--goldHi)}
+.c-mute{background:var(--s2);color:var(--muted)}
+.dec{width:100%;height:50px;border-radius:13px;border:1px solid var(--line2);background:transparent;font:inherit;font-size:15px;font-weight:600;display:flex;align-items:center;gap:12px;padding:0 16px;cursor:pointer;color:var(--ink);transition:all .2s}
+.dec:hover{border-color:var(--goldL)}
+.obs{width:100%;text-align:start;display:flex;gap:14px;align-items:flex-start;padding:14px;border-radius:14px;background:none;border:1px solid transparent;font:inherit;color:inherit;cursor:pointer;transition:background .2s,border-color .2s}
+.obs:hover{background:var(--s2)}
+.mk{position:absolute;top:-5px;width:14px;height:14px;border-radius:50%;border:3px solid var(--s1);transform:translateX(50%);cursor:pointer;padding:0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14.5px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.fu{animation:fadeUp .35s cubic-bezier(.16,1,.3,1) both}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{animation:spin .9s linear infinite}
+@keyframes grow{from{width:0}}
+.grow{animation:grow .8s cubic-bezier(.16,1,.3,1) both}
+@media (max-width:900px){.side{flex:1 1 100% !important;border:0 !important}.lay{grid-template-columns:minmax(0,1fr) !important}}
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 1500px; display: flex; flex-wrap: wrap; -webkit-font-smoothing: antialiased;">
+
+<aside class="side" style="flex: 0 0 256px; background: var(--side); border-inline-end: 1px solid var(--line); padding: 18px 14px; display: flex; flex-direction: column; gap: 4px;">
+<a href="Main.dc.html" aria-label="NAS" style="padding: 6px 10px 18px;"><img src="/_blob/975845359f68a7d023125a410efe44f4" alt="NAS" style="height: 24px; width: auto; display: block;"></a>
+<button type="button" style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 14px; background: var(--s1); border: 1px solid var(--line); margin-bottom: 14px; font: inherit; color: inherit; cursor: pointer; text-align: start;"><img src="/_blob/25a9972bc44a28dd6db9377cb6546e2e" alt="" style="width: 36px; height: 36px; border-radius: 9px; object-fit: cover;"><span style="flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0;"><b style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{t.fest}}</b><span style="font-size: 12px; color: var(--ok);">● {{t.open}}</span></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg></button>
+<sc-for list="{{nav}}" as="n" hint-placeholder-count="5"><a href="{{n.href}}" class="{{n.cls}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{n.ic}}"></path></svg><span style="flex: 1;">{{n.l}}</span><span style="font-size: 12px; color: var(--faint);">{{n.c}}</span></a></sc-for>
+<div style="margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 10px; padding-inline: 6px;"><span style="width: 36px; height: 36px; border-radius: 50%; background: var(--goldT); color: var(--goldHi); display: inline-flex; align-items: center; justify-content: center; font-weight: 700;">{{t.ini}}</span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><b style="font-size: 14px;">{{t.user}}</b><span style="font-size: 12px; color: var(--faint);">{{t.role}}</span></span></div>
+</aside>
+
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column;">
+<div style="height: 68px; display: flex; align-items: center; gap: 10px; padding: 0 32px; border-bottom: 1px solid var(--line);">
+<span style="font-size: 14.5px; color: var(--muted);"><a href="Submissions.dc.html">{{t.subs}}</a> <span style="color: var(--faint); margin: 0 6px;">/</span> <b style="color: var(--ink);">{{t.film}}</b></span>
+<div style="margin-inline-start: auto; display: flex; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+</div>
+</div>
+
+<main style="padding: 28px 32px 48px; display: flex; flex-direction: column; gap: 22px;">
+<div style="display: flex; gap: 20px; align-items: flex-end; flex-wrap: wrap;">
+<img src="/_blob/07a6092db243a79066a95642b1423f60" alt="" style="width: 92px; height: 124px; border-radius: 14px; object-fit: cover; flex: none;">
+<div style="flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 8px;">
+<span style="display: flex; gap: 8px; flex-wrap: wrap;"><span class="chip {{statusCls}}">{{statusL}}</span><span class="chip c-mute" style="direction: ltr;">NAS-2026-00175</span></span>
+<h1 style="margin: 0; font-size: 40px; font-weight: 700; line-height: 1.15;">{{t.film}}</h1>
+<span style="color: var(--muted); font-size: 15.5px;">{{t.by}} · {{t.meta}}</span>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap;"><button type="button" class="btn btn-s" onClick="{{runAi}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"></path></svg>{{aiBtn}}</button><button type="button" class="btn btn-p"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"></path></svg>{{t.watch}}</button></div>
+</div>
+
+<div class="lay" style="display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 20px; align-items: start;">
+<div style="display: flex; flex-direction: column; gap: 20px; min-width: 0;">
+
+<div class="card" style="padding: 12px; display: flex; flex-direction: column; gap: 14px;">
+<div style="position: relative; aspect-ratio: 16 / 8; border-radius: 12px; overflow: hidden; background: #000;"><img src="{{frame}}" alt="" style="width: 100%; height: 100%; object-fit: cover; opacity: .85; transition: opacity .3s;"><button type="button" aria-label="{{t.watch}}" style="position: absolute; inset: 0; margin: auto; width: 72px; height: 72px; border-radius: 50%; border: 0; background: rgba(10,10,11,.55); backdrop-filter: blur(10px); color: #fff; display: flex; align-items: center; justify-content: center; cursor: pointer;"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"></path></svg></button><span style="position: absolute; bottom: 12px; inset-inline-start: 12px; background: rgba(10,10,11,.7); color: #F4F2EC; font-size: 13px; padding: 4px 10px; border-radius: 8px; direction: ltr;">{{curTime}} / 1:28:04</span></div>
+<div style="padding: 6px 8px 4px; display: flex; flex-direction: column; gap: 10px;">
+<div style="position: relative; height: 4px; border-radius: 99px; background: var(--s3); direction: ltr;"><div style="height: 100%; border-radius: 99px; background: var(--gold); {{progW}}"></div><sc-if value="{{done}}" hint-placeholder-val="{{true}}"><sc-for list="{{obs}}" as="o" hint-placeholder-count="5"><button type="button" class="mk" onClick="{{o.pick}}" aria-label="{{o.time}}" style="{{o.mk}}"></button></sc-for></sc-if></div>
+<span style="font-size: 12.5px; color: var(--faint);">{{t.markers}}</span>
+</div>
+</div>
+
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 12px;"><h2 style="margin: 0; font-size: 20px; display: flex; align-items: center; gap: 10px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"></path></svg>{{t.aiT}}</h2><span style="font-size: 12.5px; color: var(--faint);">{{t.aiNote}}</span></div>
+
+<sc-if value="{{none}}" hint-placeholder-val="{{false}}"><div class="fu" style="padding: 36px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 12px; border: 1px dashed var(--line2); border-radius: 14px;"><b style="font-size: 17px;">{{t.noneT}}</b><span style="color: var(--muted); font-size: 14.5px; max-width: 440px; line-height: 1.6;">{{t.noneP}}</span><button type="button" class="btn btn-p" onClick="{{runAi}}" style="margin-top: 6px;">{{t.run}}</button></div></sc-if>
+
+<sc-if value="{{running}}" hint-placeholder-val="{{false}}"><div class="fu" style="padding: 28px 20px; display: flex; flex-direction: column; gap: 14px;"><span style="display: flex; align-items: center; gap: 12px; font-size: 15.5px; font-weight: 600;"><svg class="spin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.2-8.6"></path></svg>{{t.runT}}</span><sc-for list="{{runSteps}}" as="r" hint-placeholder-count="4"><span style="display: flex; align-items: center; gap: 10px; font-size: 14.5px; {{r.c}}"><span style="width: 18px; text-align: center;">{{r.m}}</span>{{r.l}}</span></sc-for></div></sc-if>
+
+<sc-if value="{{done}}" hint-placeholder-val="{{true}}"><div class="fu" style="display: flex; flex-direction: column; gap: 22px;">
+<div style="display: flex; gap: 22px; align-items: center; flex-wrap: wrap;">
+<div style="width: 112px; height: 112px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex: none; background: conic-gradient(var(--gold) 0 87%, var(--s3) 87% 100%);"><div style="width: 92px; height: 92px; border-radius: 50%; background: var(--s1); display: flex; flex-direction: column; align-items: center; justify-content: center;"><b style="font-size: 32px; line-height: 1;">{{overall}}</b><span style="font-size: 11.5px; color: var(--faint); margin-top: 4px;">{{t.of10}}</span></div></div>
+<div style="flex: 1; min-width: 240px; display: flex; flex-direction: column; gap: 8px;"><span style="display: flex; gap: 8px; flex-wrap: wrap;"><span class="chip c-ok">{{t.fit}}</span><span class="chip c-gold">{{t.cat}}</span></span><p style="margin: 0; font-size: 15.5px; line-height: 1.7; color: var(--ink2);">{{t.summary}}</p></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 28px;"><sc-for list="{{scores}}" as="s" hint-placeholder-count="6"><div style="display: flex; flex-direction: column; gap: 7px;"><span style="display: flex; justify-content: space-between; font-size: 14px;"><span style="color: var(--ink2);">{{s.l}}</span><b>{{s.v}}</b></span><span style="height: 6px; border-radius: 99px; background: var(--s3); overflow: hidden;"><span class="grow" style="display: block; height: 100%; border-radius: 99px; background: var(--gold); {{s.w}}"></span></span><span style="font-size: 12.5px; color: var(--faint); line-height: 1.5;">{{s.e}}</span></div></sc-for></div>
+<div style="display: flex; flex-direction: column; gap: 4px;"><b style="font-size: 15.5px; margin-bottom: 6px;">{{t.obsT}}</b><sc-for list="{{obs}}" as="o" hint-placeholder-count="5"><button type="button" class="obs" onClick="{{o.pick}}" aria-pressed="{{o.on}}" style="{{o.row}}"><span style="font-size: 13px; font-weight: 700; color: var(--goldHi); min-width: 52px; direction: ltr; padding-top: 2px;">{{o.time}}</span><span style="flex: 1; display: flex; flex-direction: column; gap: 4px;"><span style="font-size: 15px; line-height: 1.6;">{{o.t}}</span></span><span class="chip {{o.cls}}">{{o.k}}</span></button></sc-for></div>
+</div></sc-if>
+</div>
+
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 10px;"><h2 style="margin: 0; font-size: 18px;">{{t.synT}}</h2><p style="margin: 0; font-size: 15.5px; line-height: 1.75; color: var(--ink2);">{{t.syn}}</p></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 16px;">
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 10px;">
+<h2 style="margin: 0 0 4px; font-size: 17px;">{{t.decT}}</h2>
+<sc-for list="{{decs}}" as="d" hint-placeholder-count="3"><button type="button" class="dec" onClick="{{d.pick}}" aria-pressed="{{d.on}}" style="{{d.style}}"><span style="width: 22px; text-align: center; font-size: 16px;">{{d.ic}}</span>{{d.l}}</button></sc-for>
+<sc-if value="{{decided}}" hint-placeholder-val="{{false}}"><div class="fu" style="display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13.5px; color: var(--muted); padding-top: 4px;"><span>{{t.decNote}}</span><button type="button" class="btn btn-g" onClick="{{undo}}" style="height: 32px; padding: 0 10px; font-size: 13px; color: var(--goldHi);">{{t.undo}}</button></div></sc-if>
+</div>
+
+<div class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 4px;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"><h2 style="margin: 0; font-size: 17px;">{{t.revT}}</h2><span style="font-size: 13px; color: var(--faint);">{{t.avg}}</span></div>
+<sc-for list="{{revs}}" as="r" hint-placeholder-count="3"><div style="display: flex; align-items: center; gap: 12px; padding: 10px 0; {{r.line}}"><span style="width: 34px; height: 34px; border-radius: 50%; background: var(--s3); display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex: none;">{{r.i}}</span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0;"><b style="font-size: 14.5px;">{{r.n}}</b><span style="font-size: 12.5px; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{r.note}}</span></span><b style="font-size: 16px; {{r.c}}">{{r.s}}</b></div></sc-for>
+<button type="button" class="btn btn-s" style="margin-top: 8px; height: 38px; font-size: 13.5px;">{{t.addRev}}</button>
+</div>
+
+<div class="card" style="padding: 20px; display: flex; flex-direction: column;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;"><h2 style="margin: 0; font-size: 17px;">{{t.compT}}</h2><span class="chip c-ok">{{t.noRisk}}</span></div>
+<sc-for list="{{checks}}" as="c" hint-placeholder-count="4"><div class="row" style="{{c.last}}"><span style="color: var(--ink2);">{{c.l}}</span><span style="display: inline-flex; align-items: center; gap: 6px; color: var(--ok); font-size: 13.5px; font-weight: 600;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 5 5 9-10"></path></svg>{{c.v}}</span></div></sc-for>
+</div>
+
+<div class="card" style="padding: 20px; display: flex; flex-direction: column;">
+<h2 style="margin: 0 0 6px; font-size: 17px;">{{t.filesT}}</h2>
+<sc-for list="{{files}}" as="f" hint-placeholder-count="3"><div class="row" style="{{f.last}}"><span style="color: var(--faint);">{{f.k}}</span><b style="font-weight: 600; font-size: 14px; direction: ltr;">{{f.v}}</b></div></sc-for>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"ai":{"editor":"enum","options":["done","running","none"],"default":"done"},"$preview":{"width":1440,"height":1650}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, ai: null, obs: 1, dec: -1, rs: 0 }; }
+  componentWillUnmount() { clearInterval(this.iv); }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const N = (n) => ar ? String(n).replace(/\d/g, (x) => '٠١٢٣٤٥٦٧٨٩'[x]).replace('.', '٫') : String(n);
+    const ai = this.state.ai || this.props.ai || 'done';
+    const t = {
+      theme: L('Theme', 'المظهر'), fest: L('Riyadh Film Nights', 'أسبوع ليالي الرياض السينمائي'), open: L('Open · 5th edition', 'مفتوح · الدورة الخامسة'), ini: L('R', 'ر'), user: L('Reem Al-Otaibi', 'ريم العتيبي'), role: L('Festival director', 'مديرة المهرجان'),
+      subs: L('Submissions', 'المشاركات'), film: L('The Blue Hills', 'التلال الزرقاء'), by: L('Directed by Nizar Al-Shahrani', 'إخراج نزار الشهراني'), meta: L('Documentary · Saudi Arabia · 88 min · Saudi premiere', 'وثائقي · السعودية · ٨٨ دقيقة · عرض أول في السعودية'),
+      watch: L('Watch screener', 'شاهد العرض'), markers: L('Gold marks are AI observations — click one to jump there.', 'كل علامة ذهبية ملاحظة، اضغطها لتذهب إلى تلك اللحظة.'),
+      aiT: L('AI analysis', 'التحليل الذكي'), aiNote: L('A suggestion — the decision is yours', 'اقتراح — والقرار لك'),
+      noneT: L('No analysis yet', 'لا يوجد تحليل بعد'), noneP: L('NAS watches the screener and returns scores with timestamped evidence in about 4 minutes.', 'يشاهد NAS الفيلم ويعطيك تقييمًا بملاحظات مربوطة بالدقيقة، خلال أربع دقائق تقريبًا.'), run: L('Run analysis', 'شغّل التحليل'),
+      runT: L('Analysing the screener…', 'نحلّل رابط العرض…'), of10: L('out of 10', 'من ١٠'),
+      fit: L('High festival fit', 'ملاءمة عالية للمهرجان'), cat: L('Eligible: Documentary', 'مؤهل: وثائقي'),
+      summary: L('A patient, beautifully shot portrait of three generations. Strongest in direction and originality; the middle third slows slightly.', 'بورتريه صبور وجميل التصوير لثلاثة أجيال. أقوى ما فيه الإخراج والأصالة؛ ويتباطأ الإيقاع قليلًا في الثلث الأوسط.'),
+      obsT: L('Timestamped observations', 'ملاحظات بالدقيقة والثانية'), synT: L('Synopsis', 'الملخص'),
+      syn: L('Three generations of shepherds and the last winter on the Sarawat slopes, told through the eyes of a grandmother who refuses to leave.', 'ثلاثة أجيال من الرعاة وآخر شتاء على سفوح السروات، بعيون جدّة ترفض الرحيل.'),
+      decT: L('Programming decision', 'قرار البرمجة'), decNote: L('Saved. The filmmaker is told when you publish decisions.', 'حُفظ. يُبلَّغ صانع الفيلم عند نشر القرارات.'), undo: L('Undo', 'تراجع'),
+      revT: L('Reviewers', 'المحكّمون'), avg: L('Average 8.5', 'المتوسط ٨٫٥'), addRev: L('Assign another reviewer', 'أسند لمحكّم آخر'),
+      compT: L('Checks & flags', 'الفحوص والتنبيهات'), noRisk: L('No risks', 'لا مخاطر'), filesT: L('Files', 'الملفات')
+    };
+    const nav = [
+      ['Dashboard.dc.html', 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z', L('Dashboard', 'لوحة التحكم'), '', 0],
+      ['Submissions.dc.html', 'M4 4h16v16H4zM4 9h16M9 4v16', L('Submissions', 'المشاركات'), N(214), 1],
+      ['Submissions.dc.html', 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8', L('Reviewers', 'المحكّمون'), N(14), 0],
+      ['Festival.dc.html', 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18', L('Public page', 'الصفحة العامة'), '', 0],
+      ['Dashboard.dc.html', 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6a7 7 0 0 0 0 2.4l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2z', L('Settings', 'الإعدادات'), '', 0]
+    ].map((n) => ({ href: n[0], ic: n[1], l: n[2], c: n[3], cls: n[4] ? 'ni on' : 'ni' }));
+    const sc = [[L('Story', 'السرد'), 8.9, L('Clear arc; one grandmother anchors every act.', 'قوس واضح؛ الجدّة محور كل فصل.')], [L('Direction', 'الإخراج'), 9.1, L('Long, patient takes that trust the audience.', 'لقطات طويلة صبورة تثق بالمشاهد.')], [L('Cinematography', 'التصوير'), 8.6, L('Natural light on the slopes; strong at dawn.', 'إضاءة طبيعية على السفوح؛ قوي عند الفجر.')], [L('Sound', 'الصوت'), 8.2, L('Rich wind and bells; dialogue dips at 41:20.', 'ريح وأجراس غنية؛ يضعف الحوار عند ٤١:٢٠.')], [L('Pacing', 'الإيقاع'), 7.4, L('Middle third slows between 38:00 and 52:00.', 'يتباطأ الثلث الأوسط بين ٣٨:٠٠ و٥٢:٠٠.')], [L('Originality', 'الأصالة'), 9.0, L('A rarely filmed way of life, told from inside.', 'نمط حياة نادر التصوير، يُروى من الداخل.')]];
+    const scores = sc.map((s) => ({ l: s[0], v: N(s[1].toFixed(1)), w: 'width: ' + (s[1] * 10) + '%;', e: s[2] }));
+    const od = [['04:10', 4.7, L('Opening dawn sequence — no dialogue for four minutes, sets the tone.', 'مشهد الفجر الافتتاحي — أربع دقائق بلا حوار تضبط النبرة.'), L('Strength', 'قوة'), 'c-ok', '/_blob/4963e7a196f83370e811448ef31c5e4c'],
+      ['21:35', 24.5, L('The grandmother’s first interview; framed through a doorway, very intimate.', 'أول مقابلة مع الجدّة؛ مؤطرة عبر الباب، حميمة جدًا.'), L('Strength', 'قوة'), 'c-ok', '/_blob/07a6092db243a79066a95642b1423f60'],
+      ['41:20', 47, L('Dialogue sinks under wind noise; subtitles still carry it.', 'يغرق الحوار تحت صوت الريح؛ والترجمة تنقذه.'), L('Note', 'ملاحظة'), 'c-mute', '/_blob/7a67dd6a8ed910af190a6d73b88223a2'],
+      ['47:05', 53.5, L('Pacing slows across the market sequence.', 'يتباطأ الإيقاع في مشهد السوق.'), L('Note', 'ملاحظة'), 'c-mute', '/_blob/25a9972bc44a28dd6db9377cb6546e2e'],
+      ['1:21:40', 92.8, L('Final snowfall — the emotional peak of the film.', 'تساقط الثلج الأخير — ذروة الفيلم العاطفية.'), L('Strength', 'قوة'), 'c-ok', '/_blob/9d90dd82bf08bb1350e8c1fcd6774d7e']];
+    const cur = this.state.obs;
+    const obs = od.map((o, i) => { const on = cur === i; return { time: o[0], t: o[2], k: o[3], cls: o[4], on, pick: () => this.setState({ obs: i }),
+      row: on ? 'background: var(--goldT); border-color: var(--goldL);' : '', mk: 'right: ' + (100 - o[1]) + '%; background: ' + (on ? 'var(--goldHi)' : 'var(--gold)') + ';' + (on ? ' width: 18px; height: 18px; top: -7px;' : '') }; });
+    const decD = [['✓', L('Official selection', 'اختيار رسمي'), 'var(--ok)', 'var(--okT)'], ['☆', L('Shortlist', 'قائمة قصيرة'), 'var(--gold)', 'var(--goldT)'], ['✕', L('Pass', 'اعتذار'), 'var(--no)', 'var(--noT)']];
+    const decs = decD.map((d, i) => { const on = this.state.dec === i; return { ic: d[0], l: d[1], on, pick: () => this.setState({ dec: i }),
+      style: 'color: ' + d[2] + ';' + (on ? ' border-color: ' + d[2] + '; background: ' + d[3] + ';' : '') }; });
+    const stMap = [[L('Selected', 'مختار'), 'c-ok'], [L('Shortlist', 'قائمة قصيرة'), 'c-gold'], [L('Passed', 'اعتذار'), 'c-mute']];
+    const st = this.state.dec >= 0 ? stMap[this.state.dec] : [L('In review', 'قيد المراجعة'), 'c-info'];
+    const revs = [[L('L', 'ل'), L('Lina Haddad', 'لينا حداد'), L('“The best documentary this year.”', '«أفضل وثائقي هذا العام.»'), '9.0'], [L('R', 'ر'), L('Reem Al-Otaibi', 'ريم العتيبي'), L('“Trim the market scene.”', '«يحتاج اختصار مشهد السوق.»'), '8.0'], [L('K', 'خ'), L('Khalid Al-Harbi', 'خالد الحربي'), L('Watching — 52 min in', 'يشاهد الآن — الدقيقة ٥٢'), null]]
+      .map((r, i) => ({ i: r[0], n: r[1], note: r[2], s: r[3] ? N(r[3]) : '…', c: r[3] ? '' : 'color: var(--faint);', line: i < 2 ? 'border-bottom: 1px solid var(--line);' : '' }));
+    const ck = [[L('Running time fits category', 'المدة ضمن شروط القسم'), L('88 min', '٨٨ د')], [L('Subtitles', 'الترجمة'), L('EN · AR', 'EN · AR')], [L('Screener plays', 'رابط العرض يعمل'), L('Checked today', 'فُحص اليوم')], [L('Premiere status', 'حالة العرض الأول'), L('Confirmed', 'مؤكدة')]];
+    const checks = ck.map((c, i) => ({ l: c[0], v: c[1], last: i === ck.length - 1 ? 'border-bottom: 0;' : '' }));
+    const fl = [[L('Screener', 'العرض'), 'vimeo.com/nas/blue-hills'], [L('Poster', 'الملصق'), 'poster.jpg'], [L('Subtitles', 'الترجمة'), 'en.srt · ar.srt']];
+    const files = fl.map((f, i) => ({ k: f[0], v: f[1], last: i === fl.length - 1 ? 'border-bottom: 0;' : '' }));
+    const rsL = [L('Watching the film', 'مشاهدة الفيلم'), L('Listening to sound and dialogue', 'تحليل الصوت والحوار'), L('Checking category rules', 'مطابقة شروط القسم'), L('Writing notes with timestamps', 'نكتب الملاحظات')];
+    const runSteps = rsL.map((l, i) => ({ l, m: i < this.state.rs ? '✓' : (i === this.state.rs ? '•' : ''), c: i < this.state.rs ? 'color: var(--ok);' : (i === this.state.rs ? 'color: var(--ink);' : 'color: var(--faint);') }));
+    const done = ai === 'done';
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light',
+      toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }), toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع', flip: ar ? 'scaleX(-1)' : 'none',
+      dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      t, nav, scores, obs, decs, revs, checks, files, runSteps,
+      none: ai === 'none', running: ai === 'running', done, overall: N('8.7'),
+      frame: done ? od[cur][5] : '/_blob/07a6092db243a79066a95642b1423f60', curTime: done ? od[cur][0] : '0:00', progW: 'width: ' + (done ? od[cur][1] : 0) + '%;',
+      statusL: st[0], statusCls: st[1], decided: this.state.dec >= 0, undo: () => this.setState({ dec: -1 }),
+      aiBtn: done ? L('Re-run analysis', 'أعد التحليل') : L('Run analysis', 'شغّل التحليل'),
+      runAi: () => { clearInterval(this.iv); this.setState({ ai: 'running', rs: 0 }); this.iv = setInterval(() => { const n = this.state.rs + 1; if (n >= 4) { clearInterval(this.iv); this.setState({ ai: 'done', rs: 0 }); } else this.setState({ rs: n }); }, 900); }
+    };
+  }
+}
+</script>
+</body>
+</html>

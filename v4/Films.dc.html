@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Films</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@200..800&amp;family=IBM+Plex+Sans+Arabic:wght@200;300;400;500;600;700&amp;family=Readex+Pro:wght@200..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#000}
+*{box-sizing:border-box}
+.th-dark{--bg:#000000;--s1:#0F0F10;--s2:#161618;--s3:#232326;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.14);--ink:#F5F5F2;--ink2:#D9D7D0;--muted:#A1A09A;--faint:#86857F;--gold:#C9A84C;--goldHi:#E2C36E;--goldT:rgba(201,168,76,.12);--onGold:#151004;--navBg:rgba(0,0,0,.72);color-scheme:dark}
+.th-light{--bg:#FBFBF9;--s1:#FFFFFF;--s2:#F2F1ED;--s3:#E6E4DE;--line:rgba(20,18,12,.08);--line2:rgba(20,18,12,.14);--ink:#111110;--ink2:#2F2D29;--muted:#5F5C56;--faint:#6B6862;--gold:#B08A33;--goldHi:#7E5E12;--goldT:rgba(201,168,76,.16);--onGold:#151004;--navBg:rgba(251,251,249,.8);color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2{letter-spacing:-.035em}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:60px;gap:20px;max-width:1180px;margin:0 auto;padding:0 32px}
+.nl{display:flex;gap:30px}
+.nl a{font-size:14px;color:var(--muted);transition:color .2s}
+.nl a:hover,.nl a.on{color:var(--ink)}
+.tbtn{width:34px;height:34px;border-radius:99px;border:0;background:transparent;color:var(--muted);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-size:12.5px;font-weight:700}
+.tbtn:hover{color:var(--ink);background:var(--s2)}
+.pill{height:34px;padding:0 16px;border-radius:99px;background:var(--gold);color:var(--onGold);font-size:14px;font-weight:600;display:inline-flex;align-items:center}
+.chipb{height:38px;padding:0 18px;border-radius:99px;border:0;background:var(--s2);color:var(--muted);font:inherit;font-size:14.5px;font-weight:600;cursor:pointer;transition:all .2s}
+.chipb:hover{color:var(--ink)}
+.poster{display:flex;flex-direction:column;gap:12px}
+.poster .im{position:relative;aspect-ratio:2 / 3;border-radius:22px;overflow:hidden}
+.poster img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.16,1,.3,1)}
+.poster:hover img{transform:scale(1.05)}
+.cta{height:50px;padding:0 26px;border-radius:99px;background:var(--gold);color:var(--onGold);font-size:16px;font-weight:600;display:inline-flex;align-items:center}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.fi{animation:fi .6s cubic-bezier(.16,1,.3,1) both}
+@media (max-width:900px){.nl,.hs{display:none !important}.nav{grid-template-columns:1fr auto;padding:0 16px}.wrap{padding:0 16px}.g4{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.hh{font-size:48px !important}}
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 900px; -webkit-font-smoothing: antialiased;">
+
+<header style="position: sticky; top: 0; z-index: 30; background: var(--navBg); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line);">
+<div class="nav">
+<a href="Main.dc.html" aria-label="NAS" style="justify-self: start;"><img src="/_blob/975845359f68a7d023125a410efe44f4" alt="NAS" style="height: 22px; width: auto; display: block;"></a>
+<nav class="nl" aria-label="{{t.menu}}"><a href="Festivals.dc.html">{{t.nFest}}</a><a href="Films.dc.html" class="on" aria-current="page">{{t.nFilms}}</a><a href="Main.dc.html#how">{{t.nHow}}</a><a href="Plans.dc.html">{{t.nPlans}}</a></nav>
+<div style="justify-self: end; display: flex; align-items: center; gap: 4px;">
+<button type="button" class="tbtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="tbtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+<a href="SignIn.dc.html" class="hs" style="font-size: 14px; color: var(--muted); padding: 0 12px;">{{t.signin}}</a>
+<a href="Start.dc.html" class="pill">{{t.start}}</a>
+</div>
+</div>
+</header>
+
+<section class="wrap" style="padding-top: 100px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px;">
+<h1 class="hh fi" style="margin: 0; font-size: 80px; font-weight: 600; line-height: 1.05;">{{t.h1}}</h1>
+<p class="fi" style="margin: 0; font-size: 21px; color: var(--muted); max-width: 560px; line-height: 1.55;">{{t.p1}}</p>
+</section>
+
+<section class="wrap" style="padding-top: 64px;">
+<a href="Festival.dc.html" class="fi" style="display: block; position: relative; aspect-ratio: 21 / 9; border-radius: 32px; overflow: hidden;"><img src="/_blob/25a9972bc44a28dd6db9377cb6546e2e" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%;"><div style="position: absolute; inset: 0; background: linear-gradient({{gradDeg}}, rgba(0,0,0,.82), rgba(0,0,0,.15) 65%);"></div><div style="position: absolute; inset-inline-start: 48px; bottom: 44px; color: #F5F5F2; display: flex; flex-direction: column; gap: 10px; max-width: 520px; text-align: start;"><span style="font-size: 13.5px; color: #E2C36E; font-weight: 600;">{{t.featK}}</span><b style="font-size: 48px; font-weight: 600; line-height: 1.1; font-family: 'Readex Pro','Geist',sans-serif;">{{t.featT}}</b><span style="font-size: 16.5px; color: rgba(245,245,242,.78); line-height: 1.6;">{{t.featP}}</span></div></a>
+</section>
+
+<section class="wrap" style="padding-top: 72px; padding-bottom: 120px;">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 30px;"><h2 style="margin: 0; font-size: 36px; font-weight: 600;">{{t.gridT}}</h2><div style="display: flex; gap: 8px; flex-wrap: wrap;"><sc-for list="{{cats}}" as="c" hint-placeholder-count="5"><button type="button" class="chipb" onClick="{{c.pick}}" aria-pressed="{{c.on}}" style="{{c.style}}">{{c.l}}</button></sc-for></div></div>
+<div class="g4" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 18px;"><sc-for list="{{films}}" as="f" hint-placeholder-count="8"><a href="Festival.dc.html" class="poster fi"><div class="im"><img src="{{f.img}}" alt="" style="object-position: {{f.pos}};"><div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.7));"></div><span style="position: absolute; bottom: 14px; inset-inline: 14px; display: inline-flex; align-items: center; gap: 8px; color: #F1D88E; font-size: 12.5px; font-weight: 600;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M7 20c-3-3-4-8-2-12M17 20c3-3 4-8 2-12M5 12c-1 0-2-1-2-2M19 12c1 0 2-1 2-2M6 16c-1 0-2 0-3-1M18 16c1 0 2 0 3-1"></path></svg>{{f.award}}</span></div><span style="display: flex; flex-direction: column; gap: 3px; padding: 0 4px;"><b style="font-size: 17px; font-weight: 600;">{{f.t}}</b><span style="font-size: 13.5px; color: var(--muted);">{{f.m}}</span></span></a></sc-for></div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 16px; margin-top: 100px; text-align: center;"><h2 style="margin: 0; font-size: 44px; font-weight: 600;">{{t.endT}}</h2><a href="Start.dc.html" class="cta">{{t.endCta}}</a></div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":2250}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, cat: 'all' }; }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const t = {
+      theme: L('Theme', 'المظهر'), menu: L('Main', 'القائمة'), nFest: L('Festivals', 'المهرجانات'), nFilms: L('Films', 'الأفلام'), nHow: L('How it works', 'كيف يعمل'), nPlans: L('Plans', 'الباقات'), signin: L('Sign in', 'دخول'), start: L('Start', 'ابدأ'),
+      h1: L('Films that found their festival.', 'أفلام وجدت مهرجانها.'), p1: L('Every film here was sent through NAS — and selected.', 'كلها مرّت عبر NAS… وكلها وصلت.'),
+      featK: L('OFFICIAL SELECTION · RIYADH FILM NIGHTS 2026', 'اختيار رسمي · أسبوع ليالي الرياض ٢٠٢٦'), featT: L('Moon Shepherd', 'راعي القمر'), featP: L('A boy, a camel and a night that won’t end. Omar Al-Ghamdi’s animated short opened the festival.', 'صبيّ وجمل وليلة لا تنتهي. فيلم تحريك قصير لعمر الغامدي، اختير لافتتاح المهرجان.'),
+      gridT: L('Selected this season', 'اختيارات هذا الموسم'), endT: L('Yours could be next.', 'والدور القادم لفيلمك.'), endCta: L('Upload your film', 'ارفع فيلمك')
+    };
+    const all = [
+      ['/_blob/07a6092db243a79066a95642b1423f60', L('The Blue Hills', 'التلال الزرقاء'), L('Nizar Al-Shahrani · Documentary', 'نزار الشهراني · وثائقي'), 'doc', L('Shortlist · Riyadh Film Nights', 'قائمة قصيرة · ليالي الرياض'), 'center'],
+      ['/_blob/25a9972bc44a28dd6db9377cb6546e2e', L('Moon Shepherd', 'راعي القمر'), L('Omar Al-Ghamdi · Animation', 'عمر الغامدي · تحريك'), 'anim', L('Official selection', 'اختيار رسمي'), '30% center'],
+      ['/_blob/f0c0927ab01a00b979d0f795462df5cb', L('Night Market', 'سوق الليل'), L('Sara Al-Dosari · Fiction', 'سارة الدوسري · روائي'), 'fic', L('Best Gulf feature', 'أفضل فيلم خليجي'), '35% center'],
+      ['/_blob/4963e7a196f83370e811448ef31c5e4c', L('Salt of the Dunes', 'ملح الكثبان'), L('Faisal Al-Mutairi · Fiction', 'فيصل المطيري · روائي'), 'fic', L('Shortlist · Jeddah', 'قائمة قصيرة · جدة'), '40% center'],
+      ['/_blob/7a67dd6a8ed910af190a6d73b88223a2', L('Rawasheen', 'رواشين'), L('Hind Al-Zahrani · Short', 'هند الزهراني · قصير'), 'short', L('Jury award', 'جائزة لجنة التحكيم'), 'center'],
+      ['/_blob/9d90dd82bf08bb1350e8c1fcd6774d7e', L('Last Row', 'الصف الأخير'), L('Majed Al-Shammari · Documentary', 'ماجد الشمري · وثائقي'), 'doc', L('Official selection', 'اختيار رسمي'), '60% center'],
+      ['/_blob/0f41bde1c312ac027559f44bb140affe', L('Rolling', 'تصوير'), L('Yousef Al-Amri · Short', 'يوسف العمري · قصير'), 'short', L('Official selection', 'اختيار رسمي'), '70% center'],
+      ['/_blob/d731d27cf8b1f8a4f4c7f2f1b26ba429', L('Red Carpet, Blue Hour', 'سجادة حمراء، ساعة زرقاء'), L('Lama Al-Harthi · Documentary', 'لمى الحارثي · وثائقي'), 'doc', L('Audience award', 'جائزة الجمهور'), '45% center']
+    ];
+    const c = this.state.cat;
+    const films = all.filter((f) => c === 'all' || f[3] === c).map((f) => ({ img: f[0], t: f[1], m: f[2], award: f[4], pos: f[5] }));
+    const cats = [['all', L('All', 'الكل')], ['fic', L('Fiction', 'روائي')], ['doc', L('Documentary', 'وثائقي')], ['anim', L('Animation', 'تحريك')], ['short', L('Shorts', 'قصير')]]
+      .map((x) => ({ l: x[1], on: c === x[0], pick: () => this.setState({ cat: x[0] }), style: c === x[0] ? 'background: var(--ink); color: var(--bg);' : '' }));
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light',
+      toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }), toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      t, films, cats, gradDeg: ar ? '270deg' : '90deg'
+    };
+  }
+}
+</script>
+</body>
+</html>

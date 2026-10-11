@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ar">
+<head>
+<meta charset="utf-8">
+<title>NAS — Festival dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&amp;family=Readex+Pro:wght@300..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0A0B}
+*{box-sizing:border-box}
+.th-dark{--bg:#0A0A0B;--side:#0E0E10;--s1:#111113;--s2:#18181B;--s3:#222226;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--ink:#F4F2EC;--ink2:#D6D3CB;--muted:#A3A19A;--faint:#8C8A83;--gold:#C9A84C;--goldHi:#E2C36E;--goldT:rgba(201,168,76,.12);--goldL:rgba(201,168,76,.4);--onGold:#151004;--ok:#5BC08A;--okT:rgba(91,192,138,.13);--no:#EE7A6E;--noT:rgba(238,122,110,.13);--info:#86AEF2;--infoT:rgba(134,174,242,.13);--p1:#4A3F22;--p2:#6B5A2C;--p3:#927837;--p4:#C9A84C;--p5:#EBD18A;--p6:#3A3A3F;--shadow:inset 0 1px 0 rgba(255,255,255,.04),0 24px 48px -28px rgba(0,0,0,.9);color-scheme:dark}
+.th-light{--bg:#F8F7F4;--side:#F2F1ED;--s1:#FFFFFF;--s2:#F2F1ED;--s3:#E8E6E0;--line:rgba(20,18,12,.08);--line2:rgba(20,18,12,.14);--ink:#141413;--ink2:#2F2D29;--muted:#5F5C56;--faint:#6B6862;--gold:#B08A33;--goldHi:#7E5E12;--goldT:rgba(201,168,76,.16);--goldL:rgba(169,130,46,.45);--onGold:#151004;--ok:#23794A;--okT:rgba(35,121,74,.1);--no:#B8402F;--noT:rgba(184,64,47,.1);--info:#2F5FB3;--infoT:rgba(47,95,179,.1);--p1:#EADFBD;--p2:#D9C48A;--p3:#C2A257;--p4:#9C7A26;--p5:#6E5210;--p6:#CFCCC4;--shadow:0 1px 2px rgba(20,18,12,.05),0 16px 36px -24px rgba(20,18,12,.18);color-scheme:light}
+[dir=rtl] h1,[dir=rtl] h2{font-family:'Readex Pro','IBM Plex Sans Arabic',sans-serif;letter-spacing:0 !important}
+[dir=ltr] h1,[dir=ltr] h2{letter-spacing:-.025em}
+a{color:inherit;text-decoration:none}
+.btn{height:42px;padding:0 18px;border-radius:12px;font:inherit;font-size:14.5px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:filter .2s,background .2s,border-color .2s}
+.btn-p{background:var(--gold);color:var(--onGold)}
+.btn-p:hover{filter:brightness(1.08)}
+.btn-s{background:var(--s2);color:var(--ink);border-color:var(--line2)}
+.btn-s:hover{border-color:var(--goldL)}
+.ibtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line2);background:transparent;color:var(--ink2);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font:inherit;font-size:13px;font-weight:700}
+.ibtn:hover{border-color:var(--goldL);color:var(--ink)}
+.ni{height:42px;padding:0 12px;border-radius:11px;display:flex;align-items:center;gap:12px;color:var(--muted);font-size:15px;font-weight:500}
+.ni:hover{background:var(--s2);color:var(--ink)}
+.ni.on{background:var(--s2);color:var(--ink);font-weight:600}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 9px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
+.c-ok{background:var(--okT);color:var(--ok)}
+.c-gold{background:var(--goldT);color:var(--goldHi)}
+.c-mute{background:var(--s2);color:var(--muted)}
+.seg{height:100%;transition:filter .2s;cursor:default}
+.seg:hover{filter:brightness(1.15)}
+.tip{position:relative}
+.tip .tt{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:var(--s3);color:var(--ink);font-size:12.5px;padding:6px 10px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .15s;border:1px solid var(--line2)}
+.tip:hover .tt{opacity:1}
+@media (max-width:900px){.side{flex:1 1 100% !important;border:0 !important}.g4{grid-template-columns:repeat(2,minmax(0,1fr)) !important}.g2{grid-template-columns:minmax(0,1fr) !important}}
+</style>
+</helmet>
+<div class="{{themeClass}}" dir="{{dir}}" style="font-family: {{font}}; background: var(--bg); color: var(--ink); min-height: 1300px; display: flex; flex-wrap: wrap; -webkit-font-smoothing: antialiased;">
+
+<aside class="side" style="flex: 0 0 256px; background: var(--side); border-inline-end: 1px solid var(--line); padding: 18px 14px; display: flex; flex-direction: column; gap: 4px;">
+<a href="Main.dc.html" aria-label="NAS" style="padding: 6px 10px 18px;"><img src="/_blob/975845359f68a7d023125a410efe44f4" alt="NAS" style="height: 24px; width: auto; display: block;"></a>
+<button type="button" style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 14px; background: var(--s1); border: 1px solid var(--line); margin-bottom: 14px; font: inherit; color: inherit; cursor: pointer; text-align: start;"><img src="/_blob/25a9972bc44a28dd6db9377cb6546e2e" alt="" style="width: 36px; height: 36px; border-radius: 9px; object-fit: cover;"><span style="flex: 1; display: flex; flex-direction: column; gap: 2px; min-width: 0;"><b style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{t.fest}}</b><span style="font-size: 12px; color: var(--ok);">● {{t.open}}</span></span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg></button>
+<sc-for list="{{nav}}" as="n" hint-placeholder-count="5"><a href="{{n.href}}" class="{{n.cls}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{{n.ic}}"></path></svg><span style="flex: 1;">{{n.l}}</span><span style="font-size: 12px; color: var(--faint);">{{n.c}}</span></a></sc-for>
+<div style="margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 10px; padding-inline: 6px;"><span style="width: 36px; height: 36px; border-radius: 50%; background: var(--goldT); color: var(--goldHi); display: inline-flex; align-items: center; justify-content: center; font-weight: 700;">{{t.ini}}</span><span style="flex: 1; display: flex; flex-direction: column; gap: 2px;"><b style="font-size: 14px;">{{t.user}}</b><span style="font-size: 12px; color: var(--faint);">{{t.role}}</span></span><a href="SignIn.dc.html" class="ibtn" aria-label="{{t.out}}" style="width: 34px; height: 34px; border: 0;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l-5-5 5-5M5 12h12"></path></svg></a></div>
+</aside>
+
+<div style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column;">
+<div style="height: 68px; display: flex; align-items: center; gap: 10px; padding: 0 32px; border-bottom: 1px solid var(--line);">
+<a href="Submissions.dc.html" style="flex: 0 1 440px; height: 42px; border-radius: 12px; background: var(--s2); border: 1px solid var(--line); display: flex; align-items: center; gap: 10px; padding: 0 14px; color: var(--faint); font-size: 14.5px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"></path></svg>{{t.ask}}</a>
+<div style="margin-inline-start: auto; display: flex; gap: 8px;">
+<button type="button" class="ibtn" onClick="{{toggleTheme}}" aria-label="{{t.theme}}"><sc-if value="{{isDark}}" hint-placeholder-val="{{true}}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg></sc-if><sc-if value="{{isLight}}" hint-placeholder-val="{{false}}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path></svg></sc-if></button>
+<button type="button" class="ibtn" onClick="{{toggleLang}}" aria-label="Language">{{langBtn}}</button>
+<button type="button" class="ibtn" aria-label="{{t.notif}}" style="position: relative;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.9 1.9 0 0 0 3.4 0"></path></svg><span style="position: absolute; top: 8px; inset-inline-end: 9px; width: 7px; height: 7px; border-radius: 50%; background: var(--gold);"></span></button>
+</div>
+</div>
+
+<main style="padding: 32px; display: flex; flex-direction: column; gap: 20px; max-width: 1180px; width: 100%;">
+<div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap;"><div><h1 style="margin: 0; font-size: 34px; font-weight: 700;">{{t.hi}}</h1><p style="margin: 6px 0 0; color: var(--muted); font-size: 16px;">{{t.sub}}</p></div><div style="display: flex; gap: 8px; flex-wrap: wrap;"><button type="button" class="btn btn-s" onClick="{{copy}}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path></svg>{{copyLabel}}</button><a href="Submissions.dc.html" class="btn btn-p">{{t.view}}</a></div></div>
+
+<div class="g4" style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px;"><sc-for list="{{kpis}}" as="k" hint-placeholder-count="4"><a href="Submissions.dc.html" class="card" style="padding: 20px; display: flex; flex-direction: column; gap: 8px;"><span style="font-size: 13.5px; color: var(--muted);">{{k.l}}</span><b style="font-size: 34px; line-height: 1.1;">{{k.v}}</b><span style="font-size: 13px; {{k.ds}}">{{k.d}}</span></a></sc-for></div>
+
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 18px;">
+<div style="display: flex; justify-content: space-between; align-items: baseline; gap: 12px;"><h2 style="margin: 0; font-size: 19px;">{{t.pipe}}</h2><span style="font-size: 13.5px; color: var(--faint);">{{t.pipeN}}</span></div>
+<div style="display: flex; gap: 2px; height: 40px; border-radius: 10px; overflow: visible;"><sc-for list="{{pipe}}" as="p" hint-placeholder-count="6"><div class="seg tip" style="{{p.w}}"><span class="tt">{{p.l}} · {{p.v}}</span></div></sc-for></div>
+<div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px;" class="g4"><sc-for list="{{pipe}}" as="p" hint-placeholder-count="6"><div style="display: flex; flex-direction: column; gap: 4px;"><span style="display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted);"><span style="width: 10px; height: 10px; border-radius: 3px; {{p.sw}}"></span>{{p.l}}</span><b style="font-size: 20px;">{{p.v}}</b></div></sc-for></div>
+</div>
+
+<div class="g2" style="display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 14px;">
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 6px;">
+<h2 style="margin: 0 0 8px; font-size: 19px;">{{t.attn}}</h2>
+<sc-for list="{{todo}}" as="d" hint-placeholder-count="3"><div style="display: flex; align-items: center; gap: 14px; padding: 14px 0; {{d.line}}"><span style="width: 44px; height: 44px; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex: none; background: var(--goldT); color: var(--goldHi);">{{d.n}}</span><span style="flex: 1; display: flex; flex-direction: column; gap: 3px;"><b style="font-size: 15.5px;">{{d.t}}</b><span style="font-size: 13.5px; color: var(--muted);">{{d.p}}</span></span><a href="{{d.href}}" class="btn btn-s" style="height: 36px; padding: 0 14px; font-size: 13.5px;">{{d.a}}</a></div></sc-for>
+</div>
+<div class="card" style="padding: 24px; display: flex; flex-direction: column; gap: 14px;">
+<h2 style="margin: 0; font-size: 19px;">{{t.byGenre}}</h2>
+<sc-for list="{{genres}}" as="g" hint-placeholder-count="5"><div class="tip" style="display: grid; grid-template-columns: 88px minmax(0, 1fr) 40px; gap: 12px; align-items: center;"><span style="font-size: 14px; color: var(--ink2);">{{g.l}}</span><span style="height: 12px; background: var(--s2); border-radius: 4px; overflow: hidden;"><span style="display: block; height: 100%; background: var(--gold); border-radius: 4px; {{g.w}}"></span></span><b style="font-size: 14px; text-align: end;">{{g.v}}</b></div></sc-for>
+</div>
+</div>
+
+<div class="card" style="padding: 24px;">
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;"><h2 style="margin: 0; font-size: 19px;">{{t.recent}}</h2><a href="Submissions.dc.html" style="font-size: 14px; color: var(--goldHi); font-weight: 600;">{{t.all}}</a></div>
+<sc-for list="{{feed}}" as="f" hint-placeholder-count="5"><a href="SubmissionDetail.dc.html" style="display: flex; align-items: center; gap: 14px; padding: 12px 0; {{f.line}}"><img src="{{f.img}}" alt="" style="width: 34px; height: 46px; border-radius: 7px; object-fit: cover; flex: none;"><span style="flex: 1; min-width: 0; font-size: 14.5px; color: var(--ink2);"><b style="color: var(--ink);">{{f.who}}</b> {{f.what}}</span><span class="chip {{f.cls}}">{{f.tag}}</span><span style="font-size: 13px; color: var(--faint); min-width: 76px; text-align: end;">{{f.when}}</span></a></sc-for>
+</div>
+</main>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"lang":{"editor":"enum","options":["ar","en"],"default":"ar"},"theme":{"editor":"enum","options":["dark","light"],"default":"dark"},"$preview":{"width":1440,"height":1350}}'>
+class Component extends DCLogic {
+  constructor(p) { super(p); this.state = { lang: null, theme: null, copied: false }; }
+  componentWillUnmount() { clearTimeout(this.tm); }
+  renderVals() {
+    const lang = this.state.lang || this.props.lang || 'ar';
+    const theme = this.state.theme || this.props.theme || 'dark';
+    const ar = lang === 'ar';
+    const L = (e, a) => ar ? a : e;
+    const N = (n) => ar ? String(n).replace(/\d/g, (x) => '٠١٢٣٤٥٦٧٨٩'[x]) : String(n);
+    const t = {
+      theme: L('Theme', 'المظهر'), notif: L('Notifications', 'الإشعارات'), fest: L('Riyadh Film Nights', 'أسبوع ليالي الرياض السينمائي'), open: L('Open · 5th edition', 'مفتوح · الدورة الخامسة'),
+      ini: L('R', 'ر'), user: L('Reem Al-Otaibi', 'ريم العتيبي'), role: L('Festival director', 'مديرة المهرجان'), out: L('Sign out', 'خروج'),
+      ask: L('Search films or ask NAS…', 'ابحث في الأفلام أو اسأل NAS…'),
+      hi: L('Good morning, Reem', 'صباح الخير، ريم'), sub: L('Submissions close in 96 days · 18 new this week', 'يغلق باب المشاركة بعد ٩٦ يومًا · ١٨ مشاركة جديدة هذا الأسبوع'),
+      view: L('Open submissions', 'افتح المشاركات'),
+      pipe: L('Where every film is', 'أين وصل كل فيلم'), pipeN: L('214 films', '٢١٤ فيلمًا'),
+      attn: L('Needs you', 'يحتاج انتباهك'), byGenre: L('By type', 'حسب النوع'), recent: L('Latest activity', 'آخر النشاط'), all: L('All submissions', 'كل المشاركات')
+    };
+    const nav = [
+      ['Dashboard.dc.html', 'M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z', L('Dashboard', 'لوحة التحكم'), '', 1],
+      ['Submissions.dc.html', 'M4 4h16v16H4zM4 9h16M9 4v16', L('Submissions', 'المشاركات'), N(214), 0],
+      ['Submissions.dc.html', 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8', L('Reviewers', 'المحكّمون'), N(14), 0],
+      ['Festival.dc.html', 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18', L('Public page', 'الصفحة العامة'), '', 0],
+      ['Dashboard.dc.html', 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z', L('Settings', 'الإعدادات'), '', 0]
+    ].map((n) => ({ href: n[0], ic: n[1], l: n[2], c: n[3], cls: n[4] ? 'ni on' : 'ni' }));
+    const kpis = [[L('Submissions', 'المشاركات'), 214, L('+18 this week', '+١٨ هذا الأسبوع'), 1], [L('Waiting for review', 'بانتظار المراجعة'), 63, L('37 without a reviewer', '٣٧ بلا محكّم'), 0], [L('Shortlisted', 'القائمة القصيرة'), 24, L('Target: 40', 'الهدف: ٤٠'), 0], [L('Analysed by AI', 'اكتمل تحليلها'), 198, L('93% of films', '٩٣٪ من الأفلام'), 0]]
+      .map((k) => ({ l: k[0], v: N(k[1]), d: k[2], ds: k[3] ? 'color: var(--ok);' : 'color: var(--faint);' }));
+    const pd = [[L('Received', 'مُستلَم'), 41, '--p1'], [L('AI analysing', 'قيد التحليل'), 16, '--p2'], [L('In review', 'قيد المراجعة'), 63, '--p3'], [L('Shortlist', 'قائمة قصيرة'), 24, '--p4'], [L('Selected', 'مختار'), 12, '--p5'], [L('Passed', 'اعتذار'), 58, '--p6']];
+    const last = pd.length - 1;
+    const pipe = pd.map((p, i) => ({ l: p[0], v: N(p[1]), w: 'flex: ' + p[1] + ' 1 0; background: var(' + p[2] + '); border-radius: ' + (i === 0 ? (ar ? '0 10px 10px 0' : '10px 0 0 10px') : (i === last ? (ar ? '10px 0 0 10px' : '0 10px 10px 0') : '0')) + ';', sw: 'background: var(' + p[2] + ');' }));
+    const todo = [[N(37), L('Films without a reviewer', 'أفلام بلا محكّم'), L('NAS can suggest a balanced split across 14 reviewers.', 'يقترح NAS توزيعًا متوازنًا على ١٤ محكّمًا.'), L('Assign', 'وزّع'), 'Submissions.dc.html'], [N(4), L('Screener links not playing', 'روابط عرض لا تعمل'), L('Filmmakers get an automatic reminder in 24 hours.', 'يصل صنّاع الأفلام تذكير تلقائي خلال ٢٤ ساعة.'), L('Review', 'راجع'), 'Submissions.dc.html'], [N(9), L('Films waiting for your decision', 'أفلام تنتظر قرارك'), L('All three reviewers have scored them.', 'قيّمها المحكّمون الثلاثة.'), L('Decide', 'قرّر'), 'SubmissionDetail.dc.html']]
+      .map((d, i) => ({ n: d[0], t: d[1], p: d[2], a: d[3], href: d[4], line: i < 2 ? 'border-bottom: 1px solid var(--line);' : '' }));
+    const gd = [[L('Fiction', 'روائي'), 92], [L('Documentary', 'وثائقي'), 54], [L('Animation', 'تحريك'), 31], [L('Experimental', 'تجريبي'), 22], [L('Other', 'أخرى'), 15]];
+    const genres = gd.map((g) => ({ l: g[0], v: N(g[1]), w: 'width: ' + Math.round(g[1] / 92 * 100) + '%;' }));
+    const fd = [['/_blob/07a6092db243a79066a95642b1423f60', L('The Blue Hills', 'التلال الزرقاء'), L('was shortlisted by Lina Haddad', 'أضافته لينا حداد إلى القائمة القصيرة'), L('Shortlist', 'قائمة قصيرة'), 'c-gold', L('12 min ago', 'قبل ١٢ د')],
+      ['/_blob/25a9972bc44a28dd6db9377cb6546e2e', L('Night Market', 'سوق الليل'), L('— AI analysis finished · score 8.4', '— اكتمل التحليل · التقييم ٨٫٤'), L('Analysed', 'حُلِّل'), 'c-ok', L('40 min ago', 'قبل ٤٠ د')],
+      ['/_blob/4963e7a196f83370e811448ef31c5e4c', L('Salt of the Dunes', 'ملح الكثبان'), L('was submitted from Riyadh', 'وصل من الرياض'), L('New', 'جديد'), 'c-mute', L('1 h ago', 'قبل ساعة')],
+      ['/_blob/7a67dd6a8ed910af190a6d73b88223a2', L('Rawasheen', 'رواشين'), L('was assigned to Khalid Al-Harbi', 'أُسند إلى خالد الحربي'), L('Assigned', 'مُسند'), 'c-mute', L('3 h ago', 'قبل ٣ س')],
+      ['/_blob/f0c0927ab01a00b979d0f795462df5cb', L('Moon Shepherd', 'راعي القمر'), L('was selected for the Official Competition', 'اختير للمسابقة الرسمية'), L('Selected', 'مختار'), 'c-ok', L('Yesterday', 'أمس')]]
+      .map((f, i) => ({ img: f[0], who: f[1], what: f[2], tag: f[3], cls: f[4], when: f[5], line: i < 4 ? 'border-bottom: 1px solid var(--line);' : '' }));
+    return {
+      themeClass: 'th-' + theme, isDark: theme === 'dark', isLight: theme === 'light',
+      toggleTheme: () => this.setState({ theme: theme === 'dark' ? 'light' : 'dark' }), toggleLang: () => this.setState({ lang: ar ? 'en' : 'ar' }), langBtn: ar ? 'EN' : 'ع',
+      dir: ar ? 'rtl' : 'ltr', font: ar ? "'IBM Plex Sans Arabic', 'Readex Pro', sans-serif" : "'Geist', 'IBM Plex Sans Arabic', sans-serif",
+      t, nav, kpis, pipe, todo, genres, feed: fd,
+      copyLabel: this.state.copied ? L('Link copied', 'نُسخ الرابط') : L('Copy submission link', 'انسخ رابط التقديم'),
+      copy: () => { this.setState({ copied: true }); clearTimeout(this.tm); this.tm = setTimeout(() => this.setState({ copied: false }), 1800); }
+    };
+  }
+}
+</script>
+</body>
+</html>
