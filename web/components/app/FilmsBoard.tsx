@@ -5,12 +5,16 @@ import type { FilmRow, Person } from '@/lib/data';
 import { ar, code, STATUS, DECISION } from '@/lib/fmt';
 import { Icon, Spinner } from '../Icon';
 import { Ring } from './ui';
+import { VideoReport } from '../video/VideoReport';
+import { VideoIntake } from '../video/VideoIntake';
+import { AnalyzeExisting } from '../video/AnalyzeExisting';
+import type { VideoAnalysis } from '@/lib/videoAnalysis';
 import { setDecision, setStatus, assign, unassign, reanalyze, addFilm, smartSearch, publishDecisions, deleteFilm } from '@/app/app/films/actions';
 
 const STS = [['all', 'الكل'], ['uploaded', 'مرفوع'], ['processing', 'قيد المعالجة'], ['analyzed', 'تم التحليل'], ['reviewed', 'تمت المراجعة']];
 const SUGS = ['وثائقي عن الأرض والعائلة', 'دراما أقل من ٩٠ دقيقة', 'تحريك قصير'];
 
-export function FilmsBoard({ films, reviewers, categories, initialStatus, initialId }: { films: FilmRow[]; reviewers: Person[]; categories: { id: string; name: string }[]; initialStatus: string; initialId: string | null }) {
+export function FilmsBoard({ films, reviewers, categories, initialStatus, initialId, festivalId }: { festivalId: string; films: FilmRow[]; reviewers: Person[]; categories: { id: string; name: string }[]; initialStatus: string; initialId: string | null }) {
   const router = useRouter();
   const [st, setSt] = useState(initialStatus);
   const [q, setQ] = useState('');
@@ -134,6 +138,14 @@ export function FilmsBoard({ films, reviewers, categories, initialStatus, initia
               ) : <span style={{ fontSize: 14, color: 'var(--muted)' }}>لم يُحلَّل بعد. اضغط «أعد التحليل».</span>}
             </div>
 
+            {(f.analysis?.video || f.screener_path) && (
+              <div style={{ padding: 16, borderRadius: 16, border: '1px solid var(--accL)', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <span style={{ display: 'flex', gap: 8, alignItems: 'center', fontWeight: 600, fontSize: 15 }}><span style={{ color: 'var(--acc)' }}><Icon name="film" size={16} /></span>NAS Vision · تحليل الفيديو</span>
+                {f.analysis?.video ? <VideoReport r={f.analysis.video} compact /> : <span style={{ fontSize: 13.5, color: 'var(--muted)', lineHeight: 1.7 }}>شاهد NAS Vision الفيلم المرفوع: يلتقط المشاهد ويقرأ الصورة واللون والحرفة ويكتب تقريرًا للجنة.</span>}
+                {f.screener_path && <AnalyzeExisting key={f.id} id={f.id} path={f.screener_path} festivalId={festivalId} again={!!f.analysis?.video} ctx={{ title: f.title, synopsis: f.synopsis, genre: f.genre, category_id: f.category_id }} />}
+              </div>
+            )}
+
             {f.synopsis && <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}><b style={{ fontSize: 14.5 }}>الملخص</b><p style={{ margin: 0, fontSize: 14, color: 'var(--ink2)', lineHeight: 1.8 }}>{f.synopsis}</p></div>}
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -183,18 +195,22 @@ export function FilmsBoard({ films, reviewers, categories, initialStatus, initia
         )}
       </div>
 
-      {adding && <AddFilm categories={categories} onClose={() => setAdding(false)} onDone={(ref) => { router.refresh(); flash(`أُضيف ${ref} وحُلّل`); }} />}
+      {adding && <AddFilm festivalId={festivalId} categories={categories} onClose={() => setAdding(false)} onDone={(ref) => { router.refresh(); flash(`أُضيف ${ref} وحُلّل`); }} />}
       {toast && <div className="toast">{toast}</div>}
     </>
   );
 }
 
-function AddFilm({ categories, onClose, onDone }: { categories: { id: string; name: string }[]; onClose: () => void; onDone: (ref: string) => void }) {
+function AddFilm({ festivalId, categories, onClose, onDone }: { festivalId: string; categories: { id: string; name: string }[]; onClose: () => void; onDone: (ref: string) => void }) {
   const [state, setState] = useState<'form' | 'run' | 'done'>('form');
   const [err, setErr] = useState('');
   const [ref, setRef] = useState('');
+  const [path, setPath] = useState<string | null>(null);
+  const [video, setVideo] = useState<{ r: VideoAnalysis; sig: string } | null>(null);
+  const [dur, setDur] = useState('');
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (video && !path) { setErr('انتظر حتى يكتمل رفع الفيلم.'); return; }
     setState('run'); setErr('');
     const r = await addFilm(new FormData(e.currentTarget));
     if (!r.ok) { setErr(r.error || 'تعذّر الحفظ'); setState('form'); return; }
@@ -202,16 +218,22 @@ function AddFilm({ categories, onClose, onDone }: { categories: { id: string; na
   }
   return (
     <div className="modal-bg" role="dialog" aria-modal="true" aria-label="أضف فيلمًا" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="card rise" style={{ width: '100%', maxWidth: 540, padding: 28, borderRadius: 24, display: 'flex', flexDirection: 'column', gap: 18, maxHeight: '92vh', overflowY: 'auto' }}>
+      <div className="card rise" style={{ width: '100%', maxWidth: 640, padding: 28, borderRadius: 24, display: 'flex', flexDirection: 'column', gap: 18, maxHeight: '92vh', overflowY: 'auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><h2 style={{ fontSize: 22 }}>أضف فيلمًا</h2><button type="button" className="ibtn" onClick={onClose} aria-label="إغلاق"><Icon name="x" /></button></div>
         {state === 'form' && (
           <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <label className="lbl">رابط المشاهدة<input name="url" className="fld" dir="ltr" placeholder="https://vimeo.com/…" /></label>
+            <div className="lbl">ملف الفيلم
+              <VideoIntake compact folder={festivalId} festivalId={festivalId} ctx={() => ({})} onUploaded={setPath} onReport={(r, sig) => setVideo(r && sig ? { r, sig } : null)} onDuration={(m) => setDur(String(m))} />
+            </div>
+            <input type="hidden" name="screener_path" value={path || ''} />
+            <input type="hidden" name="video_report" value={video ? JSON.stringify(video.r) : ''} />
+            <input type="hidden" name="video_sig" value={video?.sig || ''} />
+            <label className="lbl">أو رابط المشاهدة<input name="url" className="fld" dir="ltr" placeholder="https://vimeo.com/…" /></label>
             <div className="g2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               <label className="lbl">عنوان الفيلم<input name="title" className="fld" required /></label>
               <label className="lbl">اسم المخرج<input name="director" className="fld" required /></label>
               <label className="lbl">النوع<select name="genre" className="fld"><option value="">—</option><option>روائي</option><option>وثائقي</option><option>تحريك</option><option>تجريبي</option></select></label>
-              <label className="lbl">المدة بالدقائق<input name="duration" className="fld num" inputMode="numeric" /></label>
+              <label className="lbl">المدة بالدقائق<input name="duration" className="fld num" inputMode="numeric" value={dur} onChange={(e) => setDur(e.target.value)} /></label>
               <label className="lbl">القسم<select name="category" className="fld"><option value="">—</option>{categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
               <label className="lbl">بريد المخرج<input name="email" className="fld" dir="ltr" type="email" /></label>
             </div>

@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { requireStaff, log } from '@/lib/ctx';
 import { runAnalysis } from '@/lib/runAnalysis';
 import { sendEmail, wrapEmail } from '@/lib/email';
+import { verifyReport, type VideoAnalysis } from '@/lib/videoAnalysis';
 
 type Res = { ok: boolean; error?: string };
 const done = (): Res => { revalidatePath('/app', 'layout'); return { ok: true }; };
@@ -38,9 +39,21 @@ export async function unassign(id: string, reviewerId: string): Promise<Res> {
 
 export async function reanalyze(id: string): Promise<Res> {
   const { sb } = await requireStaff();
-  const { data: s, error } = await sb.from('submissions').select('*').eq('id', id).single();
+  const { data: s, error } = await sb.from('submissions').select('*, analyses(video)').eq('id', id).single();
   if (error || !s) return { ok: false, error: 'not_found' };
-  try { await runAnalysis(sb, s); } catch (e) { return { ok: false, error: String(e) }; }
+  const an = (Array.isArray(s.analyses) ? s.analyses[0] : s.analyses) as { video: VideoAnalysis | null } | null;
+  try { await runAnalysis(sb, s, an?.video || null); } catch (e) { return { ok: false, error: String(e) }; }
+  return done();
+}
+
+/** Saves a NAS Vision report produced in the browser for a film already in the festival. */
+export async function saveVideoReport(id: string, report: unknown, sig: string): Promise<Res> {
+  const { sb, festival, user, name } = await requireStaff();
+  if (!verifyReport(report, sig)) return { ok: false, error: 'bad_report' };
+  const { data: s } = await sb.from('submissions').select('*').eq('id', id).single();
+  if (!s) return { ok: false, error: 'not_found' };
+  try { await runAnalysis(sb, s, report); } catch (e) { return { ok: false, error: String(e) }; }
+  await log(sb, festival.id, user.id, name, 'تحليل الفيديو', s.ref_code);
   return done();
 }
 
@@ -50,13 +63,15 @@ export async function addFilm(fd: FormData): Promise<Res & { ref?: string }> {
     festival_id: festival.id, title: String(fd.get('title') || '').trim(), director_name: String(fd.get('director') || '').trim(),
     email: String(fd.get('email') || '').trim().toLowerCase() || 'unknown@nas.local', synopsis: String(fd.get('synopsis') || ''),
     screener_url: String(fd.get('url') || '') || null, duration_min: Number(fd.get('duration')) || null, genre: String(fd.get('genre') || '') || null,
-    category_id: String(fd.get('category') || '') || null, status: 'processing',
+    category_id: String(fd.get('category') || '') || null, status: 'processing', screener_path: String(fd.get('screener_path') || '') || null,
   };
+  let video: VideoAnalysis | null = null;
+  try { const v = JSON.parse(String(fd.get('video_report') || 'null')); if (verifyReport(v, fd.get('video_sig'))) video = v; } catch {}
   if (!row.title || !row.director_name) return { ok: false, error: 'أكمل العنوان واسم المخرج.' };
   const { data: s, error } = await sb.from('submissions').insert(row).select('*').single();
   if (error || !s) return { ok: false, error: error?.message };
   await log(sb, festival.id, user.id, name, 'إضافة فيلم', s.ref_code);
-  try { await runAnalysis(sb, s); } catch (e) { console.error(e); }
+  try { await runAnalysis(sb, s, video); } catch (e) { console.error(e); }
   revalidatePath('/app', 'layout');
   return { ok: true, ref: s.ref_code };
 }

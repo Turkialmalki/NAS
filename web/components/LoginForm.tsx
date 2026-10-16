@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabaseBrowser } from '@/lib/supabase/client';
@@ -8,6 +8,47 @@ import { ThemeToggle } from './ThemeToggle';
 import { Icon, Spinner } from './Icon';
 
 type Step = 'start' | 'code' | 'phone' | 'phoneCode';
+const LEN = 6;
+
+const GoogleG = () => (
+  <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z" /><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z" /><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z" /><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z" /></svg>
+);
+const AppleA = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.37 12.6c-.02-2.2 1.8-3.26 1.88-3.31-1.03-1.5-2.62-1.7-3.18-1.73-1.35-.14-2.64.8-3.33.8-.69 0-1.74-.78-2.87-.76-1.47.02-2.83.86-3.59 2.18-1.53 2.66-.39 6.6 1.1 8.75.73 1.05 1.6 2.24 2.73 2.2 1.1-.05 1.51-.71 2.84-.71 1.32 0 1.7.71 2.86.69 1.18-.02 1.93-1.07 2.65-2.13.84-1.22 1.18-2.4 1.2-2.46-.03-.01-2.3-.88-2.32-3.52zM14.2 6.13c.6-.73 1.01-1.75.9-2.76-.87.04-1.92.58-2.54 1.31-.56.64-1.05 1.67-.92 2.66.97.08 1.96-.49 2.56-1.21z" /></svg>
+);
+
+function OtpBoxes({ value, onChange, onDone, bad }: { value: string; onChange: (v: string) => void; onDone: (v: string) => void; bad: boolean }) {
+  const refs = useRef<(HTMLInputElement | null)[]>([]);
+  useEffect(() => { refs.current[0]?.focus(); }, []);
+  const set = (v: string) => { const c = v.replace(/\D/g, '').slice(0, LEN); onChange(c); if (c.length === LEN) onDone(c); return c; };
+  return (
+    <div className="otp" data-bad={bad || undefined} role="group" aria-label="رمز الدخول">
+      {Array.from({ length: LEN }, (_, i) => (
+        <input key={i} ref={(el) => { refs.current[i] = el; }} inputMode="numeric" autoComplete={i === 0 ? 'one-time-code' : 'off'} aria-label={`الرقم ${i + 1}`}
+          maxLength={LEN} value={value[i] || ''} data-f={value[i] ? 1 : undefined}
+          onChange={(e) => {
+            const d = e.target.value.replace(/\D/g, '');
+            if (!d) return;
+            if (d.length > 1) { const c = set(value.slice(0, i) + d); refs.current[Math.min(c.length, LEN - 1)]?.focus(); return; }
+            const at = Math.min(i, value.length);
+            const c = set(value.slice(0, at) + d + value.slice(at + 1));
+            if (at < LEN - 1) refs.current[Math.min(at + 1, c.length)]?.focus();
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Backspace') {
+              e.preventDefault();
+              if (value[i]) onChange(value.slice(0, i) + value.slice(i + 1));
+              else if (i > 0) { onChange(value.slice(0, i - 1) + value.slice(i)); refs.current[i - 1]?.focus(); }
+            }
+            if (e.key === 'ArrowLeft' && i < LEN - 1) refs.current[i + 1]?.focus();
+            if (e.key === 'ArrowRight' && i > 0) refs.current[i - 1]?.focus();
+          }}
+          onPaste={(e) => { e.preventDefault(); const c = set(e.clipboardData.getData('text')); refs.current[Math.min(c.length, LEN - 1)]?.focus(); }}
+          onFocus={(e) => e.target.select()} />
+      ))}
+    </div>
+  );
+}
 
 export function LoginForm({ signup: initialSignup, next, linkError }: { signup: boolean; next: string; linkError: boolean }) {
   const router = useRouter();
@@ -19,25 +60,30 @@ export function LoginForm({ signup: initialSignup, next, linkError }: { signup: 
   const [festival, setFestival] = useState('');
   const [code, setCode] = useState('');
   const [busy, setBusy] = useState(false);
+  const [bad, setBad] = useState(false);
+  const [wait, setWait] = useState(0);
   const [err, setErr] = useState(linkError ? 'انتهت صلاحية الرابط. اطلب رمزًا جديدًا.' : '');
   const sb = supabaseBrowser();
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
   const redirect = `${origin}/auth/callback?next=${encodeURIComponent(next)}`;
   const meta = up ? { full_name: name || undefined, festival: festival || undefined } : undefined;
 
+  useEffect(() => { if (wait <= 0) return; const t = setTimeout(() => setWait(wait - 1), 1000); return () => clearTimeout(t); }, [wait]);
+
   async function oauth(provider: 'google' | 'apple') {
     setErr('');
     const { error } = await sb.auth.signInWithOAuth({ provider, options: { redirectTo: redirect } });
-    if (error) setErr(provider === 'google' ? 'الدخول عبر Google غير مفعّل بعد.' : 'الدخول عبر Apple غير مفعّل بعد.');
+    if (error) setErr(provider === 'google' ? 'الدخول عبر Google غير مفعّل بعد. استخدم البريد الإلكتروني.' : 'الدخول عبر Apple غير مفعّل بعد. استخدم البريد الإلكتروني.');
   }
   async function sendEmail(e?: React.FormEvent) {
     e?.preventDefault();
-    if (!/^\S+@\S+\.\S+$/.test(email)) { setErr('اكتب بريدًا إلكترونيًا صحيحًا.'); return; }
+    const em = email.trim().toLowerCase();
+    if (!/^\S+@\S+\.\S+$/.test(em)) { setErr('اكتب بريدًا إلكترونيًا صحيحًا.'); return; }
     setBusy(true); setErr('');
-    const { error } = await sb.auth.signInWithOtp({ email, options: { emailRedirectTo: redirect, shouldCreateUser: true, data: meta } });
+    const { error } = await sb.auth.signInWithOtp({ email: em, options: { emailRedirectTo: redirect, shouldCreateUser: true, data: meta } });
     setBusy(false);
-    if (error) { setErr(/rate/i.test(error.message) ? 'طلبات كثيرة، انتظر دقيقة ثم حاول.' : 'تعذّر الإرسال، حاول مرة أخرى.'); return; }
-    setStep('code'); setCode('');
+    if (error) { setErr(/rate|seconds/i.test(error.message) ? 'طلبات كثيرة، انتظر دقيقة ثم حاول.' : 'تعذّر الإرسال، حاول مرة أخرى.'); return; }
+    setEmail(em); setStep('code'); setCode(''); setBad(false); setWait(60);
   }
   async function sendPhone(e?: React.FormEvent) {
     e?.preventDefault();
@@ -45,93 +91,100 @@ export function LoginForm({ signup: initialSignup, next, linkError }: { signup: 
     const { error } = await sb.auth.signInWithOtp({ phone: phone.replace(/\s/g, ''), options: { data: meta } });
     setBusy(false);
     if (error) { setErr('الدخول برقم الجوال غير مفعّل بعد. استخدم البريد الإلكتروني.'); return; }
-    setStep('phoneCode'); setCode('');
+    setStep('phoneCode'); setCode(''); setBad(false); setWait(60);
   }
-  async function verify(e?: React.FormEvent) {
-    e?.preventDefault();
-    setBusy(true); setErr('');
+  async function verify(token = code) {
+    if (token.length < LEN || busy) return;
+    setBusy(true); setErr(''); setBad(false);
     const res = step === 'phoneCode'
-      ? await sb.auth.verifyOtp({ phone: phone.replace(/\s/g, ''), token: code, type: 'sms' })
-      : await sb.auth.verifyOtp({ email, token: code, type: 'email' });
-    setBusy(false);
-    if (res.error) { setErr('الرمز غير صحيح أو انتهت صلاحيته.'); return; }
+      ? await sb.auth.verifyOtp({ phone: phone.replace(/\s/g, ''), token, type: 'sms' })
+      : await sb.auth.verifyOtp({ email, token, type: 'email' });
+    if (res.error) { setBusy(false); setBad(true); setCode(''); setErr('الرمز غير صحيح أو انتهت صلاحيته.'); return; }
     router.replace(next); router.refresh();
   }
-
-  const Social = ({ label, icon, onClick }: { label: string; icon: React.ReactNode; onClick: () => void }) => (
-    <button type="button" onClick={onClick} className="btn btn-s" style={{ height: 50, width: '100%', justifyContent: 'center', gap: 10 }}>
-      <span style={{ width: 22, height: 22, borderRadius: 6, background: 'var(--s3)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700 }}>{icon}</span>{label}
-    </button>
-  );
-  const verb = up ? 'التسجيل' : 'المتابعة';
+  const back = () => { setStep('start'); setErr(''); setCode(''); setBad(false); };
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 28px' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--glow), var(--bg)' }}>
+      <div style={{ height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px' }}>
         <Link href="/" style={{ fontSize: 14, color: 'var(--muted)', display: 'inline-flex', alignItems: 'center', gap: 6 }}><span style={{ transform: 'scaleX(-1)', display: 'inline-flex' }}><Icon name="arrow" size={15} stroke={2} /></span>العودة للموقع</Link>
         <ThemeToggle />
       </div>
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '12px 24px 60px' }}>
-        <div style={{ width: '100%', maxWidth: 400, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
-          <LogoMark height={44} id="lgs" />
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '8px 16px 48px' }}>
+        <div className="auth-card rise" style={{ maxWidth: 440, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24 }}>
+          <LogoMark height={40} id="lgs" />
+
           {step === 'start' && (
-            <div className="rise" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18 }}>
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18 }}>
               <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <h1 style={{ fontSize: 32 }}>{up ? 'أنشئ حسابك' : 'أهلًا بعودتك'}</h1>
-                <span style={{ color: 'var(--muted)', fontSize: 15.5 }}>{up ? 'لمهرجانك أو للجنة التحكيم.' : 'سجّل الدخول لمتابعة عملك.'}</span>
+                <h1 style={{ fontSize: 28 }}>{up ? 'أنشئ حسابك' : 'أهلًا بك'}</h1>
+                <span style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.7 }}>اكتب بريدك وسنرسل لك رمز دخول من ٦ أرقام. بدون كلمة مرور.</span>
               </div>
-              <div className="seg" role="group" aria-label="نوع الحساب" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderRadius: 999 }}>
-                <button type="button" className={!up ? 'on' : ''} style={{ borderRadius: 999 }} onClick={() => setUp(false)}>دخول</button>
-                <button type="button" className={up ? 'on' : ''} style={{ borderRadius: 999 }} onClick={() => setUp(true)}>حساب جديد</button>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <Social label={`${verb} عبر Google`} icon="G" onClick={() => oauth('google')} />
-                <Social label={`${verb} عبر Apple`} icon="A" onClick={() => oauth('apple')} />
-                <Social label={`${verb} برقم الجوال`} icon={<Icon name="phone" size={12} stroke={2} />} onClick={() => { setErr(''); setStep('phone'); }} />
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'var(--faint)', fontSize: 13 }}><span style={{ flex: 1, height: 1, background: 'var(--line)' }} />أو بالبريد الإلكتروني<span style={{ flex: 1, height: 1, background: 'var(--line)' }} /></div>
+
               <form onSubmit={sendEmail} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {up && (
                   <div className="g2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                    <input className="fld" value={name} onChange={(e) => setName(e.target.value)} placeholder="الاسم" aria-label="الاسم" style={{ height: 50, borderRadius: 14 }} />
-                    <input className="fld" value={festival} onChange={(e) => setFestival(e.target.value)} placeholder="المهرجان (اختياري)" aria-label="المهرجان" style={{ height: 50, borderRadius: 14 }} />
+                    <input className="fld" value={name} onChange={(e) => setName(e.target.value)} placeholder="اسمك" aria-label="الاسم" autoComplete="name" style={{ height: 52, borderRadius: 14 }} />
+                    <input className="fld" value={festival} onChange={(e) => setFestival(e.target.value)} placeholder="المهرجان (اختياري)" aria-label="المهرجان" style={{ height: 52, borderRadius: 14 }} />
                   </div>
                 )}
                 <label style={{ position: 'relative', display: 'block' }}>
-                  <input className="fld" dir="ltr" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="البريد الإلكتروني" aria-label="البريد الإلكتروني" style={{ height: 52, borderRadius: 14, padding: '0 16px 0 58px', textAlign: 'right' }} />
-                  <button aria-label="متابعة" disabled={busy} style={{ position: 'absolute', left: 7, top: 7, width: 38, height: 38, borderRadius: '50%', border: 0, background: 'var(--acc)', color: 'var(--onAcc)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                    {busy ? <span className="spin" style={{ display: 'inline-flex' }}><Icon name="spin" size={16} stroke={2.4} /></span> : <Icon name="arrow" size={17} stroke={2.2} />}
-                  </button>
+                  <span style={{ position: 'absolute', left: 16, top: 18, color: 'var(--faint)', display: 'inline-flex', pointerEvents: 'none' }}><Icon name="mail" size={18} /></span>
+                  <input className="fld" dir="ltr" type="email" inputMode="email" autoComplete="email" autoFocus value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@example.com" aria-label="البريد الإلكتروني"
+                    style={{ height: 54, borderRadius: 14, paddingLeft: 46, paddingRight: 16, fontSize: 16, textAlign: 'right' }} />
                 </label>
+                <button className="btn btn-p btn-lg" disabled={busy} style={{ width: '100%', height: 54, borderRadius: 14 }}>
+                  {busy ? <><Spinner size={16} />نرسل الرمز…</> : <>أرسل رمز الدخول<Icon name="arrow" size={17} stroke={2.2} /></>}
+                </button>
               </form>
               {err && <span className="err" style={{ textAlign: 'center' }}>{err}</span>}
-              <span style={{ fontSize: 12.5, color: 'var(--faint)', textAlign: 'center', lineHeight: 1.7 }}>بدون كلمة مرور. بالمتابعة توافق على <Link href="/terms" style={{ textDecoration: 'underline' }}>الشروط</Link> و<Link href="/privacy" style={{ textDecoration: 'underline' }}>سياسة الخصوصية</Link>.</span>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'var(--faint)', fontSize: 13 }}><span style={{ flex: 1, height: 1, background: 'var(--line)' }} />أو<span style={{ flex: 1, height: 1, background: 'var(--line)' }} /></div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <button type="button" className="alt-btn" onClick={() => oauth('google')}><GoogleG />المتابعة عبر Google</button>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                  <button type="button" className="alt-btn" onClick={() => oauth('apple')}><AppleA />Apple</button>
+                  <button type="button" className="alt-btn" onClick={() => { setErr(''); setStep('phone'); }}><Icon name="phone" size={16} stroke={2} />رقم الجوال</button>
+                </div>
+              </div>
+
+              <span style={{ fontSize: 13.5, color: 'var(--muted)', textAlign: 'center' }}>
+                {up ? 'عندك حساب؟ ' : 'جديد في NAS؟ '}
+                <button type="button" onClick={() => setUp(!up)} style={{ background: 'none', border: 0, padding: 0, color: 'var(--accHi)', font: 'inherit', fontWeight: 600, cursor: 'pointer' }}>{up ? 'سجّل الدخول' : 'أنشئ حسابًا'}</button>
+              </span>
+              <span style={{ fontSize: 12, color: 'var(--faint)', textAlign: 'center', lineHeight: 1.7 }}>بالمتابعة توافق على <Link href="/terms" style={{ textDecoration: 'underline' }}>الشروط</Link> و<Link href="/privacy" style={{ textDecoration: 'underline' }}>سياسة الخصوصية</Link>.</span>
             </div>
           )}
+
           {step === 'phone' && (
-            <form onSubmit={sendPhone} className="rise" style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18, textAlign: 'center' }}>
-              <h1 style={{ fontSize: 32 }}>رقم الجوال</h1>
-              <input className="fld num" dir="ltr" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+9665XXXXXXXX" aria-label="رقم الجوال" style={{ height: 54, borderRadius: 14, fontSize: 18, textAlign: 'center' }} />
+            <form onSubmit={sendPhone} style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 16, textAlign: 'center' }}>
+              <h1 style={{ fontSize: 28 }}>رقم الجوال</h1>
+              <span style={{ color: 'var(--muted)', fontSize: 15 }}>سنرسل لك رمزًا برسالة نصية.</span>
+              <input className="fld num" dir="ltr" type="tel" autoComplete="tel" autoFocus value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+9665XXXXXXXX" aria-label="رقم الجوال" style={{ height: 56, borderRadius: 14, fontSize: 19, textAlign: 'center' }} />
               {err && <span className="err">{err}</span>}
-              <button className="btn btn-p btn-lg" disabled={busy}>{busy ? 'نرسل…' : 'أرسل الرمز'}</button>
-              <button type="button" className="btn btn-g btn-sm" onClick={() => { setStep('start'); setErr(''); }}>رجوع</button>
+              <button className="btn btn-p btn-lg" disabled={busy} style={{ height: 54, borderRadius: 14 }}>{busy ? <><Spinner size={16} />نرسل…</> : 'أرسل الرمز'}</button>
+              <button type="button" className="btn btn-g btn-sm" onClick={back}>رجوع</button>
             </form>
           )}
+
           {(step === 'code' || step === 'phoneCode') && (
-            <form onSubmit={verify} className="rise" style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 22, textAlign: 'center' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <h1 style={{ fontSize: 32 }}>افتح {step === 'code' ? 'بريدك' : 'رسائلك'}</h1>
-                <span style={{ color: 'var(--muted)', fontSize: 15.5, lineHeight: 1.8 }}>أرسلنا {step === 'code' ? 'رابط دخول ورمزًا' : 'رمزًا'} إلى<br /><b className="num" style={{ color: 'var(--ink)', direction: 'ltr', display: 'inline-block' }}>{step === 'code' ? email : phone}</b></span>
+            <form onSubmit={(e) => { e.preventDefault(); verify(); }} style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, textAlign: 'center' }}>
+              <span className="drop-ic" style={{ width: 56, height: 56 }}><Icon name={step === 'code' ? 'mail' : 'phone'} size={24} /></span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <h1 style={{ fontSize: 28 }}>اكتب رمز الدخول</h1>
+                <span style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.8 }}>أرسلنا رمزًا من ٦ أرقام إلى<br />
+                  <b className="num" style={{ color: 'var(--ink)', direction: 'ltr', display: 'inline-block' }}>{step === 'code' ? email : phone}</b>
+                  <button type="button" onClick={back} style={{ background: 'none', border: 0, color: 'var(--accHi)', font: 'inherit', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', marginInlineStart: 8 }}>تغيير</button>
+                </span>
               </div>
-              <input className="fld num" dir="ltr" inputMode="numeric" autoComplete="one-time-code" maxLength={6} value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))} placeholder="••••••" aria-label="الرمز"
-                style={{ height: 62, borderRadius: 16, fontSize: 28, letterSpacing: '.5em', textAlign: 'center', fontWeight: 600 }} />
+              <OtpBoxes value={code} onChange={(v) => { setCode(v); setBad(false); }} onDone={verify} bad={bad} />
               {err && <span className="err">{err}</span>}
-              <button className="btn btn-p btn-lg" style={{ width: '100%' }} disabled={busy || code.length < 6}>{busy ? 'نتحقق…' : 'متابعة'}</button>
-              <span style={{ fontSize: 13.5, color: 'var(--muted)', display: 'flex', gap: 4, alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                ما وصلك؟<button type="button" className="btn btn-g btn-sm" style={{ height: 30 }} onClick={() => (step === 'code' ? sendEmail() : sendPhone())}>أعد الإرسال</button>
-                <button type="button" className="btn btn-g btn-sm" style={{ height: 30 }} onClick={() => { setStep('start'); setErr(''); }}>رجوع</button>
+              <button className="btn btn-p btn-lg" style={{ width: '100%', height: 54, borderRadius: 14 }} disabled={busy || code.length < LEN}>{busy ? <><Spinner size={16} />نتحقق…</> : 'دخول'}</button>
+              <span style={{ fontSize: 13.5, color: 'var(--muted)' }}>
+                {wait > 0 ? <>إعادة الإرسال بعد <b className="num">{wait}</b> ثانية</> : <>ما وصلك؟ <button type="button" onClick={() => (step === 'code' ? sendEmail() : sendPhone())} style={{ background: 'none', border: 0, padding: 0, color: 'var(--accHi)', font: 'inherit', fontWeight: 600, cursor: 'pointer' }}>أعد الإرسال</button></>}
               </span>
-              {step === 'code' && <span style={{ fontSize: 12.5, color: 'var(--faint)' }}>أو اضغط الرابط في البريد مباشرة.</span>}
+              {step === 'code' && <span style={{ fontSize: 12.5, color: 'var(--faint)', lineHeight: 1.7 }}>تأكد من مجلد الرسائل غير المرغوب فيها. الرمز صالح لمدة ساعة.</span>}
             </form>
           )}
         </div>

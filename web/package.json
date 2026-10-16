@@ -15,7 +15,8 @@
     "next": "^15.5.28",
     "react": "^19.1.10",
     "react-dom": "^19.1.10",
-    "resend": "^6.1.2"
+    "resend": "^6.1.2",
+    "tus-js-client": "^4.3.1"
   },
   "devDependencies": {
     "@types/node": "^22.18.6",

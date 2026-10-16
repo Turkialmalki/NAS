@@ -17,7 +17,7 @@ const ARDIG = '٠١٢٣٤٥٦٧٨٩';
 const toLatin = (s: string) => s.replace(/[٠-٩]/g, (d) => String(ARDIG.indexOf(d)));
 
 /** Reads "أقل من ٤٠ دقيقة" / "أكثر من ٦٠ دقيقة" style category descriptions. */
-function durationRule(desc?: string | null): { min?: number; max?: number } {
+export function durationRule(desc?: string | null): { min?: number; max?: number } {
   if (!desc) return {};
   const t = toLatin(desc);
   const n = Number((t.match(/(\d+)/) || [])[1]);
@@ -102,7 +102,7 @@ function heuristic(f: FilmInput, cats: Category[], pool: Reviewer[], linkOk: boo
   return { score, headline, themes, tone, fit: fit.slice(0, 3), checks, strengths, suggested_reviewer: pickReviewer(pool, genre, best), model: 'nas-builtin' };
 }
 
-function pickReviewer(pool: Reviewer[], genre: string, cat?: string): string | null {
+export function pickReviewer(pool: Reviewer[], genre: string, cat?: string): string | null {
   if (!pool.length) return null;
   const score = (r: Reviewer) => {
     const sp = r.specialty || '';

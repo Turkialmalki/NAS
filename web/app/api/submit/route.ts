@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabaseAnon } from '@/lib/supabase/server';
 import { runAnalysis } from '@/lib/runAnalysis';
 import { sendEmail, wrapEmail } from '@/lib/email';
+import { verifyReport } from '@/lib/videoAnalysis';
 
 export const maxDuration = 60;
 
@@ -18,11 +19,12 @@ export async function POST(req: Request) {
     const msg = error?.message || '';
     return NextResponse.json({ error: msg.includes('festival_closed') ? 'festival_closed' : msg.includes('invalid_input') ? 'invalid_input' : 'failed' }, { status: 400 });
   }
+  const video = verifyReport(b.video_report, b.video_sig) ? b.video_report : null;
   const row = data[0] as { id: string; ref_code: string; analysis_token: string };
   let checks: { ok: boolean; text: string }[] = [];
   try {
     const a = await runAnalysis(sb, { id: row.id, analysis_token: row.analysis_token, festival_id: b.festival_id, category_id: b.category_id || null, title: b.title,
-      synopsis: b.synopsis || '', genre: b.genre || null, duration_min: b.duration ? Number(b.duration) : null, language: b.language || null, country: b.country || null, screener_url: b.screener_url || null });
+      synopsis: b.synopsis || '', genre: b.genre || null, duration_min: b.duration ? Number(b.duration) : null, language: b.language || null, country: b.country || null, screener_url: b.screener_url || null }, video);
     checks = a.checks;
   } catch (e) { console.error('analysis failed', e); }
   await sendEmail(b.email, `وصلت مشاركتك · ${row.ref_code}`, wrapEmail(

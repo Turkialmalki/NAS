@@ -9,5 +9,5 @@ export default async function FilmsPage({ searchParams }: { searchParams: Promis
     loadFilms(sb, festival.id), loadPeople(sb, festival.id),
     sb.from('categories').select('id,name').eq('festival_id', festival.id).order('sort'),
   ]);
-  return <FilmsBoard films={films} reviewers={people.filter((p) => p.role === 'reviewer')} categories={cats || []} initialStatus={sp.st || 'all'} initialId={sp.id || null} />;
+  return <FilmsBoard films={films} reviewers={people.filter((p) => p.role === 'reviewer')} categories={cats || []} initialStatus={sp.st || 'all'} initialId={sp.id || null} festivalId={festival.id} />;
 }

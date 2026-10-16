@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { supabaseBrowser } from '@/lib/supabase/client';
+import { VideoIntake } from '../video/VideoIntake';
+import type { VideoAnalysis } from '@/lib/videoAnalysis';
 import { Icon, Spinner } from '../Icon';
 import { ar, date } from '@/lib/fmt';
 
@@ -26,13 +27,12 @@ function suggestCategory(cats: Cat[], genre: string, dur: number | null) {
 }
 
 export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festivalId: string; categories: Cat[]; rules: string[]; resultsOn: string | null }) {
-  const [mode, setMode] = useState<'link' | 'file'>('link');
+  const [mode, setMode] = useState<'link' | 'file'>('file');
   const [link, setLink] = useState('');
   const [reading, setReading] = useState(false);
   const [detected, setDetected] = useState<{ ok: boolean | null; source?: string } | null>(null);
-  const [file, setFile] = useState<File | null>(null);
-  const [progress, setProgress] = useState('');
   const [path, setPath] = useState<string | null>(null);
+  const [video, setVideo] = useState<{ r: VideoAnalysis; sig: string } | null>(null);
   const [f, setF] = useState({ title: '', director: '', email: '', duration: '', genre: '', language: 'العربية', synopsis: '' });
   const [cat, setCat] = useState<string | null>(null);
   const [suggested, setSuggested] = useState<string | null>(null);
@@ -56,24 +56,18 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
     setDetected({ ok: r.ok, source: r.source }); setReading(false);
   }
 
-  async function pickFile(fl: File | null) {
-    if (!fl) return;
-    setFile(fl); setPath(null); setProgress('نقرأ الملف…');
-    // read duration from the video itself
-    const url = URL.createObjectURL(fl);
-    const v = document.createElement('video');
-    v.preload = 'metadata'; v.src = url;
-    v.onloadedmetadata = () => {
-      const mins = Math.round(v.duration / 60);
-      URL.revokeObjectURL(url);
-      if (mins > 0) setF((p) => { const n = { ...p, duration: String(mins) }; setSuggested(suggestCategory(categories, n.genre, mins)); return n; });
-    };
-    setProgress('نرفع الفيلم…');
-    const p = `${festivalId}/${crypto.randomUUID()}-${fl.name.replace(/[^\w.\-]+/g, '_')}`;
-    const { error } = await supabaseBrowser().storage.from('screeners').upload(p, fl, { upsert: false, contentType: fl.type || 'video/mp4' });
-    if (error) { setProgress(''); setErr('تعذّر رفع الملف. جرّب رابطًا بدلًا منه.'); setFile(null); return; }
-    setPath(p); setProgress('');
-    setDetected({ ok: true, source: 'ملف مرفوع' });
+  function onVideo(r: VideoAnalysis | null, sig: string | null) {
+    setVideo(r && sig ? { r, sig } : null);
+    if (!r) return;
+    setF((p) => {
+      const n = { ...p, genre: p.genre || r.genre_guess || '' };
+      const byFit = categories.find((c) => c.name === r.fit[0]?.category)?.id || null;
+      setSuggested(byFit || suggestCategory(categories, n.genre, Number(n.duration) || null));
+      return n;
+    });
+  }
+  function onDuration(mins: number) {
+    setF((p) => { const n = { ...p, duration: String(mins) }; setSuggested(suggestCategory(categories, n.genre, mins)); return n; });
   }
 
   async function improve() {
@@ -88,13 +82,14 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
     setErr('');
     if (!f.title.trim() || !f.director.trim() || !/^\S+@\S+\.\S+$/.test(f.email)) { setErr('أكمل عنوان الفيلم واسم المخرج والبريد الإلكتروني.'); return; }
     if (mode === 'link' && !link) { setErr('أضف رابط المشاهدة أو ارفع الملف.'); return; }
-    if (mode === 'file' && !path) { setErr('انتظر حتى يكتمل رفع الملف.'); return; }
+    if (mode === 'file' && !path) { setErr('ارفع ملف الفيلم وانتظر حتى يكتمل الرفع.'); return; }
     if (!(cat || suggested)) { setErr('اختر القسم.'); return; }
     setSending(true);
     const r = await fetch('/api/submit', {
       method: 'POST', headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ festival_id: festivalId, category_id: cat || suggested, title: f.title, director: f.director, email: f.email, duration: f.duration,
-        genre: f.genre, language: f.language, synopsis: f.synopsis, screener_url: mode === 'link' ? link : null, screener_path: mode === 'file' ? path : null }),
+        genre: f.genre, language: f.language, synopsis: f.synopsis, screener_url: mode === 'link' ? link : null, screener_path: mode === 'file' ? path : null,
+        video_report: mode === 'file' ? video?.r : null, video_sig: mode === 'file' ? video?.sig : null }),
     }).then((x) => x.json()).catch(() => ({ error: 'failed' }));
     setSending(false);
     if (r.error) { setErr(r.error === 'festival_closed' ? 'التقديم مغلق لهذا المهرجان.' : r.error === 'invalid_input' ? 'تحقق من البيانات المدخلة.' : 'تعذّر الإرسال، حاول مرة أخرى.'); return; }
@@ -131,8 +126,8 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
       <div className="card" style={{ padding: 26, borderRadius: 22, display: 'flex', flexDirection: 'column', gap: 16 }}>
         <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>{stepDot('١', true)}<b style={{ fontSize: 18 }}>أرفق فيلمك</b></span>
         <div className="seg" role="group" aria-label="طريقة الإرفاق" style={{ alignSelf: 'flex-start' }}>
-          <button type="button" className={mode === 'link' ? 'on' : ''} aria-pressed={mode === 'link'} onClick={() => setMode('link')}>رابط</button>
-          <button type="button" className={mode === 'file' ? 'on' : ''} aria-pressed={mode === 'file'} onClick={() => setMode('file')}>رفع ملف</button>
+          <button type="button" className={mode === 'file' ? 'on' : ''} aria-pressed={mode === 'file'} onClick={() => setMode('file')}>✦ رفع الفيلم</button>
+          <button type="button" className={mode === 'link' ? 'on' : ''} aria-pressed={mode === 'link'} onClick={() => setMode('link')}>رابط مشاهدة</button>
         </div>
         {mode === 'link' ? (
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -140,17 +135,15 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
             <button type="button" className="btn btn-q" onClick={readLink} style={{ height: 52 }}><Icon name="spark" size={15} />افحص الرابط</button>
           </div>
         ) : (
-          <label style={{ height: 120, borderRadius: 16, border: '1.5px dashed var(--line2)', background: 'var(--bg2)', color: 'var(--muted)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer' }}>
-            <input type="file" accept="video/*" style={{ display: 'none' }} onChange={(e) => pickFile(e.target.files?.[0] || null)} />
-            <Icon name="up" size={22} /><b style={{ color: 'var(--ink)' }}>{file ? file.name : 'اختر ملف الفيلم'}</b><span style={{ fontSize: 13 }}>MP4 أو MOV</span>
-          </label>
+          <VideoIntake folder={festivalId} festivalId={festivalId} ctx={() => ({ title: f.title, synopsis: f.synopsis, genre: f.genre, category_id: cat || suggested })}
+            onUploaded={setPath} onReport={onVideo} onDuration={onDuration}
+            onUseSynopsis={(t) => { setF((p) => ({ ...p, synopsis: t })); document.getElementById('synopsis')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }} />
         )}
-        {(reading || progress) && <span style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--muted)' }}><Spinner size={16} />{progress || 'نفحص الرابط…'}</span>}
-        {detected && (
+        {reading && mode === 'link' && <span style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--muted)' }}><Spinner size={16} />نفحص الرابط…</span>}
+        {detected && mode === 'link' && (
           <div className="rise" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center', padding: '12px 14px', borderRadius: 14, background: 'var(--accT)' }}>
             <span style={{ color: 'var(--acc)', display: 'inline-flex' }}><Icon name="spark" size={15} /></span>
             {detected.source && <span className="chip c-mute">{detected.source}</span>}
-            {f.duration && mode === 'file' && <span className="chip c-mute">المدة {ar(f.duration)} دقيقة</span>}
             {detected.ok === true && <span className="chip c-ok">الرابط يعمل ✓</span>}
             {detected.ok === false && <span className="chip c-no">الرابط لا يفتح — تأكد أنه عام أو بكلمة مرور</span>}
             {detected.ok === null && <span className="chip c-mute">سنفحص الرابط بعد الإرسال</span>}
@@ -174,7 +167,7 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
               {improving ? <Spinner size={13} /> : <span style={{ color: 'var(--acc)', display: 'inline-flex' }}><Icon name="spark" size={13} /></span>}{improved ? 'تمت الصياغة ✓' : 'حسّن الصياغة'}
             </button>
           </span>
-          <textarea className="fld" value={f.synopsis} onChange={set('synopsis')} maxLength={2000} placeholder="عمّ يحكي فيلمك؟ سطران إلى خمسة." />
+          <textarea id="synopsis" className="fld" value={f.synopsis} onChange={set('synopsis')} maxLength={2000} placeholder="عمّ يحكي فيلمك؟ سطران إلى خمسة." />
         </label>
         <div className="lbl">القسم
           <div className="g2" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 8 }}>
@@ -205,7 +198,7 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
         </button>
         {err && <span className="err" style={{ textAlign: 'center' }}>{err}</span>}
         <button type="button" className="btn btn-p btn-lg" onClick={send} disabled={!agree || sending} style={!agree ? { opacity: 0.45 } : undefined}>
-          {sending ? <><Spinner size={16} /> نرسل ونحلّل فيلمك…</> : 'أرسل المشاركة'}
+          {sending ? <><Spinner size={16} /> نرسل ونحلّل فيلمك…</> : mode === 'file' && !path && video ? 'ننتظر اكتمال الرفع…' : 'أرسل المشاركة'}
         </button>
       </div>
     </>
