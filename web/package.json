@@ -12,9 +12,9 @@
     "@anthropic-ai/sdk": "^0.65.0",
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.57.4",
-    "next": "^15.5.4",
-    "react": "^19.1.1",
-    "react-dom": "^19.1.1",
+    "next": "^15.5.28",
+    "react": "^19.1.10",
+    "react-dom": "^19.1.10",
     "resend": "^6.1.2"
   },
   "devDependencies": {
