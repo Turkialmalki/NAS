@@ -38,3 +38,5 @@ The account `turkialmalki202200@gmail.com` becomes platform admin automatically 
 
 Import the repo, set **Root Directory = `web`**, Framework = Next.js, add the env variables, deploy.
 Then Settings → Domains → add your domain and set the DNS records Vercel shows.
+
+<!-- redeploy 2026-10-16T22:34:37Z -->
