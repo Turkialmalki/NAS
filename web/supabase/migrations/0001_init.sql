@@ -63,6 +63,7 @@ create table public.festival_invites (
   email text not null,
   role text not null check (role in ('manager','programmer','reviewer')),
   specialty text,
+  accepted_at timestamptz,
   created_at timestamptz not null default now(),
   unique (festival_id, email)
 );
@@ -377,10 +378,10 @@ begin
   select lower(email) into em from auth.users where id = auth.uid();
   if em is null then return 0; end if;
   insert into public.festival_members (festival_id, user_id, role, specialty)
-  select festival_id, auth.uid(), role, specialty from public.festival_invites where lower(email) = em
+  select festival_id, auth.uid(), role, specialty from public.festival_invites where lower(email) = em and accepted_at is null
   on conflict (festival_id, user_id) do nothing;
   get diagnostics n = row_count;
-  delete from public.festival_invites where lower(email) = em;
+  update public.festival_invites set accepted_at = now() where lower(email) = em and accepted_at is null;
   return n;
 end $$;
 
