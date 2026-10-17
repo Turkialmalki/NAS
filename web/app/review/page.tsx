@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation';
 import { supabaseServer } from '@/lib/supabase/server';
+import { sessionUser } from '@/lib/ctx';
 import { ReviewDesk } from '@/components/app/ReviewDesk';
 import { embedUrl } from '@/lib/embed';
 
@@ -8,7 +9,7 @@ export const metadata = { title: 'أفلامك للتحكيم' };
 
 export default async function ReviewPage() {
   const sb = await supabaseServer();
-  const { data: { user } } = await sb.auth.getUser();
+  const user = await sessionUser();
   if (!user) redirect('/login?next=/review');
   await sb.rpc('accept_my_invites');
   const [{ data: prof }, { data: rows }, { data: mems }] = await Promise.all([

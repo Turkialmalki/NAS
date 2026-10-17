@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Logo } from '../Logo';
 import { ThemeToggle } from '../ThemeToggle';
 import { Icon } from '../Icon';
@@ -16,12 +16,15 @@ export function AppShell({ children, name, isAdmin, role, festivals, currentId, 
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState(false);
+  const [going, setGoing] = useState<string | null>(null);
+  useEffect(() => { setGoing(null); }, [path]);
+  const here = going || path;
   const cur = festivals.find((f) => f.id === currentId);
-  const title = [...NAV, ['/app/admin', '', 'إدارة المنصة'], ['/app/new', '', 'مهرجان جديد']].find(([h]) => (h === '/app' ? path === '/app' : path.startsWith(h)))?.[2] || '';
+  const title = [...NAV, ['/app/admin', '', 'إدارة المنصة'], ['/app/new', '', 'مهرجان جديد']].find(([h]) => (h === '/app' ? here === '/app' : here.startsWith(h)))?.[2] || '';
   const link = (href: string, icon: string, label: string) => {
-    const on = href === '/app' ? path === '/app' : path.startsWith(href);
+    const on = href === '/app' ? here === '/app' : here.startsWith(href);
     return (
-      <Link key={href} href={href} onClick={() => setMenu(false)} aria-current={on ? 'page' : undefined} className={on ? 'on' : ''}
+      <Link key={href} href={href} onClick={() => { setMenu(false); if (href !== path) setGoing(href); }} aria-current={on ? 'page' : undefined} className={on ? 'on' : ''}
         style={{ height: 42, padding: '0 12px', borderRadius: 11, display: 'flex', alignItems: 'center', gap: 12, color: on ? 'var(--ink)' : 'var(--muted)', fontSize: 15, background: on ? 'var(--s2)' : undefined, fontWeight: on ? 600 : 400 }}>
         <Icon name={icon} /><span style={{ flex: 1 }}>{label}</span>
       </Link>
@@ -29,6 +32,7 @@ export function AppShell({ children, name, isAdmin, role, festivals, currentId, 
   };
   return (
     <div style={{ display: 'flex', minHeight: '100vh' }}>
+      {going && <span className="navbar-progress" key={going} />}
       <aside className={`side ${menu ? 'open' : ''}`} style={{ flex: '0 0 248px', background: 'var(--bg2)', borderInlineEnd: '1px solid var(--line)', padding: '18px 14px', display: 'flex', flexDirection: 'column', gap: 4, position: 'sticky', top: 0, height: '100vh', overflowY: 'auto' }}>
         <div style={{ padding: '4px 10px 18px' }}><Logo href="/app" id="lgapp" /></div>
         {festivals.length > 0 && (
@@ -43,7 +47,7 @@ export function AppShell({ children, name, isAdmin, role, festivals, currentId, 
             {open && (
               <div className="card" style={{ position: 'absolute', top: '100%', insetInline: 0, marginTop: 6, padding: 6, zIndex: 10, borderRadius: 14 }}>
                 {festivals.map((f) => (
-                  <button key={f.id} type="button" onClick={() => switchFestival(f.id)} style={{ width: '100%', textAlign: 'start', padding: '10px 12px', borderRadius: 10, border: 0, background: f.id === currentId ? 'var(--s2)' : 'transparent', color: 'var(--ink)', cursor: 'pointer', fontSize: 14 }}>{f.name}</button>
+                  <button key={f.id} type="button" onClick={() => { setOpen(false); setGoing('/app'); switchFestival(f.id); }} style={{ width: '100%', textAlign: 'start', padding: '10px 12px', borderRadius: 10, border: 0, background: f.id === currentId ? 'var(--s2)' : 'transparent', color: 'var(--ink)', cursor: 'pointer', fontSize: 14 }}>{f.name}</button>
                 ))}
                 <Link href="/app/new" style={{ display: 'flex', gap: 8, alignItems: 'center', padding: '10px 12px', fontSize: 14, color: 'var(--accHi)' }}><Icon name="plus" size={15} />مهرجان جديد</Link>
               </div>

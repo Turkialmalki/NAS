@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { VideoIntake } from '../video/VideoIntake';
 import type { VideoAnalysis } from '@/lib/videoAnalysis';
@@ -43,6 +43,29 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
   const [err, setErr] = useState('');
   const [done, setDone] = useState<{ ref: string; checks: Check[] } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [filled, setFilled] = useState<string[]>([]);
+  const [fe, setFe] = useState<Record<string, string>>({});
+  const [tried, setTried] = useState(false);
+
+  function validate(v = f) {
+    const e: Record<string, string> = {};
+    if (mode === 'link') {
+      if (!link.trim()) e.media = 'أضف رابط المشاهدة أو ارفع ملف الفيلم.';
+      else if (!/^https?:\/\/[^\s.]+\.[^\s]{2,}/i.test(link.trim())) e.media = 'الرابط غير صحيح. يبدأ بـ https://';
+    } else if (!path) e.media = video ? 'انتظر حتى يكتمل رفع الفيلم.' : 'ارفع ملف الفيلم.';
+    if (v.title.trim().length < 2) e.title = 'اكتب عنوان الفيلم.';
+    if (v.director.trim().length < 3) e.director = 'اكتب اسم المخرج كاملًا.';
+    if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v.email.trim())) e.email = 'البريد الإلكتروني غير صحيح.';
+    const d = Number(String(v.duration).replace(/[٠-٩]/g, (x) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(x))));
+    if (!v.duration) e.duration = 'اكتب مدة الفيلم بالدقائق.';
+    else if (!Number.isInteger(d) || d < 1 || d > 600) e.duration = 'المدة رقم بين ١ و٦٠٠ دقيقة.';
+    if (!v.genre) e.genre = 'اختر نوع الفيلم.';
+    if (v.synopsis.trim().length < 20) e.synopsis = 'اكتب ملخصًا من سطر أو سطرين على الأقل.';
+    if (!(cat || suggested)) e.category = 'اختر القسم.';
+    if (!agree) e.agree = 'وافق على شروط المهرجان.';
+    return e;
+  }
+  useEffect(() => { if (tried) setFe(validate()); }, [f, link, path, mode, cat, suggested, agree, tried, video]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const v = e.target.value; const next = { ...f, [k]: v }; setF(next);
@@ -59,15 +82,23 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
   function onVideo(r: VideoAnalysis | null, sig: string | null) {
     setVideo(r && sig ? { r, sig } : null);
     if (!r) return;
+    const got: string[] = [];
     setF((p) => {
-      const n = { ...p, genre: p.genre || r.genre_guess || '' };
+      const n = { ...p };
+      if (!p.title.trim() && r.title_guess) { n.title = r.title_guess; got.push('title'); }
+      if (!p.genre && r.genre_guess) { n.genre = r.genre_guess; got.push('genre'); }
+      if (r.language_guess && LANGS.includes(r.language_guess) && p.language === 'العربية' && r.language_guess !== 'العربية') { n.language = r.language_guess; got.push('language'); }
+      if (!p.synopsis.trim() && r.synopsis_draft) { n.synopsis = r.synopsis_draft; got.push('synopsis'); }
       const byFit = categories.find((c) => c.name === r.fit[0]?.category)?.id || null;
-      setSuggested(byFit || suggestCategory(categories, n.genre, Number(n.duration) || null));
+      const sug = byFit || suggestCategory(categories, n.genre, Number(n.duration) || null);
+      if (sug && !cat) { setSuggested(sug); got.push('category'); }
       return n;
     });
+    setFilled((x) => [...new Set([...x, ...got])]);
   }
   function onDuration(mins: number) {
     setF((p) => { const n = { ...p, duration: String(mins) }; setSuggested(suggestCategory(categories, n.genre, mins)); return n; });
+    setFilled((x) => [...new Set([...x, 'duration'])]);
   }
 
   async function improve() {
@@ -79,15 +110,17 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
   }
 
   async function send() {
-    setErr('');
-    if (!f.title.trim() || !f.director.trim() || !/^\S+@\S+\.\S+$/.test(f.email)) { setErr('أكمل عنوان الفيلم واسم المخرج والبريد الإلكتروني.'); return; }
-    if (mode === 'link' && !link) { setErr('أضف رابط المشاهدة أو ارفع الملف.'); return; }
-    if (mode === 'file' && !path) { setErr('ارفع ملف الفيلم وانتظر حتى يكتمل الرفع.'); return; }
-    if (!(cat || suggested)) { setErr('اختر القسم.'); return; }
+    setErr(''); setTried(true);
+    const e = validate(); setFe(e);
+    if (Object.keys(e).length) {
+      setErr(`أكمل ${Object.keys(e).length === 1 ? 'الحقل المطلوب' : `${ar(Object.keys(e).length)} حقول مطلوبة`} قبل الإرسال.`);
+      document.querySelector(`[data-f="${Object.keys(e)[0]}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
     setSending(true);
     const r = await fetch('/api/submit', {
       method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ festival_id: festivalId, category_id: cat || suggested, title: f.title, director: f.director, email: f.email, duration: f.duration,
+      body: JSON.stringify({ festival_id: festivalId, category_id: cat || suggested, title: f.title, director: f.director, email: f.email, duration: String(f.duration).replace(/[٠-٩]/g, (x) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(x))),
         genre: f.genre, language: f.language, synopsis: f.synopsis, screener_url: mode === 'link' ? link : null, screener_path: mode === 'file' ? path : null,
         video_report: mode === 'file' ? video?.r : null, video_sig: mode === 'file' ? video?.sig : null }),
     }).then((x) => x.json()).catch(() => ({ error: 'failed' }));
@@ -120,14 +153,20 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
 
   const stepDot = (n: string, on: boolean) => <span className="num" style={{ width: 28, height: 28, borderRadius: '50%', background: on ? 'var(--acc)' : 'var(--s3)', color: on ? 'var(--onAcc)' : 'var(--ink)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700 }}>{n}</span>;
   const attached = mode === 'link' ? !!detected : !!path;
+  const tagF = (k: string) => (filled.includes(k) ? <span className="chip c-acc" style={{ height: 20, fontSize: 11, padding: '0 7px' }}>✦ من الفيلم</span> : null);
+  const lbl = (k: string, t: string) => <span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t}<b style={{ color: 'var(--no)' }}>*</b>{tagF(k)}</span>;
+  const Er = ({ k }: { k: string }) => (fe[k] ? <span className="err" role="alert">{fe[k]}</span> : null);
+  const fx = (k: string): { className: string; style?: React.CSSProperties; 'aria-invalid'?: boolean } => ({ className: `fld${filled.includes(k) ? ' filled' : ''}`, ...(fe[k] ? { style: { borderColor: 'var(--no)' }, 'aria-invalid': true } : {}) });
 
   return (
     <>
-      <div className="card" style={{ padding: 26, borderRadius: 22, display: 'flex', flexDirection: 'column', gap: 16 }}>
-        <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>{stepDot('١', true)}<b style={{ fontSize: 18 }}>أرفق فيلمك</b></span>
-        <div className="seg" role="group" aria-label="طريقة الإرفاق" style={{ alignSelf: 'flex-start' }}>
-          <button type="button" className={mode === 'file' ? 'on' : ''} aria-pressed={mode === 'file'} onClick={() => setMode('file')}>✦ رفع الفيلم</button>
-          <button type="button" className={mode === 'link' ? 'on' : ''} aria-pressed={mode === 'link'} onClick={() => setMode('link')}>رابط مشاهدة</button>
+      <div className="card" data-f="media" style={{ padding: 26, borderRadius: 22, display: 'flex', flexDirection: 'column', gap: 16, ...(fe.media ? { borderColor: 'var(--no)' } : {}) }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, justifyContent: 'space-between', flexWrap: 'wrap' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>{stepDot('١', true)}<b style={{ fontSize: 18 }}>أرفق فيلمك</b></span>
+          <div className="seg" role="group" aria-label="طريقة الإرفاق">
+            <button type="button" className={mode === 'file' ? 'on' : ''} aria-pressed={mode === 'file'} onClick={() => setMode('file')}>✦ رفع الفيلم</button>
+            <button type="button" className={mode === 'link' ? 'on' : ''} aria-pressed={mode === 'link'} onClick={() => setMode('link')}>رابط مشاهدة</button>
+          </div>
         </div>
         {mode === 'link' ? (
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
@@ -139,6 +178,7 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
             onUploaded={setPath} onReport={onVideo} onDuration={onDuration}
             onUseSynopsis={(t) => { setF((p) => ({ ...p, synopsis: t })); document.getElementById('synopsis')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }} />
         )}
+        <Er k="media" />
         {reading && mode === 'link' && <span style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'var(--muted)' }}><Spinner size={16} />نفحص الرابط…</span>}
         {detected && mode === 'link' && (
           <div className="rise" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center', padding: '12px 14px', borderRadius: 14, background: 'var(--accT)' }}>
@@ -153,34 +193,42 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
 
       <div className="card" style={{ padding: 26, borderRadius: 22, display: 'flex', flexDirection: 'column', gap: 16 }}>
         <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>{stepDot('٢', attached)}<b style={{ fontSize: 18 }}>عن الفيلم</b></span>
+        {filled.length > 0 && (
+          <div className="rise" style={{ padding: '12px 14px', borderRadius: 14, background: 'var(--accT)', border: '1px solid var(--accL)', display: 'flex', gap: 10, alignItems: 'center', fontSize: 14 }}>
+            <span style={{ color: 'var(--acc)', display: 'inline-flex' }}><Icon name="spark" size={16} /></span>
+            <span>عبّأ NAS Vision {ar(filled.length)} {filled.length > 2 ? 'حقول' : 'حقلًا'} من الفيلم. راجعها وعدّل ما تريد، وأكمل اسم المخرج والبريد.</span>
+          </div>
+        )}
         <div className="g2" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 14 }}>
-          <label className="lbl">عنوان الفيلم<input className="fld" value={f.title} onChange={set('title')} placeholder="اكتب العنوان" /></label>
-          <label className="lbl">اسم المخرج<input className="fld" value={f.director} onChange={set('director')} placeholder="الاسم الكامل" /></label>
-          <label className="lbl">البريد الإلكتروني<input className="fld" dir="ltr" type="email" value={f.email} onChange={set('email')} placeholder="name@example.com" /></label>
-          <label className="lbl">المدة بالدقائق<input className="fld num" inputMode="numeric" value={f.duration} onChange={set('duration')} placeholder="مثلًا ٨٥" /></label>
-          <label className="lbl">النوع<select className="fld" value={f.genre} onChange={set('genre')}><option value="">اختر</option>{GENRES.map((g) => <option key={g}>{g}</option>)}</select></label>
-          <label className="lbl">لغة الفيلم<select className="fld" value={f.language} onChange={set('language')}>{LANGS.map((g) => <option key={g}>{g}</option>)}</select></label>
+          <label className="lbl" data-f="title">{lbl('title', 'عنوان الفيلم')}<input {...fx('title')} value={f.title} onChange={set('title')} placeholder="اكتب العنوان" maxLength={120} /><Er k="title" /></label>
+          <label className="lbl" data-f="director">{lbl('director', 'اسم المخرج')}<input {...fx('director')} value={f.director} onChange={set('director')} placeholder="الاسم الكامل" autoComplete="name" maxLength={120} /><Er k="director" /></label>
+          <label className="lbl" data-f="email">{lbl('email', 'البريد الإلكتروني')}<input {...fx('email')} dir="ltr" type="email" inputMode="email" autoComplete="email" value={f.email} onChange={set('email')} placeholder="name@example.com" /><Er k="email" /><span className="hint">نرسل عليه رقمك المرجعي والقرار.</span></label>
+          <label className="lbl" data-f="duration">{lbl('duration', 'المدة بالدقائق')}<input {...fx('duration')} inputMode="numeric" value={f.duration} onChange={(e) => { const v = e.target.value.replace(/[^\d٠-٩]/g, '').slice(0, 3); setF((p) => ({ ...p, duration: v })); setSuggested(suggestCategory(categories, f.genre, Number(v.replace(/[٠-٩]/g, (x) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(x)))) || null)); }} placeholder="مثلًا ٨٥" style={{ ...(fx('duration').style || {}), fontFamily: 'var(--font-num)' }} /><Er k="duration" /></label>
+          <label className="lbl" data-f="genre">{lbl('genre', 'النوع')}<select {...fx('genre')} value={f.genre} onChange={set('genre')}><option value="">اختر</option>{GENRES.map((g) => <option key={g}>{g}</option>)}</select><Er k="genre" /></label>
+          <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>لغة الفيلم{tagF('language')}</span><select {...fx('language')} value={f.language} onChange={set('language')}>{LANGS.map((g) => <option key={g}>{g}</option>)}</select></label>
         </div>
-        <label className="lbl">
-          <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>الملخص
+        <label className="lbl" data-f="synopsis">
+          <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}>{lbl('synopsis', 'الملخص')}
             <button type="button" onClick={improve} disabled={improving || !f.synopsis.trim()} className="btn btn-q btn-sm" style={{ height: 30, fontSize: 13 }}>
               {improving ? <Spinner size={13} /> : <span style={{ color: 'var(--acc)', display: 'inline-flex' }}><Icon name="spark" size={13} /></span>}{improved ? 'تمت الصياغة ✓' : 'حسّن الصياغة'}
             </button>
           </span>
-          <textarea id="synopsis" className="fld" value={f.synopsis} onChange={set('synopsis')} maxLength={2000} placeholder="عمّ يحكي فيلمك؟ سطران إلى خمسة." />
+          <textarea id="synopsis" {...fx('synopsis')} value={f.synopsis} onChange={set('synopsis')} maxLength={2000} placeholder="عمّ يحكي فيلمك؟ سطران إلى خمسة." />
+          <span style={{ display: 'flex', justifyContent: 'space-between' }}><Er k="synopsis" /><span className="hint num" style={{ marginInlineStart: 'auto' }}>{ar(f.synopsis.length)}/٢٠٠٠</span></span>
         </label>
-        <div className="lbl">القسم
+        <div className="lbl" data-f="category">{lbl('category', 'القسم')}
           <div className="g2" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 8 }}>
             {categories.map((c) => {
               const on = (cat || suggested) === c.id;
               return (
-                <button key={c.id} type="button" aria-pressed={on} onClick={() => setCat(c.id)} className={`choice ${on ? 'on' : ''}`}>
+                <button key={c.id} type="button" aria-pressed={on} onClick={() => setCat(c.id)} className={`choice ${on ? 'on' : ''}`} style={fe.category ? { borderColor: 'var(--no)' } : undefined}>
                   <span style={{ display: 'flex', flexDirection: 'column', gap: 3 }}><b style={{ fontSize: 14.5 }}>{c.name}</b><span style={{ fontSize: 12.5, color: 'var(--muted)', fontWeight: 400 }}>{c.description}{c.fee ? ` · ${c.fee}` : ''}</span></span>
-                  {suggested === c.id && <span className="chip c-acc">✦ مقترح</span>}
+                  {suggested === c.id && !cat && <span className="chip c-acc">✦ مقترح</span>}
                 </button>
               );
             })}
           </div>
+          <Er k="category" />
         </div>
       </div>
 
@@ -191,14 +239,14 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
         </details>
       )}
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, alignItems: 'center' }} data-f="agree">
         <button type="button" onClick={() => setAgree(!agree)} aria-pressed={agree} style={{ background: 'none', border: 0, padding: 0, color: 'var(--ink2)', display: 'flex', gap: 12, alignItems: 'center', cursor: 'pointer', fontSize: 14.5, justifyContent: 'center' }}>
-          <span style={{ width: 20, height: 20, borderRadius: 6, flex: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--onAcc)', ...(agree ? { background: 'var(--acc)' } : { border: '1.5px solid var(--line2)' }) }}>{agree && <Icon name="check" size={12} stroke={3.4} />}</span>
+          <span style={{ width: 20, height: 20, borderRadius: 6, flex: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', color: 'var(--onAcc)', ...(agree ? { background: 'var(--acc)' } : { border: `1.5px solid ${fe.agree ? 'var(--no)' : 'var(--line2)'}` }) }}>{agree && <Icon name="check" size={12} stroke={3.4} />}</span>
           قرأت شروط المهرجان وأوافق عليها.
         </button>
-        {err && <span className="err" style={{ textAlign: 'center' }}>{err}</span>}
-        <button type="button" className="btn btn-p btn-lg" onClick={send} disabled={!agree || sending} style={!agree ? { opacity: 0.45 } : undefined}>
-          {sending ? <><Spinner size={16} /> نرسل ونحلّل فيلمك…</> : mode === 'file' && !path && video ? 'ننتظر اكتمال الرفع…' : 'أرسل المشاركة'}
+        {err && <span className="err" style={{ textAlign: 'center' }} role="alert">{err}</span>}
+        <button type="button" className="btn btn-p btn-lg" onClick={send} disabled={sending} style={{ width: '100%', maxWidth: 420, height: 56 }}>
+          {sending ? <><Spinner size={16} /> نرسل ونحلّل فيلمك…</> : mode === 'file' && !path && video ? <><Spinner size={16} />ننتظر اكتمال الرفع…</> : 'أرسل المشاركة'}
         </button>
       </div>
     </>

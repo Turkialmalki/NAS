@@ -13,7 +13,9 @@ export async function middleware(request: NextRequest) {
       },
     },
   });
-  const { data: { user } } = await supabase.auth.getUser();
+  // getClaims verifies the session locally (no network round-trip when keys are asymmetric) and refreshes it when needed
+  const { data } = await supabase.auth.getClaims();
+  const user = data?.claims?.sub ? data.claims : null;
   const p = request.nextUrl.pathname;
   if (!user && (p.startsWith('/app') || p.startsWith('/review'))) {
     const url = request.nextUrl.clone();

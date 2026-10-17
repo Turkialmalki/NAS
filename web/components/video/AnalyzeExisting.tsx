@@ -39,11 +39,11 @@ export function AnalyzeExisting({ id, path, festivalId, ctx, again = false }: { 
     return (
       <div className="vision" style={{ padding: 14 }}>
         <div className="strip film-strip">
-          {Array.from({ length: 10 }, (_, i) => <span key={i} className="cell" data-on={frames[i] ? 1 : undefined}>{frames[i] && /* eslint-disable-next-line @next/next/no-img-element */ <img src={frames[i].thumb} alt="" />}</span>)}
+          {Array.from({ length: 12 }, (_, i) => <span key={i} className="cell" data-on={frames[i] ? 1 : undefined}>{frames[i] && /* eslint-disable-next-line @next/next/no-img-element */ <img src={frames[i].thumb} alt="" />}</span>)}
           <span className="scan" />
         </div>
         <span style={{ display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'center', fontSize: 13, color: 'var(--muted)' }}><Spinner size={13} />
-          {state === 'look' ? `نلتقط المشاهد (${frames.length}/10)…` : state === 'think' ? 'NAS Vision يحلّل اللقطات…' : 'نحفظ التقرير…'}</span>
+          {state === 'look' ? `نلتقط المشاهد (${frames.length}/12)…` : state === 'think' ? 'NAS Vision يحلّل اللقطات…' : 'نحفظ التقرير…'}</span>
       </div>
     );
   }

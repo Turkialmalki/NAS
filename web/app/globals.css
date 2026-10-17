@@ -108,3 +108,18 @@ input,textarea,select{font-family:inherit}
 @media (max-width:480px){.auth-card{padding:22px;border-radius:22px}}
 .alt-btn{height:50px;border-radius:14px;border:1px solid var(--line2);background:transparent;color:var(--ink);font:inherit;font-size:14.5px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;transition:background .2s,border-color .2s}
 .alt-btn:hover{background:var(--s2);border-color:var(--line2)}
+.sk{display:block;border-radius:10px;background:linear-gradient(90deg,var(--s1) 0%,var(--s2) 40%,var(--s1) 80%);background-size:200% 100%;animation:sk 1.2s ease-in-out infinite}
+@keyframes sk{from{background-position:100% 0}to{background-position:-100% 0}}
+.navbar-progress{position:fixed;top:0;inset-inline:0;height:2px;z-index:100;background:var(--gold);transform-origin:right;animation:navp 1.2s ease-out forwards}
+@keyframes navp{from{transform:scaleX(0)}to{transform:scaleX(.85)}}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.steps button{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:transparent;color:var(--faint);font:inherit;font-size:14px;font-weight:600;cursor:pointer;text-align:start;transition:background .2s,border-color .2s,color .2s}
+.steps button:disabled{cursor:default;opacity:.6}
+.steps button .n{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--s2);font-size:12.5px;flex:none}
+.steps button[data-s=on]{border-color:var(--accL);background:var(--accT);color:var(--ink)}.steps button[data-s=on] .n{background:var(--acc);color:var(--onAcc)}
+.steps button[data-s=done]{color:var(--ink2)}.steps button[data-s=done] .n{background:var(--okT);color:var(--ok)}
+@media (max-width:640px){.steps .t{display:none}.steps button{justify-content:center}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.45)}50%{box-shadow:0 0 0 18px rgba(201,168,76,0)}}
+.pulse{animation:pulse 1.8s ease-in-out infinite}
+.filled{animation:filled 1.6s ease-out}
+@keyframes filled{0%{box-shadow:0 0 0 0 rgba(201,168,76,.7);border-color:var(--acc)}100%{box-shadow:0 0 0 8px rgba(201,168,76,0)}}

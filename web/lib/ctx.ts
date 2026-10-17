@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { supabaseServer } from './supabase/server';
@@ -8,12 +9,24 @@ export type Festival = {
 };
 export type Membership = { role: string; festival: Festival };
 
-export async function getCtx() {
+export type SessionUser = { id: string; email: string | undefined; user_metadata: Record<string, unknown> };
+
+/** The signed-in user, read from the verified session token (no extra request in most cases). */
+export const sessionUser = cache(async (): Promise<SessionUser | null> => {
   const sb = await supabaseServer();
-  const { data: { user } } = await sb.auth.getUser();
+  const { data } = await sb.auth.getClaims();
+  const c = data?.claims;
+  if (!c?.sub) return null;
+  return { id: c.sub, email: (c.email as string) || undefined, user_metadata: (c.user_metadata as Record<string, unknown>) || {} };
+});
+
+/** Loaded once per request and shared by the layout and the page. */
+export const getCtx = cache(async () => {
+  const sb = await supabaseServer();
+  const user = await sessionUser();
   if (!user) redirect('/login');
-  await sb.rpc('accept_my_invites');
-  const [{ data: profile }, { data: mems }] = await Promise.all([
+  const [, { data: profile }, { data: mems }] = await Promise.all([
+    sb.rpc('accept_my_invites'),
     sb.from('profiles').select('id,full_name,email,is_admin').eq('id', user.id).maybeSingle(),
     sb.from('festival_members').select('role, festival:festivals(*)').eq('user_id', user.id),
   ]);
@@ -23,7 +36,7 @@ export async function getCtx() {
   const current = memberships.find((m) => m.festival.id === wanted) || memberships.find((m) => m.role !== 'reviewer') || memberships[0] || null;
   const name = profile?.full_name || (user.user_metadata?.full_name as string) || user.email?.split('@')[0] || '';
   return { sb, user, profile, isAdmin: !!profile?.is_admin, memberships, current, name };
-}
+});
 
 export async function requireStaff() {
   const ctx = await getCtx();

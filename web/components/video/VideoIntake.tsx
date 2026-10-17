@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { extractFrames, type Frame } from '@/lib/videoFrames';
 import { uploadScreener, uploadError } from '@/lib/upload';
 import type { VideoAnalysis } from '@/lib/videoAnalysis';
@@ -8,7 +8,8 @@ import { VideoReport } from './VideoReport';
 
 export type Ctx = { title?: string; synopsis?: string; genre?: string; category_id?: string | null };
 type Stage = 'idle' | 'read' | 'look' | 'think' | 'done' | 'noread';
-const STAGES: [Exclude<Stage, 'idle' | 'noread'>, string][] = [['read', 'قراءة الملف'], ['look', 'استخراج اللقطات واللون'], ['think', 'تحليل المشاهد بالذكاء الاصطناعي'], ['done', 'التقرير']];
+const STAGES: [Exclude<Stage, 'idle' | 'noread'>, string][] = [['read', 'فتح الفيلم'], ['look', 'التقاط المشاهد والألوان والإيقاع'], ['think', 'مشاهدة الفيلم بالذكاء الاصطناعي'], ['done', 'التقرير']];
+const THINK = ['يقرأ العنوان والنصوص على الشاشة…', 'يحلّل التصوير والإضاءة والتكوين…', 'يتعرّف على الشخصيات والمكان…', 'يكتب ملخصًا ووصفًا لكل مشهد…', 'يقيّم الحرفة ويقترح القسم الأنسب…'];
 
 /** Pick a film → it uploads and NAS Vision analyses it at the same time. */
 export function VideoIntake({ folder, festivalId, ctx, onUploaded, onReport, onDuration, onUseSynopsis, compact = false }: {
@@ -24,13 +25,16 @@ export function VideoIntake({ folder, festivalId, ctx, onUploaded, onReport, onD
   const [report, setReport] = useState<VideoAnalysis | null>(null);
   const [err, setErr] = useState('');
   const [drag, setDrag] = useState(false);
+  const [prog, setProg] = useState(0);
+  const [tick, setTick] = useState(0);
   const run = useRef(0);
+  useEffect(() => { if (stage !== 'think') return; const t = setInterval(() => setTick((x) => x + 1), 2200); return () => clearInterval(t); }, [stage]);
 
   async function pick(fl: File | null | undefined) {
     if (!fl) return;
     if (!/^video\//.test(fl.type) && !/\.(mp4|mov|m4v|webm|mkv)$/i.test(fl.name)) { setErr('اختر ملف فيديو (MP4 أو MOV).'); return; }
     const id = ++run.current;
-    setFile(fl); setErr(''); setFrames([]); setReport(null); setPct(0); setUploaded(false); setStage('read');
+    setFile(fl); setErr(''); setFrames([]); setProg(0); setTick(0); setReport(null); setPct(0); setUploaded(false); setStage('read');
     onUploaded(null); onReport?.(null, null);
 
     const up = uploadScreener(fl, folder, (p) => run.current === id && setPct(p))
@@ -38,7 +42,7 @@ export function VideoIntake({ folder, festivalId, ctx, onUploaded, onReport, onD
       .catch((e) => { if (run.current !== id) return; setErr(uploadError(e)); setPct(0); });
 
     try {
-      const ex = await extractFrames(fl, (f) => { if (run.current !== id) return; setStage('look'); setFrames((p) => [...p, f]); });
+      const ex = await extractFrames(fl, (f) => { if (run.current !== id) return; setStage('look'); setFrames((p) => [...p, f]); }, (p) => run.current === id && setProg(p));
       if (run.current !== id) return;
       onDuration?.(Math.max(1, Math.round(ex.stats.duration / 60)));
       setStage('think');
@@ -102,14 +106,14 @@ export function VideoIntake({ folder, festivalId, ctx, onUploaded, onReport, onD
             ))}
           </div>
           <div className="strip film-strip">
-            {Array.from({ length: 10 }, (_, i) => {
+            {Array.from({ length: 12 }, (_, i) => {
               const f = frames[i];
               return <span key={i} className="cell" data-on={f ? 1 : undefined}>{f && /* eslint-disable-next-line @next/next/no-img-element */ <img src={f.thumb} alt="" />}</span>;
             })}
             <span className="scan" />
           </div>
           <span style={{ fontSize: 13.5, color: 'var(--muted)', textAlign: 'center' }}>
-            {stage === 'read' ? 'نفتح الفيلم داخل متصفحك…' : stage === 'look' ? `نلتقط مشاهد من الفيلم (${frames.length}/10)…` : 'NAS Vision يشاهد اللقطات ويكتب تقريره…'}
+            {stage === 'read' ? 'نفتح الفيلم داخل متصفحك…' : stage === 'look' ? `نمرّ على الفيلم كاملًا… ${Math.round(prog * 100)}٪` : `NAS Vision ${THINK[tick % THINK.length]}`}
           </span>
         </div>
       )}

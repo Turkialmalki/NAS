@@ -7,9 +7,9 @@ export const maxDuration = 60;
 
 export async function POST(req: Request) {
   const b = await req.json().catch(() => null) as (VideoInput & { festival_id?: string }) | null;
-  if (!b || !Array.isArray(b.frames) || !b.stats || !b.frames.length || b.frames.length > 12) return NextResponse.json({ error: 'invalid_input' }, { status: 400 });
-  const frames = b.frames.filter((f) => typeof f.image === 'string' && f.image.startsWith('data:image/jpeg') && f.image.length < 400_000)
-    .map((f) => ({ t: Number(f.t) || 0, image: f.image, thumb: typeof f.thumb === 'string' && f.thumb.length < 120_000 ? f.thumb : '' }));
+  if (!b || !Array.isArray(b.frames) || !b.stats || !b.frames.length || b.frames.length > 14) return NextResponse.json({ error: 'invalid_input' }, { status: 400 });
+  const frames = b.frames.filter((f) => typeof f.image === 'string' && f.image.startsWith('data:image/jpeg') && f.image.length < 600_000)
+    .map((f) => ({ t: Number(f.t) || 0, image: f.image, thumb: typeof f.thumb === 'string' && f.thumb.length < 220_000 ? f.thumb : '' }));
   let cats: Category[] = [];
   if (b.festival_id) {
     const { data } = await supabaseAnon().from('categories').select('id,name,description').eq('festival_id', b.festival_id).order('sort');
@@ -21,6 +21,11 @@ export async function POST(req: Request) {
     brightness: Number(s.brightness) || 0, saturation: Number(s.saturation) || 0, warmth: Number(s.warmth) || 0, contrast: Number(s.contrast) || 0,
     variety: Number(s.variety) || 0, palette: Array.isArray(s.palette) ? s.palette.filter((x) => /^#[0-9a-f]{6}$/i.test(x)).slice(0, 6) : [],
     fadeIn: !!s.fadeIn, fadeOut: !!s.fadeOut, darkShare: Number(s.darkShare) || 0,
+    name: typeof s.name === 'string' ? s.name.slice(0, 160) : null,
+    barcode: Array.isArray(s.barcode) ? s.barcode.filter((x) => /^#[0-9a-f]{6}$/i.test(x)).slice(0, 64) : [],
+    energy: Array.isArray(s.energy) ? s.energy.slice(0, 64).map((x) => Math.round((Number(x) || 0) * 1000) / 1000) : [],
+    light: Array.isArray(s.light) ? s.light.slice(0, 64).map((x) => Math.round((Number(x) || 0) * 100) / 100) : [],
+    cuts: Math.max(0, Math.round(Number(s.cuts) || 0)), hasAudio: typeof s.hasAudio === 'boolean' ? s.hasAudio : null,
   };
   const report = await analyzeVideo({ frames, stats, title: b.title?.slice(0, 200), synopsis: b.synopsis?.slice(0, 2000), genre: b.genre?.slice(0, 40), category_id: b.category_id || null }, cats);
   return NextResponse.json({ report, sig: signReport(report) });

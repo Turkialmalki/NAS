@@ -1,10 +1,11 @@
 'use server';
 import { revalidatePath } from 'next/cache';
 import { supabaseServer } from '@/lib/supabase/server';
+import { sessionUser } from '@/lib/ctx';
 
 export async function startWatching(submissionId: string) {
   const sb = await supabaseServer();
-  const { data: { user } } = await sb.auth.getUser();
+  const user = await sessionUser();
   if (!user) return;
   await sb.from('assignments').update({ status: 'in_progress' }).eq('submission_id', submissionId).eq('reviewer_id', user.id).eq('status', 'assigned');
 }

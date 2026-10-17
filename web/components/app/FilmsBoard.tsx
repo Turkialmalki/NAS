@@ -56,7 +56,7 @@ export function FilmsBoard({ films, reviewers, categories, initialStatus, initia
         <span style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           <span className="num" style={{ fontSize: 14, color: 'var(--faint)' }}>{ar(list.length)} من {ar(films.length)}</span>
           {unpublished > 0 && <button type="button" className="btn btn-s btn-sm" disabled={pending} onClick={() => act('pub', async () => { const r = await publishDecisions(); return r; }, 'نُشرت القرارات وأُبلغ صنّاع الأفلام.')}>انشر {ar(unpublished)} قرارات</button>}
-          <button type="button" className="btn btn-p btn-sm" onClick={() => setAdding(true)}><Icon name="plus" size={16} />أضف فيلمًا</button>
+          <button type="button" className="btn btn-p" onClick={() => setAdding(true)}><Icon name="spark" size={16} />ارفع فيلمًا وحلّله</button>
         </span>
       </div>
 
@@ -80,7 +80,12 @@ export function FilmsBoard({ films, reviewers, categories, initialStatus, initia
       <div className="stack" style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
         <div className="card" style={{ flex: 1, minWidth: 0, overflowX: 'auto', padding: '4px 6px' }}>
           {films.length === 0 ? (
-            <div className="empty">لا توجد مشاركات بعد. شارك رابط التقديم، أو أضف فيلمًا بنفسك.</div>
+            <div style={{ padding: '56px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, textAlign: 'center' }}>
+              <span className="drop-ic" style={{ width: 68, height: 68, borderRadius: 22 }}><Icon name="film" size={30} /></span>
+              <b style={{ fontSize: 22 }}>أضف أول فيلم</b>
+              <span style={{ color: 'var(--muted)', fontSize: 15, maxWidth: 440, lineHeight: 1.8 }}>ارفع ملف الفيلم، ويشاهده NAS Vision ويكتب تقريرًا كاملًا ويعبّئ بياناته. أو شارك رابط التقديم ليرسل صنّاع الأفلام مشاركاتهم.</span>
+              <button type="button" className="btn btn-p btn-lg" onClick={() => setAdding(true)} style={{ marginTop: 6 }}><Icon name="up" size={17} />ارفع فيلمًا</button>
+            </div>
           ) : (
             <table className="tbl">
               <thead><tr><th>المشاركة</th><th>الحالة</th><th>التحليل</th><th>القرار</th></tr></thead>
@@ -207,47 +212,89 @@ function AddFilm({ festivalId, categories, onClose, onDone }: { festivalId: stri
   const [ref, setRef] = useState('');
   const [path, setPath] = useState<string | null>(null);
   const [video, setVideo] = useState<{ r: VideoAnalysis; sig: string } | null>(null);
-  const [dur, setDur] = useState('');
+  const [v, setV] = useState({ title: '', director: '', email: '', genre: '', duration: '', category: '', synopsis: '', url: '' });
+  const [filled, setFilled] = useState<string[]>([]);
+  const [fe, setFe] = useState<Record<string, string>>({});
+  const [showLink, setShowLink] = useState(false);
+  const up = (k: keyof typeof v) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setV((p) => ({ ...p, [k]: e.target.value }));
+  const tag = (k: string) => (filled.includes(k) ? <span className="chip c-acc" style={{ height: 20, fontSize: 11, padding: '0 7px' }}>✦ من الفيلم</span> : null);
+  const cls = (k: string) => `fld${filled.includes(k) ? ' filled' : ''}`;
+  const bad = (k: string) => (fe[k] ? { borderColor: 'var(--no)' } : undefined);
+
+  function onReport(r: VideoAnalysis | null, sig: string | null) {
+    setVideo(r && sig ? { r, sig } : null);
+    if (!r) return;
+    const got: string[] = [];
+    setV((p) => {
+      const n = { ...p };
+      if (!p.title && r.title_guess) { n.title = r.title_guess; got.push('title'); }
+      if (!p.genre && r.genre_guess) { n.genre = r.genre_guess; got.push('genre'); }
+      if (!p.synopsis && r.synopsis_draft) { n.synopsis = r.synopsis_draft; got.push('synopsis'); }
+      const c = categories.find((x) => x.name === r.fit[0]?.category);
+      if (!p.category && c) { n.category = c.id; got.push('category'); }
+      return n;
+    });
+    setFilled((x) => [...new Set([...x, ...got])]);
+  }
+
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (video && !path) { setErr('انتظر حتى يكتمل رفع الفيلم.'); return; }
+    const x: Record<string, string> = {};
+    if (!path && !v.url.trim()) x.media = video ? 'انتظر حتى يكتمل رفع الفيلم.' : 'ارفع ملف الفيلم أو أضف رابط مشاهدة.';
+    if (v.url.trim() && !/^https?:\/\/\S+\.\S{2,}/i.test(v.url.trim())) x.url = 'الرابط غير صحيح.';
+    if (v.title.trim().length < 2) x.title = 'اكتب عنوان الفيلم.';
+    if (v.director.trim().length < 2) x.director = 'اكتب اسم المخرج.';
+    if (v.email.trim() && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v.email.trim())) x.email = 'البريد غير صحيح.';
+    if (v.duration && !(Number(v.duration) >= 1 && Number(v.duration) <= 600)) x.duration = 'رقم بين ١ و٦٠٠.';
+    setFe(x);
+    if (Object.keys(x).length) { setErr('أكمل الحقول المطلوبة.'); return; }
     setState('run'); setErr('');
-    const r = await addFilm(new FormData(e.currentTarget));
+    const fd = new FormData();
+    Object.entries(v).forEach(([k, val]) => fd.set(k, val));
+    fd.set('screener_path', path || '');
+    fd.set('video_report', video ? JSON.stringify(video.r) : '');
+    fd.set('video_sig', video?.sig || '');
+    const r = await addFilm(fd);
     if (!r.ok) { setErr(r.error || 'تعذّر الحفظ'); setState('form'); return; }
     setRef(r.ref || ''); setState('done'); onDone(r.ref || '');
   }
   return (
-    <div className="modal-bg" role="dialog" aria-modal="true" aria-label="أضف فيلمًا" onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div className="card rise" style={{ width: '100%', maxWidth: 640, padding: 28, borderRadius: 24, display: 'flex', flexDirection: 'column', gap: 18, maxHeight: '92vh', overflowY: 'auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><h2 style={{ fontSize: 22 }}>أضف فيلمًا</h2><button type="button" className="ibtn" onClick={onClose} aria-label="إغلاق"><Icon name="x" /></button></div>
+    <div className="modal-bg" role="dialog" aria-modal="true" aria-label="أضف فيلمًا" onClick={(e) => e.target === e.currentTarget && state !== 'run' && onClose()}>
+      <div className="card rise" style={{ width: '100%', maxWidth: 780, padding: 28, borderRadius: 26, display: 'flex', flexDirection: 'column', gap: 18, maxHeight: '94vh', overflowY: 'auto' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ display: 'flex', flexDirection: 'column', gap: 4 }}><h2 style={{ fontSize: 24 }}>أضف فيلمًا</h2><span style={{ fontSize: 14, color: 'var(--muted)' }}>ارفع الملف ويحلّله NAS Vision ويعبّئ بياناته.</span></span>
+          <button type="button" className="ibtn" onClick={onClose} aria-label="إغلاق"><Icon name="x" /></button>
+        </div>
         {state === 'form' && (
-          <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <div className="lbl">ملف الفيلم
-              <VideoIntake compact folder={festivalId} festivalId={festivalId} ctx={() => ({})} onUploaded={setPath} onReport={(r, sig) => setVideo(r && sig ? { r, sig } : null)} onDuration={(m) => setDur(String(m))} />
+          <form onSubmit={submit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <VideoIntake folder={festivalId} festivalId={festivalId} ctx={() => ({ title: v.title, synopsis: v.synopsis, genre: v.genre, category_id: v.category || null })}
+                onUploaded={setPath} onReport={onReport} onDuration={(m) => { setV((p) => ({ ...p, duration: String(m) })); setFilled((x) => [...new Set([...x, 'duration'])]); }}
+                onUseSynopsis={(t) => setV((p) => ({ ...p, synopsis: t }))} />
+              {fe.media && <span className="err">{fe.media}</span>}
+              {!showLink ? <button type="button" className="btn btn-g btn-sm" style={{ alignSelf: 'center' }} onClick={() => setShowLink(true)}>أو أضف رابط مشاهدة بدلًا من الملف</button>
+                : <label className="lbl">رابط المشاهدة<input className="fld" dir="ltr" value={v.url} onChange={up('url')} placeholder="https://vimeo.com/…" style={bad('url')} />{fe.url && <span className="err">{fe.url}</span>}</label>}
             </div>
-            <input type="hidden" name="screener_path" value={path || ''} />
-            <input type="hidden" name="video_report" value={video ? JSON.stringify(video.r) : ''} />
-            <input type="hidden" name="video_sig" value={video?.sig || ''} />
-            <label className="lbl">أو رابط المشاهدة<input name="url" className="fld" dir="ltr" placeholder="https://vimeo.com/…" /></label>
+            {filled.length > 0 && <div className="rise" style={{ padding: '10px 14px', borderRadius: 12, background: 'var(--accT)', fontSize: 13.5 }}>✦ عبّأ NAS Vision {ar(filled.length)} {filled.length > 2 ? 'حقول' : 'حقلًا'} من الفيلم. راجعها قبل الحفظ.</div>}
             <div className="g2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-              <label className="lbl">عنوان الفيلم<input name="title" className="fld" required /></label>
-              <label className="lbl">اسم المخرج<input name="director" className="fld" required /></label>
-              <label className="lbl">النوع<select name="genre" className="fld"><option value="">—</option><option>روائي</option><option>وثائقي</option><option>تحريك</option><option>تجريبي</option></select></label>
-              <label className="lbl">المدة بالدقائق<input name="duration" className="fld num" inputMode="numeric" value={dur} onChange={(e) => setDur(e.target.value)} /></label>
-              <label className="lbl">القسم<select name="category" className="fld"><option value="">—</option>{categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
-              <label className="lbl">بريد المخرج<input name="email" className="fld" dir="ltr" type="email" /></label>
+              <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>عنوان الفيلم <b style={{ color: 'var(--no)' }}>*</b>{tag('title')}</span><input className={cls('title')} value={v.title} onChange={up('title')} style={bad('title')} />{fe.title && <span className="err">{fe.title}</span>}</label>
+              <label className="lbl"><span>اسم المخرج <b style={{ color: 'var(--no)' }}>*</b></span><input className="fld" value={v.director} onChange={up('director')} style={bad('director')} />{fe.director && <span className="err">{fe.director}</span>}</label>
+              <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>النوع{tag('genre')}</span><select className={cls('genre')} value={v.genre} onChange={up('genre')}><option value="">—</option><option>روائي</option><option>وثائقي</option><option>تحريك</option><option>تجريبي</option></select></label>
+              <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>المدة بالدقائق{tag('duration')}</span><input className={`${cls('duration')} num`} inputMode="numeric" value={v.duration} onChange={(e) => setV((p) => ({ ...p, duration: e.target.value.replace(/\D/g, '').slice(0, 3) }))} style={bad('duration')} />{fe.duration && <span className="err">{fe.duration}</span>}</label>
+              <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>القسم{tag('category')}</span><select className={cls('category')} value={v.category} onChange={up('category')}><option value="">—</option>{categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
+              <label className="lbl">بريد المخرج<input className="fld" dir="ltr" type="email" value={v.email} onChange={up('email')} style={bad('email')} />{fe.email && <span className="err">{fe.email}</span>}</label>
             </div>
-            <label className="lbl">الملخص<textarea name="synopsis" className="fld" style={{ height: 96 }} /></label>
-            {err && <span className="err">{err}</span>}
-            <button className="btn btn-p btn-lg"><Icon name="spark" size={16} />أضف وحلّل</button>
+            <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>الملخص{tag('synopsis')}</span><textarea className={cls('synopsis')} value={v.synopsis} onChange={up('synopsis')} style={{ height: 110 }} /></label>
+            {err && <span className="err" style={{ textAlign: 'center' }}>{err}</span>}
+            <button className="btn btn-p btn-lg" style={{ alignSelf: 'center', minWidth: 260, height: 54 }}>{video && !path ? <><Spinner size={16} />ننتظر اكتمال الرفع…</> : <><Icon name="check" size={16} stroke={2.4} />أضف الفيلم</>}</button>
           </form>
         )}
-        {state === 'run' && <div style={{ padding: '40px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, color: 'var(--muted)' }}><Spinner size={30} />نقرأ الفيلم ونحلّله…</div>}
+        {state === 'run' && <div style={{ padding: '40px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, color: 'var(--muted)' }}><Spinner size={30} />نحفظ الفيلم ونجهّز تحليله…</div>}
         {state === 'done' && (
           <div className="rise" style={{ display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center', textAlign: 'center', padding: '10px 0' }}>
             <span style={{ width: 56, height: 56, borderRadius: '50%', background: 'var(--okT)', color: 'var(--ok)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}><Icon name="check" size={24} stroke={2.4} /></span>
             <b style={{ fontSize: 18 }}>أُضيف الفيلم وحُلّل</b><span className="num" style={{ direction: 'ltr', color: 'var(--muted)' }}>{ref}</span>
-            <div style={{ display: 'flex', gap: 10, width: '100%' }}><button type="button" className="btn btn-p" style={{ flex: 1 }} onClick={onClose}>تم</button><button type="button" className="btn btn-s" onClick={() => setState('form')}>أضف فيلمًا آخر</button></div>
+            <div style={{ display: 'flex', gap: 10, width: '100%', maxWidth: 420 }}><button type="button" className="btn btn-p" style={{ flex: 1 }} onClick={onClose}>تم</button><button type="button" className="btn btn-s" onClick={() => { setState('form'); setV({ title: '', director: '', email: '', genre: '', duration: '', category: '', synopsis: '', url: '' }); setPath(null); setVideo(null); setFilled([]); }}>أضف فيلمًا آخر</button></div>
           </div>
         )}
       </div>
