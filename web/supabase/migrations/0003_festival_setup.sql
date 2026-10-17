@@ -64,3 +64,25 @@ begin
   return fid;
 end $$;
 grant execute on function public.create_festival_full(jsonb) to authenticated;
+
+-- inviting someone who is already on the festival team never demotes them (owners stay owners)
+create or replace function public.invite_member(p_festival uuid, p_email text, p_role text, p_specialty text)
+returns text language plpgsql security definer set search_path = public as $$
+declare uid uuid; cur text;
+begin
+  if not public.is_staff(p_festival) then raise exception 'not_allowed'; end if;
+  select id into uid from auth.users where lower(email) = lower(trim(p_email));
+  if uid is not null then
+    select role into cur from public.festival_members where festival_id = p_festival and user_id = uid;
+    if cur in ('owner','manager','programmer') then
+      update public.festival_members set specialty = coalesce(p_specialty, specialty) where festival_id = p_festival and user_id = uid;
+      return 'already_member';
+    end if;
+    insert into public.festival_members (festival_id, user_id, role, specialty) values (p_festival, uid, p_role, p_specialty)
+    on conflict (festival_id, user_id) do update set role = excluded.role, specialty = excluded.specialty;
+    return 'added';
+  end if;
+  insert into public.festival_invites (festival_id, email, role, specialty) values (p_festival, lower(trim(p_email)), p_role, p_specialty)
+  on conflict (festival_id, email) do update set role = excluded.role, specialty = excluded.specialty;
+  return 'invited';
+end $$;

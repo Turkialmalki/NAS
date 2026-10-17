@@ -1,7 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { supabaseBrowser } from '@/lib/supabase/client';
 import { LogoMark } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
@@ -51,7 +50,6 @@ function OtpBoxes({ value, onChange, onDone, bad }: { value: string; onChange: (
 }
 
 export function LoginForm({ signup: initialSignup, next, linkError }: { signup: boolean; next: string; linkError: boolean }) {
-  const router = useRouter();
   const [up, setUp] = useState(initialSignup);
   const [step, setStep] = useState<Step>('start');
   const [email, setEmail] = useState('');
@@ -62,6 +60,7 @@ export function LoginForm({ signup: initialSignup, next, linkError }: { signup: 
   const [busy, setBusy] = useState(false);
   const [bad, setBad] = useState(false);
   const [wait, setWait] = useState(0);
+  const [note, setNote] = useState('');
   const [err, setErr] = useState(linkError ? 'انتهت صلاحية الرابط. اطلب رمزًا جديدًا.' : '');
   const sb = supabaseBrowser();
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
@@ -69,6 +68,12 @@ export function LoginForm({ signup: initialSignup, next, linkError }: { signup: 
   const meta = up ? { full_name: name || undefined, festival: festival || undefined } : undefined;
 
   useEffect(() => { if (wait <= 0) return; const t = setTimeout(() => setWait(wait - 1), 1000); return () => clearTimeout(t); }, [wait]);
+  // if the email link is opened in another tab, this tab notices the new session and continues
+  useEffect(() => {
+    if (step !== 'code' && step !== 'phoneCode') return;
+    const t = setInterval(async () => { const { data } = await sb.auth.getSession(); if (data.session) window.location.assign(next); }, 2500);
+    return () => clearInterval(t);
+  }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function oauth(provider: 'google' | 'apple') {
     setErr('');
@@ -82,7 +87,16 @@ export function LoginForm({ signup: initialSignup, next, linkError }: { signup: 
     setBusy(true); setErr('');
     const { error } = await sb.auth.signInWithOtp({ email: em, options: { emailRedirectTo: redirect, shouldCreateUser: true, data: meta } });
     setBusy(false);
-    if (error) { setErr(/rate|seconds/i.test(error.message) ? 'طلبات كثيرة، انتظر دقيقة ثم حاول.' : 'تعذّر الإرسال، حاول مرة أخرى.'); return; }
+    if (error) {
+      if (/rate|seconds|too many/i.test(error.message)) {
+        // a message was already sent recently: go straight to it instead of blocking
+        setEmail(em); setStep('code'); setCode(''); setBad(false); setWait(60);
+        setNote('أرسلنا لك رسالة دخول قبل قليل. افتح آخر رسالة من NAS في بريدك.');
+        return;
+      }
+      setErr('تعذّر الإرسال، حاول مرة أخرى.'); return;
+    }
+    setNote('');
     setEmail(em); setStep('code'); setCode(''); setBad(false); setWait(60);
   }
   async function sendPhone(e?: React.FormEvent) {
@@ -100,7 +114,7 @@ export function LoginForm({ signup: initialSignup, next, linkError }: { signup: 
       ? await sb.auth.verifyOtp({ phone: phone.replace(/\s/g, ''), token, type: 'sms' })
       : await sb.auth.verifyOtp({ email, token, type: 'email' });
     if (res.error) { setBusy(false); setBad(true); setCode(''); setErr('الرمز غير صحيح أو انتهت صلاحيته.'); return; }
-    router.replace(next); router.refresh();
+    window.location.assign(next); // full load so the dashboard opens fresh with the new session
   }
   const back = () => { setStep('start'); setErr(''); setCode(''); setBad(false); };
 
@@ -172,19 +186,21 @@ export function LoginForm({ signup: initialSignup, next, linkError }: { signup: 
             <form onSubmit={(e) => { e.preventDefault(); verify(); }} style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 20, textAlign: 'center' }}>
               <span className="drop-ic" style={{ width: 56, height: 56 }}><Icon name={step === 'code' ? 'mail' : 'phone'} size={24} /></span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <h1 style={{ fontSize: 28 }}>اكتب رمز الدخول</h1>
-                <span style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.8 }}>أرسلنا رمزًا من ٦ أرقام إلى<br />
+                <h1 style={{ fontSize: 28 }}>{step === 'code' ? 'افتح بريدك' : 'اكتب رمز الدخول'}</h1>
+                <span style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.8 }}>{step === 'code' ? 'اضغط زر الدخول في الرسالة، أو اكتب الرمز المكوّن من ٦ أرقام إن ظهر لك. أرسلنا إلى' : 'أرسلنا رمزًا من ٦ أرقام إلى'}<br />
                   <b className="num" style={{ color: 'var(--ink)', direction: 'ltr', display: 'inline-block' }}>{step === 'code' ? email : phone}</b>
                   <button type="button" onClick={back} style={{ background: 'none', border: 0, color: 'var(--accHi)', font: 'inherit', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', marginInlineStart: 8 }}>تغيير</button>
                 </span>
               </div>
+              {note && <span style={{ fontSize: 13.5, color: 'var(--accHi)', background: 'var(--accT)', padding: '10px 14px', borderRadius: 12, lineHeight: 1.7 }}>{note}</span>}
+              {step === 'code' && <span style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: 'var(--faint)' }}><Spinner size={12} />تنتقل تلقائيًا بعد الضغط على الرابط</span>}
               <OtpBoxes value={code} onChange={(v) => { setCode(v); setBad(false); }} onDone={verify} bad={bad} />
               {err && <span className="err">{err}</span>}
               <button className="btn btn-p btn-lg" style={{ width: '100%', height: 54, borderRadius: 14 }} disabled={busy || code.length < LEN}>{busy ? <><Spinner size={16} />نتحقق…</> : 'دخول'}</button>
               <span style={{ fontSize: 13.5, color: 'var(--muted)' }}>
                 {wait > 0 ? <>إعادة الإرسال بعد <b className="num">{wait}</b> ثانية</> : <>ما وصلك؟ <button type="button" onClick={() => (step === 'code' ? sendEmail() : sendPhone())} style={{ background: 'none', border: 0, padding: 0, color: 'var(--accHi)', font: 'inherit', fontWeight: 600, cursor: 'pointer' }}>أعد الإرسال</button></>}
               </span>
-              {step === 'code' && <span style={{ fontSize: 12.5, color: 'var(--faint)', lineHeight: 1.7 }}>تأكد من مجلد الرسائل غير المرغوب فيها. الرمز صالح لمدة ساعة.</span>}
+              {step === 'code' && <span style={{ fontSize: 12.5, color: 'var(--faint)', lineHeight: 1.7 }}>افتح الرابط في نفس المتصفح. تأكد من مجلد الرسائل غير المرغوب فيها.</span>}
             </form>
           )}
         </div>

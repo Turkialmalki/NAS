@@ -4,7 +4,8 @@ import { supabaseServer } from '@/lib/supabase/server';
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const code = url.searchParams.get('code');
-  const next = url.searchParams.get('next') || '/app';
+  const n = url.searchParams.get('next') || '';
+  const next = n.startsWith('/app/') ? n : '/app';
   if (code) {
     const sb = await supabaseServer();
     const { error } = await sb.auth.exchangeCodeForSession(code);
@@ -17,5 +18,5 @@ export async function GET(request: Request) {
     const { error } = await sb.auth.verifyOtp({ token_hash: tokenHash, type: type as 'email' | 'magiclink' | 'signup' });
     if (error) return NextResponse.redirect(new URL('/login?error=link', url.origin));
   }
-  return NextResponse.redirect(new URL(next.startsWith('/') ? next : '/app', url.origin));
+  return NextResponse.redirect(new URL(next, url.origin));
 }

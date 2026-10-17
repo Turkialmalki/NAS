@@ -20,7 +20,15 @@ export async function middleware(request: NextRequest) {
   if (!user && (p.startsWith('/app') || p.startsWith('/review'))) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
-    url.searchParams.set('next', p);
+    url.search = '';
+    // keep deep links into the dashboard; everything else lands on the dashboard home
+    if (p.startsWith('/app/')) url.searchParams.set('next', p + request.nextUrl.search);
+    return NextResponse.redirect(url);
+  }
+  // already signed in: no need to log in again
+  if (user && p === '/login') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/app'; url.search = '';
     return NextResponse.redirect(url);
   }
   return response;

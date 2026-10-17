@@ -78,7 +78,7 @@ export function JuryBoard({ films, people, invites }: { films: FilmRow[]; people
       {inviting && (
         <div className="modal-bg" role="dialog" aria-modal="true" onClick={(e) => e.target === e.currentTarget && setInviting(false)}>
           <form className="card rise" style={{ width: '100%', maxWidth: 440, padding: 28, borderRadius: 24, display: 'flex', flexDirection: 'column', gap: 14 }}
-            action={(fd) => start(async () => { const r = await invite(fd); setMsg(r.ok ? (r.state === 'added' ? 'أُضيف العضو' : 'أُرسلت الدعوة — يدخل ببريده') : r.error || 'تعذّر'); if (r.ok) setInviting(false); router.refresh(); setTimeout(() => setMsg(''), 3000); })}>
+            action={(fd) => start(async () => { const r = await invite(fd); setMsg(r.ok ? (r.state === 'added' ? 'أُضيف العضو' : r.state === 'already_member' ? 'هذا الشخص عضو في فريق المهرجان بالفعل' : 'أُرسلت الدعوة — يدخل ببريده') : r.error || 'تعذّر'); if (r.ok) setInviting(false); router.refresh(); setTimeout(() => setMsg(''), 3000); })}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><h2 style={{ fontSize: 22 }}>ادعُ عضوًا</h2><button type="button" className="ibtn" onClick={() => setInviting(false)} aria-label="إغلاق"><Icon name="x" /></button></div>
             <label className="lbl">البريد الإلكتروني<input name="email" className="fld" dir="ltr" type="email" required /></label>
             <label className="lbl">الدور<select name="role" className="fld"><option value="reviewer">محكّم</option><option value="programmer">مبرمج</option><option value="manager">مدير</option></select></label>

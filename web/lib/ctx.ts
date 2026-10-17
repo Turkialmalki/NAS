@@ -33,7 +33,7 @@ export const getCtx = cache(async () => {
   const memberships = ((mems || []) as unknown as Membership[]).filter((m) => m.festival).sort((a, b) => (a.festival.name > b.festival.name ? 1 : -1));
   const store = await cookies();
   const wanted = store.get('nas_fid')?.value;
-  const current = memberships.find((m) => m.festival.id === wanted) || memberships.find((m) => m.role !== 'reviewer') || memberships[0] || null;
+  const current = memberships.find((m) => m.festival.id === wanted && m.role !== 'reviewer') || memberships.find((m) => m.role !== 'reviewer') || memberships.find((m) => m.festival.id === wanted) || memberships[0] || null;
   const name = profile?.full_name || (user.user_metadata?.full_name as string) || user.email?.split('@')[0] || '';
   return { sb, user, profile, isAdmin: !!profile?.is_admin, memberships, current, name };
 });
