@@ -54,6 +54,15 @@ export function LoginForm({ signup: initialSignup, next, linkError }: { signup: 
   const [bad, setBad] = useState(false);
   const [wait, setWait] = useState(0);
   const [note, setNote] = useState('');
+  // show only the sign-in methods that are switched on in Supabase
+  const [alts, setAlts] = useState<('google' | 'apple' | 'phone')[]>([]);
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/settings`, { headers: { apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY! } })
+      .then((r) => r.json()).then((j: { external?: Record<string, boolean> }) => {
+        const e = j.external || {};
+        setAlts([e.google && 'google', e.apple && 'apple', e.phone && 'phone'].filter(Boolean) as ('google' | 'apple' | 'phone')[]);
+      }).catch(() => {});
+  }, []);
   const [err, setErr] = useState(linkError ? 'انتهت صلاحية الرابط. اطلب رمزًا جديدًا.' : '');
   const sb = supabaseBrowser();
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
@@ -146,15 +155,14 @@ export function LoginForm({ signup: initialSignup, next, linkError }: { signup: 
               </form>
               {err && <span className="err" style={{ textAlign: 'center' }}>{err}</span>}
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'var(--faint)', fontSize: 13 }}><span style={{ flex: 1, height: 1, background: 'var(--line)' }} />أو<span style={{ flex: 1, height: 1, background: 'var(--line)' }} /></div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                <button type="button" className="alt-btn" onClick={() => oauth('google')}><GoogleG />المتابعة عبر Google</button>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                  <button type="button" className="alt-btn" onClick={() => oauth('apple')}><AppleA />Apple</button>
-                  <button type="button" className="alt-btn" onClick={() => { setErr(''); setStep('phone'); }}><Icon name="phone" size={16} stroke={2} />رقم الجوال</button>
+              {alts.length > 0 && <>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'var(--faint)', fontSize: 13 }}><span style={{ flex: 1, height: 1, background: 'var(--line)' }} />أو<span style={{ flex: 1, height: 1, background: 'var(--line)' }} /></div>
+                <div style={{ display: 'grid', gridTemplateColumns: alts.length === 1 ? '1fr' : '1fr 1fr', gap: 10 }}>
+                  {alts.includes('google') && <button type="button" className="alt-btn" style={{ gridColumn: alts.length === 3 ? '1 / -1' : undefined }} onClick={() => oauth('google')}><GoogleG />المتابعة عبر Google</button>}
+                  {alts.includes('apple') && <button type="button" className="alt-btn" onClick={() => oauth('apple')}><AppleA />{alts.length === 1 ? 'المتابعة عبر Apple' : 'Apple'}</button>}
+                  {alts.includes('phone') && <button type="button" className="alt-btn" onClick={() => { setErr(''); setStep('phone'); }}><Icon name="phone" size={16} stroke={2} />رقم الجوال</button>}
                 </div>
-              </div>
+              </>}
 
               <span style={{ fontSize: 13.5, color: 'var(--muted)', textAlign: 'center' }}>
                 {up ? 'عندك حساب؟ ' : 'جديد في NAS؟ '}
