@@ -123,3 +123,9 @@ input,textarea,select{font-family:inherit}
 .pulse{animation:pulse 1.8s ease-in-out infinite}
 .filled{animation:filled 1.6s ease-out}
 @keyframes filled{0%{box-shadow:0 0 0 0 rgba(201,168,76,.7);border-color:var(--acc)}100%{box-shadow:0 0 0 8px rgba(201,168,76,0)}}
+.otp-cell{width:52px;height:64px;border-radius:14px;background:var(--bg2);border:1px solid var(--line2);color:var(--ink);font-family:var(--font-num),sans-serif;font-size:26px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;transition:border-color .2s,box-shadow .2s}
+.otp-cell[data-f]{border-color:var(--accL)}
+.otp:focus-within .otp-cell[data-cur]{border-color:var(--acc);box-shadow:0 0 0 4px var(--accT)}
+.otp[data-bad] .otp-cell{border-color:var(--no);animation:shake .35s}
+@media (max-width:420px){.otp-cell{width:40px;height:54px;font-size:21px}}
+.otp{width:100%}.otp .otp-cell{flex:1 1 0;min-width:0;max-width:52px}
