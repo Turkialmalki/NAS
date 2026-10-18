@@ -3,25 +3,10 @@ import Link from 'next/link';
 import { Logo, LogoMark } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
 import { LangToggle } from './Lang';
+import { SiteNav } from './SiteNav';
 
-const NAV: [string, string][] = [['/#features', 'المنصة'], ['/#insight', 'NAS Vision'], ['/festivals', 'المهرجانات'], ['/#how', 'كيف تعمل']];
-
-export async function SiteHeader() {
-  const t = await getT();
-  return (
-    <header className="hdr">
-      <div className="wrap nav">
-        <div style={{ justifySelf: 'start' }}><Logo /></div>
-        <nav className="nl" aria-label={t('القائمة الرئيسية')}>{NAV.map(([h, l]) => <Link key={h} href={h}>{t(l)}</Link>)}</nav>
-        <div style={{ justifySelf: 'end', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <LangToggle />
-          <ThemeToggle />
-          <Link href="/login" className="hs" style={{ fontSize: 14.5, color: 'var(--ink2)', padding: '0 12px' }}>{t('دخول')}</Link>
-          <Link href="/login?mode=signup" className="btn btn-p btn-sm">{t('ابدأ مع NAS')}</Link>
-        </div>
-      </div>
-    </header>
-  );
+export function SiteHeader() {
+  return <SiteNav />;
 }
 
 export function MiniHeader({ right }: { right?: React.ReactNode }) {
@@ -35,7 +20,7 @@ export function MiniHeader({ right }: { right?: React.ReactNode }) {
 }
 
 const COLS: [string, [string, string][]][] = [
-  ['المنصة', [['المزايا', '/#features'], ['NAS Vision', '/#insight'], ['كيف تعمل', '/#how'], ['من نحن', '/#about']]],
+  ['المنصة', [['المزايا', '/features'], ['المهرجانات', '/festivals'], ['الأسعار', '/pricing'], ['من نحن', '/#about']]],
   ['صنّاع الأفلام', [['اكتشف المهرجانات', '/festivals'], ['قدّم فيلمك', '/apply'], ['تابع مشاركتك', '/status']]],
   ['الحساب', [['دخول', '/login'], ['حساب جديد', '/login?mode=signup']]],
   ['قانوني', [['سياسة الخصوصية', '/privacy'], ['الشروط والأحكام', '/terms']]],

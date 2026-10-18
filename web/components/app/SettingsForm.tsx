@@ -67,7 +67,7 @@ export function SettingsForm({ festival: f, categories, criteria, site }: { fest
             <form key={c.id} className="row" style={{ gap: 10, flexWrap: 'wrap' }} action={(fd) => start(async () => flash(await saveCategory(fd)))}>
               <input type="hidden" name="id" value={c.id} />
               <input name="name" className="fld" defaultValue={c.name} style={{ flex: '1 1 160px', height: 42 }} aria-label={t('اسم القسم')} />
-              <input name="description" className="fld" defaultValue={c.description || ''} style={{ flex: '2 1 200px', height: 42 }} aria-label={t('الوصف')} placeholder={t('مثلًا: أقل من ٤٠ دقيقة')} />
+              <input name="description" className="fld" defaultValue={c.description || ''} style={{ flex: '2 1 200px', height: 42 }} aria-label={t('الوصف')} placeholder={t('مثلًا: أقل من 40 دقيقة')} />
               <input name="fee" className="fld" defaultValue={c.fee || ''} style={{ flex: '0 1 110px', height: 42 }} aria-label={t('الرسوم')} placeholder={t('الرسوم')} />
               <button className="btn btn-q btn-sm" disabled={pending}>{t('احفظ')}</button>
               <button type="button" className="ibtn" aria-label={t('حذف')} onClick={() => confirm(t('حذف قسم «{name}»؟', { name: c.name })) && start(async () => flash(await deleteCategory(c.id), t('حُذف القسم')))}><Icon name="trash" size={15} /></button>
@@ -78,18 +78,18 @@ export function SettingsForm({ festival: f, categories, criteria, site }: { fest
             <input name="description" className="fld" placeholder={t('الوصف')} style={{ height: 42, flex: 1 }} />
             <button className="btn btn-q btn-sm"><Icon name="plus" size={15} />{t('أضف')}</button>
           </form>
-          <p className="hint" style={{ marginTop: 12 }}>{t('اكتب المدة في الوصف (مثل «أقل من ٤٠ دقيقة») ليستخدمها NAS في فحص الجاهزية واقتراح القسم.')}</p>
+          <p className="hint" style={{ marginTop: 12 }}>{t('اكتب المدة في الوصف (مثل «أقل من 40 دقيقة») ليستخدمها NAS في فحص الجاهزية واقتراح القسم.')}</p>
         </div>
       )}
 
       {tab === 2 && (
         <div className="card" style={{ padding: 24, maxWidth: 820, display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <span style={{ fontSize: 14, color: 'var(--muted)' }}>{t('المعايير التي يقيّم عليها المحكّمون (من ١ إلى ٥)، ووزن كل معيار في التقييم النهائي.')}</span>
+          <span style={{ fontSize: 14, color: 'var(--muted)' }}>{t('المعايير التي يقيّم عليها المحكّمون (من 1 إلى 5)، ووزن كل معيار في التقييم النهائي.')}</span>
           {crit.map((c, i) => (
             <div key={c.id || i} style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 140px 50px 36px', alignItems: 'center', gap: 12 }}>
               <input className="fld" value={c.name} onChange={(e) => setCrit(crit.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))} style={{ height: 42 }} aria-label={t('المعيار')} />
               <input type="range" min={5} max={60} step={5} value={c.weight} onChange={(e) => setCrit(crit.map((x, j) => (j === i ? { ...x, weight: +e.target.value } : x)))} aria-label={t('الوزن')} style={{ accentColor: 'var(--acc)' }} />
-              <b className="num" style={{ textAlign: 'end' }}>{t.n(wsum ? Math.round((c.weight / wsum) * 100) : 0)}{t('٪')}</b>
+              <b className="num" style={{ textAlign: 'end' }}>{t.n(wsum ? Math.round((c.weight / wsum) * 100) : 0)}{t('%')}</b>
               <button type="button" className="ibtn" aria-label={t('حذف')} onClick={() => setCrit(crit.filter((_, j) => j !== i))}><Icon name="x" size={14} /></button>
             </div>
           ))}

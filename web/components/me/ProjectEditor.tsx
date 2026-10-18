@@ -38,6 +38,7 @@ export function ProjectEditor({ userId, project, video, festivals = [], subs = [
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState('');
   const [submit, setSubmit] = useState(false);
+  const [started, setStarted] = useState(!!project); // a new film starts with the upload; details follow
   const set = (k: keyof P) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setP((x) => ({ ...x, [k]: e.target.value }));
   const tag = (k: string) => (filled.includes(k) ? <span className="chip c-acc" style={{ height: 20, fontSize: 11, padding: '0 7px' }}>✦ {t('من الفيلم')}</span> : null);
   const cls = (k: string) => `fld${filled.includes(k) ? ' filled' : ''}`;
@@ -67,7 +68,7 @@ export function ProjectEditor({ userId, project, video, festivals = [], subs = [
     if (p.title.trim().length < 2) e.title = t('اكتب عنوان الفيلم.');
     if (p.director.trim().length < 2) e.director = t('اكتب اسم المخرج.');
     const d = Number(p.duration_min);
-    if (p.duration_min && !(Number.isInteger(d) && d >= 1 && d <= 600)) e.duration_min = t('المدة رقم بين ١ و٦٠٠ دقيقة.');
+    if (p.duration_min && !(Number.isInteger(d) && d >= 1 && d <= 600)) e.duration_min = t('المدة رقم بين 1 و600 دقيقة.');
     const y = Number(p.year);
     if (p.year && !(y >= 1900 && y <= new Date().getFullYear() + 1)) e.year = t('سنة غير صحيحة.');
     if (useLink && p.screener_url && !/^https?:\/\/\S+\.\S{2,}/i.test(p.screener_url)) e.screener_url = t('الرابط غير صحيح. يبدأ بـ https://');
@@ -101,7 +102,7 @@ export function ProjectEditor({ userId, project, video, festivals = [], subs = [
       <div className="card" style={{ padding: 24, borderRadius: 24, display: 'flex', flexDirection: 'column', gap: 14, ...(fe.media ? { borderColor: 'var(--no)' } : {}) }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
           <b style={{ fontSize: 17 }}>{t('نسخة المشاهدة')}</b>
-          <div className="seg" role="group"><button type="button" className={!useLink ? 'on' : ''} onClick={() => setUseLink(false)}>✦ {t('رفع الفيلم')}</button><button type="button" className={useLink ? 'on' : ''} onClick={() => setUseLink(true)}>{t('رابط مشاهدة')}</button></div>
+          <div className="seg" role="group"><button type="button" className={!useLink ? 'on' : ''} onClick={() => setUseLink(false)}>✦ {t('رفع الفيلم')}</button><button type="button" className={useLink ? 'on' : ''} onClick={() => { setUseLink(true); setStarted(true); }}>{t('رابط مشاهدة')}</button></div>
         </div>
         {useLink ? (
           <label className="lbl"><input className="fld" dir="ltr" value={p.screener_url || ''} onChange={set('screener_url')} placeholder="https://vimeo.com/…" style={bad('screener_url')} /><E k="screener_url" /></label>
@@ -113,13 +114,15 @@ export function ProjectEditor({ userId, project, video, festivals = [], subs = [
           </div>
         ) : (
           <VideoIntake folder={`projects/${userId}`} festivalId="" ctx={() => ({ title: p.title, synopsis: p.synopsis, genre: p.genre })}
-            onUploaded={(path) => setP((x) => ({ ...x, screener_path: path }))} onReport={onReport}
-            onDuration={(m) => { setP((x) => ({ ...x, duration_min: String(m) })); setFilled((x) => [...new Set([...x, 'duration_min'])]); }}
+            onUploaded={(path) => { setStarted(true); setP((x) => ({ ...x, screener_path: path })); }} onReport={(r, sig) => { setStarted(true); onReport(r, sig); }}
+            onDuration={(m) => { setStarted(true); setP((x) => ({ ...x, duration_min: String(m) })); setFilled((x) => [...new Set([...x, 'duration_min'])]); }}
             onUseSynopsis={(s) => setP((x) => ({ ...x, synopsis: s }))} />
         )}
         <E k="media" />
       </div>
 
+      {!started && <button type="button" className="nf-more" onClick={() => setStarted(true)}>{t('أضف البيانات يدويًا بدون ملف الآن')}</button>}
+      {started && <>
       {filled.length > 0 && <div className="rise" style={{ padding: '12px 16px', borderRadius: 14, background: 'var(--accT)', border: '1px solid var(--accL)', fontSize: 14 }}>✦ {t('عبّأ NAS Vision {n} حقول من الفيلم. راجعها ثم احفظ.', { n: filled.length })}</div>}
 
       <div className="card" style={{ padding: 24, borderRadius: 24, display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -143,6 +146,8 @@ export function ProjectEditor({ userId, project, video, festivals = [], subs = [
           <button type="button" className="btn btn-p btn-lg" disabled={busy} onClick={save} style={{ minWidth: 200 }}>{busy ? <Spinner size={16} /> : project ? t('احفظ التغييرات') : t('احفظ الفيلم')}</button>
         </div>
       </div>
+
+      </>}
 
       {project && c.missing.length > 0 && (
         <div className="card" style={{ padding: 18, borderRadius: 20, display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>

@@ -9,7 +9,8 @@ type Asg = { submission_id: string; reviewer_id: string; status: string; due_at:
 
 const DAY = 86400000;
 
-export default async function Command() {
+export default async function Command({ searchParams }: { searchParams: Promise<{ created?: string }> }) {
+  const justCreated = (await searchParams).created === '1';
   const t = await getT();
   const { sb, festival, name } = await requireStaff();
   const [{ data: s0 }, { data: a0 }, { data: r0 }, { data: m0 }, { data: cats }, { data: crit }, { data: logs }, { count: screenings }] = await Promise.all([
@@ -48,7 +49,7 @@ export default async function Command() {
 
   // ---- setup checklist (only until the festival is ready)
   const setup = [
-    { ok: !!(festival.description && festival.submissions_close), l: t('أكمل بيانات المهرجان والمواعيد'), h: '/app/settings' },
+    { ok: (festival.description || '').trim().length >= 30 && !!festival.submissions_close, l: t('اكتب نبذة وحدّد موعد الإغلاق ليظهر مهرجانك في الدليل'), h: '/app/settings' },
     { ok: (cats || []).length > 0, l: t('أضف أقسام المسابقة'), h: '/app/settings' },
     { ok: (crit || []).length > 0, l: t('حدّد معايير التقييم'), h: '/app/settings' },
     { ok: jury.length > 0, l: t('ادعُ لجنة التحكيم'), h: '/app/jury?invite=1' },
@@ -70,9 +71,9 @@ export default async function Command() {
   if (subs.length) {
     brief.push(week > prev ? t('وصلتك {n} مشاركة هذا الأسبوع، أكثر من الأسبوع الماضي.', { n: week }) : week ? t('وصلتك {n} مشاركة هذا الأسبوع.', { n: week }) : t('لم تصل مشاركات جديدة هذا الأسبوع.'));
     const g = topOf(subs.map((s) => s.genre).filter(Boolean) as string[]);
-    if (g) brief.push(t('أكثر الأنواع حضورًا: {g} بنسبة {p}٪.', { g: t(g[0]), p: Math.round((g[1] / subs.length) * 100) }));
-    if (avg != null) brief.push(t('متوسط تقييم NAS Vision للأفلام {s} من ١٠.', { s: t.n(avg.toFixed(1)) }));
-    if (asg.length) brief.push(t('أنجزت اللجنة {p}٪ من التقييمات.', { p: Math.round((juryDone / asg.length) * 100) }));
+    if (g) brief.push(t('أكثر الأنواع حضورًا: {g} بنسبة {p}%.', { g: t(g[0]), p: Math.round((g[1] / subs.length) * 100) }));
+    if (avg != null) brief.push(t('متوسط تقييم NAS Vision للأفلام {s} من 10.', { s: t.n(avg.toFixed(1)) }));
+    if (asg.length) brief.push(t('أنجزت اللجنة {p}% من التقييمات.', { p: Math.round((juryDone / asg.length) * 100) }));
     if (left != null && left >= 0 && festival.status === 'open') brief.push(left <= 7 ? t('يغلق التقديم بعد {n} أيام، والعادة أن تصل أغلب المشاركات في الأيام الأخيرة.', { n: left }) : t('باقي {n} يومًا على إغلاق التقديم.', { n: left }));
   }
 
@@ -107,6 +108,12 @@ export default async function Command() {
         </div>
       </section>
 
+      {justCreated && (
+        <div className="card rise" style={{ padding: '16px 20px', display: 'flex', gap: 12, alignItems: 'center', borderColor: 'rgba(95,212,154,.35)', background: 'var(--okT)' }}>
+          <span style={{ color: 'var(--ok)', display: 'inline-flex' }}><Icon name="check" size={18} stroke={2.6} /></span>
+          <span style={{ fontSize: 14.5 }}><b>{t('أُنشئ مهرجانك.')}</b> {t('أكمل الخطوات أدناه، ثم انشر صفحة التقديم.')}</span>
+        </div>
+      )}
       {setupDone < setup.length && (
         <div className="card setup">
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>

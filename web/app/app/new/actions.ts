@@ -12,7 +12,7 @@ export type NewFestival = {
 
 export async function createFestivalFull(p: NewFestival): Promise<{ ok: boolean; error?: string; slug?: string }> {
   if (!(await sessionUser())) return { ok: false, error: 'سجّل الدخول أولًا.' };
-  if (!p.name?.trim() || p.name.trim().length < 3) return { ok: false, error: 'اكتب اسم المهرجان (٣ أحرف على الأقل).' };
+  if (!p.name?.trim() || p.name.trim().length < 3) return { ok: false, error: 'اكتب اسم المهرجان (3 أحرف على الأقل).' };
   const sb = await supabaseServer();
   const { data, error } = await sb.rpc('create_festival_full', { p });
   if (error) return { ok: false, error: /date/i.test(error.message) ? 'تحقق من التواريخ.' : 'تعذّر إنشاء المهرجان. حاول مرة أخرى.' };

@@ -1,6 +1,5 @@
-const AR = '٠١٢٣٤٥٦٧٨٩';
 export const ar = (v: string | number | null | undefined) =>
-  v == null ? '—' : String(v).replace(/\d/g, (d) => AR[+d]).replace(/\./g, '٫');
+  v == null ? '—' : String(v);
 
 const MONTHS = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
 export const date = (d?: string | null) => {

@@ -60,7 +60,7 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
     if (!/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v.email.trim())) e.email = 'البريد الإلكتروني غير صحيح.';
     const d = Number(String(v.duration).replace(/[٠-٩]/g, (x) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(x))));
     if (!v.duration) e.duration = 'اكتب مدة الفيلم بالدقائق.';
-    else if (!Number.isInteger(d) || d < 1 || d > 600) e.duration = 'المدة رقم بين ١ و٦٠٠ دقيقة.';
+    else if (!Number.isInteger(d) || d < 1 || d > 600) e.duration = 'المدة رقم بين 1 و600 دقيقة.';
     if (!v.genre) e.genre = 'اختر نوع الفيلم.';
     if (v.synopsis.trim().length < 20) e.synopsis = 'اكتب ملخصًا من سطر أو سطرين على الأقل.';
     if (!(cat || suggested)) e.category = 'اختر القسم.';
@@ -205,7 +205,7 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
           <label className="lbl" data-f="title">{lbl('title', t('عنوان الفيلم'))}<input {...fx('title')} value={f.title} onChange={set('title')} placeholder={t('اكتب العنوان')} maxLength={120} /><Er k="title" /></label>
           <label className="lbl" data-f="director">{lbl('director', t('اسم المخرج'))}<input {...fx('director')} value={f.director} onChange={set('director')} placeholder={t('الاسم الكامل')} autoComplete="name" maxLength={120} /><Er k="director" /></label>
           <label className="lbl" data-f="email">{lbl('email', t('البريد الإلكتروني'))}<input {...fx('email')} dir="ltr" type="email" inputMode="email" autoComplete="email" value={f.email} onChange={set('email')} placeholder="name@example.com" /><Er k="email" /><span className="hint">{t('نرسل عليه رقمك المرجعي والقرار.')}</span></label>
-          <label className="lbl" data-f="duration">{lbl('duration', t('المدة بالدقائق'))}<input {...fx('duration')} inputMode="numeric" value={f.duration} onChange={(e) => { const v = e.target.value.replace(/[^\d٠-٩]/g, '').slice(0, 3); setF((p) => ({ ...p, duration: v })); setSuggested(suggestCategory(categories, f.genre, Number(v.replace(/[٠-٩]/g, (x) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(x)))) || null)); }} placeholder={t('مثلًا ٨٥')} style={{ ...(fx('duration').style || {}), fontFamily: 'var(--font-sans)' }} /><Er k="duration" /></label>
+          <label className="lbl" data-f="duration">{lbl('duration', t('المدة بالدقائق'))}<input {...fx('duration')} inputMode="numeric" value={f.duration} onChange={(e) => { const v = e.target.value.replace(/[^\d٠-٩]/g, '').slice(0, 3); setF((p) => ({ ...p, duration: v })); setSuggested(suggestCategory(categories, f.genre, Number(v.replace(/[٠-٩]/g, (x) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(x)))) || null)); }} placeholder={t('مثلًا 85')} style={{ ...(fx('duration').style || {}), fontFamily: 'var(--font-sans)' }} /><Er k="duration" /></label>
           <label className="lbl" data-f="genre">{lbl('genre', t('النوع'))}<select {...fx('genre')} value={f.genre} onChange={set('genre')}><option value="">{t('اختر')}</option>{GENRES.map((g) => <option key={g} value={g}>{t(g)}</option>)}</select><Er k="genre" /></label>
           <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('لغة الفيلم')}{tagF('language')}</span><select {...fx('language')} value={f.language} onChange={set('language')}>{LANGS.map((g) => <option key={g} value={g}>{t(g)}</option>)}</select></label>
         </div>
@@ -216,7 +216,7 @@ export function ApplyForm({ festivalId, categories, rules, resultsOn }: { festiv
             </button>
           </span>
           <textarea id="synopsis" {...fx('synopsis')} value={f.synopsis} onChange={set('synopsis')} maxLength={2000} placeholder={t('اكتب قصة فيلمك في سطرين إلى خمسة أسطر.')} />
-          <span style={{ display: 'flex', justifyContent: 'space-between' }}><Er k="synopsis" /><span className="hint num" style={{ marginInlineStart: 'auto' }}>{t.n(f.synopsis.length)}{t('/٢٠٠٠')}</span></span>
+          <span style={{ display: 'flex', justifyContent: 'space-between' }}><Er k="synopsis" /><span className="hint num" style={{ marginInlineStart: 'auto' }}>{t.n(f.synopsis.length)}{t('/2000')}</span></span>
         </label>
         <div className="lbl" data-f="category">{lbl('category', t('القسم'))}
           <div className="g2" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 8 }}>

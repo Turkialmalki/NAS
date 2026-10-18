@@ -110,7 +110,7 @@ export function ReviewDesk({ name, films, criteria, isStaff }: { name: string; f
                     ))}
                     <label className="lbl">{t('ملاحظاتك')}<textarea className="fld" value={notes} onChange={(e) => setNotes(e.target.value)} placeholder={t('اختياري: ما الذي لفت انتباهك في الفيلم؟')} style={{ height: 90 }} /></label>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 14, borderTop: '1px solid var(--line)' }}>
-                      <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}><span style={{ fontSize: 13, color: 'var(--muted)' }}>{t('تقييمك')}</span><b className="num" style={{ fontSize: 26, color: 'var(--accHi)' }}>{filled ? t('{v0} / ١٠', { v0: t.n(total.toFixed(1)) }) : '—'}</b></span>
+                      <span style={{ display: 'flex', flexDirection: 'column', gap: 2 }}><span style={{ fontSize: 13, color: 'var(--muted)' }}>{t('تقييمك')}</span><b className="num" style={{ fontSize: 26, color: 'var(--accHi)' }}>{filled ? t('{v0} / 10', { v0: t.n(total.toFixed(1)) }) : '—'}</b></span>
                       <button type="button" className="btn btn-p btn-lg" disabled={!filled || pending} style={!filled ? { opacity: 0.45 } : undefined}
                         onClick={() => start(async () => { const r = await submitReview(f.id, sc, total, notes); setMsg(r.ok ? t('وصل تقييمك ✓') : t('تعذّر الإرسال')); router.refresh(); setTimeout(() => setMsg(''), 2500);
                           const nxt = films.find((x) => !x.review && x.id !== f.id); if (r.ok && nxt) setCi(nxt.id); })}>

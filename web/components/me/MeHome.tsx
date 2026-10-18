@@ -104,7 +104,7 @@ export function MeHome({ name, films, subs, festivals, recs }: { name: string; f
                       <b style={{ fontSize: 16 }}>{r.festival.name}</b>
                       <span style={{ fontSize: 12.5, color: 'var(--muted)' }}>{[r.festival.city, days != null ? t('يغلق بعد {n} يومًا', { n: Math.max(0, days) }) : t('التقديم مفتوح')].filter(Boolean).join(' · ')}</span>
                     </span>
-                    <span className="match num">{t('{n}٪ تطابق', { n: r.pct })}</span>
+                    <span className="match num">{t('{n}% تطابق', { n: r.pct })}</span>
                   </div>
                   <span style={{ fontSize: 13.5, color: 'var(--ink2)' }}>{t('لفيلم «{f}»', { f: r.film.title })}{r.categoryName ? ` · ${r.categoryName}` : ''}</span>
                   <span style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>{r.reasons.map((x) => <span key={x.k} style={{ fontSize: 12.5, color: 'var(--muted)' }}>• {t(x.k, x.v)}</span>)}</span>

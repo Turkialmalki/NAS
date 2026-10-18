@@ -34,10 +34,10 @@ export function AppShell({ children, name, isAdmin, role, festivals, currentId, 
     window.addEventListener('keydown', k); return () => window.removeEventListener('keydown', k);
   }, []);
   const here = going || path;
-  const mode: Mode = here.startsWith('/app/me') || here.startsWith('/app/welcome') || (!festivals.length && accountType === 'filmmaker') ? 'filmmaker' : 'festival';
+  const mode: Mode = here.startsWith('/app/me') || (!festivals.length && accountType === 'filmmaker') ? 'filmmaker' : 'festival';
   const cur = festivals.find((f) => f.id === currentId);
   const nav = mode === 'filmmaker' ? FILMMAKER_NAV : role && role !== 'reviewer' ? FESTIVAL_NAV : [];
-  const all: [string, string, string][] = [...nav, ['/app/admin', 'shield', 'إدارة المنصة'], ['/app/new', 'plus', 'مهرجان جديد'], ['/app/welcome', 'spark', 'أهلًا بك']];
+  const all: [string, string, string][] = [...nav, ['/app/admin', 'shield', 'إدارة المنصة'], ['/app/new', 'plus', 'مهرجان جديد']];
   const title = all.filter(([h]) => (h === '/app' || h === '/app/me' ? here === h : here.startsWith(h))).sort((a, b) => b[0].length - a[0].length)[0]?.[2] || '';
   const ST: Record<string, [string, string]> = { open: [t('التقديم مفتوح'), 'var(--ok)'], draft: [t('مسودة'), 'var(--faint)'], closed: [t('التقديم مغلق'), 'var(--info)'] };
 
@@ -77,10 +77,14 @@ export function AppShell({ children, name, isAdmin, role, festivals, currentId, 
           </div>
         )}
 
+        {(mode === 'filmmaker' || festivals.length > 0) && (
+          <Link href={mode === 'filmmaker' ? '/app/me/films/new' : '/app/films?add=1'} className="btn btn-p side-add" onClick={() => setMenu(false)}>
+            <Icon name="plus" size={16} stroke={2.4} />{t('أضف فيلمًا')}
+          </Link>
+        )}
         <nav style={{ display: 'flex', flexDirection: 'column', gap: 2 }} aria-label={t('القائمة')}>{nav.map(([h, i, l]) => link(h, i, l))}</nav>
 
-        <span className="side-h">{t('مساحات العمل')}</span>
-        {mode === 'festival' ? link('/app/me', 'film', 'مساحتي كصانع أفلام') : festivals.length ? link('/app', 'grid', 'مساحة المهرجان') : link('/app/new', 'plus', 'أنشئ مهرجانك')}
+        {(hasReview || isAdmin) && <span className="side-h">{t('المزيد')}</span>}
         {hasReview && link('/review', 'play', 'أفلامي للتحكيم')}
         {isAdmin && link('/app/admin', 'shield', 'إدارة المنصة')}
 
@@ -90,6 +94,7 @@ export function AppShell({ children, name, isAdmin, role, festivals, currentId, 
             <b style={{ fontSize: 14, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{name}</b>
             <span style={{ fontSize: 12, color: 'var(--faint)' }}>{t(mode === 'filmmaker' ? 'صانع أفلام' : isAdmin ? 'مشرف المنصة' : role === 'owner' ? 'مالك المهرجان' : role === 'reviewer' ? 'محكّم' : 'فريق المهرجان')}</span>
           </span>
+          <Link href="/welcome?change=1" className="ibtn" aria-label={t('تغيير الدور')} title={t('تغيير الدور')}><Icon name="gear" size={16} /></Link>
           <form action="/auth/signout" method="post"><button className="ibtn" aria-label={t('تسجيل الخروج')}><Icon name="out" size={16} /></button></form>
         </div>
       </aside>

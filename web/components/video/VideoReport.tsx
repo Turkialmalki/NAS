@@ -155,7 +155,7 @@ export function VideoReport({ r, compact = false, onUseSynopsis }: { r: VideoAna
             <b style={{ fontSize: 14 }}>{t('القسم الأنسب')}</b>
             {r.fit.map((x) => (
               <div key={x.category} style={{ display: 'grid', gridTemplateColumns: '96px minmax(0,1fr) 40px', gap: 8, alignItems: 'center', fontSize: 13 }}>
-                <span style={{ color: 'var(--ink2)' }}>{x.category}</span><span className="bar"><span style={{ width: `${x.pct}%` }} /></span><b className="num" style={{ textAlign: 'end' }}>{t.n(x.pct)}{t('٪')}</b>
+                <span style={{ color: 'var(--ink2)' }}>{x.category}</span><span className="bar"><span style={{ width: `${x.pct}%` }} /></span><b className="num" style={{ textAlign: 'end' }}>{t.n(x.pct)}{t('%')}</b>
               </div>
             ))}
           </div>

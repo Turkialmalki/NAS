@@ -12,8 +12,13 @@ import { SubmitDialog } from './SubmitDialog';
 
 type Fest = RecFestival & { description: string | null; results_on: string | null; starts_on: string | null; films: number };
 const EXAMPLES = ['مهرجانات أفلام قصيرة في السعودية', 'مهرجانات مجانية يغلق التقديم فيها هذا الشهر', 'مهرجانات للوثائقي'];
+const QUICK: [string, FestFilters][] = [['الكل', {}], ['يغلق قريبًا', { closingDays: 14 }], ['مجاني', { free: true }], ['أفلام قصيرة', { type: 'قصير' }], ['وثائقي', { type: 'وثائق' }], ['في السعودية', { country: 'السعودية' }]];
+const same = (a: FestFilters, b: FestFilters) => JSON.stringify(a) === JSON.stringify(b);
+const daysTo = (d: string | null) => (d ? Math.ceil((new Date(d).getTime() - Date.now()) / 86400000) : null);
+// a stable warm hue per festival so every cover looks different
+const hue = (s: string) => [...s].reduce((a, c) => (a * 31 + c.charCodeAt(0)) % 360, 7);
 
-export function FestivalDiscovery({ festivals, films = [], initialAi = '', signedIn }: { festivals: Fest[]; films?: MyFilm[]; initialAi?: string; signedIn: boolean }) {
+export function FestivalDiscovery({ festivals, films = [], initialAi = '', signedIn, variant = 'app' }: { festivals: Fest[]; films?: MyFilm[]; initialAi?: string; signedIn: boolean; variant?: 'app' | 'public' }) {
   const t = useT();
   const [ff, setFf] = useState<FestFilters>(() => (initialAi ? parseFestQuery(initialAi).f : {}));
   const [busy, setBusy] = useState(false);
@@ -31,48 +36,100 @@ export function FestivalDiscovery({ festivals, films = [], initialAi = '', signe
     for (const m of films) { const b = bestCategory({ id: m.id, title: m.title, genre: m.genre, duration_min: m.duration_min }, f); if (!best || b.pct > best.pct) best = { pct: b.pct, film: m.title, cat: b.name }; }
     return best;
   };
+  const filtering = Object.keys(ff).length > 0;
+  const [first, ...rest] = list;
+  const showFeatured = !filtering && list.length >= 3;
+
+  const Cta = ({ f, big = false }: { f: Fest; big?: boolean }) => (
+    <span style={{ display: 'flex', gap: 8, marginTop: 'auto', paddingTop: 6 }}>
+      {signedIn
+        ? <button type="button" className={`btn btn-p ${big ? '' : 'btn-sm'}`} style={{ flex: big ? undefined : 1 }} onClick={() => setSubmit(f.id)}>{t('قدّم فيلمك')}</button>
+        : <Link href="/login?mode=signup&role=filmmaker" className={`btn btn-p ${big ? '' : 'btn-sm'}`} style={{ flex: big ? undefined : 1 }}>{t('قدّم فيلمك')}</Link>}
+      <Link href={`/f/${f.slug}`} className={`btn btn-s ${big ? '' : 'btn-sm'}`}>{t('التفاصيل')}</Link>
+    </span>
+  );
+  const Meta = ({ f }: { f: Fest }) => (
+    <span className="fd-meta">
+      {(f.city || f.country) && <span><Icon name="globe" size={13} />{[f.city, f.country && t(f.country)].filter(Boolean).join(t('، '))}</span>}
+      <span><Icon name="cal" size={13} />{f.submissions_close ? t('آخر موعد {d}', { d: t.dateShort(f.submissions_close) }) : t('التقديم مفتوح')}</span>
+      {f.fee_note && <span><Icon name="key" size={13} />{t(f.fee_note)}</span>}
+    </span>
+  );
+  const Cover = ({ f, h }: { f: Fest; h: number }) => {
+    const d = daysTo(f.submissions_close);
+    return (
+      <div className="fd-cover" style={{ height: h, ['--h' as string]: hue(f.name) }}>
+        <span className="display fd-mono" dir="auto">{f.name.trim().slice(0, 1)}</span>
+        {d != null && d <= 14 && <span className="fd-soon">{d <= 0 ? t('يغلق اليوم') : t('يغلق بعد {n} يومًا', { n: d })}</span>}
+      </div>
+    );
+  };
 
   return (
     <>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-        <h1 style={{ fontSize: 34 }}>{t('اكتشف المهرجانات')}</h1>
-        <span style={{ color: 'var(--muted)', fontSize: 15.5 }}>{t('مهرجانات تستقبل الأفلام الآن. اكتب ما تبحث عنه بكلامك.')}</span>
+      <div className={`fd-head ${variant === 'public' ? 'pub' : ''}`}>
+        <h1 className={variant === 'public' ? 'display' : ''}>{variant === 'public' ? t('مهرجانات تستقبل أفلامك الآن') : t('اكتشف المهرجانات')}</h1>
+        <p>{variant === 'public' ? t('ابحث بكلامك، وقارن المواعيد والأقسام والرسوم، وقدّم من ملف فيلمك بضغطة.') : t('مهرجانات تستقبل الأفلام الآن. اكتب ما تبحث عنه بكلامك.')}</p>
       </div>
-      <AiFilterBar initial={initialAi} chips={festChips(ff)} busy={busy} count={list.length} total={festivals.length} examples={EXAMPLES}
-        onQuery={search} onRemove={(k) => setFf((p) => removeChip(p, k))} onClear={() => setFf({})} />
-      {list.length === 0 ? (
-        <div className="card empty">{festivals.length ? t('لا توجد مهرجانات بهذا الوصف. جرّب وصفًا أوسع.') : t('لا توجد مهرجانات مفتوحة للتقديم الآن.')}</div>
-      ) : (
-        <div className="g3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, minmax(0, 1fr))', gap: 14 }}>
-          {list.map((f) => {
-            const days = f.submissions_close ? Math.ceil((new Date(f.submissions_close).getTime() - Date.now()) / 86400000) : null;
-            const m = fit(f);
-            return (
-              <div key={f.id} className="card fest-card">
-                <div className="fest-cover"><span className="display">{f.name.slice(0, 1)}</span>{days != null && days <= 10 && <span className="soon">{t('يغلق بعد {n} يومًا', { n: Math.max(0, days) })}</span>}</div>
-                <div style={{ padding: 18, display: 'flex', flexDirection: 'column', gap: 10, flex: 1 }}>
-                  <span style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}>
-                    <b style={{ fontSize: 17, lineHeight: 1.4 }}>{f.name}</b>
-                    {m && m.pct >= 50 && <span className="match num">{t('{n}٪ تطابق', { n: m.pct })}</span>}
-                  </span>
-                  <span style={{ fontSize: 13, color: 'var(--muted)', display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                    {(f.city || f.country) && <span><Icon name="globe" size={12} /> {[f.city, f.country].filter(Boolean).join('، ')}</span>}
-                    <span><Icon name="cal" size={12} /> {f.submissions_close ? t('آخر موعد {d}', { d: t.dateShort(f.submissions_close) }) : t('التقديم مفتوح')}</span>
-                  </span>
-                  {f.description && <span style={{ fontSize: 13.5, color: 'var(--ink2)', lineHeight: 1.7, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{f.description}</span>}
-                  <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>{f.categories.slice(0, 4).map((c) => <span key={c.id} className="chip c-mute">{c.name}</span>)}</span>
-                  {m && m.pct >= 50 && m.cat && <span style={{ fontSize: 12.5, color: 'var(--accHi)' }}>✦ {t('«{f}» يناسب قسم {c}', { f: m.film, c: m.cat })}</span>}
-                  <span style={{ display: 'flex', gap: 8, marginTop: 'auto', paddingTop: 6 }}>
-                    {signedIn
-                      ? <button type="button" className="btn btn-p btn-sm" style={{ flex: 1 }} onClick={() => setSubmit(f.id)}>{t('قدّم فيلمك')}</button>
-                      : <Link href={`/login?mode=signup`} className="btn btn-p btn-sm" style={{ flex: 1 }}>{t('قدّم فيلمك')}</Link>}
-                    <Link href={`/f/${f.slug}`} className="btn btn-s btn-sm">{t('التفاصيل')}</Link>
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+
+      {festivals.length === 0 ? (
+        <div className="fd-empty">
+          <div className="fd-empty-art" aria-hidden="true">{[0, 1, 2].map((i) => <span key={i} style={{ ['--h' as string]: [32, 44, 20][i] }} />)}</div>
+          <h2 className="display">{t('الدليل يُفتتح مع أول المهرجانات')}</h2>
+          <p>{t('هنا تظهر المهرجانات المفتوحة للتقديم بأقسامها ومواعيدها ورسومها. لا يوجد مهرجان مفتوح الآن، وستجد هنا كل مهرجان فور فتح التقديم فيه.')}</p>
+          <div className="fd-empty-ctas">
+            <Link href={signedIn ? '/app/me/films/new' : '/login?mode=signup&role=filmmaker'} className="btn btn-p">{t('جهّز ملف فيلمك الآن')}</Link>
+            <Link href={signedIn ? '/app/new' : '/login?mode=signup&role=festival'} className="btn btn-s">{t('أدرج مهرجانك')}</Link>
+          </div>
         </div>
+      ) : <>
+        <AiFilterBar initial={initialAi} chips={festChips(ff)} busy={busy} count={list.length} total={festivals.length} examples={EXAMPLES}
+          onQuery={search} onRemove={(k) => setFf((p) => removeChip(p, k))} onClear={() => setFf({})} />
+        <div className="fd-quick" role="toolbar" aria-label={t('عروض سريعة')}>
+          {QUICK.map(([l, v]) => <button key={l} type="button" className={same(ff, v) ? 'on' : ''} aria-pressed={same(ff, v)} onClick={() => setFf(v)}>{t(l)}</button>)}
+        </div>
+
+        {list.length === 0 ? (
+          <div className="card empty">{t('لا توجد مهرجانات بهذا الوصف. جرّب وصفًا أوسع.')} <button type="button" className="link" style={{ background: 'none', border: 0, font: 'inherit', cursor: 'pointer' }} onClick={() => setFf({})}>{t('اعرض الكل')}</button></div>
+        ) : <>
+          {showFeatured && first && (
+            <article className="fd-feat">
+              <Cover f={first} h={300} />
+              <div className="fd-feat-body">
+                <span className="eyebrow">{daysTo(first.submissions_close) != null ? t('أقرب موعد إغلاق') : t('مفتوح للتقديم')}</span>
+                <h2 dir="auto">{first.name}</h2>
+                <Meta f={first} />
+                {first.description && <p dir="auto">{first.description}</p>}
+                <span className="fd-cats">{first.categories.slice(0, 5).map((c) => <span key={c.id} className="chip c-mute">{c.name}</span>)}</span>
+                <Cta f={first} big />
+              </div>
+            </article>
+          )}
+          <div className="fd-grid">
+            {(showFeatured ? rest : list).map((f) => {
+              const m = fit(f);
+              return (
+                <article key={f.id} className="fd-card">
+                  <Cover f={f} h={120} />
+                  <div className="fd-body">
+                    <span style={{ display: 'flex', justifyContent: 'space-between', gap: 10, alignItems: 'flex-start' }}>
+                      <b className="fd-name" dir="auto">{f.name}</b>
+                      {m && m.pct >= 50 && <span className="match num">{t('{n}% تطابق', { n: m.pct })}</span>}
+                    </span>
+                    <Meta f={f} />
+                    {f.description && <span className="fd-desc" dir="auto">{f.description}</span>}
+                    <span className="fd-cats">{f.categories.slice(0, 3).map((c) => <span key={c.id} className="chip c-mute">{c.name}</span>)}</span>
+                    {m && m.pct >= 50 && m.cat && <span style={{ fontSize: 12.5, color: 'var(--accHi)' }}>✦ {t('«{f}» يناسب قسم {c}', { f: m.film, c: m.cat })}</span>}
+                    <Cta f={f} />
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </>}
+      </>}
+      {variant === 'public' && festivals.length > 0 && (
+        <div className="fd-list-own"><span>{t('تنظّم مهرجانًا؟ اعرضه هنا لصنّاع الأفلام.')}</span><Link href="/login?mode=signup&role=festival" className="link">{t('أدرج مهرجانك')}</Link></div>
       )}
       {submit && <SubmitDialog films={films} festivals={festivals} festivalId={submit} onClose={() => setSubmit(null)} />}
     </>

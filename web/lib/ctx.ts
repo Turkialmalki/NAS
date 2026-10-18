@@ -35,7 +35,7 @@ export const getCtx = cache(async () => {
   const wanted = store.get('nas_fid')?.value;
   const current = memberships.find((m) => m.festival.id === wanted && m.role !== 'reviewer') || memberships.find((m) => m.role !== 'reviewer') || memberships.find((m) => m.festival.id === wanted) || memberships[0] || null;
   const name = profile?.full_name || (user.user_metadata?.full_name as string) || user.email?.split('@')[0] || '';
-  const accountType = (profile?.account_type as 'filmmaker' | 'festival' | null) || null;
+  const accountType = (profile?.account_type as 'filmmaker' | 'festival' | 'judge' | null) || null;
   return { sb, user, profile, isAdmin: !!profile?.is_admin, memberships, current, name, accountType };
 });
 
@@ -50,12 +50,12 @@ export async function log(sb: Awaited<ReturnType<typeof supabaseServer>>, festiv
   await sb.from('audit_log').insert({ festival_id, actor_id, actor_label, action, target });
 }
 
-/** Where a signed-in user belongs when they have no festival workspace selected. */
+/** Where a signed-in user belongs. The role they picked at registration decides their home. */
 export function homeFor(ctx: { accountType: string | null; memberships: Membership[]; isAdmin: boolean }) {
-  if (ctx.memberships.some((m) => m.role !== 'reviewer')) return '/app';
+  const staff = ctx.memberships.some((m) => m.role !== 'reviewer');
+  if (ctx.accountType === 'festival') return staff ? '/app' : '/app/new';
   if (ctx.accountType === 'filmmaker') return '/app/me';
-  if (ctx.memberships.some((m) => m.role === 'reviewer')) return '/review';
-  if (ctx.isAdmin) return '/app/admin';
-  if (ctx.accountType === 'festival') return '/app/new';
-  return '/app/welcome';
+  if (ctx.accountType === 'judge') return '/review';
+  if (staff) return '/app';
+  return '/welcome';
 }

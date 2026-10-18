@@ -17,7 +17,7 @@ import { useT } from '../Lang';
 
 const QUICK: [string, string, FilmFilters][] = [['all', 'الكل', {}], ['un', 'بدون محكّم', { unassigned: true }], ['rev', 'اكتمل تقييمها', { reviewed: true }],
   ['wait', 'بانتظار القرار', { decision: ['pending'], reviewed: true }], ['ok', 'مقبولة', { decision: ['accepted'] }], ['top', 'الأعلى تقييمًا', { sort: 'score' }]];
-const EXAMPLES = ['وثائقيات أقل من ٣٠ دقيقة بدون محكّم', 'أفلام سعودية تقييمها أعلى من ٧', 'أفلام مقبولة لم تُجدول بعد'];
+const EXAMPLES = ['وثائقيات أقل من 30 دقيقة بدون محكّم', 'أفلام سعودية تقييمها أعلى من 7', 'أفلام مقبولة لم تُجدول بعد'];
 
 export function FilmsBoard({ films, reviewers, categories, initialStatus, initialId, festivalId, initialAi = '', openAdd = false, scheduled = [] }: { festivalId: string; films: FilmRow[]; reviewers: Person[]; categories: { id: string; name: string }[]; initialStatus: string; initialId: string | null; initialAi?: string; openAdd?: boolean; scheduled?: string[] }) {
   const t = useT();
@@ -134,7 +134,7 @@ export function FilmsBoard({ films, reviewers, categories, initialStatus, initia
                   </div>
                   <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>{f.analysis.themes.map((tx) => <span key={tx} className="chip c-mute">{tx}</span>)}{f.analysis.tone.map((tx) => <span key={tx} className="chip c-vio">{tx}</span>)}</span>
                   {f.analysis.fit.length > 0 && <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                    {f.analysis.fit.map((x) => <div key={x.category} style={{ display: 'grid', gridTemplateColumns: '100px minmax(0,1fr) 36px', gap: 8, alignItems: 'center', fontSize: 13 }}><span>{x.category}</span><span className="bar"><span style={{ width: `${x.pct}%` }} /></span><b className="num" style={{ textAlign: 'end' }}>{t.n(x.pct)}{t('٪')}</b></div>)}
+                    {f.analysis.fit.map((x) => <div key={x.category} style={{ display: 'grid', gridTemplateColumns: '100px minmax(0,1fr) 36px', gap: 8, alignItems: 'center', fontSize: 13 }}><span>{x.category}</span><span className="bar"><span style={{ width: `${x.pct}%` }} /></span><b className="num" style={{ textAlign: 'end' }}>{t.n(x.pct)}{t('%')}</b></div>)}
                   </div>}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>{f.analysis.checks.map((c) => <span key={c.text} style={{ display: 'flex', gap: 8, fontSize: 13.5, color: 'var(--ink2)' }}><b style={{ color: c.ok ? 'var(--ok)' : 'var(--acc)' }}>{c.ok ? '✓' : '!'}</b>{c.text}</span>)}</div>
                 </>
@@ -215,6 +215,7 @@ function AddFilm({ festivalId, categories, onClose, onDone }: { festivalId: stri
   const [filled, setFilled] = useState<string[]>([]);
   const [fe, setFe] = useState<Record<string, string>>({});
   const [showLink, setShowLink] = useState(false);
+  const [started, setStarted] = useState(false); // fields appear once a film or link is chosen
   const up = (k: keyof typeof v) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => setV((p) => ({ ...p, [k]: e.target.value }));
   const tag = (k: string) => (filled.includes(k) ? <span className="chip c-acc" style={{ height: 20, fontSize: 11, padding: '0 7px' }}>{t('✦ من الفيلم')}</span> : null);
   const cls = (k: string) => `fld${filled.includes(k) ? ' filled' : ''}`;
@@ -244,7 +245,7 @@ function AddFilm({ festivalId, categories, onClose, onDone }: { festivalId: stri
     if (v.title.trim().length < 2) x.title = 'اكتب عنوان الفيلم.';
     if (v.director.trim().length < 2) x.director = 'اكتب اسم المخرج.';
     if (v.email.trim() && !/^[^\s@]+@[^\s@]+\.[a-z]{2,}$/i.test(v.email.trim())) x.email = 'البريد غير صحيح.';
-    if (v.duration && !(Number(v.duration) >= 1 && Number(v.duration) <= 600)) x.duration = 'رقم بين ١ و٦٠٠.';
+    if (v.duration && !(Number(v.duration) >= 1 && Number(v.duration) <= 600)) x.duration = 'رقم بين 1 و600.';
     setFe(x);
     if (Object.keys(x).length) { setErr(t('أكمل الحقول المطلوبة.')); return; }
     setState('run'); setErr('');
@@ -268,24 +269,32 @@ function AddFilm({ festivalId, categories, onClose, onDone }: { festivalId: stri
           <form onSubmit={submit} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               <VideoIntake folder={festivalId} festivalId={festivalId} ctx={() => ({ title: v.title, synopsis: v.synopsis, genre: v.genre, category_id: v.category || null })}
-                onUploaded={setPath} onReport={onReport} onDuration={(m) => { setV((p) => ({ ...p, duration: String(m) })); setFilled((x) => [...new Set([...x, 'duration'])]); }}
+                onUploaded={(x) => { setPath(x); setStarted(true); }} onReport={(r, sig) => { setStarted(true); onReport(r, sig); }} onDuration={(m) => { setStarted(true); setV((p) => ({ ...p, duration: String(m) })); setFilled((x) => [...new Set([...x, 'duration'])]); }}
                 onUseSynopsis={(tx) => setV((p) => ({ ...p, synopsis: tx }))} />
               {fe.media && <span className="err">{t(fe.media)}</span>}
-              {!showLink ? <button type="button" className="btn btn-g btn-sm" style={{ alignSelf: 'center' }} onClick={() => setShowLink(true)}>{t('أو أضف رابط مشاهدة بدلًا من الملف')}</button>
+              {!showLink ? <button type="button" className="btn btn-g btn-sm" style={{ alignSelf: 'center' }} onClick={() => { setShowLink(true); setStarted(true); }}>{t('أو أضف رابط مشاهدة بدلًا من الملف')}</button>
                 : <label className="lbl">{t('رابط المشاهدة')}<input className="fld" dir="ltr" value={v.url} onChange={up('url')} placeholder="https://vimeo.com/…" style={bad('url')} />{fe.url && <span className="err">{t(fe.url)}</span>}</label>}
             </div>
+            {(started || Object.keys(fe).length > 0) && <>
             {filled.length > 0 && <div className="rise" style={{ padding: '10px 14px', borderRadius: 12, background: 'var(--accT)', fontSize: 13.5 }}>{t('✦ عبّأ NAS Vision')}{' '}{t.n(filled.length)} {filled.length > 2 ? t('حقول') : t('حقلًا')} {t('من الفيلم. راجعها قبل الحفظ.')}</div>}
-            <div className="g2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div className="g2 rise" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('عنوان الفيلم')}{' '}<b style={{ color: 'var(--no)' }}>*</b>{tag('title')}</span><input className={cls('title')} value={v.title} onChange={up('title')} style={bad('title')} />{fe.title && <span className="err">{t(fe.title)}</span>}</label>
               <label className="lbl"><span>{t('اسم المخرج')}{' '}<b style={{ color: 'var(--no)' }}>*</b></span><input className="fld" value={v.director} onChange={up('director')} style={bad('director')} />{fe.director && <span className="err">{t(fe.director)}</span>}</label>
-              <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('النوع')}{tag('genre')}</span><select className={cls('genre')} value={v.genre} onChange={up('genre')}><option value="">—</option><option value="روائي">{t('روائي')}</option><option value="وثائقي">{t('وثائقي')}</option><option value="تحريك">{t('تحريك')}</option><option value="تجريبي">{t('تجريبي')}</option></select></label>
-              <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('المدة بالدقائق')}{tag('duration')}</span><input className={`${cls('duration')} num`} inputMode="numeric" value={v.duration} onChange={(e) => setV((p) => ({ ...p, duration: e.target.value.replace(/\D/g, '').slice(0, 3) }))} style={bad('duration')} />{fe.duration && <span className="err">{t(fe.duration)}</span>}</label>
-              <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('القسم')}{tag('category')}</span><select className={cls('category')} value={v.category} onChange={up('category')}><option value="">—</option>{categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
-              <label className="lbl">{t('بريد المخرج')}<input className="fld" dir="ltr" type="email" value={v.email} onChange={up('email')} style={bad('email')} />{fe.email && <span className="err">{t(fe.email)}</span>}</label>
             </div>
-            <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('الملخص')}{tag('synopsis')}</span><textarea className={cls('synopsis')} value={v.synopsis} onChange={up('synopsis')} style={{ height: 110 }} /></label>
+            <details className="more" open={filled.length > 0 || Object.keys(fe).some((k) => ['duration', 'email'].includes(k)) || undefined}>
+              <summary>{t('تفاصيل إضافية')} <span className="hint">{t('اختياري، ويعبّئها NAS Vision من الفيلم')}</span></summary>
+              <div className="g2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, paddingTop: 14 }}>
+                <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('النوع')}{tag('genre')}</span><select className={cls('genre')} value={v.genre} onChange={up('genre')}><option value="">—</option><option value="روائي">{t('روائي')}</option><option value="وثائقي">{t('وثائقي')}</option><option value="تحريك">{t('تحريك')}</option><option value="تجريبي">{t('تجريبي')}</option></select></label>
+                <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('المدة بالدقائق')}{tag('duration')}</span><input className={`${cls('duration')} num`} inputMode="numeric" value={v.duration} onChange={(e) => setV((p) => ({ ...p, duration: e.target.value.replace(/\D/g, '').slice(0, 3) }))} style={bad('duration')} />{fe.duration && <span className="err">{t(fe.duration)}</span>}</label>
+                <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('القسم')}{tag('category')}</span><select className={cls('category')} value={v.category} onChange={up('category')}><option value="">—</option>{categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
+                <label className="lbl">{t('بريد المخرج')}<input className="fld" dir="ltr" type="email" value={v.email} onChange={up('email')} style={bad('email')} />{fe.email && <span className="err">{t(fe.email)}</span>}</label>
+              </div>
+              <label className="lbl" style={{ marginTop: 12 }}><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('الملخص')}{tag('synopsis')}</span><textarea className={cls('synopsis')} value={v.synopsis} onChange={up('synopsis')} style={{ height: 110 }} /></label>
+            </details>
+            </>}
             {err && <span className="err" style={{ textAlign: 'center' }}>{t(err)}</span>}
-            <button className="btn btn-p btn-lg" style={{ alignSelf: 'center', minWidth: 260, height: 54 }}>{video && !path ? <><Spinner size={16} />{t('ننتظر اكتمال الرفع…')}</> : <><Icon name="check" size={16} stroke={2.4} />{t('أضف الفيلم')}</>}</button>
+            {!started && <button type="button" className="nf-more" onClick={() => setStarted(true)}>{t('أضف البيانات يدويًا بدون ملف الآن')}</button>}
+            {started && <button className="btn btn-p btn-lg" style={{ alignSelf: 'center', minWidth: 260, height: 54 }}>{video && !path ? <><Spinner size={16} />{t('ننتظر اكتمال الرفع…')}</> : <><Icon name="check" size={16} stroke={2.4} />{t('أضف الفيلم')}</>}</button>}
           </form>
         )}
         {state === 'run' && <div style={{ padding: '40px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, color: 'var(--muted)' }}><Spinner size={30} />{t('نحفظ الفيلم ونجهّز تحليله…')}</div>}

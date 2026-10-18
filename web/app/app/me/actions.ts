@@ -9,15 +9,6 @@ import { sendEmail, wrapEmail } from '@/lib/email';
 
 type Res = { ok: boolean; error?: string; id?: string; ref?: string };
 
-export async function setAccountType(type: 'filmmaker' | 'festival') {
-  const user = await sessionUser();
-  if (!user) redirect('/login');
-  const sb = await supabaseServer();
-  await sb.from('profiles').update({ account_type: type }).eq('id', user.id);
-  revalidatePath('/app', 'layout');
-  redirect(type === 'filmmaker' ? '/app/me' : '/app/new');
-}
-
 export type ProjectInput = {
   id?: string; title: string; director: string; synopsis: string; logline?: string; genre: string; duration_min: number | null; language: string; country: string; year: number | null;
   screener_url: string | null; screener_path: string | null; video?: VideoAnalysis | null; video_sig?: string | null;

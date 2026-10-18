@@ -1,6 +1,6 @@
 const toLatin = (s: string) => s.replace(/[٠-٩]/g, (d) => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)));
 
-/** Reads duration rules from a category description: "أقل من ٤٠ دقيقة" / "over 60 minutes". */
+/** Reads duration rules from a category description: "أقل من 40 دقيقة" / "over 60 minutes". */
 export function durationRule(desc?: string | null): { min?: number; max?: number } {
   if (!desc) return {};
   const t = toLatin(desc);

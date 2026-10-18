@@ -31,7 +31,7 @@ function Preview({ t }: { t: T }) {
         </div>
         <div className="g2" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.35fr) minmax(0, 1fr)' }}>
           <div style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 10, borderInlineEnd: '1px solid var(--line)' }}>
-            <div className="mock-q"><span style={{ color: 'var(--acc)' }}><Icon name="spark" size={16} /></span>{t('وثائقيات أقل من ٣٠ دقيقة بدون محكّم')}</div>
+            <div className="mock-q"><span style={{ color: 'var(--acc)' }}><Icon name="spark" size={16} /></span>{t('وثائقيات أقل من 30 دقيقة بدون محكّم')}</div>
             <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center', fontSize: 12.5, color: 'var(--faint)' }}>
               {t('فهمت:')}<span className="chip c-acc">{t('وثائقي')}</span><span className="chip c-acc">{t('أقل من {n} دقيقة', { n: 30 })}</span><span className="chip c-acc">{t('بدون محكّم')}</span>
             </span>
@@ -62,7 +62,7 @@ function Preview({ t }: { t: T }) {
 }
 
 const SIDES: { eyebrow: string; title: string; items: string[]; cta: string; href: string }[] = [
-  { eyebrow: 'للمهرجانات', title: 'غرفة قيادة لمهرجانك.', cta: 'أنشئ مهرجانك', href: '/login?mode=signup',
+  { eyebrow: 'للمهرجانات', title: 'غرفة قيادة لمهرجانك.', cta: 'أنشئ مهرجانك', href: '/login?mode=signup&role=festival',
     items: ['أنشئ المهرجان من ملف PDF أو عرض تقديمي', 'ابحث في الأفلام بكلامك: «وثائقيات بدون محكّم»', 'توزيع متوازن على لجنة التحكيم ومواعيد واضحة', 'جدول عروض مقترح بلا تعارضات، ينشر بنقرة'] },
   { eyebrow: 'لصنّاع الأفلام', title: 'ارفع فيلمك مرة، وقدّم لكل المهرجانات.', cta: 'اكتشف المهرجانات', href: '/festivals',
     items: ['NAS Vision يشاهد فيلمك ويجهّز ملفه كاملًا', 'مهرجانات مقترحة تناسب فيلمك، مع نسبة التطابق', 'تقديم بضغطة، والقسم الأنسب مختار لك', 'تابع كل مشاركة من الإرسال إلى النتيجة'] },
@@ -94,7 +94,7 @@ export default async function Home() {
           <p className="rise" style={{ margin: 0, maxWidth: 600, color: 'var(--muted)', fontSize: 20, lineHeight: 1.8, animationDelay: '.08s' }}>{t('استقبل الأفلام، ووزّعها على لجنة التحكيم، وابنِ برنامج العروض، وأمامك تحليل واضح لكل فيلم.')}</p>
           <div className="rise" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center', marginTop: 4, animationDelay: '.16s' }}>
             <Link href="/login?mode=signup" className="btn btn-p btn-lg">{t('ابدأ مع NAS')}</Link>
-            <Link href="/festivals" className="btn btn-s btn-lg">{t('أنا صانع أفلام')}</Link>
+            <Link href="/login?mode=signup&role=filmmaker" className="btn btn-s btn-lg">{t('أنا صانع أفلام')}</Link>
           </div>
         </div>
         <Preview t={t} />

@@ -131,7 +131,7 @@ export function readFestivalText(text: string, fileName = ''): FestivalDraft {
   const rules = (bucket.rules.length ? bucket.rules : lines.filter((l) => /^(يجب|لا يقبل|لا تقبل|يشترط|أن يكون|ألا|must|should|films? (?:must|should)|only)/i.test(l))).map(clean).filter((l) => l.length >= 8 && l.length <= 220).slice(0, 12);
   if (rules.length) found.push('rules');
 
-  const crit = bucket.crit.map(clean).filter((l) => /[%٪]/.test(latin(l)) || (l.length <= 40 && !/[:：]/.test(l))).map((l) => { const w = Number(latin(l).match(/(\d{1,3})\s*[%٪]/)?.[1] || 0); return { name: l.replace(/[\d٠-٩]+\s*[%٪]/, '').replace(/[:：\-–()]+\s*$/, '').trim().slice(0, 40), weight: w }; }).filter((c) => c.name.length >= 2).slice(0, 8);
+  const crit = bucket.crit.map(clean).filter((l) => /[%%]/.test(latin(l)) || (l.length <= 40 && !/[:：]/.test(l))).map((l) => { const w = Number(latin(l).match(/(\d{1,3})\s*[%%]/)?.[1] || 0); return { name: l.replace(/[\d٠-٩]+\s*[%%]/, '').replace(/[:：\-–()]+\s*$/, '').trim().slice(0, 40), weight: w }; }).filter((c) => c.name.length >= 2).slice(0, 8);
   if (crit.length) { const missing = crit.filter((c) => !c.weight).length; const left = 100 - crit.reduce((s, c) => s + c.weight, 0); crit.forEach((c) => { if (!c.weight) c.weight = Math.max(5, Math.round(left / Math.max(1, missing))); }); found.push('criteria'); }
 
   const fee = lines.find((l) => /رسوم|fee/i.test(l)) || null;

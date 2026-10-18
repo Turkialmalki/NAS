@@ -45,14 +45,14 @@ function OtpBoxes({ value, onChange, onDone, bad }: { value: string; onChange: (
   );
 }
 
-export function LoginForm({ signup: initialSignup, next, linkError }: { signup: boolean; next: string; linkError: boolean }) {
+export function LoginForm({ signup: initialSignup, next, linkError, role }: { signup: boolean; next: string; linkError: boolean; role?: string }) {
   const t = useT();
   const [up, setUp] = useState(initialSignup);
   const [step, setStep] = useState<Step>('start');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('+966');
-  const [name, setName] = useState('');
-  const [festival, setFestival] = useState('');
+  // remember the role a visitor came for, so registration can preselect it
+  useEffect(() => { if (role && ['festival', 'filmmaker', 'judge'].includes(role)) document.cookie = `nas_role=${role}; path=/; max-age=86400; samesite=lax`; }, [role]);
   const [code, setCode] = useState('');
   const [busy, setBusy] = useState(false);
   const [bad, setBad] = useState(false);
@@ -71,7 +71,7 @@ export function LoginForm({ signup: initialSignup, next, linkError }: { signup: 
   const sb = supabaseBrowser();
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
   const redirect = `${origin}/auth/callback?next=${encodeURIComponent(next)}`;
-  const meta = up ? { full_name: name || undefined, festival: festival || undefined } : undefined;
+  const meta = undefined;
 
   useEffect(() => { if (wait <= 0) return; const t = setTimeout(() => setWait(wait - 1), 1000); return () => clearTimeout(t); }, [wait]);
   // if the email link is opened in another tab, this tab notices the new session and continues
@@ -138,16 +138,10 @@ export function LoginForm({ signup: initialSignup, next, linkError }: { signup: 
             <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18 }}>
               <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8 }}>
                 <h1 style={{ fontSize: 28 }}>{up ? t('أنشئ حسابك') : t('أهلًا بك')}</h1>
-                <span style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.7 }}>{t('اكتب بريدك وسنرسل لك رمز دخول. بدون كلمة مرور.')}</span>
+                <span style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.7 }}>{up ? t('اكتب بريدك وسنرسل لك رمزًا. بعدها تختار دورك وتجهز مساحتك.') : t('اكتب بريدك وسنرسل لك رمز دخول. بدون كلمة مرور.')}</span>
               </div>
 
               <form onSubmit={sendEmail} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {up && (
-                  <div className="g2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                    <input className="fld" value={name} onChange={(e) => setName(e.target.value)} placeholder={t('اسمك')} aria-label={t('الاسم')} autoComplete="name" style={{ height: 52, borderRadius: 14 }} />
-                    <input className="fld" value={festival} onChange={(e) => setFestival(e.target.value)} placeholder={t('المهرجان (اختياري)')} aria-label={t('المهرجان')} style={{ height: 52, borderRadius: 14 }} />
-                  </div>
-                )}
                 <label style={{ position: 'relative', display: 'block' }}>
                   <span style={{ position: 'absolute', left: 16, top: 18, color: 'var(--faint)', display: 'inline-flex', pointerEvents: 'none' }}><Icon name="mail" size={18} /></span>
                   <input className="fld" dir="ltr" type="email" inputMode="email" autoComplete="email" autoFocus value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@example.com" aria-label={t('البريد الإلكتروني')}

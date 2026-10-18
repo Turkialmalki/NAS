@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
   const { data } = await supabase.auth.getClaims();
   const user = data?.claims?.sub ? data.claims : null;
   const p = request.nextUrl.pathname;
-  if (!user && (p.startsWith('/app') || p.startsWith('/review'))) {
+  if (!user && (p.startsWith('/app') || p.startsWith('/review') || p === '/welcome')) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     url.search = '';
@@ -34,4 +34,4 @@ export async function middleware(request: NextRequest) {
   return response;
 }
 
-export const config = { matcher: ['/app/:path*', '/review/:path*', '/login', '/auth/:path*'] };
+export const config = { matcher: ['/app/:path*', '/review/:path*', '/welcome', '/login', '/auth/:path*'] };

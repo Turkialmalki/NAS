@@ -14,8 +14,8 @@ type Errors = Partial<Record<string, string>>;
 const COUNTRIES = ['السعودية', 'الإمارات', 'مصر', 'الأردن', 'لبنان', 'قطر', 'الكويت', 'البحرين', 'عُمان', 'المغرب', 'تونس', 'العراق', 'أخرى'];
 const STEPS = ['الأساسيات', 'المواعيد', 'الأقسام والشروط', 'المراجعة'];
 const DEF_CATS = [
-  { name: 'الروائي الطويل', description: 'أكثر من ٦٠ دقيقة', fee: 'مجانًا' }, { name: 'الوثائقي', description: 'بلا حد للمدة', fee: 'مجانًا' },
-  { name: 'الأفلام القصيرة', description: 'أقل من ٤٠ دقيقة', fee: 'مجانًا' }, { name: 'الفيلم الأول', description: 'أول أو ثاني فيلم لمخرجه', fee: 'مجانًا' },
+  { name: 'الروائي الطويل', description: 'أكثر من 60 دقيقة', fee: 'مجانًا' }, { name: 'الوثائقي', description: 'بلا حد للمدة', fee: 'مجانًا' },
+  { name: 'الأفلام القصيرة', description: 'أقل من 40 دقيقة', fee: 'مجانًا' }, { name: 'الفيلم الأول', description: 'أول أو ثاني فيلم لمخرجه', fee: 'مجانًا' },
 ];
 const DEF_CRIT = [{ name: 'القصة', weight: 30 }, { name: 'الإخراج', weight: 25 }, { name: 'الصورة والصوت', weight: 20 }, { name: 'الأصالة', weight: 25 }];
 const DEF_RULES = ['اكتمل الفيلم خلال السنتين الماضيتين.', 'ترجمة عربية أو إنجليزية للأفلام بلغات أخرى.', 'رابط المشاهدة يبقى يعمل حتى إعلان النتائج.', 'لكل فيلم قسم واحد.'];
@@ -30,12 +30,12 @@ const blank = (name: string, t: (s: string) => string = (s) => s): NewFestival =
 function check(step: number, d: NewFestival, slugTaken: boolean): Errors {
   const e: Errors = {};
   if (step === 0) {
-    if (d.name.trim().length < 3) e.name = 'اكتب اسم المهرجان (٣ أحرف على الأقل).';
-    else if (d.name.trim().length > 90) e.name = 'الاسم طويل، اختصره إلى ٩٠ حرفًا.';
-    if (!/^[a-z0-9-]{3,60}$/.test(d.slug)) e.slug = 'حروف إنجليزية صغيرة وأرقام وشرطة فقط (٣ إلى ٦٠).';
+    if (d.name.trim().length < 3) e.name = 'اكتب اسم المهرجان (3 أحرف على الأقل).';
+    else if (d.name.trim().length > 90) e.name = 'الاسم طويل، اختصره إلى 90 حرفًا.';
+    if (!/^[a-z0-9-]{3,60}$/.test(d.slug)) e.slug = 'حروف إنجليزية صغيرة وأرقام وشرطة فقط (3 إلى 60).';
     else if (slugTaken) e.slug = 'هذا الرابط مستخدم، جرّب غيره.';
     if (!d.country) e.country = 'اختر الدولة.';
-    if (d.description.length > 600) e.description = 'النبذة طويلة (٦٠٠ حرف كحد أقصى).';
+    if (d.description.length > 600) e.description = 'النبذة طويلة (600 حرف كحد أقصى).';
   }
   if (step === 1) {
     const lt = (a: string, b: string) => a && b && a > b;
@@ -52,7 +52,7 @@ function check(step: number, d: NewFestival, slugTaken: boolean): Errors {
     else if (new Set(names).size !== names.length) e.categories = 'أسماء الأقسام مكررة.';
     const crit = d.criteria.filter((c) => c.name.trim());
     if (!crit.length) e.criteria = 'أضف معيار تقييم واحدًا على الأقل.';
-    else if (crit.reduce((s, c) => s + (Number(c.weight) || 0), 0) !== 100) e.criteria = 'مجموع الأوزان يجب أن يساوي ١٠٠٪.';
+    else if (crit.reduce((s, c) => s + (Number(c.weight) || 0), 0) !== 100) e.criteria = 'مجموع الأوزان يجب أن يساوي 100%.';
   }
   return e;
 }
@@ -108,7 +108,7 @@ export function NewFestivalForm({ first, suggestedName }: { first: boolean; sugg
 
   async function upload(fl: File | undefined | null) {
     if (!fl) return;
-    if (fl.size > 40 * 1024 * 1024) { setFail('الملف كبير جدًا (الحد ٤٠ ميجابايت).'); return; }
+    if (fl.size > 40 * 1024 * 1024) { setFail('الملف كبير جدًا (الحد 40 ميجابايت).'); return; }
     setFail(''); setMode('reading'); setFile({ name: fl.name, stage: 0, found: [], highlights: [] });
     try {
       const doc = await readDocument(fl);
@@ -137,7 +137,7 @@ export function NewFestivalForm({ first, suggestedName }: { first: boolean; sugg
     } catch (e) {
       const m = String((e as Error).message);
       setMode('choose'); setFile(null);
-      setFail(m === 'old_format' ? 'هذه صيغة قديمة. احفظ الملف بصيغة PPTX أو DOCX أو PDF ثم ارفعه.' : m === 'unsupported' ? 'ارفع ملف PDF أو PowerPoint أو Word أو صورة أو نص.' : m === 'too_big' ? 'الصورة كبيرة، جرّب صورة أصغر من ٢٫٥ ميجابايت.' : m === 'empty' ? 'لم نجد نصًا في الملف. إن كان PDF مصوّرًا فجرّب ملفًا أصغر من ٢٫٥ ميجابايت أو أدخل التفاصيل يدويًا.' : 'تعذّر قراءة الملف. جرّب ملفًا آخر أو أدخل التفاصيل يدويًا.');
+      setFail(m === 'old_format' ? 'هذه صيغة قديمة. احفظ الملف بصيغة PPTX أو DOCX أو PDF ثم ارفعه.' : m === 'unsupported' ? 'ارفع ملف PDF أو PowerPoint أو Word أو صورة أو نص.' : m === 'too_big' ? 'الصورة كبيرة، جرّب صورة أصغر من 2.5 ميجابايت.' : m === 'empty' ? 'لم نجد نصًا في الملف. إن كان PDF مصوّرًا فجرّب ملفًا أصغر من 2.5 ميجابايت أو أدخل التفاصيل يدويًا.' : 'تعذّر قراءة الملف. جرّب ملفًا آخر أو أدخل التفاصيل يدويًا.');
     }
   }
 
@@ -154,28 +154,54 @@ export function NewFestivalForm({ first, suggestedName }: { first: boolean; sugg
   const bad = (k: string) => (showErr && errs[k] ? { borderColor: 'var(--no)' } : undefined);
   const missing = useMemo(() => [!d.submissions_close && 'موعد إغلاق التقديم', !d.city && 'المدينة', !d.description && 'نبذة عن المهرجان'].filter(Boolean) as string[], [d]);
 
+  /** Fastest path: a name (and optionally a closing date) creates a ready festival with sensible
+   *  sections, criteria and rules. Everything else is refined later from the setup checklist. */
+  async function quick(e: React.FormEvent) {
+    e.preventDefault();
+    const nm = d.name.trim();
+    if (nm.length < 3) { setShowErr(true); setErrs({ name: 'اكتب اسم المهرجان (3 أحرف على الأقل).' }); return; }
+    if (d.submissions_close && d.submissions_close < new Date().toISOString().slice(0, 10)) { setFail('تاريخ الإغلاق مضى. اختر تاريخًا قادمًا.'); return; }
+    setBusy(true); setFail('');
+    let slug = slugFrom(nm);
+    const { data: free } = await supabaseBrowser().rpc('slug_available', { p_slug: slug });
+    if (free === false) slug = `${slug.slice(0, 44)}-${Math.floor(100 + Math.random() * 900)}`;
+    const r = await createFestivalFull({ ...d, name: nm, slug, status: 'draft', source: 'manual' });
+    if (!r.ok) { setBusy(false); setFail(r.error || 'تعذّر الإنشاء'); return; }
+    router.push('/app?created=1'); router.refresh();
+  }
+
   /* ---------------------------------------------------------------- choose */
   if (mode === 'choose') {
     return (
-      <div className="rise" style={{ maxWidth: 820, width: '100%', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 22 }}>
-        <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8 }}>
-          <h1 style={{ fontSize: 34 }}>{first ? t('أنشئ مهرجانك الأول') : t('مهرجان جديد')}</h1>
-          <span style={{ color: 'var(--muted)', fontSize: 16 }}>{t('ارفع ملف المهرجان ونجهّزه لك، أو أدخل التفاصيل بنفسك.')}</span>
+      <div className="rise nf" onDragOver={(e) => { e.preventDefault(); setDrag(true); }} onDragLeave={(e) => { if (e.currentTarget === e.target) setDrag(false); }}
+        onDrop={(e) => { e.preventDefault(); setDrag(false); upload(e.dataTransfer.files?.[0]); }}>
+        <div className="nf-head">
+          <h1 className="display">{first ? t('أنشئ مهرجانك الأول') : t('مهرجان جديد')}</h1>
+          <p>{t('ابدأ بالاسم فقط. نجهّز لك الأقسام ومعايير التحكيم والشروط، وتعدّلها متى شئت.')}</p>
         </div>
-        <label className="drop" data-on={drag || undefined} style={{ minHeight: 260 }}
-          onDragOver={(e) => { e.preventDefault(); setDrag(true); }} onDragLeave={() => setDrag(false)} onDrop={(e) => { e.preventDefault(); setDrag(false); upload(e.dataTransfer.files?.[0]); }}>
+        <form className="nf-card" onSubmit={quick}>
+          <label className="lbl">{t('اسم المهرجان')}
+            <input className="fld nf-name" autoFocus value={d.name} onChange={(e) => set('name', e.target.value)} placeholder={t('مثلًا: مهرجان جدة للأفلام القصيرة')} maxLength={90} style={bad('name')} />
+            {E('name')}
+          </label>
+          <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'baseline' }}>{t('آخر موعد للتقديم')}<span className="hint">{t('اختياري')}</span></span>
+            <input type="date" className="fld" value={d.submissions_close} onChange={(e) => set('submissions_close', e.target.value)} style={bad('submissions_close')} />
+            {E('submissions_close')}
+          </label>
+          <span className="nf-incl">{[t('4 أقسام جاهزة'), t('معايير تحكيم بأوزان'), t('شروط مشاركة'), t('صفحة تقديم')].map((x) => <span key={x}><Icon name="check" size={13} stroke={2.6} />{x}</span>)}</span>
+          {fail && <span className="err" role="alert">{t(fail)}</span>}
+          <button className="btn btn-p btn-lg" disabled={busy}>{busy ? <><Spinner size={16} />{t('ننشئ مهرجانك…')}</> : <>{t('أنشئ المهرجان')}<Icon name="arrow" size={16} stroke={2.2} className="fwd" /></>}</button>
+        </form>
+        <label className="nf-file" data-on={drag || undefined}>
           <input type="file" accept=".pdf,.pptx,.docx,.txt,.md,image/*" style={{ display: 'none' }} onChange={(e) => upload(e.target.files?.[0])} />
-          <span className="drop-ic" style={{ width: 64, height: 64, borderRadius: 20 }}><Icon name="spark" size={28} /></span>
-          <b style={{ fontSize: 21, color: 'var(--ink)' }}>{t('أنشئه من ملف')}</b>
-          <span style={{ fontSize: 15, maxWidth: 440, lineHeight: 1.8 }}>{t('اسحب ملف المهرجان هنا (العرض التقديمي، الكتيّب، الشروط أو الملصق). يقرأه الذكاء الاصطناعي ويجهّز الاسم والمواعيد والأقسام والشروط ومعايير التحكيم.')}</span>
-          <span style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'center', marginTop: 4 }}>{['PDF', 'PowerPoint', 'Word', 'صورة'].map((tx) => <span key={tx} className="chip c-mute">{t(tx)}</span>)}</span>
-          <span className="btn btn-p" style={{ marginTop: 8 }}><Icon name="up" size={16} />{t('اختر الملف')}</span>
+          <span className="sn-ic" style={{ width: 44, height: 44, borderRadius: 14 }}><Icon name="spark" size={20} /></span>
+          <span style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 3 }}>
+            <b>{t('لديك كتيّب المهرجان أو عرضه؟')}</b>
+            <span>{t('ارفعه أو اسحبه هنا، ويعبّئ NAS الاسم والمواعيد والأقسام والشروط تلقائيًا.')}</span>
+          </span>
+          <span className="btn btn-q btn-sm"><Icon name="up" size={15} />{t('ارفع ملفًا')}</span>
         </label>
-        {fail && <span className="err" style={{ textAlign: 'center' }} role="alert">{fail}</span>}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: 'var(--faint)', fontSize: 13 }}><span style={{ flex: 1, height: 1, background: 'var(--line)' }} />{t('أو')}<span style={{ flex: 1, height: 1, background: 'var(--line)' }} /></div>
-        <button type="button" className="alt-btn" style={{ height: 58, borderRadius: 16, fontSize: 16 }} onClick={() => { setMode('form'); setStep(0); setSeen(0); }}>
-          <Icon name="list" size={18} />{t('أدخل التفاصيل بنفسك')}<span style={{ color: 'var(--faint)', fontWeight: 400, fontSize: 14 }}>{t('· ٣ خطوات قصيرة')}</span>
-        </button>
+        <button type="button" className="nf-more" onClick={() => { setMode('form'); setStep(0); setSeen(0); }}>{t('أفضّل إدخال كل التفاصيل الآن')}</button>
       </div>
     );
   }
@@ -220,7 +246,7 @@ export function NewFestivalForm({ first, suggestedName }: { first: boolean; sugg
       {file && file.stage === 3 && (
         <div className="rise" style={{ padding: '16px 18px', borderRadius: 18, background: 'var(--accT)', border: '1px solid var(--accL)', display: 'flex', flexDirection: 'column', gap: 10 }}>
           <span style={{ display: 'flex', gap: 10, alignItems: 'center', fontWeight: 600 }}><span style={{ color: 'var(--acc)', display: 'inline-flex' }}><Icon name="spark" size={17} /></span>
-            {t('جهّزنا المهرجان من «')}{file.name}{t('» · وجدنا')}{' '}{t.n(file.found.length)} {t('من ١١ تفصيلًا')}</span>
+            {t('جهّزنا المهرجان من «')}{file.name}{t('» · وجدنا')}{' '}{t.n(file.found.length)} {t('من 11 تفصيلًا')}</span>
           {file.highlights.length > 0 && <span style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>{file.highlights.map((h) => <span key={h} style={{ fontSize: 13.5, color: 'var(--ink2)' }}>• {h}</span>)}</span>}
           {missing.length > 0 && <span style={{ fontSize: 13.5, color: 'var(--ink2)' }}>{t('لم نجد في الملف:')}{' '}{missing.join(t('، '))}{t('. أضفها قبل النشر.')}</span>}
           {!file.ai && <span style={{ fontSize: 12.5, color: 'var(--muted)' }}>{t('قراءة أساسية. لنتائج أدق فعّل مفتاح الذكاء الاصطناعي في إعدادات المنصة.')}</span>}
@@ -251,7 +277,7 @@ export function NewFestivalForm({ first, suggestedName }: { first: boolean; sugg
             <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('المدينة')}{tag('city')}</span><input className="fld" value={d.city} onChange={(e) => set('city', e.target.value)} placeholder={t('الرياض')} /></label>
             <label className="lbl">{t('الدولة')}<select className="fld" value={d.country} onChange={(e) => set('country', e.target.value)} style={bad('country')}>{COUNTRIES.map((c) => <option key={c} value={c}>{t(c)}</option>)}</select>{E('country')}</label>
           </div>
-          <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('نبذة قصيرة')}{tag('description')}<span className="hint num" style={{ marginInlineStart: 'auto' }}>{t.n(d.description.length)}{t('/٦٠٠')}</span></span>
+          <label className="lbl"><span style={{ display: 'flex', gap: 8, alignItems: 'center' }}>{t('نبذة قصيرة')}{tag('description')}<span className="hint num" style={{ marginInlineStart: 'auto' }}>{t.n(d.description.length)}{t('/600')}</span></span>
             <textarea className="fld" value={d.description} onChange={(e) => set('description', e.target.value)} placeholder={t('سطران عن مهرجانك يظهران في صفحة التقديم')} style={{ height: 96, ...bad('description') }} />{E('description')}
           </label>
         </>}
@@ -275,7 +301,7 @@ export function NewFestivalForm({ first, suggestedName }: { first: boolean; sugg
             {d.categories.map((c, i) => (
               <div key={i} className="g2" style={{ display: 'grid', gridTemplateColumns: '1.1fr 1.3fr .8fr 40px', gap: 8, alignItems: 'center' }}>
                 <input className="fld" value={c.name} placeholder={t('اسم القسم')} onChange={(e) => set('categories', d.categories.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))} style={{ height: 44 }} />
-                <input className="fld" value={c.description} placeholder={t('الشرط، مثلًا: أقل من ٤٠ دقيقة')} onChange={(e) => set('categories', d.categories.map((x, j) => (j === i ? { ...x, description: e.target.value } : x)))} style={{ height: 44 }} />
+                <input className="fld" value={c.description} placeholder={t('الشرط، مثلًا: أقل من 40 دقيقة')} onChange={(e) => set('categories', d.categories.map((x, j) => (j === i ? { ...x, description: e.target.value } : x)))} style={{ height: 44 }} />
                 <input className="fld" value={c.fee} placeholder={t('الرسوم')} onChange={(e) => set('categories', d.categories.map((x, j) => (j === i ? { ...x, fee: e.target.value } : x)))} style={{ height: 44 }} />
                 <button type="button" className="ibtn" aria-label={t('حذف القسم')} onClick={() => set('categories', d.categories.filter((_, j) => j !== i))}><Icon name="trash" size={15} /></button>
               </div>
@@ -286,11 +312,11 @@ export function NewFestivalForm({ first, suggestedName }: { first: boolean; sugg
           <div style={{ height: 1, background: 'var(--line)' }} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             <span style={{ display: 'flex', gap: 8, alignItems: 'center' }}><b style={{ fontSize: 16 }}>{t('معايير التحكيم')}</b>{tag('criteria')}
-              <span className="num" style={{ marginInlineStart: 'auto', fontSize: 13, fontWeight: 600, color: sum === 100 ? 'var(--ok)' : 'var(--no)' }}>{t('المجموع')}{' '}{t.n(sum)}{t('٪')}</span></span>
+              <span className="num" style={{ marginInlineStart: 'auto', fontSize: 13, fontWeight: 600, color: sum === 100 ? 'var(--ok)' : 'var(--no)' }}>{t('المجموع')}{' '}{t.n(sum)}{t('%')}</span></span>
             {d.criteria.map((c, i) => (
               <div key={i} style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) 110px 40px', gap: 8, alignItems: 'center' }}>
                 <input className="fld" value={c.name} placeholder={t('المعيار')} onChange={(e) => set('criteria', d.criteria.map((x, j) => (j === i ? { ...x, name: e.target.value } : x)))} style={{ height: 44 }} />
-                <span style={{ position: 'relative' }}><input className="fld num" inputMode="numeric" value={c.weight || ''} onChange={(e) => set('criteria', d.criteria.map((x, j) => (j === i ? { ...x, weight: Math.min(100, Number(e.target.value.replace(/\D/g, '')) || 0) } : x)))} style={{ height: 44, paddingInlineEnd: 30 }} aria-label={t('الوزن')} /><span style={{ position: 'absolute', insetInlineEnd: 12, top: 12, color: 'var(--faint)' }}>{t('٪')}</span></span>
+                <span style={{ position: 'relative' }}><input className="fld num" inputMode="numeric" value={c.weight || ''} onChange={(e) => set('criteria', d.criteria.map((x, j) => (j === i ? { ...x, weight: Math.min(100, Number(e.target.value.replace(/\D/g, '')) || 0) } : x)))} style={{ height: 44, paddingInlineEnd: 30 }} aria-label={t('الوزن')} /><span style={{ position: 'absolute', insetInlineEnd: 12, top: 12, color: 'var(--faint)' }}>{t('%')}</span></span>
                 <button type="button" className="ibtn" aria-label={t('حذف المعيار')} onClick={() => set('criteria', d.criteria.filter((_, j) => j !== i))}><Icon name="trash" size={15} /></button>
               </div>
             ))}

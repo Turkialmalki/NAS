@@ -7,7 +7,6 @@ export type Lang = 'ar' | 'en';
 export const LANGS: Lang[] = ['ar', 'en'];
 export const LANG_COOKIE = 'nas_lang';
 
-const AR_DIGITS = '٠١٢٣٤٥٦٧٨٩';
 const MONTHS: Record<Lang, string[]> = {
   ar: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
   en: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -25,7 +24,7 @@ export type T = ((s: string, vars?: Record<string, string | number | null | unde
 };
 
 export function makeT(lang: Lang): T {
-  const n = (v: string | number | null | undefined) => (v == null ? '—' : lang === 'ar' ? String(v).replace(/\d/g, (d) => AR_DIGITS[+d]).replace(/\./g, '٫') : String(v));
+  const n = (v: string | number | null | undefined) => (v == null ? '—' : String(v));
   const fill = (s: string, vars?: Record<string, string | number | null | undefined>) =>
     vars ? s.replace(/\{(\w+)\}/g, (_, k) => (vars[k] == null ? '' : typeof vars[k] === 'number' ? n(vars[k] as number) : String(vars[k]))) : s;
   const t = ((s: string, vars?: Record<string, string | number | null | undefined>) => fill(lang === 'en' ? EN[s] ?? s : s, vars)) as T;

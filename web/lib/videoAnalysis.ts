@@ -143,7 +143,7 @@ async function withClaude(v: VideoInput, cats: Category[]): Promise<VideoAnalysi
     content.push({ type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: f.image.replace(/^data:image\/\w+;base64,/, '') } });
   });
   content.push({ type: 'text', text: `أنت مبرمج أفلام خبير وناقد سينمائي في لجنة اختيار مهرجان سينمائي عربي كبير. أمامك ${v.frames.length} لقطات موزعة بالتساوي على فيلم مدته ${mins} دقيقة (اللقطة الأولى قرب البداية والأخيرة قرب النهاية).
-قياسات تقنية: ${s.width}×${s.height} (${base.tech.resolution})، التأطير ${base.tech.aspect}، السطوع ${(s.brightness * 100).toFixed(0)}٪، التشبع ${(s.saturation * 100).toFixed(0)}٪، التباين ${(s.contrast * 100).toFixed(0)}٪، الإيقاع ${base.tech.pace} (${s.cuts} انتقالات كبيرة)، صوت: ${s.hasAudio === true ? 'موجود' : s.hasAudio === false ? 'غير موجود' : 'غير معروف'}.
+قياسات تقنية: ${s.width}×${s.height} (${base.tech.resolution})، التأطير ${base.tech.aspect}، السطوع ${(s.brightness * 100).toFixed(0)}%، التشبع ${(s.saturation * 100).toFixed(0)}%، التباين ${(s.contrast * 100).toFixed(0)}%، الإيقاع ${base.tech.pace} (${s.cuts} انتقالات كبيرة)، صوت: ${s.hasAudio === true ? 'موجود' : s.hasAudio === false ? 'غير موجود' : 'غير معروف'}.
 اسم الملف: ${s.name || 'غير معروف'}
 ${v.title ? `العنوان الذي كتبه صاحب الفيلم: ${v.title}\n` : ''}${v.genre ? `النوع المعلن: ${v.genre}\n` : ''}${v.synopsis ? `ملخص صاحب الفيلم: ${v.synopsis.slice(0, 1500)}\n` : ''}أقسام المهرجان: ${cats.map((c) => `${c.name} (${c.description || ''})`).join('، ') || 'غير محددة'}
 
@@ -152,7 +152,7 @@ ${v.title ? `العنوان الذي كتبه صاحب الفيلم: ${v.title}\
 {"score": رقم 1-10 بخانة عشرية (تقييم أولي للحرفة البصرية والجاذبية),
 "headline": "جملة واحدة لافتة تلخص انطباع اللجنة",
 "logline": "جملة واحدة عمّا يبدو أن الفيلم يدور حوله",
-"synopsis_draft": "ملخص جذاب من ٣ إلى ٤ أسطر مبني على ما يظهر",
+"synopsis_draft": "ملخص جذاب من 3 إلى 4 أسطر مبني على ما يظهر",
 "title_guess": "العنوان إن ظهر على الشاشة، أو عنوان مقترح من اسم الملف، أو null",
 "language_guess": "واحد من: ${LANGS.join('، ')} بحسب النصوص الظاهرة أو null",
 "genre_guess": "واحد من: ${GENRES.join('، ')}", "subgenre": "نوع فرعي بكلمتين مثل: دراما عائلية",
@@ -163,9 +163,9 @@ ${v.title ? `العنوان الذي كتبه صاحب الفيلم: ${v.title}\
 "breakdown": [{"label": "القصة المرئية", "score": 1-10}, {"label": "الإخراج", "score": 1-10}, {"label": "الصورة", "score": 1-10}, {"label": "الأصالة", "score": 1-10}, {"label": "الجودة التقنية", "score": 1-10}],
 "audience": "الجمهور المناسب باختصار", "age_rating": "واحد من: للجميع، +12، +15، +18",
 "comparables": ["حتى فيلمين أو مخرجين يشبههما الأسلوب بوضوح، أو قائمة فارغة"],
-"programmer_note": "فقرة من ٣ أسطر يكتبها المبرمج للجنة: لماذا قد يُختار هذا الفيلم وأين قد يُعرض",
+"programmer_note": "فقرة من 3 أسطر يكتبها المبرمج للجنة: لماذا قد يُختار هذا الفيلم وأين قد يُعرض",
 "scenes": ["وصف حي ودقيق لكل لقطة بالترتيب، ${v.frames.length} عناصر"], "key_scene": رقم اللقطة الأقوى بصريًا (1-${v.frames.length}),
-"flags": ["تنبيهات محتوى إن ظهرت: عنف، دم، تدخين، عري…"], "strengths": ["٣ نقاط قوة"], "watch": ["ملاحظة أو اثنتان للمحكّمين"],
+"flags": ["تنبيهات محتوى إن ظهرت: عنف، دم، تدخين، عري…"], "strengths": ["3 نقاط قوة"], "watch": ["ملاحظة أو اثنتان للمحكّمين"],
 "fit": [{"category": "اسم القسم كما هو", "pct": 0-100}]}` });
 
   const models = [process.env.ANTHROPIC_VISION_MODEL || 'claude-sonnet-4-5', process.env.ANTHROPIC_MODEL || 'claude-haiku-4-5-20251001'];

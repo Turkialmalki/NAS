@@ -1,4 +1,4 @@
-// Natural-language filters (Arabic + English). Turns "وثائقيات سعودية أقل من ٣٠ دقيقة بدون محكّم"
+// Natural-language filters (Arabic + English). Turns "وثائقيات سعودية أقل من 30 دقيقة بدون محكّم"
 // into structured filters shown as removable chips. Runs instantly in the browser; an AI pass on
 // the server can refine it when an API key is configured.
 
@@ -40,8 +40,8 @@ export function parseFilmQuery(q: string, cats: { id: string; name: string }[] =
   m = s.match(new RegExp(`(?:اكثر من|اطول من|فوق|over|more than|longer than|above|>)\\s*(\\d{1,3})${unit}`));
   if (!isDur(m)) m = null;
   if (m) { f.minDur = +m[1]; chips.push({ key: 'minDur', label: 'أكثر من {n} دقيقة', vars: { n: +m[1] } }); eat(new RegExp(m[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))); }
-  if (!f.maxDur && /(?:^|\s)(قصير|قصيره|القصيره|قصار|short)(?:\s|$)/.test(s)) { f.maxDur = 40; chips.push({ key: 'maxDur', label: 'قصير (حتى ٤٠ دقيقة)' }); eat(/(قصير|قصيره|القصيره|قصار|short)/g); }
-  if (!f.minDur && /(?:^|\s)(طويل|طويله|الطويله|feature|long)(?:\s|$)/.test(s)) { f.minDur = 60; chips.push({ key: 'minDur', label: 'طويل (أكثر من ٦٠ دقيقة)' }); eat(/(طويل|طويله|الطويله|feature|long)/g); }
+  if (!f.maxDur && /(?:^|\s)(قصير|قصيره|القصيره|قصار|short)(?:\s|$)/.test(s)) { f.maxDur = 40; chips.push({ key: 'maxDur', label: 'قصير (حتى 40 دقيقة)' }); eat(/(قصير|قصيره|القصيره|قصار|short)/g); }
+  if (!f.minDur && /(?:^|\s)(طويل|طويله|الطويله|feature|long)(?:\s|$)/.test(s)) { f.minDur = 60; chips.push({ key: 'minDur', label: 'طويل (أكثر من 60 دقيقة)' }); eat(/(طويل|طويله|الطويله|feature|long)/g); }
 
   // scores
   m = s.match(/(?:تقييم\S*|درج\S*|score|rated|rating)\s*(?:اعلي من|اكثر من|فوق|above|over|more than|>=?|من)?\s*(\d+(?:\.\d)?)/) || s.match(/(?:اعلي من|فوق|above|over)\s*(\d(?:\.\d)?)\s*(?:تقييم|نقاط|score|\/10)/);

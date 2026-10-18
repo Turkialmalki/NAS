@@ -90,7 +90,7 @@ export function VideoIntake({ folder, festivalId, ctx, onUploaded, onReport, onD
           <b style={{ fontSize: 14.5, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', direction: 'ltr', textAlign: 'right' }}>{file?.name}</b>
           <span style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 12.5, color: 'var(--muted)' }}>
             <span className="bar" style={{ flex: 1, height: 5 }}><span style={{ width: `${uploaded ? 100 : pct}%`, transition: 'width .4s' }} /></span>
-            <span className="num" style={{ flex: 'none' }}>{uploaded ? t('رُفع ✓') : err ? t('لم يُرفع') : t('{pct}٪', { pct: pct })}</span>
+            <span className="num" style={{ flex: 'none' }}>{uploaded ? t('رُفع ✓') : err ? t('لم يُرفع') : t('{pct}%', { pct: pct })}</span>
           </span>
         </span>
         <label className="btn btn-g btn-sm" style={{ cursor: 'pointer' }}>
@@ -115,7 +115,7 @@ export function VideoIntake({ folder, festivalId, ctx, onUploaded, onReport, onD
             <span className="scan" />
           </div>
           <span style={{ fontSize: 13.5, color: 'var(--muted)', textAlign: 'center' }}>
-            {stage === 'read' ? t('نفتح الفيلم داخل متصفحك…') : stage === 'look' ? t('نمرّ على الفيلم كاملًا… {v0}٪', { v0: Math.round(prog * 100) }) : `NAS Vision ${t(THINK[tick % THINK.length])}`}
+            {stage === 'read' ? t('نفتح الفيلم داخل متصفحك…') : stage === 'look' ? t('نمرّ على الفيلم كاملًا… {v0}%', { v0: Math.round(prog * 100) }) : `NAS Vision ${t(THINK[tick % THINK.length])}`}
           </span>
         </div>
       )}

@@ -13,8 +13,7 @@ export function Kpi({ l, v, d, href }: { l: string; v: string; d?: string; href?
 }
 export function Ring({ score, size = 84 }: { score: number | null; size?: number }) {
   const pct = score == null ? 0 : Math.round(score * 10);
-  const AR = '٠١٢٣٤٥٦٧٨٩';
-  const t = score == null ? '—' : score.toFixed(1).replace(/\d/g, (d) => AR[+d]).replace('.', '٫');
+  const t = score == null ? '—' : score.toFixed(1);
   return (
     <span className="ring" style={{ width: size, height: size, background: `conic-gradient(var(--acc) 0 ${pct}%, var(--s3) ${pct}% 100%)` }}>
       <span style={{ width: size - 14, height: size - 14 }}><b className="num" style={{ fontSize: size * 0.28 }}>{t}</b></span>
