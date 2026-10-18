@@ -1,5 +1,5 @@
 'use client';
-import { useMemo, useState, useTransition } from 'react';
+import { useEffect, useMemo, useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 import type { FilmRow, Person } from '@/lib/data';
 import { ar, code, STATUS, DECISION } from '@/lib/fmt';
@@ -9,41 +9,50 @@ import { VideoReport } from '../video/VideoReport';
 import { VideoIntake } from '../video/VideoIntake';
 import { AnalyzeExisting } from '../video/AnalyzeExisting';
 import type { VideoAnalysis } from '@/lib/videoAnalysis';
-import { setDecision, setStatus, assign, unassign, reanalyze, addFilm, smartSearch, publishDecisions, deleteFilm } from '@/app/app/films/actions';
+import { setDecision, setStatus, assign, unassign, reanalyze, addFilm, publishDecisions, deleteFilm } from '@/app/app/films/actions';
+import { aiFilter } from '@/app/actions/ai';
+import { parseFilmQuery, applyFilmFilters, filmChips, removeChip, type FilmFilters } from '@/lib/nlFilter';
+import { AiFilterBar } from './AiFilterBar';
+import { useT } from '../Lang';
 
-const STS = [['all', 'الكل'], ['uploaded', 'مرفوع'], ['processing', 'قيد المعالجة'], ['analyzed', 'تم التحليل'], ['reviewed', 'تمت المراجعة']];
-const SUGS = ['وثائقي عن الأرض والعائلة', 'دراما أقل من ٩٠ دقيقة', 'تحريك قصير'];
+const QUICK: [string, string, FilmFilters][] = [['all', 'الكل', {}], ['un', 'بدون محكّم', { unassigned: true }], ['rev', 'اكتمل تقييمها', { reviewed: true }],
+  ['wait', 'بانتظار القرار', { decision: ['pending'], reviewed: true }], ['ok', 'مقبولة', { decision: ['accepted'] }], ['top', 'الأعلى تقييمًا', { sort: 'score' }]];
+const EXAMPLES = ['وثائقيات أقل من ٣٠ دقيقة بدون محكّم', 'أفلام سعودية تقييمها أعلى من ٧', 'أفلام مقبولة لم تُجدول بعد'];
 
-export function FilmsBoard({ films, reviewers, categories, initialStatus, initialId, festivalId }: { festivalId: string; films: FilmRow[]; reviewers: Person[]; categories: { id: string; name: string }[]; initialStatus: string; initialId: string | null }) {
+export function FilmsBoard({ films, reviewers, categories, initialStatus, initialId, festivalId, initialAi = '', openAdd = false, scheduled = [] }: { festivalId: string; films: FilmRow[]; reviewers: Person[]; categories: { id: string; name: string }[]; initialStatus: string; initialId: string | null; initialAi?: string; openAdd?: boolean; scheduled?: string[] }) {
+  const t = useT();
   const router = useRouter();
-  const [st, setSt] = useState(initialStatus);
-  const [q, setQ] = useState('');
-  const [hits, setHits] = useState<{ id: string; why: string }[] | null>(null);
+  const [ff, setFf] = useState<FilmFilters>(() => (initialAi ? parseFilmQuery(initialAi, categories).f : initialStatus === 'reviewed' ? { reviewed: true } : {}));
   const [searching, setSearching] = useState(false);
   const [cur, setCur] = useState<string | null>(initialId || films[0]?.id || null);
   const [pending, start] = useTransition();
   const [busy, setBusy] = useState('');
   const [toast, setToast] = useState('');
-  const [adding, setAdding] = useState(false);
+  const [adding, setAdding] = useState(openAdd);
   const flash = (t: string) => { setToast(t); setTimeout(() => setToast(''), 2600); };
 
-  const list = useMemo(() => {
-    let l = films.filter((f) => st === 'all' || f.status === st);
-    if (hits) { const order = new Map(hits.map((h, i) => [h.id, i])); l = l.filter((f) => order.has(f.id)).sort((a, b) => order.get(a.id)! - order.get(b.id)!); }
-    return l;
-  }, [films, st, hits]);
+  const sched = useMemo(() => new Set(scheduled), [scheduled]);
+  const list = useMemo(() => applyFilmFilters(films.map((x) => ({ ...x, scheduled: sched.has(x.id) })), ff), [films, ff, sched]);
+  const chips = filmChips(ff, categories);
   const f = films.find((x) => x.id === cur) || null;
   const name = (id: string) => reviewers.find((r) => r.user_id === id)?.name || 'محكّم';
   const unpublished = films.filter((x) => x.decision !== 'pending' && !x.decision_published).length;
 
-  async function search(text?: string) {
-    const t = (text ?? q).trim();
-    if (text != null) setQ(text);
-    if (!t) { setHits(null); return; }
-    setSearching(true);
-    setHits(await smartSearch(t));
-    setSearching(false);
+  async function search(text: string) {
+    const q = text.trim();
+    if (!q) { setFf({}); return; }
+    const local = parseFilmQuery(q, categories).f;
+    setFf(local);
+    // let the AI refine when the instant parser left free words behind
+    if (local.text?.length) {
+      setSearching(true);
+      const r = await aiFilter(q, 'films', categories).catch(() => null);
+      if (r && Object.keys(r).length) setFf(r as FilmFilters);
+      setSearching(false);
+    }
   }
+  useEffect(() => { if (initialAi) search(initialAi); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const quickOn = (v: FilmFilters) => JSON.stringify(v) === JSON.stringify(ff);
   const act = (label: string, fn: () => Promise<{ ok: boolean; error?: string }>, okMsg?: string) => {
     setBusy(label);
     start(async () => { const r = await fn(); setBusy(''); if (!r.ok) flash('تعذّر التنفيذ: ' + (r.error || '')); else { if (okMsg) flash(okMsg); router.refresh(); } });
@@ -60,21 +69,10 @@ export function FilmsBoard({ films, reviewers, categories, initialStatus, initia
         </span>
       </div>
 
-      <form onSubmit={(e) => { e.preventDefault(); search(); }} style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-        <label style={{ flex: 1, position: 'relative', display: 'block' }}>
-          <span style={{ position: 'absolute', insetInlineStart: 16, top: 15, color: 'var(--acc)' }}><Icon name="spark" /></span>
-          <input className="fld" value={q} onChange={(e) => { setQ(e.target.value); if (!e.target.value) setHits(null); }} placeholder="ابحث بالكلام العادي، مثلًا: وثائقي عن الأرض والعائلة" aria-label="بحث ذكي"
-            style={{ height: 50, paddingInlineStart: 46, background: 'var(--s1)', borderColor: 'var(--accL)' }} />
-        </label>
-        <button className="btn btn-p" style={{ height: 50 }} disabled={searching}>{searching ? <Spinner size={16} /> : 'ابحث'}</button>
-      </form>
-      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
-        {SUGS.map((s) => <button key={s} type="button" className={`pill-btn ${q === s && hits ? 'on' : ''}`} onClick={() => search(s)}>{s}</button>)}
-        {hits && <button type="button" className="btn btn-g btn-sm" onClick={() => { setQ(''); setHits(null); }}>مسح البحث</button>}
-        <span style={{ flex: 1 }} />
-        <div className="seg" role="group" aria-label="الحالة">
-          {STS.map(([k, l]) => <button key={k} type="button" className={st === k ? 'on' : ''} aria-pressed={st === k} onClick={() => setSt(k)} style={{ height: 32, fontSize: 13, padding: '0 12px' }}>{l}</button>)}
-        </div>
+      <AiFilterBar initial={initialAi} chips={chips} busy={searching} count={list.length} total={films.length} examples={EXAMPLES}
+        onQuery={search} onRemove={(k) => setFf((p) => removeChip(p, k))} onClear={() => setFf({})} />
+      <div className="seg" role="group" aria-label={t('عروض سريعة')} style={{ alignSelf: 'flex-start', maxWidth: '100%', overflowX: 'auto', flexWrap: 'nowrap' }}>
+        {QUICK.map(([k, l, v]) => <button key={k} type="button" className={quickOn(v) ? 'on' : ''} aria-pressed={quickOn(v)} onClick={() => setFf(v)} style={{ height: 32, fontSize: 13, padding: '0 12px', whiteSpace: 'nowrap' }}>{t(l)}</button>)}
       </div>
 
       <div className="stack" style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
@@ -91,7 +89,7 @@ export function FilmsBoard({ films, reviewers, categories, initialStatus, initia
               <thead><tr><th>المشاركة</th><th>الحالة</th><th>التحليل</th><th>القرار</th></tr></thead>
               <tbody>
                 {list.map((x) => {
-                  const why = hits?.find((h) => h.id === x.id)?.why;
+                  const why = '';
                   return (
                     <tr key={x.id} onClick={() => setCur(x.id)} style={{ cursor: 'pointer', background: cur === x.id ? 'var(--s2)' : undefined }}>
                       <td><span style={{ display: 'flex', flexDirection: 'column', gap: 3 }}>

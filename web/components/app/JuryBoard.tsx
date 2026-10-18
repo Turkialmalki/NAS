@@ -7,11 +7,11 @@ import { Icon, Spinner } from '../Icon';
 import { PageHead } from './ui';
 import { assignMany, invite, removeMember, cancelInvite } from '@/app/app/jury/actions';
 
-export function JuryBoard({ films, people, invites }: { films: FilmRow[]; people: Person[]; invites: { id: string; email: string; role: string; specialty: string | null }[] }) {
+export function JuryBoard({ films, people, invites, openInvite = false }: { films: FilmRow[]; people: Person[]; invites: { id: string; email: string; role: string; specialty: string | null }[]; openInvite?: boolean }) {
   const router = useRouter();
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState('');
-  const [inviting, setInviting] = useState(false);
+  const [inviting, setInviting] = useState(openInvite);
   const reviewers = people.filter((p) => p.role === 'reviewer');
   const load = (id: string) => films.filter((f) => f.assignments.some((a) => a.reviewer_id === id));
   const unassigned = films.filter((f) => f.assignments.length === 0);

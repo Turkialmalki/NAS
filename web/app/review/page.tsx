@@ -14,7 +14,7 @@ export default async function ReviewPage() {
   await sb.rpc('accept_my_invites');
   const [{ data: prof }, { data: rows }, { data: mems }] = await Promise.all([
     sb.from('profiles').select('full_name,email').eq('id', user.id).maybeSingle(),
-    sb.from('assignments').select('status, submission:submissions(id,ref_code,title,genre,duration_min,synopsis,screener_url,screener_path,festival_id,category:categories(name),festival:festivals(name,review_deadline),analysis:analyses(themes,tone,headline,checks))').eq('reviewer_id', user.id),
+    sb.from('assignments').select('status,due_at, submission:submissions(id,ref_code,title,genre,duration_min,synopsis,screener_url,screener_path,festival_id,category:categories(name),festival:festivals(name,review_deadline),analysis:analyses(themes,tone,headline,checks))').eq('reviewer_id', user.id),
     sb.from('festival_members').select('festival_id,role').eq('user_id', user.id),
   ]);
   const festIds = [...new Set((rows || []).map((r) => (r.submission as unknown as { festival_id: string })?.festival_id).filter(Boolean))];
@@ -23,7 +23,7 @@ export default async function ReviewPage() {
   const films = (rows || []).map((r) => {
     const s = r.submission as unknown as Record<string, unknown> & { id: string; festival_id: string; screener_url: string | null; screener_path: string | null; analysis: unknown; category: unknown; festival: unknown };
     const one = <T,>(x: unknown) => (Array.isArray(x) ? x[0] : x) as T;
-    return { ...s, status: r.status, analysis: one(s.analysis), category: one<{ name: string } | null>(s.category)?.name || null, festival: one<{ name: string; review_deadline: string | null }>(s.festival),
+    return { ...s, status: r.status, due_at: (r as { due_at?: string | null }).due_at || null, analysis: one(s.analysis), category: one<{ name: string } | null>(s.category)?.name || null, festival: one<{ name: string; review_deadline: string | null }>(s.festival),
       embed: embedUrl(s.screener_url), hasFile: !!s.screener_path, review: (mine || []).find((m) => m.submission_id === s.id) || null };
   });
   const isStaff = (mems || []).some((m) => m.role !== 'reviewer');

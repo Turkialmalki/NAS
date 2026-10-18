@@ -8,7 +8,7 @@ import { Icon, Spinner } from '../Icon';
 import { ar, code, date } from '@/lib/fmt';
 import { startWatching, submitReview } from '@/app/review/actions';
 
-type Film = { id: string; ref_code: string; title: string; genre: string | null; duration_min: number | null; synopsis: string | null; status: string; festival_id: string; category: string | null;
+type Film = { id: string; due_at: string | null; ref_code: string; title: string; genre: string | null; duration_min: number | null; synopsis: string | null; status: string; festival_id: string; category: string | null;
   festival: { name: string; review_deadline: string | null } | null; embed: string | null; hasFile: boolean; screener_url: string | null;
   analysis: { themes: string[]; tone: string[]; headline: string | null; checks: { ok: boolean; text: string }[] } | null;
   review: { scores: Record<string, number>; notes: string | null; total: number } | null };
@@ -57,6 +57,7 @@ export function ReviewDesk({ name, films, criteria, isStaff }: { name: string; f
                 <button key={m.id} type="button" onClick={() => setCi(m.id)} aria-pressed={ci === m.id} style={{ textAlign: 'start', padding: 16, borderRadius: 16, border: `1px solid ${ci === m.id ? 'var(--accL)' : 'var(--line)'}`, background: 'var(--s1)', color: 'var(--ink)', cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 8 }}>
                   <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8 }}><b style={{ fontSize: 14.5 }}>{m.title}</b><span className={`chip ${m.review ? 'c-ok' : ci === m.id ? 'c-acc' : 'c-mute'}`}>{m.review ? 'قيّمته' : ci === m.id ? 'الآن' : 'لم تبدأ'}</span></span>
                   <span style={{ fontSize: 12.5, color: 'var(--muted)' }}><span className="num" style={{ direction: 'ltr', display: 'inline-block' }}>{code(m.ref_code)}</span> · {[m.genre, m.duration_min ? `${ar(m.duration_min)} د` : null, m.category].filter(Boolean).join(' · ')}</span>
+                  {!m.review && m.due_at && <span style={{ fontSize: 12, color: new Date(m.due_at).getTime() < Date.now() ? 'var(--no)' : 'var(--faint)' }}><Icon name="clock" size={11} /> {new Date(m.due_at).getTime() < Date.now() ? 'تجاوز الموعد' : `قبل ${date(m.due_at)}`}</span>}
                 </button>
               ))}
             </div>

@@ -5,14 +5,14 @@ export type FilmRow = {
   id: string; ref_code: string; title: string; director_name: string; email: string; genre: string | null; duration_min: number | null; country: string | null; language: string | null;
   synopsis: string | null; screener_url: string | null; screener_path: string | null; status: string; decision: string; decision_published: boolean; created_at: string; category_id: string | null;
   analysis: { score: number | null; headline: string | null; themes: string[]; tone: string[]; fit: { category: string; pct: number }[]; checks: { ok: boolean; text: string }[]; strengths: string[]; suggested_reviewer: string | null; model: string | null; video: VideoAnalysis | null } | null;
-  assignments: { reviewer_id: string; status: string }[];
+  assignments: { reviewer_id: string; status: string; due_at: string | null }[];
   reviews: { reviewer_id: string; total: number | null; notes: string | null }[];
 };
 export type Person = { user_id: string; name: string; email: string | null; role: string; specialty: string | null };
 
 export async function loadFilms(sb: SupabaseClient, festivalId: string) {
   const { data } = await sb.from('submissions')
-    .select('id,ref_code,title,director_name,email,genre,duration_min,country,language,synopsis,screener_url,screener_path,status,decision,decision_published,created_at,category_id,analyses(score,headline,themes,tone,fit,checks,strengths,suggested_reviewer,model,video),assignments(reviewer_id,status),reviews(reviewer_id,total,notes)')
+    .select('id,ref_code,title,director_name,email,genre,duration_min,country,language,synopsis,screener_url,screener_path,status,decision,decision_published,created_at,category_id,analyses(score,headline,themes,tone,fit,checks,strengths,suggested_reviewer,model,video),assignments(reviewer_id,status,due_at),reviews(reviewer_id,total,notes)')
     .eq('festival_id', festivalId).order('created_at', { ascending: false });
   return (data || []).map((s) => {
     const a = s.analyses as unknown;

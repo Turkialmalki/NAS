@@ -5,7 +5,9 @@ import { requireStaff, log } from '@/lib/ctx';
 export async function assignMany(pairs: { s: string; r: string }[]) {
   const { sb, festival, user, name } = await requireStaff();
   if (!pairs.length) return { ok: true };
-  const { error } = await sb.from('assignments').upsert(pairs.map((p) => ({ submission_id: p.s, reviewer_id: p.r })), { onConflict: 'submission_id,reviewer_id', ignoreDuplicates: true });
+  // review deadline: the festival's, else two weeks from now
+  const due = festival.review_deadline ? new Date(`${festival.review_deadline}T23:59:00+03:00`).toISOString() : new Date(Date.now() + 14 * 86400000).toISOString();
+  const { error } = await sb.from('assignments').upsert(pairs.map((p) => ({ submission_id: p.s, reviewer_id: p.r, due_at: due })), { onConflict: 'submission_id,reviewer_id', ignoreDuplicates: true });
   if (error) return { ok: false, error: error.message };
   await log(sb, festival.id, user.id, name, 'توزيع', `${pairs.length} أفلام`);
   revalidatePath('/app', 'layout');

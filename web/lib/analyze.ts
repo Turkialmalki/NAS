@@ -16,16 +16,8 @@ export type Analysis = {
 const ARDIG = '٠١٢٣٤٥٦٧٨٩';
 const toLatin = (s: string) => s.replace(/[٠-٩]/g, (d) => String(ARDIG.indexOf(d)));
 
-/** Reads "أقل من ٤٠ دقيقة" / "أكثر من ٦٠ دقيقة" style category descriptions. */
-export function durationRule(desc?: string | null): { min?: number; max?: number } {
-  if (!desc) return {};
-  const t = toLatin(desc);
-  const n = Number((t.match(/(\d+)/) || [])[1]);
-  if (!n) return {};
-  if (/أقل|حتى|لا يتجاوز/.test(t)) return { max: n };
-  if (/أكثر|فوق/.test(t)) return { min: n };
-  return {};
-}
+export { durationRule } from './rules';
+import { durationRule } from './rules';
 
 export async function checkLink(url?: string | null): Promise<boolean | null> {
   if (!url) return null;

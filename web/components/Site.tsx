@@ -14,7 +14,7 @@ export function SiteHeader() {
         <div style={{ justifySelf: 'end', display: 'flex', alignItems: 'center', gap: 6 }}>
           <ThemeToggle />
           <Link href="/login" className="hs" style={{ fontSize: 14.5, color: 'var(--ink2)', padding: '0 12px' }}>دخول</Link>
-          <ContactButton className="btn btn-p btn-sm">ابدأ مع NAS</ContactButton>
+          <Link href="/login?mode=signup" className="btn btn-p btn-sm">ابدأ مع NAS</Link>
         </div>
       </div>
     </header>
