@@ -44,8 +44,8 @@ export function nextFree(venue: string, day: string, dur: number, all: Screening
 
 /**
  * Proposes a full programme for the films not yet scheduled. Films of one category are
- * kept together (so a "shorts block" plays as a block), the strongest films get the
- * evening prime slots, and screenings are spread evenly over the days and venues.
+ * kept together (so a "shorts block" plays as a block), stronger films are placed first,
+ * and screenings are spread evenly over the days and venues.
  */
 export function autoSchedule(films: Film[], venues: Venue[], days: string[], existing: Screening[]) {
   const plan: Screening[] = [];

@@ -23,7 +23,7 @@ export function Welcome({ name }: { name: string; title: string }) {
     <div className="rise" style={{ maxWidth: 920, margin: '24px auto 0', width: '100%', display: 'flex', flexDirection: 'column', gap: 28 }}>
       <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 10 }}>
         <h1 style={{ fontSize: 40 }}>{t('أهلًا {name}، كيف ستستخدم NAS؟', { name: name.split(' ')[0] })}</h1>
-        <span style={{ color: 'var(--muted)', fontSize: 16.5 }}>{t('اختر ما يناسبك، ونجهّز لك مساحتك. تقدر تضيف الأخرى لاحقًا.')}</span>
+        <span style={{ color: 'var(--muted)', fontSize: 16.5 }}>{t('اختر ما يناسبك، ونجهّز لك مساحتك. ويمكنك إضافة الأخرى لاحقًا.')}</span>
       </div>
       <div className="g2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
         {card('filmmaker', 'film', 'أنا صانع أفلام', 'ملف واحد لكل فيلم تقدّم به لأي مهرجان، وتتابع نتائجك في مكان واحد.', ['ارفع فيلمك ويحلّله NAS Vision ويعبّئ بياناته', 'مهرجانات مقترحة تناسب أفلامك', 'تابع كل مشاركاتك وقراراتها'])}

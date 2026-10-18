@@ -37,7 +37,7 @@ export default async function FestivalApply({ params }: { params: Promise<{ slug
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, textAlign: 'center', alignItems: 'center', marginBottom: 8 }}>
           <span className={`chip ${open ? 'c-ok' : 'c-mute'}`}><span className="dot" />{open ? (f.submissions_close ? t('التقديم مفتوح حتى {d}', { d: t.date(f.submissions_close) }) : t('التقديم مفتوح')) : t('التقديم مغلق')}</span>
           <h1 style={{ fontSize: 40 }}>{open ? t('قدّم فيلمك') : f.name}</h1>
-          <span style={{ color: 'var(--muted)', fontSize: 16.5 }}>{open ? f.name : ''}{f.edition > 1 ? ` · ${t('الدورة {n}', { n: f.edition })}` : ''}{f.city ? ` · ${f.city}` : ''}</span>
+          <span style={{ color: 'var(--muted)', fontSize: 16.5 }}>{open ? f.name : ''}{f.edition > 1 ? t(' · {v0}', { v0: t('الدورة {n}', { n: f.edition }) }) : ''}{f.city ? ` · ${f.city}` : ''}</span>
           {f.description && <p style={{ margin: '6px 0 0', color: 'var(--muted)', maxWidth: 560, lineHeight: 1.8 }}>{f.description}</p>}
         </div>
         {shows.length > 0 && (

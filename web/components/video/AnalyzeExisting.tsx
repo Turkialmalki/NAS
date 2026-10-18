@@ -1,4 +1,6 @@
 'use client';
+
+import { useT } from '@/components/Lang';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabaseBrowser } from '@/lib/supabase/client';
@@ -8,6 +10,7 @@ import { Icon, Spinner } from '../Icon';
 
 /** Staff: run NAS Vision on a film already uploaded to the festival. */
 export function AnalyzeExisting({ id, path, festivalId, ctx, again = false }: { id: string; path: string; festivalId: string; ctx: { title: string; synopsis: string | null; genre: string | null; category_id: string | null }; again?: boolean }) {
+  const t = useT();
   const router = useRouter();
   const [state, setState] = useState<'idle' | 'look' | 'think' | 'save'>('idle');
   const [frames, setFrames] = useState<Frame[]>([]);
@@ -22,7 +25,7 @@ export function AnalyzeExisting({ id, path, festivalId, ctx, again = false }: { 
       setState('think');
       const r = await fetch('/api/analyze-video', {
         method: 'POST', headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ festival_id: festivalId, frames: ex.frames.map(({ t, image, thumb }) => ({ t, image, thumb })), stats: ex.stats, title: ctx.title, synopsis: ctx.synopsis || '', genre: ctx.genre || '', category_id: ctx.category_id }),
+        body: JSON.stringify({ festival_id: festivalId, frames: ex.frames.map(({ t: ft, image, thumb }) => ({ t: ft, image, thumb })), stats: ex.stats, title: ctx.title, synopsis: ctx.synopsis || '', genre: ctx.genre || '', category_id: ctx.category_id }),
       }).then((x) => x.json());
       if (!r?.report) throw new Error('no_report');
       setState('save');
@@ -31,7 +34,7 @@ export function AnalyzeExisting({ id, path, festivalId, ctx, again = false }: { 
       setState('idle'); router.refresh();
     } catch (e) {
       setState('idle');
-      setErr(String((e as Error).message) === 'no_url' ? 'تعذّر فتح ملف الفيلم.' : 'تعذّر تحليل الفيديو. قد يكون ترميز الملف غير مدعوم في المتصفح.');
+      setErr(String((e as Error).message) === 'no_url' ? t('تعذّر فتح ملف الفيلم.') : t('تعذّر تحليل الفيديو. قد يكون ترميز الملف غير مدعوم في المتصفح.'));
     }
   }
 
@@ -43,14 +46,14 @@ export function AnalyzeExisting({ id, path, festivalId, ctx, again = false }: { 
           <span className="scan" />
         </div>
         <span style={{ display: 'flex', gap: 8, alignItems: 'center', justifyContent: 'center', fontSize: 13, color: 'var(--muted)' }}><Spinner size={13} />
-          {state === 'look' ? `نلتقط المشاهد (${frames.length}/12)…` : state === 'think' ? 'NAS Vision يحلّل اللقطات…' : 'نحفظ التقرير…'}</span>
+          {state === 'look' ? t('نلتقط المشاهد ({length}/12)…', { length: frames.length }) : state === 'think' ? t('NAS Vision يحلّل اللقطات…') : t('نحفظ التقرير…')}</span>
       </div>
     );
   }
   return (
     <>
-      <button type="button" className={again ? 'btn btn-g btn-sm' : 'btn btn-p btn-sm'} style={{ alignSelf: 'flex-start' }} onClick={go}><Icon name="spark" size={14} />{again ? 'أعد تحليل الفيديو' : 'حلّل الفيديو بالذكاء الاصطناعي'}</button>
-      {err && <span className="err">{err}</span>}
+      <button type="button" className={again ? 'btn btn-g btn-sm' : 'btn btn-p btn-sm'} style={{ alignSelf: 'flex-start' }} onClick={go}><Icon name="spark" size={14} />{again ? t('أعد تحليل الفيديو') : t('حلّل الفيديو بالذكاء الاصطناعي')}</button>
+      {err && <span className="err">{t(err)}</span>}
     </>
   );
 }

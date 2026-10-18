@@ -1,8 +1,9 @@
+import { getT } from '@/lib/i18n/server';
 import { requireStaff } from '@/lib/ctx';
 import { ProgrammeBoard } from '@/components/programme/ProgrammeBoard';
 import { festivalDays } from '@/lib/programme';
 
-export const metadata = { title: 'البرنامج' };
+export async function generateMetadata() { const t = await getT(); return { title: t('البرنامج') }; }
 export default async function Programme({ searchParams }: { searchParams: Promise<{ auto?: string }> }) {
   const { sb, festival } = await requireStaff();
   const sp = await searchParams;

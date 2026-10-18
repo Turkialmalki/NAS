@@ -1,3 +1,4 @@
+import { getT } from '@/lib/i18n/server';
 import { notFound } from 'next/navigation';
 import { supabaseServer } from '@/lib/supabase/server';
 import { embedUrl } from '@/lib/embed';
@@ -6,6 +7,7 @@ import { MiniHeader } from '@/components/Site';
 export const dynamic = 'force-dynamic';
 
 export default async function Watch({ params }: { params: Promise<{ id: string }> }) {
+  const t = await getT();
   const { id } = await params;
   const sb = await supabaseServer();
   const { data: s } = await sb.from('submissions').select('title,ref_code,screener_url,screener_path').eq('id', id).maybeSingle();
@@ -21,10 +23,10 @@ export default async function Watch({ params }: { params: Promise<{ id: string }
         <div style={{ aspectRatio: '16 / 9', borderRadius: 18, overflow: 'hidden', background: '#000', border: '1px solid var(--line)' }}>
           {src ? <video src={src} controls controlsList="nodownload" style={{ width: '100%', height: '100%' }} />
             : emb ? <iframe src={emb} allow="autoplay; fullscreen; picture-in-picture" allowFullScreen style={{ width: '100%', height: '100%', border: 0 }} />
-            : s.screener_url ? <div className="empty" style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><a href={s.screener_url} target="_blank" rel="noreferrer" className="btn btn-p">افتح رابط المشاهدة</a></div>
-            : <div className="empty">لا توجد نسخة مشاهدة.</div>}
+            : s.screener_url ? <div className="empty" style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><a href={s.screener_url} target="_blank" rel="noreferrer" className="btn btn-p">{t('افتح رابط المشاهدة')}</a></div>
+            : <div className="empty">{t('لا توجد نسخة مشاهدة.')}</div>}
         </div>
-        <span className="hint">نسخة محمية — للمشاهدة داخل المنصة فقط.</span>
+        <span className="hint">{t('نسخة محمية — للمشاهدة داخل المنصة فقط.')}</span>
       </main>
     </>
   );

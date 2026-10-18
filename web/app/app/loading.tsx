@@ -1,7 +1,9 @@
+import { getT } from '@/lib/i18n/server';
 /** Shown instantly while a dashboard page loads, so navigation feels immediate. */
-export default function Loading() {
+export default async function Loading() {
+  const t = await getT();
   return (
-    <div aria-busy="true" aria-label="جارٍ التحميل" style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+    <div aria-busy="true" aria-label={t('جارٍ التحميل')} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span className="sk" style={{ width: 220, height: 34 }} />
         <span className="sk" style={{ width: 120, height: 38, borderRadius: 99 }} />

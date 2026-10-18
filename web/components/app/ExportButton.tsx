@@ -1,7 +1,10 @@
 'use client';
+
+import { useT } from '@/components/Lang';
 import { Icon } from '../Icon';
 
 export function ExportButton({ rows, name }: { rows: Record<string, unknown>[]; name: string }) {
+  const t = useT();
   const go = () => {
     if (!rows.length) return;
     const keys = Object.keys(rows[0]);
@@ -11,5 +14,5 @@ export function ExportButton({ rows, name }: { rows: Record<string, unknown>[]; 
     a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
     a.download = `${name}-submissions.csv`; a.click();
   };
-  return <button type="button" className="btn btn-s btn-sm" onClick={go} disabled={!rows.length}><Icon name="up" size={15} />تصدير CSV</button>;
+  return <button type="button" className="btn btn-s btn-sm" onClick={go} disabled={!rows.length}><Icon name="up" size={15} />{t('تصدير CSV')}</button>;
 }

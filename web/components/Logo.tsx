@@ -19,5 +19,5 @@ export function LogoMark({ height = 30, tagline = false, id = 'lg' }: { height?:
 }
 
 export function Logo({ height = 30, href = '/', id = 'lgh' }: { height?: number; href?: string; id?: string }) {
-  return <Link href={href} className="logo" aria-label="NAS — الرئيسية"><LogoMark height={height} id={id} /></Link>;
+  return <Link href={href} className="logo" aria-label="NAS"><LogoMark height={height} id={id} /></Link>;
 }

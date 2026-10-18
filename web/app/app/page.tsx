@@ -93,7 +93,7 @@ export default async function Command() {
     <>
       <section className="cc-hero rise">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10, flex: 1, minWidth: 260 }}>
-          <span className="eyebrow">{t(hour < 12 ? 'صباح الخير' : 'مساء الخير')}، {name.split(' ')[0]}</span>
+          <span className="eyebrow">{t(hour < 12 ? 'صباح الخير' : 'مساء الخير')}{t('، ')}{name.split(' ')[0]}</span>
           <h1 style={{ fontSize: 38, lineHeight: 1.2 }}>{festival.name}</h1>
           <span style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap', fontSize: 14, color: 'var(--muted)' }}>
             <span className={`chip ${statusChip[0]}`}>{statusChip[1]}</span>
@@ -127,10 +127,10 @@ export default async function Command() {
         <Link href="/app/films" className="card kpi">
           <span className="kpi-l">{t('المشاركات')}</span>
           <span style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 8 }}><b className="num kpi-v">{t.n(subs.length)}</b><Spark data={days} /></span>
-          <span className={`kpi-d ${week >= prev ? 'up' : ''}`}>{week ? `+${t.n(week)} ${t('هذا الأسبوع')}` : t('لا جديد هذا الأسبوع')}</span>
+          <span className={`kpi-d ${week >= prev ? 'up' : ''}`}>{week ? t('+{n} هذا الأسبوع', { n: week }) : t('لا جديد هذا الأسبوع')}</span>
         </Link>
         <Link href={`/app/films?ai=${encodeURIComponent(t('بانتظار القرار'))}`} className="card kpi"><span className="kpi-l">{t('تنتظر قرارك')}</span><b className="num kpi-v" style={{ color: waiting ? 'var(--acc)' : undefined }}>{t.n(waiting)}</b><span className="kpi-d">{t('اكتمل تقييمها')}</span></Link>
-        <Link href="/app/jury" className="card kpi"><span className="kpi-l">{t('تقدّم التحكيم')}</span><b className="num kpi-v">{t.n(asg.length ? Math.round((juryDone / asg.length) * 100) : 0)}٪</b><span className="kpi-d" style={{ color: overdue.length ? 'var(--no)' : undefined }}>{overdue.length ? t('{n} متأخر', { n: overdue.length }) : t('{a} من {b} تقييم', { a: juryDone, b: asg.length })}</span></Link>
+        <Link href="/app/jury" className="card kpi"><span className="kpi-l">{t('تقدّم التحكيم')}</span><b className="num kpi-v">{t.n(asg.length ? Math.round((juryDone / asg.length) * 100) : 0)}%</b><span className="kpi-d" style={{ color: overdue.length ? 'var(--no)' : undefined }}>{overdue.length ? t('{n} متأخر', { n: overdue.length }) : t('{a} من {b} تقييم', { a: juryDone, b: asg.length })}</span></Link>
         <div className="card kpi"><span className="kpi-l">{t('متوسط تقييم NAS')}</span><b className="num kpi-v">{avg != null ? t.n(avg.toFixed(1)) : '—'}</b><span className="kpi-d">{t('من {n} فيلم محلّل', { n: analyzed })}</span></div>
       </div>
 

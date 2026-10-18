@@ -18,10 +18,10 @@ const GENRES: [RegExp, string][] = [
   [/تحريك|انيميشن|انمي|رسوم متحرك|animat|cartoon/, 'تحريك'], [/تجريبي|experimental/, 'تجريبي'],
 ];
 const COUNTRIES: [RegExp, string][] = [
-  [/سعودي|السعوديه|saudi|ksa/, 'السعودية'], [/مصري|مصر|egypt/, 'مصر'], [/امارات|اماراتي|uae|emirat/, 'الإمارات'], [/اردن|اردني|jordan/, 'الأردن'],
+  [/سعودي|السعوديه|saudi(?: arabia)?|ksa/, 'السعودية'], [/مصري|مصر|egypt/, 'مصر'], [/امارات|اماراتي|uae|emirat/, 'الإمارات'], [/اردن|اردني|jordan/, 'الأردن'],
   [/لبنان|لبناني|leban/, 'لبنان'], [/كويت|kuwait/, 'الكويت'], [/قطر|qatar/, 'قطر'], [/مغرب|morocc/, 'المغرب'], [/تونس|tunis/, 'تونس'], [/عراق|iraq/, 'العراق'],
 ];
-const STOP = new Set(['افلام', 'فيلم', 'الافلام', 'اللي', 'التي', 'الذي', 'في', 'من', 'عن', 'مع', 'و', 'او', 'ذات', 'كل', 'لي', 'ابي', 'ابغى', 'ابغي', 'اعرض', 'اعطني', 'وريني', 'هات', 'show', 'me', 'films', 'film', 'movies', 'the', 'with', 'and', 'that', 'are', 'of', 'in', 'a', 'all', 'مهرجانات', 'مهرجان', 'festivals', 'festival', 'دقيقه', 'دقائق', 'بعد', 'فيها', 'فيه', 'لها', 'له', 'هذه', 'هذا', 'min', 'minutes', 'mins', 'اقل', 'اكثر', 'تحت', 'فوق', 'than', 'under', 'over', 'less', 'more']);
+const STOP = new Set(['افلام', 'فيلم', 'الافلام', 'اللي', 'التي', 'الذي', 'في', 'من', 'عن', 'مع', 'و', 'او', 'ذات', 'كل', 'لي', 'ابي', 'ابغى', 'ابغي', 'اعرض', 'اعطني', 'وريني', 'هات', 'show', 'me', 'films', 'film', 'movies', 'the', 'with', 'and', 'that', 'are', 'of', 'in', 'a', 'all', 'مهرجانات', 'مهرجان', 'festivals', 'festival', 'دقيقه', 'دقائق', 'بعد', 'فيها', 'فيه', 'لها', 'له', 'هذه', 'هذا', 'min', 'minutes', 'mins', 'اقل', 'اكثر', 'تحت', 'فوق', 'than', 'under', 'over', 'less', 'more', 'for', 'to', 'from', 'about', 'which', 'any', 'some', 'list', 'find', 'get', 'give', 'please', 'want', 'need', 'reviews', 'review', 'yet', 'not']);
 
 export function parseFilmQuery(q: string, cats: { id: string; name: string }[] = []): { f: FilmFilters; chips: Chip[] } {
   const s = norm(q);
@@ -50,7 +50,7 @@ export function parseFilmQuery(q: string, cats: { id: string; name: string }[] =
   if (/(الاحدث|احدث|newest|latest|recent)/.test(s)) { f.sort = 'new'; chips.push({ key: 'sort', label: 'الأحدث' }); eat(/(الاحدث|احدث|newest|latest|recent)/g); }
 
   // jury / workflow
-  if (/(بدون محكم|بلا محكم|ما لها محكم|لم تسند|غير مسند|بدون اسناد|unassigned|no reviewer|not assigned|without reviewer)/.test(s)) { f.unassigned = true; chips.push({ key: 'unassigned', label: 'بدون محكّم' }); eat(/(بدون محكم\S*|بلا محكم\S*|ما لها محكم\S*|لم تسند|غير مسند\S*|بدون اسناد|unassigned|no reviewers?|not assigned|without reviewers?)/g); }
+  if (/(بدون محكم|بلا محكم|ما لها محكم|لم تسند|غير مسند|بدون اسناد|unassigned|no reviewer|no juror|no jury|not assigned|without (?:a )?(?:reviewer|juror))/.test(s)) { f.unassigned = true; chips.push({ key: 'unassigned', label: 'بدون محكّم' }); eat(/(بدون محكم\S*|بلا محكم\S*|ما لها محكم\S*|لم تسند|غير مسند\S*|بدون اسناد|unassigned|no reviewers?|no jurors?|no jury|not assigned|without (?:a )?(?:reviewers?|jurors?))/g); }
   else if (/(مسنده|اسندت|assigned)/.test(s)) { f.assigned = true; chips.push({ key: 'assigned', label: 'مسندة لمحكّم' }); eat(/(مسنده|اسندت|assigned)/g); }
   if (/(تمت مراجعت|قيمها المحكم|اكتمل تقييم|reviewed|evaluated)/.test(s)) { f.reviewed = true; chips.push({ key: 'reviewed', label: 'اكتمل تقييمها' }); eat(/(تمت مراجعت\S*|قيمها المحكم\S*|اكتمل تقييم\S*|reviewed|evaluated)/g); }
   if (/(روابط? لا تعمل|رابط معطل|روابط معطله|رابط خربان|broken link|dead link|bad link)/.test(s)) { f.broken = true; chips.push({ key: 'broken', label: 'روابط لا تعمل' }); eat(/(روابط? لا تعمل|رابط معطل|روابط معطله|رابط خربان|broken links?|dead links?|bad links?)/g); }
@@ -59,7 +59,7 @@ export function parseFilmQuery(q: string, cats: { id: string; name: string }[] =
   const dec: [RegExp, string, string][] = [[/(مقبول|مقبوله|المقبوله|اختيرت|accepted|selected)/, 'accepted', 'مقبولة'], [/(معتذر|مرفوض|مرفوضه|declined|rejected)/, 'declined', 'معتذر عنها'],
     [/(قائمه قصيره|القائمه القصيره|shortlist)/, 'shortlisted', 'القائمة القصيرة'], [/(بانتظار القرار|بدون قرار|لم يقرر|pending|undecided)/, 'pending', 'بانتظار القرار']];
   for (const [re, k, l] of dec) if (re.test(s)) { (f.decision ||= []).push(k); chips.push({ key: `decision:${k}`, label: l }); eat(new RegExp(`(?:${re.source})\\S*`, 'g')); }
-  if (/(لم تجدول|غير مجدول|بدون جدول|not scheduled|unscheduled)/.test(s)) { f.unscheduled = true; chips.push({ key: 'unscheduled', label: 'لم تُجدول بعد' }); eat(/(لم تجدول|غير مجدول\S*|بدون جدول|not scheduled|unscheduled)/g); }
+  if (/(لم تجدول|غير مجدول|بدون جدول|not (?:yet )?scheduled|unscheduled)/.test(s)) { f.unscheduled = true; chips.push({ key: 'unscheduled', label: 'لم تُجدول بعد' }); eat(/(لم تجدول|غير مجدول\S*|بدون جدول|not (?:yet )?scheduled|unscheduled)/g); }
   if (/(هذا الاسبوع|الاسبوع|this week)/.test(s)) { f.days = 7; chips.push({ key: 'days', label: 'هذا الأسبوع' }); eat(/(هذا الاسبوع|الاسبوع|this week)/g); }
   else if (/(اليوم|today)/.test(s)) { f.days = 1; chips.push({ key: 'days', label: 'اليوم' }); eat(/(اليوم|today)/g); }
 

@@ -131,7 +131,7 @@ export function ProgrammeBoard({ venues, screenings, films, days, hasDates, publ
         </div>
       </div>
 
-      {edit && <EditScreening s={edit} film={byId.get(edit.submission_id)} venues={venues} days={days} all={screenings} busy={pending} onClose={() => setEdit(null)}
+      {edit && <EditScreening s={edit} film={byId.get(edit.submission_id)} venues={venues} days={days} all={screenings.map((x) => ({ ...x, title: byId.get(x.submission_id)?.title }))} busy={pending} onClose={() => setEdit(null)}
         onSave={(x) => run(() => saveScreenings([x]), t('حُفظ العرض'), () => setEdit(null))}
         onDelete={edit.id ? () => run(() => deleteScreening(edit.id!), t('أُزيل العرض من البرنامج'), () => setEdit(null)) : undefined} />}
 
@@ -139,7 +139,7 @@ export function ProgrammeBoard({ venues, screenings, films, days, hasDates, publ
         <div className="modal-bg" role="dialog" aria-modal="true" onClick={(e) => e.target === e.currentTarget && !pending && setProposal(null)}>
           <div className="card rise" style={{ width: '100%', maxWidth: 620, padding: 28, borderRadius: 26, display: 'flex', flexDirection: 'column', gap: 16, maxHeight: '90vh', overflowY: 'auto' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}><span style={{ color: 'var(--acc)' }}><Icon name="spark" size={20} /></span><h2 style={{ fontSize: 22 }} className="display">{t('جدول مقترح')}</h2></div>
-            <span style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.8 }}>{t('رتّبنا {n} فيلم على {d} أيام: أفلام القسم الواحد متتالية، والأعلى تقييمًا في أوقات المساء، و{b} دقيقة بين كل عرضين.', { n: proposal.plan.length, d: new Set(proposal.plan.map((p) => local(p.starts_at).day)).size, b: 15 })}</span>
+            <span style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.8 }}>{t('رتّبنا {n} فيلم على {d} أيام: أفلام القسم الواحد متتالية، والعروض موزّعة بالتساوي على الأيام والقاعات، مع {b} دقيقة بين كل عرضين.', { n: proposal.plan.length, d: new Set(proposal.plan.map((p) => local(p.starts_at).day)).size, b: 15 })}</span>
             {days.map((d) => {
               const xs = proposal.plan.filter((p) => local(p.starts_at).day === d).sort((a, b) => a.starts_at.localeCompare(b.starts_at));
               if (!xs.length) return null;
@@ -168,7 +168,7 @@ export function ProgrammeBoard({ venues, screenings, films, days, hasDates, publ
       )}
 
       {venueForm && <VenueForm busy={pending} onClose={() => setVenueForm(false)} onSave={(n, c) => run(() => addVenue(n, c), t('أُضيفت القاعة'), () => setVenueForm(false))} />}
-      {toast && <div className="toast" role="status">{toast}</div>}
+      {toast && <div className="toast" role="status">{t(toast)}</div>}
     </>
   );
 }
@@ -196,7 +196,7 @@ function EditScreening({ s, film, venues, days, all, busy, onClose, onSave, onDe
           <button type="button" className="ibtn" onClick={onClose} aria-label={t('إغلاق')}><Icon name="x" /></button>
         </div>
         <label className="lbl">{t('القاعة')}<select className="fld" value={venue} onChange={(e) => setVenue(e.target.value)}>{venues.map((v) => <option key={v.id} value={v.id}>{v.name}</option>)}</select></label>
-        <label className="lbl">{t('اليوم')}<select className="fld" value={day} onChange={(e) => setDay(e.target.value)}>{dayList.map((x) => <option key={x} value={x}>{t.day(`${x}T12:00:00Z`)}</option>)}</select></label>
+        <label className="lbl">{t('يوم العرض')}<select className="fld" value={day} onChange={(e) => setDay(e.target.value)}>{dayList.map((x) => <option key={x} value={x}>{t.day(`${x}T12:00:00Z`)}</option>)}</select></label>
         <div className="g2" style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: 12 }}>
           <label className="lbl">{t('وقت البداية')}<input className="fld num" type="time" value={time} onChange={(e) => setTime(e.target.value)} dir="ltr" /></label>
           <label className="lbl">{t('المدة (دقيقة)')}<input className="fld num" inputMode="numeric" value={dur} onChange={(e) => setDur(e.target.value.replace(/\D/g, '').slice(0, 3))} dir="ltr" /></label>

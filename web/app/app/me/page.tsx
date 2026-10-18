@@ -1,8 +1,9 @@
+import { getT } from '@/lib/i18n/server';
 import { getCtx } from '@/lib/ctx';
 import { MeHome } from '@/components/me/MeHome';
 import { loadMe } from '@/lib/me';
 
-export const metadata = { title: 'مساحتي' };
+export async function generateMetadata() { const t = await getT(); return { title: t('مساحتي') }; }
 
 export default async function MePage() {
   const ctx = await getCtx();

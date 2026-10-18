@@ -78,7 +78,7 @@ export function SubmitDialog({ films, festivals, filmId, festivalId, onClose }: 
             <button type="button" onClick={() => setAgree(!agree)} aria-pressed={agree} className="check-row">
               <span className={`check ${agree ? 'on' : ''}`}>{agree && <Icon name="check" size={12} stroke={3.4} />}</span>{t('قرأت شروط المهرجان وأوافق عليها.')}
             </button>
-            {err && <span className="err" role="alert">{err}</span>}
+            {err && <span className="err" role="alert">{t(err)}</span>}
             <button type="button" className="btn btn-p btn-lg" disabled={busy} onClick={go}>{busy ? <><Spinner size={16} />{t('نرسل ونحلّل فيلمك…')}</> : t('أرسل المشاركة')}</button>
             <span className="hint" style={{ textAlign: 'center' }}>{t('نرسل بيانات فيلمك وتحليله. لا ننقل أي حقوق عرض أو توزيع.')}</span>
           </>}

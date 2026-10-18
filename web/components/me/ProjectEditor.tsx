@@ -42,7 +42,7 @@ export function ProjectEditor({ userId, project, video, festivals = [], subs = [
   const tag = (k: string) => (filled.includes(k) ? <span className="chip c-acc" style={{ height: 20, fontSize: 11, padding: '0 7px' }}>✦ {t('من الفيلم')}</span> : null);
   const cls = (k: string) => `fld${filled.includes(k) ? ' filled' : ''}`;
   const bad = (k: string) => (fe[k] ? { borderColor: 'var(--no)' } : undefined);
-  const E = ({ k }: { k: string }) => (fe[k] ? <span className="err">{fe[k]}</span> : null);
+  const E = ({ k }: { k: string }) => (fe[k] ? <span className="err">{t(fe[k])}</span> : null);
   const shown = report ? null : video || null; // a fresh report is already shown inside the uploader
   const c = completeness({ ...p, duration_min: Number(p.duration_min) || null, has_video: !!(report || video) });
 

@@ -1,8 +1,9 @@
+import { getT } from '@/lib/i18n/server';
 import { getCtx } from '@/lib/ctx';
 import { loadMe } from '@/lib/me';
 import { FestivalDiscovery } from '@/components/me/FestivalDiscovery';
 
-export const metadata = { title: 'اكتشف المهرجانات' };
+export async function generateMetadata() { const t = await getT(); return { title: t('اكتشف المهرجانات') }; }
 export default async function Discover({ searchParams }: { searchParams: Promise<{ ai?: string }> }) {
   const { sb } = await getCtx();
   const sp = await searchParams;

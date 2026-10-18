@@ -1,3 +1,4 @@
+import { getT } from '@/lib/i18n/server';
 import { redirect } from 'next/navigation';
 import { supabaseServer } from '@/lib/supabase/server';
 import { sessionUser } from '@/lib/ctx';
@@ -5,7 +6,7 @@ import { ReviewDesk } from '@/components/app/ReviewDesk';
 import { embedUrl } from '@/lib/embed';
 
 export const dynamic = 'force-dynamic';
-export const metadata = { title: 'أفلامك للتحكيم' };
+export async function generateMetadata() { const t = await getT(); return { title: t('أفلامك للتحكيم') }; }
 
 export default async function ReviewPage() {
   const sb = await supabaseServer();

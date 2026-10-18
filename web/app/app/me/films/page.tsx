@@ -5,7 +5,7 @@ import { loadMe } from '@/lib/me';
 import { Icon } from '@/components/Icon';
 import { FilmGrid } from '@/components/me/FilmGrid';
 
-export const metadata = { title: 'أفلامي' };
+export async function generateMetadata() { const t = await getT(); return { title: t('أفلامي') }; }
 export default async function Films() {
   const { sb } = await getCtx();
   const t = await getT();

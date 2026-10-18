@@ -62,7 +62,7 @@ export function AppShell({ children, name, isAdmin, role, festivals, currentId, 
               <span className="fest-av">{cur?.name.slice(0, 1) || 'N'}</span>
               <span style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2, textAlign: 'start' }}>
                 <b style={{ fontSize: 14, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{cur?.name || t('اختر مهرجانًا')}</b>
-                {cur && <span style={{ fontSize: 12, color: ST[cur.status]?.[1] }}>● {ST[cur.status]?.[0]}{cur.edition > 1 ? ` · ${t('الدورة {n}', { n: cur.edition })}` : ''}</span>}
+                {cur && <span style={{ fontSize: 12, color: ST[cur.status]?.[1] }}>● {ST[cur.status]?.[0]}{cur.edition > 1 ? t(' · {v0}', { v0: t('الدورة {n}', { n: cur.edition }) }) : ''}</span>}
               </span>
               <Icon name="m7 10 5 5 5-5" size={14} stroke={2} />
             </button>
