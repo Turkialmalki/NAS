@@ -34,7 +34,7 @@ export function SiteNav() {
         <nav className="sn-links" aria-label={t('القائمة الرئيسية')}>
           <button type="button" className={`sn-l ${open ? 'on' : ''} ${path === '/features' ? 'on' : ''}`} aria-expanded={open} aria-controls="sn-panel"
             onMouseEnter={enter} onClick={() => setOpen(!open)} onFocus={enter}>
-            {t('المنصة')}<Icon name="m6 9 6 6 6-6" size={13} stroke={2.2} className="sn-caret" />
+            {t('المزايا')}<Icon name="m6 9 6 6 6-6" size={13} stroke={2.2} className="sn-caret" />
           </button>
           <Link href="/festivals" className={`sn-l ${on('/festivals')}`} onMouseEnter={leave}>{t('المهرجانات')}</Link>
           <Link href="/pricing" className={`sn-l ${on('/pricing')}`} onMouseEnter={leave}>{t('الأسعار')}</Link>

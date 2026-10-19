@@ -69,13 +69,13 @@ export function FestivalDiscovery({ festivals, films = [], initialAi = '', signe
     <>
       <div className={`fd-head ${variant === 'public' ? 'pub' : ''}`}>
         <h1 className={variant === 'public' ? 'display' : ''}>{variant === 'public' ? t('مهرجانات تستقبل أفلامك الآن') : t('اكتشف المهرجانات')}</h1>
-        <p>{variant === 'public' ? t('ابحث بكلامك، وقارن المواعيد والأقسام والرسوم، وقدّم من ملف فيلمك بضغطة.') : t('مهرجانات تستقبل الأفلام الآن. اكتب ما تبحث عنه بكلامك.')}</p>
+        <p>{variant === 'public' ? t('ابحث بكلماتك، وقارن المواعيد والأقسام والرسوم، وقدّم من ملف فيلمك بضغطة.') : t('مهرجانات تستقبل الأفلام الآن. اكتب ما تبحث عنه بكلماتك.')}</p>
       </div>
 
       {festivals.length === 0 ? (
         <div className="fd-empty">
           <div className="fd-empty-art" aria-hidden="true">{[0, 1, 2].map((i) => <span key={i} style={{ ['--h' as string]: [32, 44, 20][i] }} />)}</div>
-          <h2 className="display">{t('الدليل يُفتتح مع أول المهرجانات')}</h2>
+          <h2 className="display">{t('لا توجد مهرجانات مفتوحة للتقديم حاليًا')}</h2>
           <p>{t('هنا تظهر المهرجانات المفتوحة للتقديم بأقسامها ومواعيدها ورسومها. لا يوجد مهرجان مفتوح الآن، وستجد هنا كل مهرجان فور فتح التقديم فيه.')}</p>
           <div className="fd-empty-ctas">
             <Link href={signedIn ? '/app/me/films/new' : '/login?mode=signup&role=filmmaker'} className="btn btn-p">{t('جهّز ملف فيلمك الآن')}</Link>
@@ -85,7 +85,7 @@ export function FestivalDiscovery({ festivals, films = [], initialAi = '', signe
       ) : <>
         <AiFilterBar initial={initialAi} chips={festChips(ff)} busy={busy} count={list.length} total={festivals.length} examples={EXAMPLES}
           onQuery={search} onRemove={(k) => setFf((p) => removeChip(p, k))} onClear={() => setFf({})} />
-        <div className="fd-quick" role="toolbar" aria-label={t('عروض سريعة')}>
+        <div className="fd-quick" role="toolbar" aria-label={t('تصفية سريعة')}>
           {QUICK.map(([l, v]) => <button key={l} type="button" className={same(ff, v) ? 'on' : ''} aria-pressed={same(ff, v)} onClick={() => setFf(v)}>{t(l)}</button>)}
         </div>
 

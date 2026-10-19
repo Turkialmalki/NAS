@@ -138,7 +138,7 @@ export function LoginForm({ signup: initialSignup, next, linkError, role }: { si
             <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 18 }}>
               <div style={{ textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 8 }}>
                 <h1 style={{ fontSize: 28 }}>{up ? t('أنشئ حسابك') : t('أهلًا بك')}</h1>
-                <span style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.7 }}>{up ? t('اكتب بريدك وسنرسل لك رمزًا. بعدها تختار دورك وتجهز مساحتك.') : t('اكتب بريدك وسنرسل لك رمز دخول. بدون كلمة مرور.')}</span>
+                <span style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.7 }}>{up ? t('اكتب بريدك وسنرسل لك رمزًا. بعدها تختار دورك وتبدأ مباشرة.') : t('اكتب بريدك وسنرسل لك رمز دخول. بدون كلمة مرور.')}</span>
               </div>
 
               <form onSubmit={sendEmail} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

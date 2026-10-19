@@ -8,7 +8,7 @@ import { Icon, Spinner } from './Icon';
 
 const ROLES: { id: Role; icon: string; title: string; body: string; points: string[] }[] = [
   { id: 'festival', icon: 'grid', title: 'أنظّم مهرجانًا', body: 'أستقبل الأفلام، وأدير لجنة التحكيم والقرارات والبرنامج.',
-    points: ['أنشئ مهرجانك من ملف أو باسمه فقط', 'غرفة قيادة لكل الدورة', 'برنامج عروض بلا تعارضات'] },
+    points: ['أنشئ مهرجانك من ملف أو باسمه فقط', 'لوحة تحكم واحدة لكل الدورة', 'جدول عروض بلا تعارضات'] },
   { id: 'filmmaker', icon: 'film', title: 'صانع أفلام', body: 'أرفع أفلامي، وأقدّمها للمهرجانات، وأتابع النتائج.',
     points: ['NAS Vision يجهّز ملف فيلمك', 'مهرجانات مقترحة تناسب فيلمك', 'تقديم بضغطة ومتابعة حتى النتيجة'] },
   { id: 'judge', icon: 'play', title: 'محكّم', body: 'أشاهد الأفلام المسندة إليّ وأقيّمها بمعايير المهرجان.',
@@ -55,7 +55,7 @@ export function Register({ name: initialName, email, initialRole, invites }: { n
       ) : (
         <div className="reg-body wide rise" key="s1">
           <h1 className="display">{t('كيف ستستخدم NAS؟')}</h1>
-          <p>{t('نجهّز لك مساحة تناسب دورك. يمكنك تغييره لاحقًا من الإعدادات.')}</p>
+          <p>{t('نجهّز لك لوحة تحكم تناسب دورك. يمكنك تغييره لاحقًا من الإعدادات.')}</p>
           <div className="reg-roles" role="radiogroup" aria-label={t('دورك')}>
             {ROLES.map((r) => (
               <button key={r.id} type="button" role="radio" aria-checked={role === r.id} className={`reg-role ${role === r.id ? 'on' : ''}`} onClick={() => { setRole(r.id); setErr(''); }}>
@@ -74,7 +74,7 @@ export function Register({ name: initialName, email, initialRole, invites }: { n
           <div className="reg-actions">
             <button type="button" className="btn btn-g" onClick={() => setStep(0)}><Icon name="arrow" size={15} className="back" />{t('رجوع')}</button>
             <button type="button" className="btn btn-p btn-lg" disabled={pending || !role} onClick={finish} style={{ minWidth: 220 }}>
-              {pending ? <Spinner size={16} /> : <>{t('جهّز مساحتي')}<Icon name="arrow" size={16} stroke={2.2} className="fwd" /></>}
+              {pending ? <Spinner size={16} /> : <>{t('ابدأ الآن')}<Icon name="arrow" size={16} stroke={2.2} className="fwd" /></>}
             </button>
           </div>
         </div>

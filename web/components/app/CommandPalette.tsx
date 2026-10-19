@@ -35,7 +35,7 @@ export function CommandPalette({ mode, nav, onClose, canFestival }: { mode: 'fes
     const s = q.trim().toLowerCase();
     const hits = s ? base.filter((x) => x.label.toLowerCase().includes(s)) : base;
     if (!s) return hits;
-    const ai: Item = { id: 'ai', icon: 'spark', ai: true, label: q.trim(), hint: t(mode === 'festival' ? 'فلترة الأفلام بالذكاء الاصطناعي' : 'ابحث في المهرجانات بالذكاء الاصطناعي'),
+    const ai: Item = { id: 'ai', icon: 'spark', ai: true, label: q.trim(), hint: t(mode === 'festival' ? 'تصفية الأفلام بالذكاء الاصطناعي' : 'ابحث في المهرجانات بالذكاء الاصطناعي'),
       href: mode === 'festival' ? `/app/films?ai=${encodeURIComponent(q.trim())}` : `/app/me/festivals?ai=${encodeURIComponent(q.trim())}` };
     return [ai, ...hits];
   }, [q, base, mode, t]);

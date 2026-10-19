@@ -49,7 +49,7 @@ export default async function Command({ searchParams }: { searchParams: Promise<
 
   // ---- setup checklist (only until the festival is ready)
   const setup = [
-    { ok: (festival.description || '').trim().length >= 30 && !!festival.submissions_close, l: t('اكتب نبذة وحدّد موعد الإغلاق ليظهر مهرجانك في الدليل'), h: '/app/settings' },
+    { ok: (festival.description || '').trim().length >= 30 && !!festival.submissions_close, l: t('اكتب نبذة وحدّد موعد الإغلاق ليظهر مهرجانك في صفحة المهرجانات'), h: '/app/settings' },
     { ok: (cats || []).length > 0, l: t('أضف أقسام المسابقة'), h: '/app/settings' },
     { ok: (crit || []).length > 0, l: t('حدّد معايير التقييم'), h: '/app/settings' },
     { ok: jury.length > 0, l: t('ادعُ لجنة التحكيم'), h: '/app/jury?invite=1' },
@@ -61,7 +61,7 @@ export default async function Command({ searchParams }: { searchParams: Promise<
   const todo: { tone: 'acc' | 'no' | 'ok'; l: string; p: string; a: string; h: string }[] = [];
   if (festival.status === 'draft') todo.push({ tone: 'acc', l: t('صفحة التقديم غير منشورة'), p: t('انشرها ليبدأ استقبال الأفلام.'), a: t('انشر'), h: '/app/settings' });
   if (waiting) todo.push({ tone: 'acc', l: t('{n} فيلم ينتظر قرارك', { n: waiting }), p: t('اكتملت تقييمات اللجنة عليها.'), a: t('راجعها'), h: `/app/films?ai=${encodeURIComponent(t('بانتظار القرار'))}` });
-  if (unassigned && jury.length) todo.push({ tone: 'acc', l: t('{n} فيلم بدون محكّم', { n: unassigned }), p: t('جهّزنا توزيعًا متوازنًا حسب التخصص وحِمل كل محكّم.'), a: t('وزّعها'), h: '/app/jury' });
+  if (unassigned && jury.length) todo.push({ tone: 'acc', l: t('{n} فيلم بدون محكّم', { n: unassigned }), p: t('جهّزنا توزيعًا متوازنًا حسب تخصص كل محكّم وعدد الأفلام المسندة إليه.'), a: t('وزّعها'), h: '/app/jury' });
   if (overdue.length) todo.push({ tone: 'no', l: t('{n} تقييم تجاوز الموعد', { n: overdue.length }), p: t('ذكّر المحكّمين المتأخرين من صفحة اللجنة.'), a: t('اللجنة'), h: '/app/jury' });
   if (broken) todo.push({ tone: 'no', l: t('{n} رابط مشاهدة لا يعمل', { n: broken }), p: t('تواصل مع أصحابها لتحديث الروابط.'), a: t('اعرضها'), h: `/app/films?ai=${encodeURIComponent(t('روابط لا تعمل'))}` });
   if (decided && !screenings) todo.push({ tone: 'acc', l: t('ابدأ جدول العروض'), p: t('NAS يقترح جدولًا كاملًا للأفلام المقبولة في ثوانٍ.'), a: t('اقترح جدولًا'), h: '/app/programme?auto=1' });
@@ -78,11 +78,11 @@ export default async function Command({ searchParams }: { searchParams: Promise<
   }
 
   const pipe = [
-    { l: t('وصلت'), v: subs.length, h: '/app/films' },
-    { l: t('حُلّلت'), v: analyzed, h: '/app/films' },
-    { l: t('وُزّعت'), v: assigned.size, h: '/app/jury' },
-    { l: t('قُيّمت'), v: reviewedN, h: `/app/films?ai=${encodeURIComponent(t('اكتمل تقييمها'))}` },
-    { l: t('حُسمت'), v: decided, h: `/app/films?ai=${encodeURIComponent(t('مقبولة'))}` },
+    { l: t('مستلمة'), v: subs.length, h: '/app/films' },
+    { l: t('محلّلة'), v: analyzed, h: '/app/films' },
+    { l: t('مُسندة'), v: assigned.size, h: '/app/jury' },
+    { l: t('مُقيّمة'), v: reviewedN, h: `/app/films?ai=${encodeURIComponent(t('اكتمل تقييمها'))}` },
+    { l: t('بقرار نهائي'), v: decided, h: `/app/films?ai=${encodeURIComponent(t('مقبولة'))}` },
   ];
   const catDist = (cats || []).map((c) => ({ l: c.name, v: subs.filter((s) => s.category_id === c.id).length })).filter((x) => x.v).sort((a, b) => b.v - a.v);
   const genreDist = count(subs.map((s) => s.genre).filter(Boolean) as string[]).slice(0, 5).map(([l, v]) => ({ l: t(l), v }));
@@ -144,7 +144,7 @@ export default async function Command({ searchParams }: { searchParams: Promise<
       <div className="cc-grid">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 0 }}>
           <div className="card" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 4, borderColor: 'var(--accL)', background: 'linear-gradient(180deg, var(--accT), rgba(0,0,0,0) 55%), var(--s1)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}><span style={{ color: 'var(--acc)' }}><Icon name="spark" size={19} /></span><b style={{ fontSize: 17 }}>{t('يحتاجك اليوم')}</b></div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}><span style={{ color: 'var(--acc)' }}><Icon name="spark" size={19} /></span><b style={{ fontSize: 17 }}>{t('مهام اليوم')}</b></div>
             {todo.length === 0 ? (
               <div className="row" style={{ padding: '14px 0' }}><span style={{ display: 'flex', flexDirection: 'column', gap: 3 }}><b style={{ fontSize: 15 }}>{t('كل شيء على ما يرام')}</b><span style={{ fontSize: 13.5, color: 'var(--muted)' }}>{subs.length ? t('لا توجد مهام عاجلة اليوم.') : t('شارك رابط التقديم لتبدأ الأفلام بالوصول.')}</span></span></div>
             ) : todo.map((x) => (
@@ -156,7 +156,7 @@ export default async function Command({ searchParams }: { searchParams: Promise<
           </div>
 
           <div className="card" style={{ padding: '22px 24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <b style={{ fontSize: 16 }}>{t('مسار الأفلام')}</b>
+            <b style={{ fontSize: 16 }}>{t('مراحل الأفلام')}</b>
             <div className="pipe">
               {pipe.map((p, i) => (
                 <Link key={p.l} href={p.h} className="pipe-i">
@@ -178,7 +178,7 @@ export default async function Command({ searchParams }: { searchParams: Promise<
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14, minWidth: 0 }}>
           {brief.length > 0 && (
             <div className="card" style={{ padding: 22, display: 'flex', flexDirection: 'column', gap: 10 }}>
-              <span className="eyebrow" style={{ display: 'flex', gap: 6, alignItems: 'center' }}><Icon name="spark" size={13} />{t('موجز NAS')}</span>
+              <span className="eyebrow" style={{ display: 'flex', gap: 6, alignItems: 'center' }}><Icon name="spark" size={13} />{t('ملخص NAS')}</span>
               {brief.map((b) => <span key={b} style={{ fontSize: 14.5, lineHeight: 1.8, color: 'var(--ink2)' }}>{b}</span>)}
             </div>
           )}

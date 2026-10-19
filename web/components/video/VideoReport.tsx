@@ -62,7 +62,7 @@ export function VideoReport({ r, compact = false, onUseSynopsis }: { r: VideoAna
       {/* colour barcode + pacing */}
       {r.barcode?.length > 0 && (
         <div style={box}>
-          <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}><b style={{ fontSize: 14 }}>{t('بصمة الفيلم')}</b><span style={{ fontSize: 12, color: 'var(--faint)' }}>{t('الألوان والإيقاع من البداية إلى النهاية')}</span></span>
+          <span style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}><b style={{ fontSize: 14 }}>{t('الطيف اللوني للفيلم')}</b><span style={{ fontSize: 12, color: 'var(--faint)' }}>{t('الألوان والإيقاع من البداية إلى النهاية')}</span></span>
           <div style={{ display: 'flex', height: compact ? 34 : 48, borderRadius: 10, overflow: 'hidden', direction: 'ltr' }} className="barcode">{r.barcode.map((c, i) => <span key={i} style={{ flex: 1, background: c }} />)}</div>
           <Pulse energy={r.energy || []} light={r.light || []} />
           <span style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5, color: 'var(--faint)' }}><span>{t('البداية')}</span><span><b style={{ color: 'var(--acc)' }}>━</b> {t('حركة الصورة ·')}{' '}<b style={{ color: 'var(--info)' }}>┅</b> {t('الإضاءة')}</span><span className="num" style={{ direction: 'ltr' }}>{clock(r.tech.duration)}</span></span>

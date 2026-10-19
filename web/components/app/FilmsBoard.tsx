@@ -71,7 +71,7 @@ export function FilmsBoard({ films, reviewers, categories, initialStatus, initia
 
       <AiFilterBar initial={initialAi} chips={chips} busy={searching} count={list.length} total={films.length} examples={EXAMPLES}
         onQuery={search} onRemove={(k) => setFf((p) => removeChip(p, k))} onClear={() => setFf({})} />
-      <div className="seg" role="group" aria-label={t('عروض سريعة')} style={{ alignSelf: 'flex-start', maxWidth: '100%', overflowX: 'auto', flexWrap: 'nowrap' }}>
+      <div className="seg" role="group" aria-label={t('تصفية سريعة')} style={{ alignSelf: 'flex-start', maxWidth: '100%', overflowX: 'auto', flexWrap: 'nowrap' }}>
         {QUICK.map(([k, l, v]) => <button key={k} type="button" className={quickOn(v) ? 'on' : ''} aria-pressed={quickOn(v)} onClick={() => setFf(v)} style={{ height: 32, fontSize: 13, padding: '0 12px', whiteSpace: 'nowrap' }}>{t(l)}</button>)}
       </div>
 

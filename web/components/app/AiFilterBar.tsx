@@ -15,13 +15,13 @@ export function AiFilterBar({ initial = '', chips, onQuery, onRemove, onClear, e
     <div className="aif">
       <form onSubmit={(e) => { e.preventDefault(); onQuery(q); }} className="aif-in">
         <span className="aif-ic">{busy ? <Spinner size={15} /> : <Icon name="spark" size={16} />}</span>
-        <input value={q} onChange={(e) => { setQ(e.target.value); if (!e.target.value) onClear(); }} placeholder={t('فلترة ذكية: اكتب ما تبحث عنه بكلامك')} aria-label={t('فلترة ذكية')} />
+        <input value={q} onChange={(e) => { setQ(e.target.value); if (!e.target.value) onClear(); }} placeholder={t('بحث ذكي: اكتب ما تبحث عنه بكلماتك')} aria-label={t('بحث ذكي')} />
         {q && <button type="button" className="ibtn" style={{ width: 32, height: 32 }} aria-label={t('مسح')} onClick={() => { setQ(''); onClear(); }}><Icon name="x" size={15} /></button>}
         <button className="btn btn-p btn-sm" style={{ height: 38 }}>{t('فلتر')}</button>
       </form>
       {chips.length > 0 ? (
         <div className="aif-chips rise">
-          <span className="aif-lbl"><Icon name="spark" size={12} />{t('فهمت')}</span>
+          <span className="aif-lbl"><Icon name="spark" size={12} />{t('معايير البحث')}</span>
           {chips.map((c) => (
             <button key={c.key + c.label} type="button" className="aif-chip" onClick={() => onRemove(c.key)} aria-label={t('إزالة {x}', { x: t(c.label, c.vars) })}>
               {t(c.label, c.vars)}<Icon name="x" size={11} stroke={2.4} />

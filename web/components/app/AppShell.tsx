@@ -15,7 +15,7 @@ type Mode = 'festival' | 'filmmaker';
 
 const FESTIVAL_NAV: [string, string, string][] = [
   ['/app', 'grid', 'الرئيسية'], ['/app/films', 'film', 'الأفلام'], ['/app/jury', 'users', 'لجنة التحكيم'],
-  ['/app/programme', 'cal', 'البرنامج'], ['/app/reports', 'chart', 'التقارير'], ['/app/settings', 'gear', 'الإعدادات'],
+  ['/app/programme', 'cal', 'جدول العروض'], ['/app/reports', 'chart', 'التقارير'], ['/app/settings', 'gear', 'الإعدادات'],
 ];
 const FILMMAKER_NAV: [string, string, string][] = [['/app/me', 'grid', 'الرئيسية'], ['/app/me/films', 'film', 'أفلامي'], ['/app/me/festivals', 'globe', 'اكتشف المهرجانات']];
 

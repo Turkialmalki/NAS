@@ -44,7 +44,7 @@ export function ProgrammeBoard({ venues, screenings, films, days, hasDates, publ
     <>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', gap: 16, flexWrap: 'wrap' }}>
         <div>
-          <h1 style={{ fontSize: 30 }}>{t('البرنامج')}</h1>
+          <h1 style={{ fontSize: 30 }}>{t('جدول العروض')}</h1>
           <p style={{ margin: '8px 0 0', color: 'var(--muted)', fontSize: 15.5 }}>
             {screenings.length ? t('{s} عرض في {v} قاعات على {d} أيام', { s: screenings.length, v: venues.length, d: days.length }) : t('رتّب عروض الأفلام المقبولة على القاعات والأيام.')}
           </p>

@@ -42,7 +42,7 @@ export default async function FestivalApply({ params }: { params: Promise<{ slug
         </div>
         {shows.length > 0 && (
           <section id="programme" className="card" style={{ padding: '24px 26px', display: 'flex', flexDirection: 'column', gap: 18 }}>
-            <h2 style={{ fontSize: 26 }} className="display">{t('برنامج العروض')}</h2>
+            <h2 style={{ fontSize: 26 }} className="display">{t('جدول العروض')}</h2>
             {days.map((d) => (
               <div key={d} style={{ display: 'flex', flexDirection: 'column' }}>
                 <span className="eyebrow" style={{ marginBottom: 4 }}>{t.day(`${d}T12:00:00Z`)}</span>
