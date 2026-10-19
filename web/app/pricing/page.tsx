@@ -40,7 +40,7 @@ export default async function Pricing() {
               <span className="pr-price"><span className="num">{t(p.price)}</span>{p.cur && <small>{t(p.cur)}</small>}</span>
               <span className="pr-per">{p.per ? t(p.per) : ' '}</span>
               <span className="pr-note">{t(p.note)}</span>
-              {p.contact ? <ContactButton className="btn btn-s">{t(p.cta)}</ContactButton>
+              {p.contact ? <ContactButton className="btn btn-s" topic="pricing">{t(p.cta)}</ContactButton>
                 : <Link href={p.href!} className={`btn ${p.top ? 'btn-p' : 'btn-s'}`}>{t(p.cta)}</Link>}
               <ul>{p.items.map((x) => <li key={x}><Icon name="check" size={15} stroke={2.6} />{t(x)}</li>)}</ul>
             </div>

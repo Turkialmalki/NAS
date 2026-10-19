@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { getT } from '@/lib/i18n/server';
 import { SiteHeader, SiteFooter } from '@/components/Site';
-import { ContactButton } from '@/components/ContactModal';
 import { AnalysisDemo } from '@/components/landing/AnalysisDemo';
 import { HeroScene, HowItWorks, RoleScenes } from '@/components/landing/Story';
 import { Icon } from '@/components/Icon';
@@ -67,13 +66,10 @@ export default async function Home() {
         </section>
 
         <section className="wrap lp-end">
-          <h2 className="display">{t('دورتك القادمة تبدأ من هنا.')}</h2>
-          <p>{t('أنشئ مهرجانك مجانًا، أو أضف فيلمك وقدّمه للمهرجانات.')}</p>
-          <div className="lp-ctas">
-            <Link href="/login?mode=signup&role=festival" className="btn btn-p btn-lg">{t('أنشئ مهرجانك')}</Link>
-            <Link href="/login?mode=signup&role=filmmaker" className="btn btn-s btn-lg">{t('أنا صانع أفلام')}</Link>
-            <ContactButton className="btn btn-g btn-lg">{t('تواصل معنا')}</ContactButton>
-          </div>
+          <h2 className="display">{t('ابدأ مهرجانك على NAS اليوم.')}</h2>
+          <p>{t('التسجيل مجاني، ويصبح مهرجانك جاهزًا لاستقبال الأفلام في دقائق.')}</p>
+          <Link href="/login?mode=signup" className="btn btn-p btn-lg">{t('ابدأ مجانًا')}</Link>
+          <span className="lp-ask">{t('لديك أسئلة؟')} <Link href="/contact" className="link">{t('تحدّث مع فريقنا')}</Link></span>
         </section>
       </main>
       <SiteFooter />

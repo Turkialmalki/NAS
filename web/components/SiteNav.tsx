@@ -66,7 +66,7 @@ export function SiteNav() {
             </div>
           ))}
           <Link href="/features" className="sn-feature">
-            <span className="sn-feature-art" aria-hidden="true">{Array.from({ length: 28 }, (_, i) => <span key={i} style={{ background: `hsl(${38 + (i % 7) * 4} ${40 + (i % 5) * 9}% ${18 + ((i * 13) % 40)}%)` }} />)}</span>
+            <span className="sn-feature-ic" aria-hidden="true">{["chart", "eye", "users", "cal"].map((ic) => <span key={ic}><Icon name={ic} size={18} /></span>)}</span>
             <b>{t('كل ما يقدمه NAS')}</b>
             <span>{t('جولة في المنصة لكل طرف: المهرجان، وصانع الفيلم، ولجنة التحكيم.')}</span>
             <span className="link">{t('اعرض المزايا')}</span>

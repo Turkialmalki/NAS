@@ -74,9 +74,8 @@ export function FestivalDiscovery({ festivals, films = [], initialAi = '', signe
 
       {festivals.length === 0 ? (
         <div className="fd-empty">
-          <div className="fd-empty-art" aria-hidden="true">{[0, 1, 2].map((i) => <span key={i} style={{ ['--h' as string]: [32, 44, 20][i] }} />)}</div>
           <h2 className="display">{t('لا توجد مهرجانات مفتوحة للتقديم حاليًا')}</h2>
-          <p>{t('هنا تظهر المهرجانات المفتوحة للتقديم بأقسامها ومواعيدها ورسومها. لا يوجد مهرجان مفتوح الآن، وستجد هنا كل مهرجان فور فتح التقديم فيه.')}</p>
+          <p>{t('تظهر المهرجانات هنا فور فتح التقديم فيها، مع أقسامها ومواعيدها ورسومها.')}</p>
           <div className="fd-empty-ctas">
             <Link href={signedIn ? '/app/me/films/new' : '/login?mode=signup&role=filmmaker'} className="btn btn-p">{t('جهّز ملف فيلمك الآن')}</Link>
             <Link href={signedIn ? '/app/new' : '/login?mode=signup&role=festival'} className="btn btn-s">{t('أدرج مهرجانك')}</Link>

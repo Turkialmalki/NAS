@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Logo, LogoMark } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
 import { LangToggle } from './Lang';
+import { Icon } from './Icon';
 import { SiteNav } from './SiteNav';
 
 export function SiteHeader() {
@@ -20,31 +21,33 @@ export function MiniHeader({ right }: { right?: React.ReactNode }) {
 }
 
 const COLS: [string, [string, string][]][] = [
-  ['المنصة', [['المزايا', '/features'], ['المهرجانات', '/festivals'], ['الأسعار', '/pricing'], ['من نحن', '/#about']]],
-  ['صنّاع الأفلام', [['اكتشف المهرجانات', '/festivals'], ['قدّم فيلمك', '/apply'], ['تابع مشاركتك', '/status']]],
-  ['الحساب', [['دخول', '/login'], ['حساب جديد', '/login?mode=signup']]],
+  ['المنتج', [['المزايا', '/features'], ['المهرجانات', '/festivals'], ['الأسعار', '/pricing'], ['حساب جديد', '/login?mode=signup']]],
+  ['لصنّاع الأفلام', [['أضف فيلمك', '/login?mode=signup&role=filmmaker'], ['قدّم فيلمك', '/apply'], ['تابع مشاركتك', '/status']]],
+  ['الشركة', [['من نحن', '/#about'], ['تواصل معنا', '/contact'], ['اطلب عرضًا توضيحيًا', '/contact?topic=demo']]],
   ['قانوني', [['سياسة الخصوصية', '/privacy'], ['الشروط والأحكام', '/terms']]],
 ];
 
 export async function SiteFooter() {
   const t = await getT();
   return (
-    <footer style={{ borderTop: '1px solid var(--line)', background: 'var(--bg2)' }}>
-      <div className="wrap" style={{ paddingTop: 60, paddingBottom: 30, display: 'flex', flexDirection: 'column', gap: 44 }}>
-        <div className="g5" style={{ display: 'grid', gridTemplateColumns: '1.6fr repeat(4, minmax(0, 1fr))', gap: 32 }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <Link href="/" className="logo" aria-label="NAS"><LogoMark height={46} tagline id="lgf" /></Link>
-            <p style={{ margin: 0, color: 'var(--muted)', fontSize: 14.5, lineHeight: 1.85, maxWidth: 280 }}>{t('منصة سعودية لإدارة المهرجانات السينمائية: التقديم والتحكيم والقرار في مكان واحد.')}</p>
+    <footer className="ft">
+      <div className="wrap ft-in">
+        <div className="ft-top">
+          <div className="ft-brand">
+            <Link href="/" className="logo" aria-label="NAS"><LogoMark height={42} tagline id="lgf" /></Link>
+            <p>{t('منصة لإدارة المهرجانات السينمائية: التقديم والتحكيم وجدول العروض في مكان واحد.')}</p>
+            <Link href="/contact" className="btn btn-s btn-sm" style={{ alignSelf: 'flex-start' }}><Icon name="mail" size={15} />{t('تواصل معنا')}</Link>
           </div>
           {COLS.map(([tx, links]) => (
-            <div key={tx} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              <b style={{ fontSize: 13, color: 'var(--faint)', fontWeight: 600 }}>{t(tx)}</b>
-              {links.map(([l, h]) => <Link key={h} href={h} style={{ color: 'var(--ink2)', fontSize: 14.5 }}>{t(l)}</Link>)}
-            </div>
+            <nav key={tx} className="ft-col" aria-label={t(tx)}>
+              <b>{t(tx)}</b>
+              {links.map(([l, h]) => <Link key={h} href={h}>{t(l)}</Link>)}
+            </nav>
           ))}
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap', paddingTop: 22, borderTop: '1px solid var(--line)', fontSize: 13, color: 'var(--faint)' }}>
-          <span>© {t.n(new Date().getFullYear())} {t('NAS. جميع الحقوق محفوظة.')}</span><span>{t('صُنع في السعودية')}</span>
+        <div className="ft-bottom">
+          <span>© {t.n(new Date().getFullYear())} {t('NAS. جميع الحقوق محفوظة.')}</span>
+          <span style={{ display: 'flex', gap: 4, alignItems: 'center' }}><LangToggle /><ThemeToggle /></span>
         </div>
       </div>
     </footer>

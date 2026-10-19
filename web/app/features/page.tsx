@@ -30,10 +30,11 @@ function Art({ id, t }: { id: string; t: T }) {
         ))}
       </div>);
     case 'vision': return (
-      <div className="fa fa-vision">
-        <span className="bar">{Array.from({ length: 40 }, (_, i) => <span key={i} style={{ background: `hsl(${20 + ((i * 17) % 60)} ${30 + ((i * 7) % 40)}% ${14 + ((i * 11) % 46)}%)` }} />)}</span>
-        <span className="row"><span className="ring" style={{ width: 54, height: 54, background: 'conic-gradient(var(--acc) 0 86%, var(--s3) 86% 100%)' }}><span style={{ width: 44, height: 44 }}><b className="num">8.6</b></span></span>
-          <span style={{ fontSize: 13.5, color: 'var(--ink2)', lineHeight: 1.7 }}>{t('صورة متقنة وإيقاع هادئ، ويناسب قسم الوثائقي القصير.')}</span></span>
+      <div className="fa fa-vread">
+        {[['الإيقاع', 'هادئ ومتدرّج', 62], ['الإضاءة', 'طبيعية نهارية', 78], ['الصوت', 'حوار واضح', 88], ['المشاهد', '42 مشهدًا', 100]].map(([k, v, w]) => (
+          <span key={k as string}><span className="muted">{t(k as string)}</span><span className="pipe-bar"><span style={{ width: `${w}%` }} /></span><b>{t(v as string)}</b></span>
+        ))}
+        <span className="fa-chips"><span className="chip c-acc">{t('روائي')}</span><span className="chip c-ok">{t('يناسب قسم الروائي الطويل')}</span></span>
       </div>);
     case 'match': return (
       <div className="fa fa-match">

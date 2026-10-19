@@ -50,11 +50,12 @@ const Chrome = ({ url, children }: { url: string; children: React.ReactNode }) =
 );
 
 /* ------------------------------------------------------------------ hero: the dashboard, live */
+// real Saudi films, as they would appear when submitted
 const ARRIVALS = [
-  { title: 'ظلال النخيل', meta: 'وثائقي · 24 د', score: '8.7' },
-  { title: 'آخر قطار إلى الدمام', meta: 'روائي · 18 د', score: '8.1' },
-  { title: 'راعي القمر', meta: 'تحريك · 14 د', score: '9.0' },
-  { title: 'رسائل الرواشين', meta: 'روائي · 22 د', score: '7.6' },
+  { title: 'وجدة', meta: 'روائي طويل · 2012' },
+  { title: 'بركة يقابل بركة', meta: 'روائي طويل · 2016' },
+  { title: 'سيدة البحر', meta: 'روائي طويل · 2019' },
+  { title: 'حد الطار', meta: 'روائي طويل · 2020' },
 ];
 
 export function HeroScene() {
@@ -73,7 +74,7 @@ export function HeroScene() {
             ))}
           </aside>
           <div className="sc-main">
-            <div className="sc-q"><Icon name="spark" size={14} /><span className="sc-type">{t('وثائقيات أقل من 30 دقيقة بدون محكّم')}</span></div>
+            <div className="sc-q"><Icon name="spark" size={14} /><span className="sc-type">{t('أفلام روائية طويلة بدون محكّم')}</span></div>
             <div className="sc-kpis">
               <div><span>{t('المشاركات')}</span><b className="num"><Count to={128 + shown} run={on} /></b><em className="num">+{12 + shown}</em></div>
               <div><span>{t('تنتظر قرارك')}</span><b className="num"><Count to={9} run={on} /></b></div>
@@ -85,10 +86,9 @@ export function HeroScene() {
                 const fresh = i === 0 && tick % 2 === 0;
                 return (
                   <div key={a.title} className={`sc-row ${i === 0 ? 'in' : ''}`}>
-                    <span className="sc-poster" style={{ ['--h' as string]: (a.title.length * 37) % 60 + 20 }} />
                     <span className="sc-rt"><b>{t(a.title)}</b><span>{t(a.meta)}</span></span>
                     {fresh ? <span className="chip c-info sc-chip"><span className="sc-dot" />{t('قيد التحليل')}</span>
-                      : <><span className="chip c-vio sc-chip">{t('تم التحليل')}</span><b className="num sc-score">{a.score}</b></>}
+                      : <span className="chip c-vio sc-chip"><Icon name="check" size={11} stroke={3} />{t('تم التحليل')}</span>}
                   </div>
                 );
               })}
@@ -121,23 +121,27 @@ function CreateScene() {
 
 function ReceiveScene() {
   const t = useT();
+  const reads: [string, string, number][] = [['الإيقاع', 'هادئ ومتدرّج', 62], ['الإضاءة', 'طبيعية نهارية', 78], ['الصوت', 'حوار واضح', 88], ['المشاهد', '42 مشهدًا', 100]];
   return (
     <div className="sc-stage sc-receive">
       <div className="rv sc-sub" style={{ ['--d' as string]: '0.2s' }}>
-        <span className="sc-poster big" style={{ ['--h' as string]: 32 }} />
-        <span style={{ display: 'flex', flexDirection: 'column', gap: 4 }}><b>{t('ظلال النخيل')}</b><span className="muted">{t('وثائقي · 24 د')}</span><span className="num muted" dir="ltr">NAS-2026-00175</span></span>
+        <span className="sc-film"><Icon name="film" size={20} /></span>
+        <span style={{ display: 'flex', flexDirection: 'column', gap: 4, flex: 1 }}><b>{t('وجدة')}</b><span className="muted">{t('روائي طويل · 2012')}</span></span>
+        <span className="chip c-ok">{t('وصلت المشاركة')}</span>
       </div>
       <div className="sc-vision">
-        <span className="sc-vh"><Icon name="eye" size={14} />NAS Vision</span>
-        <div className="sc-strip">{Array.from({ length: 30 }, (_, i) => <i key={i} style={{ background: `hsl(${24 + ((i * 13) % 40)} ${28 + ((i * 7) % 30)}% ${16 + ((i * 11) % 38)}%)` }} />)}<span className="sc-sweep" /></div>
-        <div className="sc-res">
-          <span className="sc-ring"><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" /><circle className="sc-arc" cx="18" cy="18" r="15.5" /></svg><b className="num rv" style={{ ['--d' as string]: '2.2s' }}>8.4</b></span>
-          <span style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            <span className="rv" style={{ ['--d' as string]: '2.4s', display: 'flex', gap: 6, flexWrap: 'wrap' }}><span className="chip c-acc">{t('وثائقي')}</span><span className="chip c-mute">{t('الذاكرة')}</span><span className="chip c-ok">{t('يناسب قسم الوثائقي')}</span></span>
-            <span className="rv sc-check" style={{ ['--d' as string]: '2.8s' }}><Icon name="check" size={13} stroke={2.6} />{t('رابط المشاهدة يعمل')}</span>
-            <span className="rv sc-check" style={{ ['--d' as string]: '3.1s' }}><Icon name="check" size={13} stroke={2.6} />{t('المدة مطابقة لشروط القسم')}</span>
-          </span>
+        <span className="sc-vh"><Icon name="eye" size={14} />{t('NAS Vision يحلّل الفيلم')}</span>
+        <div className="sc-reads">
+          {reads.map(([k, v, w], i) => (
+            <div key={k} className="sc-read">
+              <span className="k">{t(k)}</span>
+              <span className="pipe-bar"><span className="sc-grow" style={{ ['--w' as string]: `${w}%`, ['--d' as string]: `${0.6 + i * 0.35}s` }} /></span>
+              <span className="rv v" style={{ ['--d' as string]: `${0.9 + i * 0.35}s` }}>{t(v)}</span>
+            </div>
+          ))}
         </div>
+        <span className="rv" style={{ ['--d' as string]: '2.4s', display: 'flex', gap: 6, flexWrap: 'wrap' }}><span className="chip c-acc">{t('روائي')}</span><span className="chip c-ok">{t('يناسب قسم الروائي الطويل')}</span></span>
+        <span className="rv sc-check" style={{ ['--d' as string]: '2.8s' }}><Icon name="check" size={13} stroke={2.6} />{t('رابط المشاهدة يعمل')}</span>
       </div>
     </div>
   );
@@ -157,11 +161,11 @@ function JuryScene() {
         ))}
       </div>
       <div className="rv sc-score-card" style={{ ['--d' as string]: '1.2s' }}>
-        <b>{t('رسائل الرواشين')}</b>
+        <b>{t('سيدة البحر')}</b>
         {[['القصة', 4], ['الإخراج', 5], ['الصورة والصوت', 4]].map(([c, n], i) => (
           <span key={c as string} className="sc-crit"><span>{t(c as string)}</span><span className="dots">{[1, 2, 3, 4, 5].map((k) => <i key={k} className={k <= (n as number) ? 'on' : ''} style={{ ['--d' as string]: `${1.6 + i * 0.4 + k * 0.08}s` }} />)}</span></span>
         ))}
-        <span className="rv sc-total" style={{ ['--d' as string]: '3.2s' }}><span>{t('تقييمك')}</span><b className="num">8.6 / 10</b></span>
+        <span className="rv sc-total" style={{ ['--d' as string]: '3.2s' }}><span>{t('تقييمك')}</span><b>{t('أُرسل ✓')}</b></span>
       </div>
     </div>
   );
@@ -169,7 +173,7 @@ function JuryScene() {
 
 function ProgrammeScene() {
   const t = useT();
-  const blocks: [number, number, number, string][] = [[0, 6, 18, 'ظلال النخيل'], [0, 28, 30, 'آخر قطار إلى الدمام'], [1, 12, 16, 'راعي القمر'], [1, 34, 22, 'رسائل الرواشين'], [0, 64, 26, 'شتاء']];
+  const blocks: [number, number, number, string][] = [[0, 6, 22, 'وجدة'], [0, 34, 28, 'بركة يقابل بركة'], [1, 10, 24, 'سيدة البحر'], [1, 42, 26, 'حد الطار'], [0, 68, 24, 'هجان']];
   return (
     <div className="sc-stage sc-prog">
       <div className="sc-days"><span className="on">{t('الخميس 5 نوفمبر')}</span><span>{t('الجمعة 6 نوفمبر')}</span></div>
@@ -237,7 +241,7 @@ export function RoleScenes() {
       </div>
       <div className="role">
         <div className="role-art">
-          {[['مهرجان الأفلام القصيرة', 94], ['ملتقى الوثائقي', 81], ['مهرجان سينمائي دولي', 62]].map(([n, p], i) => (
+          {[['مهرجان أفلام السعودية', 94], ['مهرجان البحر الأحمر السينمائي', 81], ['مهرجان الأفلام القصيرة', 62]].map(([n, p], i) => (
             <div key={n as string} className="ra-match"><span>{t(n as string)}</span><span className="ra-bar"><i style={{ ['--w' as string]: `${p}%`, transitionDelay: `${0.2 + i * 0.25}s` }} /></span><b className="num">{p}%</b></div>
           ))}
         </div>
