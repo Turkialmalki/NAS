@@ -122,7 +122,7 @@ export const EN: Record<string, string> = {
   'رمز الدخول': 'Sign-in code', 'انتهت صلاحية الرابط. اطلب رمزًا جديدًا.': 'This link has expired. Request a new code.',
   'الدخول عبر Google غير مفعّل بعد. استخدم البريد الإلكتروني.': 'Google sign-in isn’t enabled yet. Use your email.',
   'الدخول عبر Apple غير مفعّل بعد. استخدم البريد الإلكتروني.': 'Apple sign-in isn’t enabled yet. Use your email.',
-  'اكتب بريدًا إلكترونيًا صحيحًا.': 'Enter a valid email address.', 'أرسلنا لك رسالة دخول قبل قليل. افتح آخر رسالة من NAS في بريدك.': 'We just sent you a sign-in email. Open the latest message from NAS.',
+  'اكتب بريدًا إلكترونيًا صحيحًا.': 'Enter a valid email address.', 'حساب تجريبي: اكتب رمز الدخول الثابت.': 'Demo account: enter the fixed sign-in code.', 'أرسلنا لك رسالة دخول قبل قليل. افتح آخر رسالة من NAS في بريدك.': 'We just sent you a sign-in email. Open the latest message from NAS.',
   'الدخول برقم الجوال غير مفعّل بعد. استخدم البريد الإلكتروني.': 'Phone sign-in isn’t enabled yet. Use your email.',
   'الرمز غير صحيح أو انتهت صلاحيته.': 'The code is wrong or has expired.', 'العودة للموقع': 'Back to site', 'أنشئ حسابك': 'Create your account', 'أهلًا بك': 'Welcome',
   'اكتب بريدك وسنرسل لك رمز دخول. بدون كلمة مرور.': 'Enter your email and we’ll send you a sign-in code. No password needed.',

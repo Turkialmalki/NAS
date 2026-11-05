@@ -7,6 +7,7 @@ import { supabaseBrowser } from '@/lib/supabase/client';
 import { LogoMark } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
 import { Icon, Spinner } from './Icon';
+import { isDemoLogin, demoLogin } from '@/lib/demoLogin';
 
 type Step = 'start' | 'code' | 'phone' | 'phoneCode';
 const LEN = 6;  // shortest code length Supabase sends
@@ -58,6 +59,7 @@ export function LoginForm({ signup: initialSignup, next, linkError, role }: { si
   const [bad, setBad] = useState(false);
   const [wait, setWait] = useState(0);
   const [note, setNote] = useState('');
+  const [demo, setDemo] = useState(false);
   // show only the sign-in methods that are switched on in Supabase
   const [alts, setAlts] = useState<('google' | 'apple' | 'phone')[]>([]);
   useEffect(() => {
@@ -91,6 +93,11 @@ export function LoginForm({ signup: initialSignup, next, linkError, role }: { si
     const em = email.trim().toLowerCase();
     if (!/^\S+@\S+\.\S+$/.test(em)) { setErr(t('اكتب بريدًا إلكترونيًا صحيحًا.')); return; }
     setBusy(true); setErr('');
+    if (await isDemoLogin(em)) { // demo account: no email is sent, a fixed code is used
+      setBusy(false); setDemo(true); setNote(t('حساب تجريبي: اكتب رمز الدخول الثابت.'));
+      setEmail(em); setStep('code'); setCode(''); setBad(false); setWait(0); return;
+    }
+    setDemo(false);
     const { error } = await sb.auth.signInWithOtp({ email: em, options: { emailRedirectTo: redirect, shouldCreateUser: true, data: meta } });
     setBusy(false);
     if (error) {
@@ -116,6 +123,11 @@ export function LoginForm({ signup: initialSignup, next, linkError, role }: { si
   async function verify(token = code) {
     if (token.length < LEN || busy) return;
     setBusy(true); setErr(''); setBad(false);
+    if (demo && step === 'code') {
+      const r = await demoLogin(email, token);
+      if (!r.ok) { setBusy(false); setBad(true); setCode(''); setErr(t('الرمز غير صحيح أو انتهت صلاحيته.')); return; }
+      window.location.assign(next); return;
+    }
     const res = step === 'phoneCode'
       ? await sb.auth.verifyOtp({ phone: phone.replace(/\s/g, ''), token, type: 'sms' })
       : await sb.auth.verifyOtp({ email, token, type: 'email' });
